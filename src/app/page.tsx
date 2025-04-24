@@ -1,9 +1,9 @@
 "use client";
 
-import { Input } from "antd";
-
+import Footer from "./navigations/components/footer";
 import Navbar from "./navigations/components/navbar";
-
+import { MainScreen } from "./navigations/home/components/main-screen";
+import { Pricing } from "./navigations/pricing/page";
 // import { useEffect } from "react";
 // import Navbar from "./navigations/components/navbar";
 
@@ -20,8 +20,11 @@ export default function Home() {
   return (
     <>
       <Navbar isLoggedIn={false} />
-      <Input placeholder="Basic usage" variant="outlined" />
-      <div>This is landing page</div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <MainScreen />
+        <Pricing />
+      </div>
+      <Footer />
     </>
   );
 }
