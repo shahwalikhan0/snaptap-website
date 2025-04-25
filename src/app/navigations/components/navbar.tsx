@@ -8,8 +8,8 @@ const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   const NAVBAR_ITEMS = [
     { name: "Home", path: "/" },
-    { name: "Pricing", path: "/pricing" },
-    { name: "Product", path: "/product" },
+    { name: "Pricing", path: "/navigations/pricing" },
+    { name: "Product", path: "/navigations/product" },
     { name: "Favourites", path: "/favourites" },
   ];
 
@@ -45,13 +45,15 @@ const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <FiSearch size={20} />
         </button>
         <button
-          onClick={() => handleNav("/free-trial")}
+          onClick={() => handleNav("/navigations/sign-up")}
           className="ml-2.5 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
         >
           Start Free Trial
         </button>
         <button
-          onClick={() => handleNav(isLoggedIn ? "/login" : "/register")}
+          onClick={() =>
+            handleNav(isLoggedIn ? "/login" : "/navigations/sign-up")
+          }
           className="ml-2.5 hover:underline"
         >
           {isLoggedIn ? "Login" : "Sign Up"}

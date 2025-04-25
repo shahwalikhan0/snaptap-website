@@ -1,16 +1,136 @@
 "use client";
 
+import Image from "next/image";
+import { Button, Card, Avatar, Row, Col } from "antd";
+
 export const MainScreen = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-4">Welcome to the Main Screen</h1>
-      <p className="text-lg text-gray-700">
-        This is the main screen of your application.
-      </p>
-      <p className="text-lg text-gray-700">You can add your content here.</p>
-      <p className="text-lg text-gray-700">
-        This is the main screen of your application.
-      </p>
+    <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
+      {/* Hero Section */}
+      <section className="w-full h-screen bg-[url('/assets/hero-bg.jpg')] bg-cover bg-center flex items-center justify-center text-center px-6">
+        <div className="w-full">
+          <h1 className="text-5xl font-bold text-white mb-6">
+            Empower Your 3D Design Journey
+          </h1>
+          <p className="text-xl text-white mb-8">
+            Experience intuitive modeling, real-time collaboration, and stunning
+            visualizations.
+          </p>
+          <Button
+            type="primary"
+            size="large"
+            className="rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            Get Started
+          </Button>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="w-full py-20 bg-gray-100 px-6">
+        <Row gutter={[32, 32]} justify="center">
+          {[
+            {
+              src: "/assets/feature1.jpg",
+              title: "3D Modeling",
+              desc: "Craft detailed models with precision and ease using our robust toolset.",
+            },
+            {
+              src: "/assets/feature2.jpg",
+              title: "Visualization",
+              desc: "Bring your designs to life with photorealistic rendering capabilities.",
+            },
+            {
+              src: "/assets/feature3.jpg",
+              title: "Collaboration",
+              desc: "Work seamlessly with your team in real-time, from anywhere in the world.",
+            },
+          ].map((feature, idx) => (
+            <Col xs={24} md={8} key={idx}>
+              <div className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white p-6 rounded-xl">
+                <div className="w-full h-40 mx-auto mb-4 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110">
+                  <Image
+                    src={feature.src}
+                    alt={feature.title}
+                    width={160}
+                    height={160}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.desc}</p>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="w-full py-20 bg-white px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold">What Our Users Say</h2>
+        </div>
+        <Row gutter={[24, 24]} justify="center">
+          <Col xs={24} md={8}>
+            <Card className="shadow">
+              <p className="text-gray-700 mb-4">
+                "This platform revolutionized our design process. The intuitive
+                tools and collaborative features are unmatched."
+              </p>
+              <div className="flex items-center justify-center">
+                <Avatar src="/assets/user1.jpg" size={60} className="mr-3" />
+                <span className="text-gray-800 font-semibold">
+                  Alex Johnson
+                </span>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="shadow">
+              <p className="text-gray-700 mb-4">
+                "The visualization tools helped us present our ideas more
+                effectively to clients."
+              </p>
+              <div className="flex items-center justify-center">
+                <Avatar src="/assets/user2.jpeg" size={60} className="mr-3" />
+                <span className="text-gray-800 font-semibold">Sonam Bajwa</span>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="shadow">
+              <p className="text-gray-700 mb-4">
+                "Collaborating with my team has never been easier. Real-time
+                updates keep everyone on the same page."
+              </p>
+              <div className="flex items-center justify-center">
+                <Avatar src="/assets/user3.jpg" size={60} className="mr-3" />
+                <span className="text-gray-800 font-semibold">
+                  Neelum Muneer
+                </span>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="w-full py-20 bg-blue-600 text-white text-center px-6">
+        <h2 className="text-4xl font-bold mb-6">
+          Ready to Transform Your Designs?
+        </h2>
+        <p className="text-xl mb-8">
+          Join thousands of professionals who trust our platform for their 3D
+          modeling needs.
+        </p>
+        <Button
+          type="default"
+          size="large"
+          className="rounded-full text-blue-600 bg-white hover:bg-gray-100"
+        >
+          Start Your Free Trial
+        </Button>
+      </section>
     </div>
   );
 };
