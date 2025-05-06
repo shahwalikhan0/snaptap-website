@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, Col, Row, Switch, Typography, Button } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { CheckOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
 const { Title, Paragraph } = Typography;
@@ -50,8 +50,19 @@ export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
   const router = useRouter();
 
+  const handleGetStartedClick = () => {
+    // Redirect to the sign-up page when "Get Started" is clicked
+    router.push("/navigations/sign-up");
+  };
+
   return (
-    <div style={{ padding: "50px", backgroundColor: "#f9f9f9" }}>
+    <div
+      style={{
+        padding: "50px",
+        backgroundColor: "#f9f9f9",
+        paddingTop: "100px", // Adjust this value as per your navbar height
+      }}
+    >
       <Title level={2} style={{ textAlign: "center" }}>
         Choose the Plan That's Right for You
       </Title>
@@ -66,14 +77,17 @@ export default function PricingPage() {
         best fits your needs.
       </Paragraph>
       <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <span style={{ marginRight: 8 }}>Monthly</span>
         <Switch
           checked={isAnnual}
           onChange={() => setIsAnnual(!isAnnual)}
           checkedChildren="Annual"
           unCheckedChildren="Monthly"
+          style={{
+            backgroundColor: isAnnual ? "#00A8DE" : "#00A8DE",
+            transform: "scale(2)",
+            margin: "0 12px",
+          }}
         />
-        <span style={{ marginLeft: 8 }}>Annual</span>
       </div>
       <Row gutter={[24, 24]} justify="center">
         {plans.map((plan) => (
@@ -102,10 +116,14 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Button
-                type="primary"
                 block
-                style={{ marginTop: "20px" }}
-                onClick={() => router.push("/register")}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor: "#00A8DE",
+                  borderColor: "#00A8DE",
+                  color: "#fff",
+                }}
+                onClick={handleGetStartedClick}
               >
                 Get Started
               </Button>

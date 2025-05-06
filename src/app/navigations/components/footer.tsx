@@ -22,7 +22,7 @@ const Footer = () => {
       title: "Product",
       links: [
         { name: "Features", path: "/features" },
-        { name: "Pricing", path: "/pricing" },
+        { name: "Pricing", path: "/navigations/pricing" }, // Correct path for Pricing page
         { name: "Integrations", path: "/integrations" },
       ],
     },
@@ -45,7 +45,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white px-6 py-10">
+    <footer className="bg-[#00A8DE] text-white px-6 py-10 w-full">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {footerLinks.map((section) => (
           <div key={section.title}>
@@ -55,7 +55,7 @@ const Footer = () => {
                 <button
                   key={link.name}
                   onClick={() => router.push(link.path)}
-                  className="text-sm text-gray-300 hover:text-white text-left"
+                  className="text-sm text-white hover:underline text-left"
                 >
                   {link.name}
                 </button>
@@ -65,18 +65,18 @@ const Footer = () => {
         ))}
       </div>
 
-      <div className="mt-10 border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between">
+      <div className="mt-10 border-t border-[#00A8DE] pt-6 flex flex-col md:flex-row items-center justify-between">
         <div className="flex space-x-4 mb-4 md:mb-0">
           <button
             onClick={() => router.push("/facebook")}
-            className="text-gray-400 hover:text-white"
+            className="text-[#00A8DE] hover:opacity-80"
             aria-label="Facebook"
           >
             <FaFacebookF size={20} />
           </button>
           <button
             onClick={() => router.push("/instagram")}
-            className="text-gray-400 hover:text-white"
+            className="text-[#00A8DE] hover:opacity-80"
             aria-label="Instagram"
           >
             <FaInstagram size={20} />
@@ -86,7 +86,7 @@ const Footer = () => {
         <div className="flex space-x-4">
           <button
             onClick={() => router.push("/app-store")}
-            className="flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded"
+            className="flex items-center space-x-2 bg-white hover:bg-[#e0e0e0] text-[#00A8DE] px-4 py-2 rounded"
             aria-label="Download on the App Store"
           >
             <SiAppstore size={20} />
@@ -94,7 +94,7 @@ const Footer = () => {
           </button>
           <button
             onClick={() => router.push("/google-play")}
-            className="flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded"
+            className="flex items-center space-x-2 bg-white hover:bg-[#e0e0e0] text-[#00A8DE] px-4 py-2 rounded"
             aria-label="Get it on Google Play"
           >
             <SiGoogleplay size={20} />
@@ -103,7 +103,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="mt-6 text-center text-sm text-gray-400">
+      <div className="mt-6 text-center text-sm text-[#00A8DE]">
         © {new Date().getFullYear()} SnapTap. All rights reserved.
       </div>
     </footer>

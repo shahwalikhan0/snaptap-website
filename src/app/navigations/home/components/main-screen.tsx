@@ -2,12 +2,23 @@
 
 import Image from "next/image";
 import { Button, Card, Avatar, Row, Col } from "antd";
+import PricingPage from "../../pricing/pricing-component";
+import Navbar from "../../components/navbar";
+import Footer from "../../components/footer";
+import { useRouter } from "next/navigation";
 
 export const MainScreen = () => {
+  const router = useRouter();
+
+  const handleNav = (path: string) => {
+    router.push(path);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
-      {/* Hero Section */}
-      <section className="w-full h-screen bg-[url('/assets/hero-bg.jpg')] bg-cover bg-center flex items-center justify-center text-center px-6">
+      <Navbar isLoggedIn={false} />
+
+      <section className="w-full h-screen bg-[url('/assets/hero-bg.jpg')] bg-cover bg-center flex items-center justify-center text-center px-6 pt-20">
         <div className="w-full">
           <h1 className="text-5xl font-bold text-white mb-6">
             Empower Your 3D Design Journey
@@ -19,7 +30,12 @@ export const MainScreen = () => {
           <Button
             type="primary"
             size="large"
-            className="rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="rounded-full text-white"
+            style={{
+              backgroundColor: "#00A8DE",
+              borderColor: "#00A8DE",
+            }}
+            onClick={() => handleNav("/navigations/sign-up")}
           >
             Get Started
           </Button>
@@ -63,6 +79,11 @@ export const MainScreen = () => {
             </Col>
           ))}
         </Row>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="w-full py-20 bg-gray-100 px-6">
+        <PricingPage />
       </section>
 
       {/* Testimonials Section */}
@@ -114,23 +135,27 @@ export const MainScreen = () => {
         </Row>
       </section>
 
-      {/* Call to Action Section */}
-      <section className="w-full py-20 bg-blue-600 text-white text-center px-6">
-        <h2 className="text-4xl font-bold mb-6">
-          Ready to Transform Your Designs?
-        </h2>
-        <p className="text-xl mb-8">
-          Join thousands of professionals who trust our platform for their 3D
-          modeling needs.
-        </p>
-        <Button
-          type="default"
-          size="large"
-          className="rounded-full text-blue-600 bg-white hover:bg-gray-100"
-        >
-          Start Your Free Trial
-        </Button>
+      <section className="w-full flex justify-center items-center py-20 bg-gray-100 px-4">
+        <div className="bg-[#00A8DE] text-white rounded-2xl shadow-xl max-w-3xl w-full p-10 text-center">
+          <h2 className="text-4xl font-bold mb-6">
+            Ready to Transform Your Designs?
+          </h2>
+          <p className="text-xl mb-8">
+            Join thousands of professionals who trust our platform for their 3D
+            modeling needs.
+          </p>
+          <Button
+            type="default"
+            size="large"
+            className="rounded-full text-[#00A8DE] bg-white hover:bg-gray-100"
+            onClick={() => handleNav("/navigations/sign-up")}
+          >
+            Start Your Free Trial
+          </Button>
+        </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

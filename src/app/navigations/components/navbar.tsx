@@ -1,7 +1,7 @@
 "use client"; // Required for Next.js App Router
 
 import { useRouter } from "next/navigation";
-import { FiSearch } from "react-icons/fi"; // Importing search icon
+import { FiSearch } from "react-icons/fi";
 
 const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const router = useRouter();
@@ -13,39 +13,42 @@ const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   ];
 
   const handleNav = (path: string) => {
-    router.push(path); // Navigate to the path
+    router.push(path);
   };
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
-      <div className="cursor-pointer ml-2.5" onClick={() => handleNav("/")}>
+    <nav className="flex items-center justify-between px-8 py-2 bg-[#00A8DE] text-white shadow-md fixed top-0 left-0 right-0 z-50">
+      <div className="cursor-pointer" onClick={() => handleNav("/")}>
         <img
           src="/assets/icon.png"
           alt="Company Logo"
           className="w-14 h-14 rounded-full"
         />
       </div>
-      <div className="flex flex-grow justify-evenly">
+
+      <div className="flex space-x-19 ml-4">
+        {" "}
         {NAVBAR_ITEMS.map((item) => (
           <button
             key={item.name}
             onClick={() => handleNav(item.path)}
-            className="relative font-bold text-white after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full"
+            className="relative font-bold text-white py-2 px-6 rounded-full border-2 border-transparent hover:border-white hover:bg-white hover:text-[#00A8DE] transition-all duration-300 ease-in-out"
           >
             {item.name}
           </button>
         ))}
       </div>
+
       <div className="flex items-center space-x-4">
         <button
           onClick={() => handleNav("/search")}
-          className="ml-2.5 hover:text-gray-400"
+          className="hover:text-[#333333]"
         >
           <FiSearch size={20} />
         </button>
         <button
           onClick={() => handleNav("/navigations/sign-up")}
-          className="ml-2.5 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-white hover:bg-[#0091c2] text-[#00A8DE] px-4 py-2 rounded"
         >
           Start Free Trial
         </button>
@@ -53,7 +56,7 @@ const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           onClick={() =>
             handleNav(isLoggedIn ? "/login" : "/navigations/sign-up")
           }
-          className="ml-2.5 hover:underline"
+          className="hover:underline"
         >
           {isLoggedIn ? "Login" : "Sign Up"}
         </button>
