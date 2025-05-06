@@ -10,7 +10,6 @@ const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     { name: "Home", path: "/" },
     { name: "Pricing", path: "/navigations/pricing" },
     { name: "Product", path: "/navigations/product" },
-    { name: "Favourites", path: "/favourites" },
   ];
 
   const handleNav = (path: string) => {
