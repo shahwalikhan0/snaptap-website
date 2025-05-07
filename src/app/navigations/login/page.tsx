@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, message, Divider } from "antd";
-import { LockOutlined, MailOutlined, GoogleOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Fade } from "@mui/material";
 import { useRouter } from "next/navigation";
 
@@ -66,22 +66,6 @@ const LoginPage = () => {
             Login to your SnapTap account
           </Text>
 
-          <Button
-            type="default"
-            icon={<GoogleOutlined />}
-            block
-            style={{
-              marginBottom: "1.5rem",
-              borderColor: "#d9d9d9",
-              borderRadius: "8px",
-            }}
-            onClick={handleGoogleLogin}
-          >
-            Continue with Google
-          </Button>
-
-          <Divider>or</Divider>
-
           <Form
             name="login"
             layout="vertical"
@@ -89,14 +73,11 @@ const LoginPage = () => {
             requiredMark={false}
           >
             <Form.Item
-              name="email"
-              label="Email"
-              rules={[
-                { required: true, message: "Please enter your email" },
-                { type: "email", message: "Enter a valid email" },
-              ]}
+              name="username"
+              label="Username"
+              rules={[{ required: true, message: "Please enter username" }]}
             >
-              <Input prefix={<MailOutlined />} placeholder="Email" />
+              <Input prefix={<UserOutlined />} placeholder="Username" />
             </Form.Item>
 
             <Form.Item

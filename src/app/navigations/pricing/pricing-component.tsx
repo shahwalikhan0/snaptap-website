@@ -60,13 +60,13 @@ export default function PricingPage() {
       style={{
         padding: "50px",
         backgroundColor: "#f9f9f9",
-        paddingTop: "100px", // Adjust this value as per your navbar height
+        paddingTop: "50px", // Adjust this value as per your navbar height
       }}
     >
-      <Title level={2} style={{ textAlign: "center" }}>
+      <Title level={2} style={{ textAlign: "center", marginBottom: "40px" }}>
         Choose the Plan That's Right for You
       </Title>
-      <Paragraph
+      {/* <Paragraph
         style={{
           textAlign: "center",
           maxWidth: "600px",
@@ -75,7 +75,7 @@ export default function PricingPage() {
       >
         Select between monthly and annual billing options to find the plan that
         best fits your needs.
-      </Paragraph>
+      </Paragraph> */}
       <div style={{ textAlign: "center", marginBottom: "40px" }}>
         <Switch
           checked={isAnnual}

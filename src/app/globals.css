@@ -1,7 +1,21 @@
 @import "tailwindcss";
 
 body {
-  background: var(--background);
+  background: white;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Add this to your global CSS file */
+@keyframes scrollAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scrollAnimation 15s linear infinite;
 }

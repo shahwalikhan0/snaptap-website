@@ -6,6 +6,8 @@ import PricingPage from "../../pricing/pricing-component";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import { useRouter } from "next/navigation";
+import Clients from "../../components/client";
+import HomeModel from "../../components/home-model";
 
 export const MainScreen = () => {
   const router = useRouter();
@@ -18,32 +20,53 @@ export const MainScreen = () => {
     <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
       <Navbar isLoggedIn={false} />
 
-      <section className="w-full h-screen bg-[url('/assets/hero-bg.jpg')] bg-cover bg-center flex items-center justify-center text-center px-6 pt-20">
-        <div className="w-full">
-          <h1 className="text-5xl font-bold text-white mb-6">
-            Empower Your 3D Design Journey
-          </h1>
-          <p className="text-xl text-white mb-8">
-            Experience intuitive modeling, real-time collaboration, and stunning
-            visualizations.
-          </p>
-          <Button
-            type="primary"
-            size="large"
-            className="rounded-full text-white"
-            style={{
-              backgroundColor: "#00A8DE",
-              borderColor: "#00A8DE",
-            }}
-            onClick={() => handleNav("/navigations/sign-up")}
-          >
-            Get Started
-          </Button>
+      <section className="w-full min-h-screen flex items-center justify-center px-6 pt-20 bg-white">
+        <div
+          className="w-full max-w-[1400px] p-8 flex flex-col md:flex-row items-center justify-between h-[570px] overflow-hidden"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 70%,rgb(255, 255, 255),rgb(175, 178, 185))",
+            borderRadius: "1rem",
+            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {/* Left side - 3D Model */}
+          <div className="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0">
+            <HomeModel />
+          </div>
+
+          {/* Right side - Text */}
+          <div className="w-full md:w-1/2 text-center md:text-left px-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              Empower Your 3D Design Journey
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-6">
+              Experience intuitive modeling, real-time collaboration, and
+              stunning visualizations.
+            </p>
+            <Button
+              type="primary"
+              size="large"
+              className="rounded-full text-white"
+              style={{
+                backgroundColor: "#00A8DE",
+                borderColor: "#00A8DE",
+              }}
+              onClick={() => {
+                const pricingSection = document.getElementById("pricing");
+                if (pricingSection) {
+                  pricingSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              Get Started
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-20 bg-gray-100 px-6">
+      <section className="w-full py-10 bg-gray-100 px-6">
         <Row gutter={[32, 32]} justify="center">
           {[
             {
@@ -64,7 +87,7 @@ export const MainScreen = () => {
           ].map((feature, idx) => (
             <Col xs={24} md={8} key={idx}>
               <div className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white p-6 rounded-xl">
-                <div className="w-full h-40 mx-auto mb-4 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110">
+                <div className="w-full h-80 mx-auto mb-4 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110">
                   <Image
                     src={feature.src}
                     alt={feature.title}
@@ -82,9 +105,11 @@ export const MainScreen = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="w-full py-20 bg-gray-100 px-6">
+      <section id="pricing" className="w-full py-20 bg-gray-100 px-6">
         <PricingPage />
       </section>
+
+      <Clients />
 
       {/* Testimonials Section */}
       <section className="w-full py-20 bg-white px-6">
@@ -144,14 +169,12 @@ export const MainScreen = () => {
             Join thousands of professionals who trust our platform for their 3D
             modeling needs.
           </p>
-          <Button
-            type="default"
-            size="large"
-            className="rounded-full text-[#00A8DE] bg-white hover:bg-gray-100"
+          <button
             onClick={() => handleNav("/navigations/sign-up")}
+            className="relative font-bold bg-white text-[#00A8DE] py-2 px-6 rounded-full border-2 border-transparent hover:border-white hover:bg-[#00A8DE] hover:text-white transition-all duration-300 ease-in-out"
           >
-            Start Your Free Trial
-          </Button>
+            Start Free Trial
+          </button>
         </div>
       </section>
 

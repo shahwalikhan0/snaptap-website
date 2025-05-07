@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+// import "@google/model-viewer";
 
 export const metadata: Metadata = {
   title: "SnapTap",

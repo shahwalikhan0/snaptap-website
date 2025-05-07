@@ -11,12 +11,7 @@ import {
   Divider,
 } from "antd";
 import { Fade } from "@mui/material";
-import {
-  UserOutlined,
-  MailOutlined,
-  LockOutlined,
-  GoogleOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
 const { Title, Text, Link } = Typography;
@@ -33,11 +28,6 @@ const SignupPage = () => {
       message.success("Signup successful!");
       // redirect to dashboard or login
     }, 2000);
-  };
-
-  const handleGoogleSignup = () => {
-    message.info("Google signup not implemented (yet) 😉");
-    // Add your Google OAuth logic here
   };
 
   return (
@@ -78,22 +68,6 @@ const SignupPage = () => {
           >
             Join us and start your journey
           </Text>
-
-          <Button
-            type="default"
-            icon={<GoogleOutlined />}
-            block
-            style={{
-              marginBottom: "1.5rem",
-              borderColor: "#d9d9d9",
-              borderRadius: "8px",
-            }}
-            onClick={handleGoogleSignup}
-          >
-            Continue with Google
-          </Button>
-
-          <Divider>or</Divider>
 
           <Form
             name="signup"
