@@ -20,7 +20,7 @@ export const MainScreen = () => {
     <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
       <Navbar isLoggedIn={false} />
 
-      <section className="w-full min-h-screen flex items-center justify-center px-6 pt-20 bg-white">
+      <section className="w-full min-h-screen flex flex-col items-center justify-center px-6 pt-20 bg-white">
         <div
           className="w-full max-w-[1400px] p-8 flex flex-col md:flex-row items-center justify-between h-[570px] overflow-hidden"
           style={{
@@ -37,10 +37,10 @@ export const MainScreen = () => {
 
           {/* Right side - Text */}
           <div className="w-full md:w-1/2 text-center md:text-left px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
               Empower Your 3D Design Journey
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-6">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6">
               Experience intuitive modeling, real-time collaboration, and
               stunning visualizations.
             </p>
@@ -85,7 +85,7 @@ export const MainScreen = () => {
               desc: "Work seamlessly with your team in real-time, from anywhere in the world.",
             },
           ].map((feature, idx) => (
-            <Col xs={24} md={8} key={idx}>
+            <Col xs={24} sm={12} md={8} key={idx}>
               <div className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white p-6 rounded-xl">
                 <div className="w-full h-80 mx-auto mb-4 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110">
                   <Image
@@ -96,8 +96,12 @@ export const MainScreen = () => {
                     className="object-cover w-full h-full"
                   />
                 </div>
-                <h3 className="text-2xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
+                <h3 className="text-xl sm:text-2xl font-semibold mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  {feature.desc}
+                </p>
               </div>
             </Col>
           ))}
@@ -114,10 +118,10 @@ export const MainScreen = () => {
       {/* Testimonials Section */}
       <section className="w-full py-20 bg-white px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold">What Our Users Say</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold">What Our Users Say</h2>
         </div>
         <Row gutter={[24, 24]} justify="center">
-          <Col xs={24} md={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card className="shadow">
               <p className="text-gray-700 mb-4">
                 "This platform revolutionized our design process. The intuitive
@@ -131,7 +135,7 @@ export const MainScreen = () => {
               </div>
             </Card>
           </Col>
-          <Col xs={24} md={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card className="shadow">
               <p className="text-gray-700 mb-4">
                 "The visualization tools helped us present our ideas more
@@ -143,7 +147,7 @@ export const MainScreen = () => {
               </div>
             </Card>
           </Col>
-          <Col xs={24} md={8}>
+          <Col xs={24} sm={12} md={8}>
             <Card className="shadow">
               <p className="text-gray-700 mb-4">
                 "Collaborating with my team has never been easier. Real-time
@@ -162,7 +166,7 @@ export const MainScreen = () => {
 
       <section className="w-full flex justify-center items-center py-20 bg-gray-100 px-4">
         <div className="bg-[#00A8DE] text-white rounded-2xl shadow-xl max-w-3xl w-full p-10 text-center">
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Ready to Transform Your Designs?
           </h2>
           <p className="text-xl mb-8">
