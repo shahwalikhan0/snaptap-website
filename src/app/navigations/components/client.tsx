@@ -74,7 +74,7 @@ const Clients = () => {
 
         // Reset when reaching the cloned slides
         if (currentIndex === totalSlides) {
-          await new Promise((res) => setTimeout(res, 100)); // small wait before reset
+          await new Promise((res) => setTimeout(res, 100));
           controls.set({ x: 0 });
           currentIndex = 0;
           setIndex(0);

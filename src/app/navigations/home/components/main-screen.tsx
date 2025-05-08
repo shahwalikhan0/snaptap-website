@@ -18,11 +18,11 @@ export const MainScreen = () => {
 
   return (
     <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
-      <Navbar isLoggedIn={false} />
+      <Navbar />
 
       <section className="w-full min-h-screen flex flex-col items-center justify-center px-6 pt-20 bg-white">
         <div
-          className="w-full max-w-[1400px] p-8 flex flex-col md:flex-row items-center justify-between h-[570px] overflow-hidden"
+          className="w-full h-full max-w-[1400px] p-8 flex flex-col md:flex-row items-center justify-between overflow-hidden"
           style={{
             background:
               "radial-gradient(circle at 50% 70%,rgb(255, 255, 255),rgb(175, 178, 185))",

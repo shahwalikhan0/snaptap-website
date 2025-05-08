@@ -1,5 +1,3 @@
-// File: src/components/Footer.tsx
-
 "use client";
 
 import { useRouter } from "next/navigation";
