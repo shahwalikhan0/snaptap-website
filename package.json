@@ -12,6 +12,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@google/model-viewer": "^4.1.0",
+    "@iconify/react": "^6.0.0",
     "@mui/material": "^7.0.2",
     "antd": "^5.24.8",
     "axios": "^1.9.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@iconify-json/fluent": "^1.2.20",
     "@tailwindcss/postcss": "^4",
     "@types/axios": "^0.14.4",
     "@types/estree": "^1.0.7",

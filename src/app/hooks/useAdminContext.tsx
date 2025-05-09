@@ -6,7 +6,7 @@ import { AdminDataType } from "../navigations/types/admin-data";
 type AdminContextType = {
   Admin: AdminDataType | null;
   isLoggedIn: Boolean;
-  setAdmin: (Admin: AdminDataType) => void;
+  setAdmin: (Admin: AdminDataType | null) => void;
 };
 
 export const AdminContext = createContext<AdminContextType>({

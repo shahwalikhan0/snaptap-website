@@ -8,9 +8,10 @@ export default function PricingPage() {
   const { isLoggedIn } = useAdmin();
   const router = useRouter();
 
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
     router.replace("/");
   }
+
   return (
     <>
       <div style={{ paddingTop: "70px" }}>
