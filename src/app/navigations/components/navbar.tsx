@@ -62,7 +62,8 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#00A8DE] text-white shadow-md h-20 flex items-center justify-between px-4 md:px-8">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white text-[#00A8DE] shadow-md h-14 md:h-18 flex items-center justify-between px-4 md:px-8">
+      {" "}
       {/* Mobile: Hamburger */}
       <div className="md:hidden flex items-center">
         <button
@@ -72,12 +73,11 @@ const Navbar = () => {
           }}
           className="focus:outline-none"
         >
-          <span className="block w-6 h-0.5 bg-white mb-1"></span>
-          <span className="block w-6 h-0.5 bg-white mb-1"></span>
-          <span className="block w-6 h-0.5 bg-white"></span>
+          <span className="block w-6 h-0.5 bg-[#00A8DE] mb-1"></span>
+          <span className="block w-6 h-0.5 bg-[#00A8DE] mb-1"></span>
+          <span className="block w-6 h-0.5 bg-[#00A8DE]"></span>
         </button>
       </div>
-
       {/* Desktop Left: Logo + Nav */}
       <div className="hidden md:flex items-center space-x-10">
         <div className="cursor-pointer" onClick={() => handleNav("/")}>
@@ -92,14 +92,13 @@ const Navbar = () => {
             <button
               key={item.name}
               onClick={() => handleNav(item.path)}
-              className="font-bold py-1.5 px-6 rounded-full hover:bg-white hover:text-[#00A8DE] transition-all"
+              className="font-bold py-1.5 px-4 border-b-3 border-transparent hover:border-[#00A8DE] transition-all"
             >
               {item.name}
             </button>
           ))}
         </div>
       </div>
-
       {/* Mobile Center: Logo */}
       <div
         className="md:hidden absolute left-1/2 transform -translate-x-1/2 cursor-pointer"
@@ -111,13 +110,12 @@ const Navbar = () => {
           className="h-16 w-16 object-contain"
         />
       </div>
-
       {/* Right Side */}
       <div className="flex items-center space-x-3 ml-auto relative">
         {!isLoggedIn && (
           <button
             onClick={() => handleNav("/navigations/sign-up")}
-            className="hidden md:inline-block font-bold bg-white text-[#00A8DE] py-1.5 px-4 rounded-md hover:bg-[#00A8DE] hover:text-white transition-all"
+            className="hidden md:inline-block font-bold bg-[#00A8DE] text-white py-1.5 px-4 rounded-md hover:bg-[#007a9d] transition-all"
           >
             Start Free Trial
           </button>
@@ -127,9 +125,9 @@ const Navbar = () => {
           <button
             onClick={() => handleNav("/navigations/login")}
             className="font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
-              bg-white text-[#00A8DE] hover:bg-gray-200 
-              md:bg-[#00A8DE] md:text-white md:hover:bg-[#007a9d] 
-              transition-all"
+    bg-[#00A8DE] text-white hover:bg-[#007a9d] 
+    md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
+    transition-all"
           >
             Login
           </button>
@@ -141,15 +139,15 @@ const Navbar = () => {
                 setIsMobileMenuOpen(false);
               }}
               className="font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
-                bg-white text-[#00A8DE] hover:bg-gray-200 
-                md:bg-[#00A8DE] md:text-white md:hover:bg-[#007a9d] 
-                transition-all"
+    bg-[#00A8DE] text-white hover:bg-[#007a9d] 
+    md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
+    transition-all"
             >
-              {Admin?.username || "Admin"}
+              Welcome Back, {Admin?.username || "Admin"}
             </button>
 
             {isUserDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white text-[#00A8DE] shadow-lg rounded-lg p-2 z-50 animate-slideDown">
+              <div className="absolute right-0 mt-2 w-64 bg-[#E3E3E3] text-[#00A8DE] shadow-lg rounded-lg p-2 z-50 animate-slideDown">
                 <button
                   onClick={() => handleNav("/navigations/manage-profile")}
                   className="flex items-center w-full text-left px-4 py-2 hover:bg-[#f0f0f0] rounded-md font-medium gap-2"
@@ -176,19 +174,18 @@ const Navbar = () => {
           </div>
         )}
       </div>
-
       {/* Mobile Dropdown */}
       {isMobileMenuOpen && (
         <div
           ref={mobileDropdownRef}
-          className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-sm text-[#00A8DE] shadow-md z-40 animate-slideDown md:hidden"
+          className="absolute mt-67 ml-5 left-0 w-90 bg-[#E3E3E3] text-[#00A8DE] shadow-lg rounded-lg p-2 z-40 animate-slideDown md:hidden"
         >
-          <div className="flex flex-col p-4 space-y-4">
+          <div className="flex flex-col p-2 space-y-2">
             {visibleNavItems.map((item) => (
               <button
                 key={item.name}
                 onClick={() => handleNav(item.path)}
-                className="text-lg font-semibold text-left hover:underline"
+                className="flex items-center w-full text-left px-4 py-2 hover:bg-[#f0f0f0] rounded-md font-medium gap-2"
               >
                 {item.name}
               </button>
@@ -197,7 +194,7 @@ const Navbar = () => {
             {!isLoggedIn && (
               <button
                 onClick={() => handleNav("/navigations/sign-up")}
-                className="text-lg font-semibold text-left hover:underline"
+                className="flex items-center w-full text-left px-4 py-2 hover:bg-[#f0f0f0] rounded-md font-medium gap-2"
               >
                 Start Free Trial
               </button>

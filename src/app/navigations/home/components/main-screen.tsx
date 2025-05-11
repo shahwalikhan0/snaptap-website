@@ -20,23 +20,38 @@ export const MainScreen = () => {
     <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
       <Navbar />
 
-      <section className="w-full min-h-screen flex flex-col items-center justify-center px-6 pt-20 bg-white">
+      <section
+        className="w-full flex flex-col items-center justify-center bg-white px-4 py-12 sm:px-6 sm:py-12 md:py-13"
+        style={{
+          paddingLeft: 0,
+          paddingRight: 0,
+          // paddingTop: "30px",
+        }}
+      >
         <div
-          className="w-full h-full max-w-[1400px] p-8 flex flex-col md:flex-row items-center justify-between overflow-hidden"
+          className="w-full h-full max-w-[1400px] flex flex-col md:flex-row items-center justify-between overflow-hidden"
           style={{
             background:
-              "radial-gradient(circle at 50% 70%,rgb(255, 255, 255),rgb(175, 178, 185))",
+              "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(171, 174, 180))",
             borderRadius: "1rem",
-            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.1)",
+            boxShadow: "rgba(0, 0, 0, 0.1) 0px 20px 50px",
+            width: "100%",
+            maxWidth: "100%",
+            height: "95vh",
+            padding: 0,
           }}
         >
           {/* Left side - 3D Model */}
-          <div className="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0">
-            <HomeModel />
+          <div className="w-full md:w-1/2 flex justify-center items-center mb-2 md:mb-0">
+            <div className="relative w-full h-[250px] sm:h-[320px] md:h-[500px]">
+              <div className="relative z-10 w-full h-full rounded-xl">
+                <HomeModel />
+              </div>
+            </div>
           </div>
 
-          {/* Right side - Text */}
-          <div className="w-full md:w-1/2 text-center md:text-left px-4">
+          {/* Right side - Text and Button */}
+          <div className="w-full md:w-1/2 text-center md:text-left px-4 mt-[-30px] md:mt-0">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
               Empower Your 3D Design Journey
             </h1>

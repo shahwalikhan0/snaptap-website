@@ -1,12 +1,15 @@
 "use client";
+require("dotenv").config();
 
 import { useState } from "react";
 import SubscriptionComponent from "./subscription-component";
 import MyPlan from "./my-plan";
 import ChangePlan from "./change-plan";
 import EditBilling from "./edit-billing";
+import { useBrand } from "../../hooks/useBrandContext";
 
 export default function SubscriptionPage() {
+  const { Brand } = useBrand();
   const [selectedPage, setSelectedPage] = useState("my-plan");
 
   const renderRightPanel = () => {
