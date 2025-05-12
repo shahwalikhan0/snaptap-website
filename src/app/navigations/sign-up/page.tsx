@@ -1,91 +1,132 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Typography,
-  message,
-  Upload,
-} from "antd";
-import { Fade } from "@mui/material";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { Form, Input, Button, Typography, message, Upload } from "antd";
 import {
   UserOutlined,
-  MailOutlined,
   LockOutlined,
-  UploadOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  InboxOutlined,
 } from "@ant-design/icons";
-import { useRouter } from "next/navigation";
 import { useAdmin } from "../../hooks/useAdminContext";
-import axios from "axios";
 
-const { Title, Text, Link } = Typography;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const { Title, Text } = Typography;
 
-const SignupPage = () => {
+const SignUpPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [formVisible, setFormVisible] = useState(true);
   const [form] = Form.useForm();
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const router = useRouter();
-  const { setAdmin } = useAdmin();
+  const [image, setImage] = useState<File | null>(null);
 
-  const onFinish = async (values: any) => {
-    setLoading(true);
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validatePhone = (phone: string) =>
+    /^\+?(\d{10,14})$/.test(phone.replace(/[\s-]/g, ""));
+
+  const handleSignUp = async () => {
     try {
+      // Validate all fields
+      await form.validateFields();
+
+      const values = form.getFieldsValue();
+      setLoading(true);
+
+      // Prepare form data
       const formData = new FormData();
       formData.append("username", values.username);
       formData.append("email", values.email);
       formData.append("password", values.password);
-      if (imageFile) {
-        formData.append("profileImage", imageFile);
+      formData.append("phone", values.phone);
+      formData.append("name", values.name);
+
+      // Append image if uploaded
+      if (image) {
+        formData.append("image", image);
       }
 
-      const response = await axios.post("/api/users/create-seller", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // Send signup request
+      const res = await axios.post(
+        `${BASE_URL}/api/users/create-seller`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      setAdmin(response.data); // Assuming backend returns AdminDataType
       message.success("Signup successful!");
-      router.push("/navigations/dashboard");
-    } catch (error: any) {
-      message.error(error?.response?.data?.message || "Signup failed");
+      router.push("/navigations/login");
+    } catch (err: any) {
+      message.error(err?.response?.data?.error || "Signup failed.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleImageChange = (info: any) => {
-    if (info.file.status === "removed") {
-      setImageFile(null);
-    } else {
-      setImageFile(info.file.originFileObj);
-    }
+  const handleImageUpload = (info: any) => {
+    const file = info.file;
+    setImage(file);
   };
 
   return (
     <div
       style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #e0eafc, #cfdef3)",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2rem",
+        minHeight: "100vh",
+        flexDirection: "row",
       }}
     >
-      <Fade in={formVisible} timeout={1000}>
+      {/* LEFT SIDE - Gradient with heading */}
+      <div
+        style={{
+          flex: 1,
+          background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "2rem",
+          color: "#0A2540",
+        }}
+      >
+        <Title
+          level={2}
+          style={{
+            fontSize: "2.5rem",
+            color: "#0A2540",
+            maxWidth: 400,
+            textAlign: "center",
+          }}
+        >
+          Join SnapTap Today!
+        </Title>
+      </div>
+
+      {/* RIGHT SIDE - Signup form */}
+      <div
+        style={{
+          flex: 1,
+          background: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
         <div
           style={{
             background: "#fff",
             padding: "2rem",
             borderRadius: "12px",
-            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-            maxWidth: "400px",
+            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
             width: "100%",
+            maxWidth: "400px",
           }}
         >
           <Title
@@ -102,47 +143,118 @@ const SignupPage = () => {
               marginBottom: "2rem",
             }}
           >
-            Join us and start your journey
+            Sign up for your SnapTap admin account
           </Text>
 
           <Form
             form={form}
-            name="signup"
             layout="vertical"
-            onFinish={onFinish}
+            name="admin-signup"
+            onFinish={handleSignUp}
             requiredMark={false}
           >
             <Form.Item
               name="username"
               label="Username"
               rules={[
-                { required: true, message: "Please enter your username" },
+                {
+                  required: true,
+                  message: "Username is required.",
+                },
+                {
+                  pattern: /^[^\s]+$/,
+                  message: "Username must not contain spaces.",
+                },
               ]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Username" />
+              <Input
+                prefix={<UserOutlined />}
+                placeholder="Enter your username"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="name"
+              label="Full Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Full name is required.",
+                },
+              ]}
+            >
+              <Input
+                prefix={<UserOutlined />}
+                placeholder="Enter your full name"
+                size="large"
+              />
             </Form.Item>
 
             <Form.Item
               name="email"
               label="Email"
               rules={[
-                { required: true, message: "Please enter your email" },
-                { type: "email", message: "Please enter a valid email" },
+                {
+                  required: true,
+                  message: "Email is required.",
+                },
+                {
+                  type: "email",
+                  message: "Please enter a valid email",
+                },
               ]}
             >
-              <Input prefix={<MailOutlined />} placeholder="Email" />
+              <Input
+                prefix={<MailOutlined />}
+                placeholder="Enter your email"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="phone"
+              label="Phone Number"
+              rules={[
+                {
+                  required: true,
+                  message: "Phone number is required.",
+                },
+                {
+                  validator: (_, value) =>
+                    validatePhone(value)
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          new Error("Please enter a valid phone number")
+                        ),
+                },
+              ]}
+            >
+              <Input
+                prefix={<PhoneOutlined />}
+                placeholder="Enter your phone number"
+                size="large"
+              />
             </Form.Item>
 
             <Form.Item
               name="password"
               label="Password"
               rules={[
-                { required: true, message: "Please enter your password" },
+                {
+                  required: true,
+                  message: "Password is required.",
+                },
+                {
+                  min: 6,
+                  message: "Password must be at least 6 characters",
+                },
               ]}
             >
               <Input.Password
                 prefix={<LockOutlined />}
-                placeholder="Password"
+                placeholder="Enter your password"
+                size="large"
               />
             </Form.Item>
 
@@ -150,21 +262,27 @@ const SignupPage = () => {
               name="profileImage"
               label="Profile Image"
               valuePropName="fileList"
-              getValueFromEvent={(e) =>
-                Array.isArray(e) ? e : e && e.fileList
-              }
             >
-              <Upload
-                beforeUpload={() => false}
-                onChange={handleImageChange}
+              <Upload.Dragger
+                name="files"
+                multiple={false}
                 maxCount={1}
+                accept="image/*"
+                beforeUpload={(file) => {
+                  setImage(file);
+                  return false; // Prevent auto upload
+                }}
+                onRemove={() => {
+                  setImage(null);
+                }}
               >
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>I agree to the Terms and Conditions</Checkbox>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to upload profile image
+                </p>
+              </Upload.Dragger>
             </Form.Item>
 
             <Form.Item>
@@ -173,23 +291,31 @@ const SignupPage = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                style={{ borderRadius: "8px", backgroundColor: "#00A8DE" }}
+                style={{
+                  borderRadius: "8px",
+                  backgroundColor: "#00A8DE",
+                  borderColor: "#0A66C2",
+                }}
               >
                 Sign Up
               </Button>
             </Form.Item>
-
-            <Text style={{ display: "block", textAlign: "center" }}>
-              Already have an account?{" "}
-              <Link onClick={() => router.push("/navigations/login")}>
-                Log in
-              </Link>
-            </Text>
           </Form>
+
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <Text type="secondary">Already have an account?</Text>{" "}
+            <Button
+              type="link"
+              onClick={() => router.push("/navigations/login")}
+              style={{ padding: 0 }}
+            >
+              Log in
+            </Button>
+          </div>
         </div>
-      </Fade>
+      </div>
     </div>
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

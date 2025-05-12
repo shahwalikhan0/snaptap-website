@@ -138,12 +138,15 @@ const Navbar = () => {
                 setIsUserDropdownOpen(!isUserDropdownOpen);
                 setIsMobileMenuOpen(false);
               }}
-              className="font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
+              className="flex items-center gap-2 font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
     bg-[#00A8DE] text-white hover:bg-[#007a9d] 
     md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
     transition-all"
             >
-              Welcome Back, {Admin?.username || "Admin"}
+              <Icon icon="material-symbols:account-circle-full" width={24} />
+              <span className="hidden md:inline">
+                {Admin?.username || "Admin"}
+              </span>
             </button>
 
             {isUserDropdownOpen && (

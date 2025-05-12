@@ -16,7 +16,7 @@ const { Title } = Typography;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function SubscriptionPage() {
-  const { Brand } = useAdmin();
+  const { Admin } = useAdmin();
   const [selectedPage, setSelectedPage] = useState("my-plan");
   const [plan, setPlan] = useState<PlanType[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,7 +47,7 @@ export default function SubscriptionPage() {
     }
   };
 
-  if (!Brand) {
+  if (!Admin) {
     window.location.href = "/";
     return null;
   }
