@@ -13,9 +13,9 @@ import {
   message,
   Typography,
 } from "antd";
-import { useBrand } from "../../hooks/useBrandContext";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useAdmin } from "@/app/hooks/useAdminContext";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -24,7 +24,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function EditBilling() {
   const [form] = useForm();
-  const { Brand, setBrand } = useBrand();
+  const { Brand, setBrand } = useAdmin();
 
   useEffect(() => {
     if (Brand) {

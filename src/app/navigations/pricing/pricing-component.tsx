@@ -66,29 +66,62 @@ export default function PricingPage() {
       <Title level={2} style={{ textAlign: "center", marginBottom: "40px" }}>
         Choose the Plan That's Right for You
       </Title>
-      {/* <Paragraph
-        style={{
-          textAlign: "center",
-          maxWidth: "600px",
-          margin: "0 auto 40px",
-        }}
-      >
-        Select between monthly and annual billing options to find the plan that
-        best fits your needs.
-      </Paragraph> */}
+
+      {/* Custom Toggle Switch */}
       <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <Switch
-          checked={isAnnual}
-          onChange={() => setIsAnnual(!isAnnual)}
-          checkedChildren="Annual"
-          unCheckedChildren="Monthly"
+        <div
           style={{
-            backgroundColor: isAnnual ? "#00A8DE" : "#00A8DE",
-            transform: "scale(2)",
-            margin: "0 12px",
+            width: "220px",
+            margin: "0 auto",
+            backgroundColor: "#e0e0e0",
+            borderRadius: "30px",
+            display: "flex",
+            cursor: "pointer",
+            position: "relative",
+            padding: "5px",
           }}
-        />
+          onClick={() => setIsAnnual(!isAnnual)}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "5px",
+              left: isAnnual ? "110px" : "5px",
+              width: "105px",
+              height: "40px",
+              backgroundColor: "#00A8DE",
+              borderRadius: "25px",
+              transition: "left 0.3s ease-in-out",
+            }}
+          />
+          <div
+            style={{
+              width: "110px",
+              textAlign: "center",
+              zIndex: 1,
+              color: isAnnual ? "#000" : "#fff",
+              fontWeight: !isAnnual ? "bold" : "normal",
+              lineHeight: "40px",
+            }}
+          >
+            Monthly
+          </div>
+          <div
+            style={{
+              width: "110px",
+              textAlign: "center",
+              zIndex: 1,
+              color: isAnnual ? "#fff" : "#000",
+              fontWeight: isAnnual ? "bold" : "normal",
+              lineHeight: "40px",
+            }}
+          >
+            Annual
+          </div>
+        </div>
       </div>
+
+      {/* Pricing Cards */}
       <Row gutter={[24, 24]} justify="center">
         {plans.map((plan) => (
           <Col xs={24} sm={12} md={8} key={plan.title}>

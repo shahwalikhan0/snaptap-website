@@ -8,26 +8,62 @@ import {
   Checkbox,
   Typography,
   message,
-  Divider,
+  Upload,
 } from "antd";
 import { Fade } from "@mui/material";
-import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  MailOutlined,
+  LockOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import { useAdmin } from "../../hooks/useAdminContext";
+import axios from "axios";
 
 const { Title, Text, Link } = Typography;
 
 const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const [formVisible, setFormVisible] = useState(true);
+  const [form] = Form.useForm();
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const router = useRouter();
+  const { setAdmin } = useAdmin();
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const formData = new FormData();
+      formData.append("username", values.username);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      if (imageFile) {
+        formData.append("profileImage", imageFile);
+      }
+
+      const response = await axios.post("/api/users/create-seller", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setAdmin(response.data); // Assuming backend returns AdminDataType
       message.success("Signup successful!");
-      // redirect to dashboard or login
-    }, 2000);
+      router.push("/navigations/dashboard");
+    } catch (error: any) {
+      message.error(error?.response?.data?.message || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageChange = (info: any) => {
+    if (info.file.status === "removed") {
+      setImageFile(null);
+    } else {
+      setImageFile(info.file.originFileObj);
+    }
   };
 
   return (
@@ -70,6 +106,7 @@ const SignupPage = () => {
           </Text>
 
           <Form
+            form={form}
             name="signup"
             layout="vertical"
             onFinish={onFinish}
@@ -109,6 +146,23 @@ const SignupPage = () => {
               />
             </Form.Item>
 
+            <Form.Item
+              name="profileImage"
+              label="Profile Image"
+              valuePropName="fileList"
+              getValueFromEvent={(e) =>
+                Array.isArray(e) ? e : e && e.fileList
+              }
+            >
+              <Upload
+                beforeUpload={() => false}
+                onChange={handleImageChange}
+                maxCount={1}
+              >
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              </Upload>
+            </Form.Item>
+
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>I agree to the Terms and Conditions</Checkbox>
             </Form.Item>
@@ -119,7 +173,7 @@ const SignupPage = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                style={{ borderRadius: "8px" }}
+                style={{ borderRadius: "8px", backgroundColor: "#00A8DE" }}
               >
                 Sign Up
               </Button>

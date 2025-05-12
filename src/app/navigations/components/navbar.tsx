@@ -62,7 +62,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white text-[#00A8DE] shadow-md h-14 md:h-18 flex items-center justify-between px-4 md:px-8">
+    <nav className="sticky top-0 left-0 right-0 z-50 bg-white text-[#00A8DE] shadow-md h-14 md:h-18 flex items-center justify-between px-4 md:px-8">
       {" "}
       {/* Mobile: Hamburger */}
       <div className="md:hidden flex items-center">

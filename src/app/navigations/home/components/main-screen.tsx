@@ -17,15 +17,14 @@ export const MainScreen = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white w-full overflow-x-hidden">
+    <div>
       <Navbar />
 
       <section
-        className="w-full flex flex-col items-center justify-center bg-white px-4 py-12 sm:px-6 sm:py-12 md:py-13"
+        className="w-full flex flex-col items-center justify-center bg-white "
         style={{
           paddingLeft: 0,
           paddingRight: 0,
-          // paddingTop: "30px",
         }}
       >
         <div
@@ -33,7 +32,8 @@ export const MainScreen = () => {
           style={{
             background:
               "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(171, 174, 180))",
-            borderRadius: "1rem",
+            borderBottomLeftRadius: "1rem",
+            borderBottomRightRadius: "1rem",
             boxShadow: "rgba(0, 0, 0, 0.1) 0px 20px 50px",
             width: "100%",
             maxWidth: "100%",

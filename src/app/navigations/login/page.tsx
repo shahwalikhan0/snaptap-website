@@ -14,13 +14,31 @@ const { Title, Text, Link } = Typography;
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-  const { setAdmin } = useAdmin();
+  const { setBrand, setAdmin } = useAdmin();
   const router = useRouter();
   const { isLoggedIn } = useAdmin();
 
   if (isLoggedIn) {
     router.replace("/");
   }
+  const fetchBrand = async (id: Number) => {
+    console.log("Fetching brand with ID:", id);
+    try {
+      if (!id) return;
+
+      const response = await axios.get(
+        `${BASE_URL}/api/brands/brand-detail/${id}`
+      );
+
+      if (response.data?.id) {
+        setBrand(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching brand:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogin = async () => {
     const values = form.getFieldsValue();
@@ -48,9 +66,12 @@ const LoginPage = () => {
       if (response.data.id) {
         setAdmin(response.data);
         message.success("Admin login successful!");
+        fetchBrand(response.data.id);
+
         router.replace("/");
       } else {
         message.error("Invalid admin username or password.");
+        return;
       }
     } catch (error) {
       console.error(error);
@@ -60,88 +81,141 @@ const LoginPage = () => {
     }
   };
 
+  const handleNav = (path: string) => {
+    router.push(path);
+  };
+
   return (
     <div
       style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #fdfbfb, #ebedee)",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2rem",
+        minHeight: "100vh",
+        flexDirection: "row",
       }}
     >
+      {/* LEFT SIDE - Gradient with heading */}
       <div
         style={{
-          background: "#fff",
+          flex: 1,
+          background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
           padding: "2rem",
-          borderRadius: "12px",
-          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-          maxWidth: "400px",
-          width: "100%",
+          color: "#0A2540",
         }}
       >
-        <Title level={2} style={{ textAlign: "center", marginBottom: "1rem" }}>
-          Admin Login
-        </Title>
-        <Text
-          type="secondary"
+        <Title
+          level={2}
           style={{
-            display: "block",
+            fontSize: "2.5rem",
+            color: "#0A2540",
+            maxWidth: 400,
             textAlign: "center",
-            marginBottom: "2rem",
           }}
         >
-          Login to your SnapTap admin account
-        </Text>
+          Welcome, SnapTap Was Waiting!
+        </Title>
+      </div>
 
-        <Form
-          form={form}
-          layout="vertical"
-          name="admin-login"
-          onFinish={handleLogin}
-          requiredMark={false}
+      {/* RIGHT SIDE - Login form */}
+      <div
+        style={{
+          flex: 1,
+          background: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            padding: "2rem",
+            borderRadius: "12px",
+            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
+            width: "100%",
+            maxWidth: "400px",
+          }}
         >
-          <Form.Item
-            name="username"
-            label="Username"
-            rules={[{ required: true, message: "Username is required." }]}
+          <Title
+            level={2}
+            style={{ textAlign: "center", marginBottom: "1rem" }}
           >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Enter your username"
-              size="large"
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: true, message: "Password is required." }]}
+            Admin Login
+          </Title>
+          <Text
+            type="secondary"
+            style={{
+              display: "block",
+              textAlign: "center",
+              marginBottom: "2rem",
+            }}
           >
-            <Input.Password
-              prefix={<LockOutlined />}
-              placeholder="Enter your password"
-              size="large"
-            />
-          </Form.Item>
+            Login to your SnapTap admin account
+          </Text>
 
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              block
-              style={{
-                borderRadius: "8px",
-                backgroundColor: "#00A8DE",
-                borderColor: "#00A8DE",
-              }}
+          <Form
+            form={form}
+            layout="vertical"
+            name="admin-login"
+            onFinish={handleLogin}
+            requiredMark={false}
+          >
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[{ required: true, message: "Username is required." }]}
             >
-              Log In
+              <Input
+                prefix={<UserOutlined />}
+                placeholder="Enter your username"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[{ required: true, message: "Password is required." }]}
+            >
+              <Input.Password
+                prefix={<LockOutlined />}
+                placeholder="Enter your password"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                block
+                style={{
+                  borderRadius: "8px",
+                  backgroundColor: "#00A8DE",
+                  borderColor: "#0A66C2",
+                }}
+              >
+                Log In
+              </Button>
+            </Form.Item>
+          </Form>
+
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <Text type="secondary">Don't have an account?</Text>{" "}
+            <Button
+              type="link"
+              onClick={() => handleNav("/navigations/sign-up")}
+              style={{ padding: 0 }}
+            >
+              Sign up
             </Button>
-          </Form.Item>
-        </Form>
+          </div>
+        </div>
       </div>
     </div>
   );

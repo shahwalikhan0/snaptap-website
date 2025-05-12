@@ -14,7 +14,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <div style={{ paddingTop: "70px" }}>
+      <div>
         <Pricing />
       </div>
     </>
