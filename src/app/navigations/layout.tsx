@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 export const metadata: Metadata = {
   title: "SnapTap",
@@ -13,9 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      <Navbar isLoggedIn={false} />
+      <Navbar />
       {children}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

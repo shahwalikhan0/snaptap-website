@@ -1,0 +1,5 @@
+snaptap blue: #00A8DE
+Dark Grey (for headings): #2e2e2e
+Medium Grey (for body text/subheadings): #555555
+Light Grey (for labels/hints/less important text): #888888
+light grey for page backgrounds rgb(227, 227, 227)
