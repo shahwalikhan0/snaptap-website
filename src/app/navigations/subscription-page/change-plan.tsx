@@ -24,7 +24,7 @@ const features = {
   ],
 };
 
-const renderFeatures = (planId: Number) => {
+const renderFeatures = (planId: number) => {
   return (
     <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-gray-200">
       {features[planId as keyof typeof features].map(
@@ -39,6 +39,8 @@ const renderFeatures = (planId: Number) => {
 };
 
 export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
+  const { Brand } = useAdmin();
+
   if (!plan) {
     return (
       <div style={{ padding: "30px" }}>
@@ -48,8 +50,6 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       </div>
     );
   }
-
-  const { Brand } = useAdmin();
 
   if (!Brand) {
     return (

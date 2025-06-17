@@ -4,7 +4,7 @@ import { Card, Col, Row, Typography, Progress } from "antd";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 export default function InsightsPage() {
   const { Brand } = useAdmin();

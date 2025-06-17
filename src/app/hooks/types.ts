@@ -8,7 +8,7 @@ export type AdminContextType = {
   Admin: AdminDataType | null;
   Brand: BrandDataType | null;
 
-  isLoggedIn: Boolean;
+  isLoggedIn: boolean;
   setAdmin: (Admin: AdminDataType | null) => void;
   setBrand: (Brand: BrandDataType | null) => void;
 };

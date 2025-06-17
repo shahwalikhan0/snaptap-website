@@ -22,7 +22,7 @@ export default function ProductPage() {
           users can visualize products in real-time before making a purchase.
         </p>
         <p className="text-xl text-gray-700 mb-8 text-center">
-          Whether you're a business looking to showcase your inventory or a
+          Whether you`re a business looking to showcase your inventory or a
           shopper exploring new products, SnapTap provides immersive and
           interactive product displays like never before.
         </p>

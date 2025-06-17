@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Col, Row, Switch, Typography, Button } from "antd";
+import { Card, Col, Row, Typography, Button } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
@@ -64,7 +64,7 @@ export default function PricingPage() {
       }}
     >
       <Title level={2} style={{ textAlign: "center", marginBottom: "40px" }}>
-        Choose the Plan That's Right for You
+        Choose the Plan That`s Right for You
       </Title>
 
       {/* Custom Toggle Switch */}
@@ -127,10 +127,12 @@ export default function PricingPage() {
           <Col xs={24} sm={12} md={8} key={plan.title}>
             <Card
               title={plan.title}
-              bordered={false}
+              variant="borderless"
               style={{ borderRadius: "10px" }}
-              headStyle={{ textAlign: "center", fontSize: "24px" }}
-              bodyStyle={{ padding: "20px" }}
+              styles={{
+                header: { textAlign: "center", fontSize: "24px" },
+                body: { padding: "20px" },
+              }}
             >
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <Title level={3} style={{ margin: 0 }}>

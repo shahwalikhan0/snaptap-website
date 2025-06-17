@@ -2,13 +2,12 @@
 import "@google/model-viewer";
 import React from "react";
 
-const HomeModel = () => {
+const ModelViewer = () => {
   return (
     <div className="relative w-full h-[470px] sm:h-[500px] mt-10 md:mt-0">
       {/* Round, darker shadow below the model */}
 
-      {/* Model viewer */}
-      {/* @ts-ignore */}
+      {/* @ts-expect-error google model viewer not supported*/}
       <model-viewer
         src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
         alt="A 3D model"
@@ -29,4 +28,4 @@ const HomeModel = () => {
   );
 };
 
-export default HomeModel;
+export default ModelViewer;

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { PlanType } from "../types/plan";
+// import { PlanType } from "../types/plan";
 
 type Props = {
   selectedPage: string;

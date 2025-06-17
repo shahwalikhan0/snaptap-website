@@ -7,7 +7,14 @@ import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import { useRouter } from "next/navigation";
 import Clients from "../../components/client";
-import HomeModel from "../../components/home-model";
+import dynamic from "next/dynamic";
+
+const ModelViewer = dynamic(
+  () => import("../../components/ModelViewerWrapper"),
+  {
+    ssr: false,
+  }
+);
 
 export const MainScreen = () => {
   const router = useRouter();
@@ -45,7 +52,7 @@ export const MainScreen = () => {
           <div className="w-full md:w-1/2 flex justify-center items-center mb-2 md:mb-0">
             <div className="relative w-full h-[250px] sm:h-[320px] md:h-[500px]">
               <div className="relative z-10 w-full h-full rounded-xl">
-                <HomeModel />
+                <ModelViewer />
               </div>
             </div>
           </div>
@@ -139,8 +146,8 @@ export const MainScreen = () => {
           <Col xs={24} sm={12} md={8}>
             <Card className="shadow">
               <p className="text-gray-700 mb-4">
-                "This platform revolutionized our design process. The intuitive
-                tools and collaborative features are unmatched."
+                This platform revolutionized our design process. The intuitive
+                tools and collaborative features are unmatched.
               </p>
               <div className="flex items-center justify-center">
                 <Avatar src="/assets/user1.jpg" size={60} className="mr-3" />
@@ -153,8 +160,8 @@ export const MainScreen = () => {
           <Col xs={24} sm={12} md={8}>
             <Card className="shadow">
               <p className="text-gray-700 mb-4">
-                "The visualization tools helped us present our ideas more
-                effectively to clients."
+                The visualization tools helped us present our ideas more
+                effectively to clients.
               </p>
               <div className="flex items-center justify-center">
                 <Avatar src="/assets/user2.jpeg" size={60} className="mr-3" />
@@ -165,8 +172,8 @@ export const MainScreen = () => {
           <Col xs={24} sm={12} md={8}>
             <Card className="shadow">
               <p className="text-gray-700 mb-4">
-                "Collaborating with my team has never been easier. Real-time
-                updates keep everyone on the same page."
+                &quot;Collaborating with my team has never been easier.
+                Real-time updates keep everyone on the same page.&quot;
               </p>
               <div className="flex items-center justify-center">
                 <Avatar src="/assets/user3.jpg" size={60} className="mr-3" />

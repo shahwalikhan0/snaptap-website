@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Card, Typography } from "antd";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
@@ -44,47 +44,10 @@ const clients = [
 
 // Constants
 const CARD_WIDTH = 300;
-const VISIBLE_CARDS = 3;
-const SLIDE_INTERVAL = 3000;
 
 const Clients = () => {
   const controls = useAnimation();
-  const [index, setIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Clone first 3 cards for seamless looping
-  const extendedClients = [...clients, ...clients.slice(0, VISIBLE_CARDS)];
-
-  useEffect(() => {
-    const totalSlides = clients.length;
-
-    const slide = async () => {
-      let currentIndex = 0;
-
-      while (true) {
-        await new Promise((res) => setTimeout(res, SLIDE_INTERVAL));
-
-        currentIndex++;
-        setIndex(currentIndex);
-
-        await controls.start({
-          x: -currentIndex * CARD_WIDTH,
-          transition: { duration: 1 },
-        });
-
-        // Reset when reaching the cloned slides
-        if (currentIndex === totalSlides) {
-          await new Promise((res) => setTimeout(res, 100));
-          controls.set({ x: 0 });
-          currentIndex = 0;
-          setIndex(0);
-        }
-      }
-    };
-
-    slide();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <section className="w-full py-20 bg-white px-6">
@@ -96,18 +59,17 @@ const Clients = () => {
           Trusted by industry leaders around the globe.
         </Paragraph>
       </div>
-
-      <div className="relative overflow-hidden w-full max-w-[1200px] mx-auto">
+      <div className="relative overflow-scroll w-full max-w-[1200px] mx-auto">
         <motion.div
           ref={containerRef}
           className="flex gap-6"
           animate={controls}
           initial={{ x: 0 }}
           style={{
-            width: `${extendedClients.length * CARD_WIDTH}px`,
+            width: `${clients.length * CARD_WIDTH}px`,
           }}
         >
-          {extendedClients.map((client, index) => (
+          {clients.map((client, index) => (
             <div
               key={index}
               style={{
@@ -138,7 +100,7 @@ const Clients = () => {
                   {client.name}
                 </Title>
                 <Paragraph className="text-gray-600 text-sm italic text-center">
-                  "{client.comment}"
+                  {client.comment}
                 </Paragraph>
               </Card>
             </div>

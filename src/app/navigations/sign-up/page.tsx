@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Form, Input, Button, Typography, message, Upload } from "antd";
 import {
   UserOutlined,
@@ -11,9 +10,7 @@ import {
   PhoneOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
-import { useAdmin } from "../../hooks/useAdminContext";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
 
 const SignUpPage: React.FC = () => {
@@ -21,9 +18,6 @@ const SignUpPage: React.FC = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
-
-  const validateEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const validatePhone = (phone: string) =>
     /^\+?(\d{10,14})$/.test(phone.replace(/[\s-]/g, ""));
@@ -49,29 +43,14 @@ const SignUpPage: React.FC = () => {
         formData.append("image", image);
       }
 
-      // Send signup request
-      const res = await axios.post(
-        `${BASE_URL}/api/users/create-seller`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
       message.success("Signup successful!");
       router.push("/navigations/login");
-    } catch (err: any) {
-      message.error(err?.response?.data?.error || "Signup failed.");
+    } catch {
+      // TODO: message.error(err?.response?.data?.error || "Signup failed.");
+      message.error("Signup failed.");
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleImageUpload = (info: any) => {
-    const file = info.file;
-    setImage(file);
   };
 
   return (

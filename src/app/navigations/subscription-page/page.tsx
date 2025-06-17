@@ -1,8 +1,8 @@
 "use client";
-require("dotenv").config();
+// require("dotenv").config();
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+// import axios from "axios";
 import SubscriptionComponent from "./subscription-component";
 import MyPlan from "./my-plan";
 import ChangePlan from "./change-plan";
@@ -13,28 +13,28 @@ import { Typography } from "antd";
 
 const { Title } = Typography;
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function SubscriptionPage() {
   const { Admin } = useAdmin();
   const [selectedPage, setSelectedPage] = useState("my-plan");
-  const [plan, setPlan] = useState<PlanType[] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [plan] = useState<PlanType[] | null>(null);
+  const [loading] = useState(true);
 
-  const fetchPackage = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${BASE_URL}/api/packages`);
+  // const fetchPackage = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios.get(`${BASE_URL}/api/packages`);
 
-      if (Array.isArray(response.data)) {
-        setPlan(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching Package:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (Array.isArray(response.data)) {
+  //       setPlan(response.data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching Package:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const renderRightPanel = () => {
     switch (selectedPage) {
@@ -48,13 +48,13 @@ export default function SubscriptionPage() {
   };
 
   if (!Admin) {
-    window.location.href = "/";
+    // window.location.href = "/";
     return null;
   }
 
-  useEffect(() => {
-    fetchPackage();
-  }, []);
+  // useEffect(() => {
+  //   fetchPackage();
+  // }, []);
 
   if (loading) {
     return (

@@ -1,5 +1,5 @@
 "use client";
-require("dotenv").config();
+// require("dotenv").config();
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAdmin } from "../../hooks/useAdminContext";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const LoginPage = () => {
   if (isLoggedIn) {
     router.replace("/");
   }
-  const fetchBrand = async (id: Number) => {
+  const fetchBrand = async (id: number) => {
     console.log("Fetching brand with ID:", id);
     try {
       if (!id) return;
@@ -206,7 +206,7 @@ const LoginPage = () => {
           </Form>
 
           <div style={{ textAlign: "center", marginTop: "1rem" }}>
-            <Text type="secondary">Don't have an account?</Text>{" "}
+            <Text type="secondary">Don`t have an account?</Text>{" "}
             <Button
               type="link"
               onClick={() => handleNav("/navigations/sign-up")}
