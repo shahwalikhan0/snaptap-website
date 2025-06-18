@@ -88,7 +88,7 @@ export default function ProductPage() {
           <div className="text-center">
             <div className="relative w-full max-w-3xl h-[400px] mx-auto rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="/assets/demo.jpg"
+                src="/assets/marketplace_1.png"
                 alt="Product Demo"
                 fill
                 className="object-cover"

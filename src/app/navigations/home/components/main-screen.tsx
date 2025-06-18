@@ -92,17 +92,17 @@ export const MainScreen = () => {
         <Row gutter={[32, 32]} justify="center">
           {[
             {
-              src: "/assets/feature1.jpg",
+              src: "/assets/furniture_1.png",
               title: "3D Modeling",
               desc: "Craft detailed models with precision and ease using our robust toolset.",
             },
             {
-              src: "/assets/feature2.jpg",
+              src: "/assets/scan_view_3.png",
               title: "Visualization",
-              desc: "Bring your designs to life with photorealistic rendering capabilities.",
+              desc: "View products in the comfort of your sofa with photorealistic rendering capabilities.",
             },
             {
-              src: "/assets/feature3.jpg",
+              src: "/assets/dining_2.png",
               title: "Collaboration",
               desc: "Work seamlessly with your team in real-time, from anywhere in the world.",
             },
