@@ -1,33 +1,48 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ProductPage() {
   const router = useRouter();
 
+  const features = [
+    {
+      title: "Real-Time Product Visualization",
+      description: "View products in 3D and AR before making your purchase.",
+      icon: "/assets/feature1.jpg",
+    },
+    {
+      title: "Seamless Integration",
+      description: "Easily integrate with your eCommerce platform.",
+      icon: "/assets/feature2.jpg",
+    },
+    {
+      title: "Detailed Product Insights",
+      description:
+        "Access in-depth analytics on customer interaction with products.",
+      icon: "/assets/feature3.jpg",
+    },
+  ];
+
   return (
     <div className="p-10 pt-32 bg-gray-50">
-      {" "}
-      {/* Increased padding-top here */}
       <section className="max-w-6xl mx-auto">
-        {/* Page Title */}
         <h1 className="text-5xl font-semibold text-center text-[#333] mb-6">
           What is SnapTap?
         </h1>
 
-        {/* Description */}
         <p className="text-xl text-gray-700 mb-8 text-center">
           SnapTap is an innovative platform designed to revolutionize the online
           shopping experience. Using cutting-edge 3D scanning and AR technology,
           users can visualize products in real-time before making a purchase.
         </p>
         <p className="text-xl text-gray-700 mb-8 text-center">
-          Whether you`re a business looking to showcase your inventory or a
+          Whether you&apos;re a business looking to showcase your inventory or a
           shopper exploring new products, SnapTap provides immersive and
           interactive product displays like never before.
         </p>
 
-        {/* Call to Action */}
         <div className="text-center mb-12">
           <button
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-xl transition-all duration-300"
@@ -43,34 +58,19 @@ export default function ProductPage() {
             Key Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Real-Time Product Visualization",
-                description:
-                  "View products in 3D and AR before making your purchase.",
-                icon: "/assets/feature1.jpg",
-              },
-              {
-                title: "Seamless Integration",
-                description: "Easily integrate with your eCommerce platform.",
-                icon: "/assets/feature2.jpg",
-              },
-              {
-                title: "Detailed Product Insights",
-                description:
-                  "Access in-depth analytics on customer interaction with products.",
-                icon: "/assets/feature3.jpg",
-              },
-            ].map((feature, idx) => (
+            {features.map((feature, idx) => (
               <div
                 key={idx}
                 className="bg-gray-100 p-6 rounded-lg shadow-md text-center"
               >
-                <img
-                  src={feature.icon}
-                  alt={feature.title}
-                  className="w-20 h-20 mx-auto mb-4 rounded-full object-cover"
-                />
+                <div className="w-20 h-20 mx-auto mb-4 relative rounded-full overflow-hidden">
+                  <Image
+                    src={feature.icon}
+                    alt={feature.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <h3 className="text-2xl font-semibold text-gray-800 mb-2">
                   {feature.title}
                 </h3>
@@ -86,11 +86,14 @@ export default function ProductPage() {
             Product Demo
           </h2>
           <div className="text-center">
-            <img
-              src="/assets/demo.jpg"
-              alt="Product Demo"
-              className="max-w-full h-auto rounded-lg shadow-lg"
-            />
+            <div className="relative w-full max-w-3xl h-[400px] mx-auto rounded-lg overflow-hidden shadow-lg">
+              <Image
+                src="/assets/demo.jpg"
+                alt="Product Demo"
+                fill
+                className="object-cover"
+              />
+            </div>
             <p className="mt-6 text-lg text-gray-700">
               Experience SnapTap in action and explore the potential for your
               business or personal shopping needs. Click on the button below to
@@ -99,6 +102,7 @@ export default function ProductPage() {
           </div>
         </section>
 
+        {/* Product Stats Table */}
         <section className="bg-white p-10 rounded-xl shadow-lg mb-12">
           <h2 className="text-3xl font-semibold text-center text-[#333] mb-6">
             Product Stats
