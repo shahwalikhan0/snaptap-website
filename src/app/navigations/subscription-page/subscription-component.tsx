@@ -1,17 +1,18 @@
 "use client";
 
 import React from "react";
+import { SubscriptionComponentProps } from "./types";
+
 // import { PlanType } from "../types/plan";
 
-type Props = {
-  selectedPage: string;
-  onSelect: (page: string) => void;
-};
-
+// type Props = {
+//   selectedPage: string;
+//   onSelect: (page: string) => void;
+// };
 export default function SubscriptionComponent({
   selectedPage,
   onSelect,
-}: Props) {
+}: SubscriptionComponentProps) {
   const menuItems = [
     { label: "My Plan", value: "my-plan" },
     { label: "Change Plan", value: "change-plan" },

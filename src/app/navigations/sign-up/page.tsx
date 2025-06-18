@@ -1,3 +1,4 @@
+// src/app/navigations/sign-up/page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -10,27 +11,26 @@ import {
   PhoneOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
+import { RcFile } from "antd/es/upload/interface";
+import { SignUpFormValues } from "./types";
 
 const { Title, Text } = Typography;
 
 const SignUpPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<SignUpFormValues>();
   const router = useRouter();
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<RcFile | null>(null);
 
   const validatePhone = (phone: string) =>
     /^\+?(\d{10,14})$/.test(phone.replace(/[\s-]/g, ""));
 
   const handleSignUp = async () => {
     try {
-      // Validate all fields
       await form.validateFields();
-
       const values = form.getFieldsValue();
       setLoading(true);
 
-      // Prepare form data
       const formData = new FormData();
       formData.append("username", values.username);
       formData.append("email", values.email);
@@ -38,63 +38,51 @@ const SignUpPage: React.FC = () => {
       formData.append("phone", values.phone);
       formData.append("name", values.name);
 
-      // Append image if uploaded
       if (image) {
         formData.append("image", image);
       }
 
+      // TODO: Replace with actual API call
       message.success("Signup successful!");
       router.push("/navigations/login");
-    } catch {
-      // TODO: message.error(err?.response?.data?.error || "Signup failed.");
-      message.error("Signup failed.");
+    } catch (err: unknown) {
+      if (typeof err === "object" && err !== null && "response" in err) {
+        const error = err as { response?: { data?: { error?: string } } };
+        message.error(error.response?.data?.error || "Signup failed.");
+      } else if (err instanceof Error) {
+        message.error(err.message);
+      } else {
+        message.error("Signup failed.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        flexDirection: "row",
-      }}
-    >
-      {/* LEFT SIDE - Gradient with heading */}
+    <div style={{ display: "flex", minHeight: "100vh" }}>
       <div
         style={{
           flex: 1,
           background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
           display: "flex",
-          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           padding: "2rem",
-          color: "#0A2540",
         }}
       >
-        <Title
-          level={2}
-          style={{
-            fontSize: "2.5rem",
-            color: "#0A2540",
-            maxWidth: 400,
-            textAlign: "center",
-          }}
-        >
+        <Title level={2} style={{ textAlign: "center", maxWidth: 400 }}>
           Join SnapTap Today!
         </Title>
       </div>
 
-      {/* RIGHT SIDE - Signup form */}
       <div
         style={{
           flex: 1,
-          background: "#ffffff",
+          background: "#fff",
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
+          alignItems: "center",
           padding: "2rem",
         }}
       >
@@ -108,10 +96,7 @@ const SignUpPage: React.FC = () => {
             maxWidth: "400px",
           }}
         >
-          <Title
-            level={2}
-            style={{ textAlign: "center", marginBottom: "1rem" }}
-          >
+          <Title level={2} style={{ textAlign: "center" }}>
             Create Account
           </Title>
           <Text
@@ -125,21 +110,12 @@ const SignUpPage: React.FC = () => {
             Sign up for your SnapTap admin account
           </Text>
 
-          <Form
-            form={form}
-            layout="vertical"
-            name="admin-signup"
-            onFinish={handleSignUp}
-            requiredMark={false}
-          >
+          <Form form={form} layout="vertical" onFinish={handleSignUp}>
             <Form.Item
               name="username"
               label="Username"
               rules={[
-                {
-                  required: true,
-                  message: "Username is required.",
-                },
+                { required: true, message: "Username is required." },
                 {
                   pattern: /^[^\s]+$/,
                   message: "Username must not contain spaces.",
@@ -156,12 +132,7 @@ const SignUpPage: React.FC = () => {
             <Form.Item
               name="name"
               label="Full Name"
-              rules={[
-                {
-                  required: true,
-                  message: "Full name is required.",
-                },
-              ]}
+              rules={[{ required: true, message: "Full name is required." }]}
             >
               <Input
                 prefix={<UserOutlined />}
@@ -174,14 +145,8 @@ const SignUpPage: React.FC = () => {
               name="email"
               label="Email"
               rules={[
-                {
-                  required: true,
-                  message: "Email is required.",
-                },
-                {
-                  type: "email",
-                  message: "Please enter a valid email",
-                },
+                { required: true, message: "Email is required." },
+                { type: "email", message: "Please enter a valid email." },
               ]}
             >
               <Input
@@ -195,17 +160,12 @@ const SignUpPage: React.FC = () => {
               name="phone"
               label="Phone Number"
               rules={[
-                {
-                  required: true,
-                  message: "Phone number is required.",
-                },
+                { required: true, message: "Phone number is required." },
                 {
                   validator: (_, value) =>
                     validatePhone(value)
                       ? Promise.resolve()
-                      : Promise.reject(
-                          new Error("Please enter a valid phone number")
-                        ),
+                      : Promise.reject("Please enter a valid phone number"),
                 },
               ]}
             >
@@ -220,14 +180,8 @@ const SignUpPage: React.FC = () => {
               name="password"
               label="Password"
               rules={[
-                {
-                  required: true,
-                  message: "Password is required.",
-                },
-                {
-                  min: 6,
-                  message: "Password must be at least 6 characters",
-                },
+                { required: true, message: "Password is required." },
+                { min: 6, message: "Password must be at least 6 characters." },
               ]}
             >
               <Input.Password
@@ -237,11 +191,7 @@ const SignUpPage: React.FC = () => {
               />
             </Form.Item>
 
-            <Form.Item
-              name="profileImage"
-              label="Profile Image"
-              valuePropName="fileList"
-            >
+            <Form.Item name="profileImage" label="Profile Image">
               <Upload.Dragger
                 name="files"
                 multiple={false}
@@ -249,11 +199,9 @@ const SignUpPage: React.FC = () => {
                 accept="image/*"
                 beforeUpload={(file) => {
                   setImage(file);
-                  return false; // Prevent auto upload
+                  return false;
                 }}
-                onRemove={() => {
-                  setImage(null);
-                }}
+                onRemove={() => setImage(null)}
               >
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
@@ -271,7 +219,7 @@ const SignUpPage: React.FC = () => {
                 loading={loading}
                 block
                 style={{
-                  borderRadius: "8px",
+                  borderRadius: 8,
                   backgroundColor: "#00A8DE",
                   borderColor: "#0A66C2",
                 }}
