@@ -94,17 +94,17 @@ export const MainScreen = () => {
             {
               src: "/assets/furniture_1.png",
               title: "3D Modeling",
-              desc: "Craft detailed models with precision and ease using our robust toolset.",
+              desc: "Create detailed and precise models of your products and publish them on our SnapTap marketplace.",
+            },
+            {
+              src: "/assets/dining_2.png",
+              title: "Collaboration",
+              desc: "Partner up with SnapTap to give your customers a immersive experience.",
             },
             {
               src: "/assets/scan_view_3.png",
               title: "Visualization",
               desc: "View products in the comfort of your sofa with photorealistic rendering capabilities.",
-            },
-            {
-              src: "/assets/dining_2.png",
-              title: "Collaboration",
-              desc: "Work seamlessly with your team in real-time, from anywhere in the world.",
             },
           ].map((feature, idx) => (
             <Col xs={24} sm={12} md={8} key={idx}>
