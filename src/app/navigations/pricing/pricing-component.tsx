@@ -66,21 +66,57 @@ export default function PricingComponent() {
         Choose the Plan That’s Right for You
       </Title>
 
-      {/* Toggle Switch (Reversed to original: Annual on left, Monthly on right) */}
-      <div className="flex justify-center my-6">
+      {/* Custom Toggle Switch */}
+      <div style={{ textAlign: "center", marginBottom: "40px" }}>
         <div
+          style={{
+            width: "220px",
+            margin: "0 auto",
+            backgroundColor: "#e0e0e0",
+            borderRadius: "30px",
+            display: "flex",
+            cursor: "pointer",
+            position: "relative",
+            padding: "5px",
+          }}
           onClick={() => setIsAnnual(!isAnnual)}
-          className="flex bg-gray-200 rounded-full px-2 py-1 cursor-pointer relative w-[220px]"
         >
-          <motion.div
-            layout
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={`absolute top-[4px] w-[105px] h-[36px] rounded-full bg-[#00A8DE] transition-all duration-300 ${
-              isAnnual ? "left-[4px]" : "left-[110px]"
-            }`}
+          <div
+            style={{
+              position: "absolute",
+              top: "5px",
+              left: isAnnual ? "110px" : "5px",
+              width: "105px",
+              height: "40px",
+              backgroundColor: "#00A8DE",
+              borderRadius: "25px",
+              transition: "left 0.3s ease-in-out",
+            }}
           />
-          <div className="w-1/2 text-center z-10 font-semibold">Annual</div>
-          <div className="w-1/2 text-center z-10 font-semibold">Monthly</div>
+          <div
+            style={{
+              width: "110px",
+              textAlign: "center",
+              zIndex: 1,
+              color: isAnnual ? "#000" : "#fff",
+              fontWeight: !isAnnual ? "bold" : "normal",
+              lineHeight: "40px",
+            }}
+          >
+            Monthly
+          </div>
+          <div
+            style={{
+              width: "110px",
+              textAlign: "center",
+              zIndex: 1,
+              color: isAnnual ? "#fff" : "#000",
+              fontWeight: isAnnual ? "bold" : "normal",
+              lineHeight: "40px",
+            }}
+          >
+            Annual
+          </div>
         </div>
       </div>
 
