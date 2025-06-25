@@ -1,8 +1,7 @@
 "use client";
-// require("dotenv").config();
-
 import React, { useEffect } from "react";
 import { useForm } from "antd/es/form/Form";
+import { BillingFormValues } from "./types";
 import {
   Form,
   InputNumber,
@@ -10,22 +9,21 @@ import {
   DatePicker,
   Button,
   Space,
-  // message,
   Typography,
+  message,
 } from "antd";
-// import axios from "axios";
+import axios from "axios";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 
 const { Title } = Typography;
 const { Option } = Select;
 
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function EditBilling() {
   const [form] = useForm();
-  // const { Brand, setBrand } = useAdmin();
-  const { Brand } = useAdmin();
+  const { Brand, setBrand } = useAdmin();
 
   useEffect(() => {
     if (Brand) {
@@ -42,40 +40,38 @@ export default function EditBilling() {
     }
   }, [Brand, form]);
 
-  //TODO:
-  // eslint-ignore @typescript-eslint/no-explicit-any
-  // const handleSave = async (values: any) => {
-  //   if (!Brand) return;
+  const handleSave = async (values: BillingFormValues) => {
+    if (!Brand) return;
 
-  //   const payload = {
-  //     ...Brand,
-  //     ...values,
-  //     due_date: values.due_date?.format("YYYY-MM-DD"),
-  //   };
+    const payload = {
+      ...Brand,
+      ...values,
+      due_date: values.due_date?.format("YYYY-MM-DD"),
+    };
 
-  //   try {
-  //     const response = await axios.patch(
-  //       `${BASE_URL}/api/brands/brand-detail/`,
-  //       payload,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           // Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     );
+    try {
+      const response = await axios.patch(
+        `${BASE_URL}/api/brands/brand-detail/`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-  //     if (response.data) {
-  //       setBrand(response.data); // Update context with the updated brand
-  //       message.success("Billing information updated successfully");
-  //     } else {
-  //       message.error("Failed to update billing information");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating brand:", error);
-  //     message.error("Could not update billing information. Try again.");
-  //   }
-  // };
+      if (response.data) {
+        setBrand(response.data);
+        message.success("Billing information updated successfully");
+      } else {
+        message.error("Failed to update billing information");
+      }
+    } catch (error) {
+      console.error("Error updating brand:", error);
+      message.error("Could not update billing information. Try again.");
+    }
+  };
 
   if (!Brand) {
     return (
@@ -90,8 +86,7 @@ export default function EditBilling() {
   return (
     <div style={{ padding: "30px" }}>
       <Title level={3}>Edit Billing Information</Title>
-      {/* <Form layout="vertical" form={form} onFinish={handleSave}> */}
-      <Form layout="vertical" form={form}>
+      <Form layout="vertical" form={form} onFinish={handleSave}>
         <Form.Item
           label="Package Name"
           name="package_name"

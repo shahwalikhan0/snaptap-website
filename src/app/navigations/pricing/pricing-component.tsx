@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Col, Row, Typography, Button } from "antd";
+import { Col, Row, Typography, Button } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
+import { FaRocket, FaCogs, FaBuilding } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 const plans = [
   {
     title: "Go",
+    icon: <FaRocket size={28} className="text-[#00A8DE]" />,
     monthly: "$17.99",
     annual: "$119",
     features: [
@@ -22,8 +25,10 @@ const plans = [
   },
   {
     title: "Pro",
+    icon: <FaCogs size={28} className="text-[#00A8DE]" />,
     monthly: "$49.99",
     annual: "$349",
+    recommended: true,
     features: [
       "Everything in Go",
       "Desktop 3D modeler",
@@ -34,6 +39,7 @@ const plans = [
   },
   {
     title: "Studio",
+    icon: <FaBuilding size={28} className="text-[#00A8DE]" />,
     monthly: "N/A",
     annual: "$749",
     features: [
@@ -46,25 +52,18 @@ const plans = [
   },
 ];
 
-export default function PricingPage() {
+export default function PricingComponent() {
   const [isAnnual, setIsAnnual] = useState(true);
   const router = useRouter();
 
   const handleGetStartedClick = () => {
-    // Redirect to the sign-up page when "Get Started" is clicked
     router.push("/navigations/sign-up");
   };
 
   return (
-    <div
-      style={{
-        padding: "50px",
-        backgroundColor: "#f9f9f9",
-        paddingTop: "50px", // Adjust this value as per your navbar height
-      }}
-    >
-      <Title level={2} style={{ textAlign: "center", marginBottom: "40px" }}>
-        Choose the Plan That`s Right for You
+    <div className="text-[#007cae] text-center px-4 pb-20 max-w-screen-xl mx-auto">
+      <Title level={2} style={{ color: "#007cae", marginBottom: 40 }}>
+        Choose the Plan That’s Right for You
       </Title>
 
       {/* Custom Toggle Switch */}
@@ -122,47 +121,58 @@ export default function PricingPage() {
       </div>
 
       {/* Pricing Cards */}
-      <Row gutter={[24, 24]} justify="center">
-        {plans.map((plan) => (
+      <Row
+        gutter={[24, 24]}
+        justify="center"
+        className="max-w-6xl mx-auto w-full px-4"
+      >
+        {plans.map((plan, index) => (
           <Col xs={24} sm={12} md={8} key={plan.title}>
-            <Card
-              title={plan.title}
-              variant="borderless"
-              style={{ borderRadius: "10px" }}
-              styles={{
-                header: { textAlign: "center", fontSize: "24px" },
-                body: { padding: "20px" },
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`relative bg-white/10 backdrop-blur-xl text-[#007cae] rounded-2xl shadow-xl px-6 py-8 border border-white/30 transition-all ${
+                plan.recommended ? "ring-2 ring-[#00A8DE]" : ""
+              }`}
             >
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <Title level={3} style={{ margin: 0 }}>
-                  {isAnnual ? plan.annual : plan.monthly}
-                </Title>
-                <Paragraph>{isAnnual ? "per year" : "per month"}</Paragraph>
+              {/* Recommended Ribbon */}
+              {plan.recommended && (
+                <div className="absolute top-4 right-4 bg-[#00A8DE] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                  Recommended
+                </div>
+              )}
+
+              <div className="flex items-center justify-center gap-2 mb-4">
+                {plan.icon}
+                <h3 className="text-2xl font-bold">{plan.title}</h3>
               </div>
-              <ul style={{ listStyle: "none", padding: 0 }}>
-                {plan.features.map((feature, index) => (
-                  <li key={index} style={{ marginBottom: "10px" }}>
-                    <CheckOutlined
-                      style={{ color: "#52c41a", marginRight: "8px" }}
-                    />
+              <div className="text-xl font-bold mb-1">
+                {isAnnual ? plan.annual : plan.monthly}
+              </div>
+              <p className="text-sm mb-4">
+                {isAnnual ? "per year" : "per month"}
+              </p>
+
+              <ul className="text-left space-y-2 mb-6">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-start">
+                    <CheckOutlined className="mr-2 mt-1 text-green-500" />
                     {feature}
                   </li>
                 ))}
               </ul>
+
               <Button
                 block
-                style={{
-                  marginTop: "20px",
-                  backgroundColor: "#00A8DE",
-                  borderColor: "#00A8DE",
-                  color: "#fff",
-                }}
                 onClick={handleGetStartedClick}
+                className="bg-[#00A8DE] hover:bg-[#007cae] text-white font-semibold py-2 rounded-full transition duration-300"
               >
                 Get Started
               </Button>
-            </Card>
+            </motion.div>
           </Col>
         ))}
       </Row>

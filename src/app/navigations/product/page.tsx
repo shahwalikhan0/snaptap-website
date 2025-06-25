@@ -1,147 +1,158 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Button } from "antd";
 
-export default function ProductPage() {
-  const router = useRouter();
-
+export default function Page() {
   return (
-    <div className="p-10 pt-32 bg-gray-50">
-      {" "}
-      {/* Increased padding-top here */}
-      <section className="max-w-6xl mx-auto">
-        {/* Page Title */}
-        <h1 className="text-5xl font-semibold text-center text-[#333] mb-6">
-          What is SnapTap?
-        </h1>
+    <div className="w-full overflow-x-hidden">
+      {/* HERO SECTION */}
+      <div className="relative w-full h-[100vh] overflow-hidden">
+        <Image
+          src="/assets/marketplace_1.png"
+          alt="SnapTap Marketplace"
+          fill
+          className="object-cover w-full h-full"
+          priority
+        />
 
-        {/* Description */}
-        <p className="text-xl text-gray-700 mb-8 text-center">
-          SnapTap is an innovative platform designed to revolutionize the online
-          shopping experience. Using cutting-edge 3D scanning and AR technology,
-          users can visualize products in real-time before making a purchase.
-        </p>
-        <p className="text-xl text-gray-700 mb-8 text-center">
-          Whether you`re a business looking to showcase your inventory or a
-          shopper exploring new products, SnapTap provides immersive and
-          interactive product displays like never before.
-        </p>
-
-        {/* Call to Action */}
-        <div className="text-center mb-12">
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-xl transition-all duration-300"
-            onClick={() => router.push("/free-trial")}
+        {/* Glass effect overlay */}
+        <motion.div
+          className="absolute inset-0 bg-black/40 backdrop-blur-md flex flex-col items-center justify-center text-center text-white px-6"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2 }}
+        >
+          <motion.h1
+            className="text-4xl sm:text-6xl font-extrabold mb-4 bg-gradient-to-r from-white to-[#00A8DE] bg-clip-text text-transparent drop-shadow-lg"
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
           >
-            Start Free Trial
-          </button>
-        </div>
+            Experience the Future of 3D Commerce
+          </motion.h1>
 
-        {/* Key Features */}
-        <section className="bg-white p-10 rounded-xl shadow-lg mb-12">
-          <h2 className="text-3xl font-semibold text-center text-[#333] mb-8">
-            Key Features
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Real-Time Product Visualization",
-                description:
-                  "View products in 3D and AR before making your purchase.",
-                icon: "/assets/feature1.jpg",
-              },
-              {
-                title: "Seamless Integration",
-                description: "Easily integrate with your eCommerce platform.",
-                icon: "/assets/feature2.jpg",
-              },
-              {
-                title: "Detailed Product Insights",
-                description:
-                  "Access in-depth analytics on customer interaction with products.",
-                icon: "/assets/feature3.jpg",
-              },
-            ].map((feature, idx) => (
-              <div
-                key={idx}
-                className="bg-gray-100 p-6 rounded-lg shadow-md text-center"
-              >
-                <img
-                  src={feature.icon}
-                  alt={feature.title}
-                  className="w-20 h-20 mx-auto mb-4 rounded-full object-cover"
-                />
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+          <motion.p
+            className="text-lg sm:text-xl max-w-2xl text-white/90 mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            SnapTap brings sellers, shoppers, and businesses into one immersive
+            platform — where 3D, AR, and interactivity meet.
+          </motion.p>
+
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <Button
+              type="primary"
+              size="large"
+              className="rounded-full px-8 py-2 text-base font-semibold shadow-xl animate-bounce"
+              style={{
+                backgroundColor: "#00A8DE",
+                borderColor: "#00A8DE",
+              }}
+            >
+              Explore SnapTap
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* FEATURES SECTION */}
+      <section id="features-section" className="w-full flex flex-col">
+        {[
+          {
+            title: "Sell Smarter with SnapTap",
+            desc: "As a seller, upload your 3D products to the SnapTap marketplace. Reach a wide audience, add AR capabilities, and maximize visibility.",
+            bullets: [
+              "Upload 3D products effortlessly",
+              "Enable AR previews for customers",
+              "Tag by category and reach your niche",
+              "Real-time engagement and analytics",
+            ],
+            reverse: false,
+          },
+          {
+            title: "Explore & Shop in Augmented Reality",
+            desc: "Buyers can browse through hundreds of 3D products from different brands and visualize them in their environment before purchasing.",
+            bullets: [
+              "See products in your real space",
+              "Scroll, rotate, zoom in full 3D",
+              "Avoid guesswork with accurate sizing",
+              "Easy and immersive shopping experience",
+            ],
+            reverse: true,
+          },
+          {
+            title: "Augmented Menus for Restaurants",
+            desc: "Restaurants can partner with SnapTap to digitize their menus. Diners can view realistic 3D dishes and portion sizes before ordering.",
+            bullets: [
+              "Preview meals in real-time",
+              "No more confusion with dish names",
+              "Boost customer confidence in orders",
+              "Enhanced dining experience",
+            ],
+            reverse: false,
+          },
+          {
+            title: "Scan, Preview & Share with QR Codes",
+            desc: "Shop owners can scan products and generate QR codes. Customers can preview them, even if they’re not physically available.",
+            bullets: [
+              "Instant QR generation",
+              "Great for unavailable stock",
+              "Ideal for showrooms & popups",
+              "Connects physical to digital",
+            ],
+            reverse: true,
+          },
+        ].map((feature, idx) => (
+          <motion.div
+            key={idx}
+            className={`w-full py-20 px-6 sm:px-10 md:px-20 ${
+              idx % 2 === 0
+                ? "bg-gradient-to-br from-[#FEE2F8] via-white to-[#E0F2FE]"
+                : "bg-gradient-to-br from-[#FEF9C3] via-white to-[#CFFAFE]"
+            }`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div
+              className={`flex flex-col ${
+                feature.reverse ? "md:flex-row-reverse" : "md:flex-row"
+              } items-center gap-10 max-w-6xl mx-auto`}
+            >
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-2xl sm:text-3xl font-bold text-[#00A8DE] mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-4">
+                  {feature.desc}
+                </p>
+                <ul className="list-disc pl-5 text-left text-gray-600 space-y-1 text-sm sm:text-base">
+                  {feature.bullets.map((point, i) => (
+                    <li key={i}>{point}</li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Product Demo */}
-        <section className="mb-12">
-          <h2 className="text-3xl font-semibold text-[#333] mb-6 text-center">
-            Product Demo
-          </h2>
-          <div className="text-center">
-            <img
-              src="/assets/demo.jpg"
-              alt="Product Demo"
-              className="max-w-full h-auto rounded-lg shadow-lg"
-            />
-            <p className="mt-6 text-lg text-gray-700">
-              Experience SnapTap in action and explore the potential for your
-              business or personal shopping needs. Click on the button below to
-              start your free trial and see it in real-time!
-            </p>
-          </div>
-        </section>
-
-        <section className="bg-white p-10 rounded-xl shadow-lg mb-12">
-          <h2 className="text-3xl font-semibold text-center text-[#333] mb-6">
-            Product Stats
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto text-center">
-              <thead>
-                <tr className="bg-blue-600 text-white">
-                  <th className="px-6 py-4 text-xl">Feature</th>
-                  <th className="px-6 py-4 text-xl">Go Plan</th>
-                  <th className="px-6 py-4 text-xl">Pro Plan</th>
-                  <th className="px-6 py-4 text-xl">Studio Plan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-t border-gray-200">
-                  <td className="px-6 py-4 text-gray-700">3D Modelers</td>
-                  <td className="px-6 py-4 text-gray-700">iPad & Web</td>
-                  <td className="px-6 py-4 text-gray-700">Web & Desktop</td>
-                  <td className="px-6 py-4 text-gray-700">Desktop Only</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="px-6 py-4 text-gray-700">Cloud Storage</td>
-                  <td className="px-6 py-4 text-gray-700">Unlimited</td>
-                  <td className="px-6 py-4 text-gray-700">Unlimited</td>
-                  <td className="px-6 py-4 text-gray-700">Unlimited</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="px-6 py-4 text-gray-700">Revit Import</td>
-                  <td className="px-6 py-4 text-gray-700">No</td>
-                  <td className="px-6 py-4 text-gray-700">No</td>
-                  <td className="px-6 py-4 text-gray-700">Yes</td>
-                </tr>
-                <tr className="border-t border-gray-200">
-                  <td className="px-6 py-4 text-gray-700">Price (Annual)</td>
-                  <td className="px-6 py-4 text-gray-700">$119</td>
-                  <td className="px-6 py-4 text-gray-700">$349</td>
-                  <td className="px-6 py-4 text-gray-700">$749</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+              <div className="flex-1">
+                <Image
+                  src="/assets/dining_2.png"
+                  alt={feature.title}
+                  width={600}
+                  height={400}
+                  className="rounded-xl shadow-lg"
+                />
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </section>
     </div>
   );

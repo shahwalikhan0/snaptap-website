@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 const Navbar = () => {
   const router = useRouter();
@@ -40,7 +41,6 @@ const Navbar = () => {
     router.push("/navigations/login");
   };
 
-  // Handle outside click for mobile and user dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -62,9 +62,8 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="sticky top-0 left-0 right-0 z-50 bg-white text-[#00A8DE] shadow-md h-14 md:h-18 flex items-center justify-between px-4 md:px-8">
-      {" "}
-      {/* Mobile: Hamburger */}
+    <nav className="sticky top-0 z-50 bg-white text-[#00A8DE] shadow-md h-14 md:h-18 flex items-center justify-between px-4 md:px-8">
+      {/* Mobile Hamburger */}
       <div className="md:hidden flex items-center">
         <button
           onClick={() => {
@@ -72,19 +71,23 @@ const Navbar = () => {
             setIsUserDropdownOpen(false);
           }}
           className="focus:outline-none"
+          aria-label="Toggle Menu"
         >
           <span className="block w-6 h-0.5 bg-[#00A8DE] mb-1"></span>
           <span className="block w-6 h-0.5 bg-[#00A8DE] mb-1"></span>
           <span className="block w-6 h-0.5 bg-[#00A8DE]"></span>
         </button>
       </div>
-      {/* Desktop Left: Logo + Nav */}
+
+      {/* Desktop Logo + Nav */}
       <div className="hidden md:flex items-center space-x-10">
         <div className="cursor-pointer" onClick={() => handleNav("/")}>
-          <img
+          <Image
             src="/assets/icon.png"
             alt="SnapTap Logo"
-            className="h-16 w-16 object-contain"
+            width={64}
+            height={64}
+            priority
           />
         </div>
         <div className="flex space-x-4">
@@ -99,18 +102,22 @@ const Navbar = () => {
           ))}
         </div>
       </div>
-      {/* Mobile Center: Logo */}
+
+      {/* Mobile Logo Centered */}
       <div
         className="md:hidden absolute left-1/2 transform -translate-x-1/2 cursor-pointer"
         onClick={() => handleNav("/")}
       >
-        <img
+        <Image
           src="/assets/icon.png"
           alt="SnapTap Logo"
-          className="h-16 w-16 object-contain"
+          width={64}
+          height={64}
+          priority
         />
       </div>
-      {/* Right Side */}
+
+      {/* Right Section */}
       <div className="flex items-center space-x-3 ml-auto relative">
         {!isLoggedIn && (
           <button
@@ -125,9 +132,9 @@ const Navbar = () => {
           <button
             onClick={() => handleNav("/navigations/login")}
             className="font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
-    bg-[#00A8DE] text-white hover:bg-[#007a9d] 
-    md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
-    transition-all"
+              bg-[#00A8DE] text-white hover:bg-[#007a9d] 
+              md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
+              transition-all"
           >
             Login
           </button>
@@ -139,9 +146,9 @@ const Navbar = () => {
                 setIsMobileMenuOpen(false);
               }}
               className="flex items-center gap-2 font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
-    bg-[#00A8DE] text-white hover:bg-[#007a9d] 
-    md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
-    transition-all"
+              bg-[#00A8DE] text-white hover:bg-[#007a9d] 
+              md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
+              transition-all"
             >
               <Icon icon="material-symbols:account-circle-full" width={24} />
               <span className="hidden md:inline">
@@ -177,11 +184,12 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      {/* Mobile Dropdown */}
+
+      {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div
           ref={mobileDropdownRef}
-          className="absolute mt-67 ml-5 left-0 w-90 bg-[#E3E3E3] text-[#00A8DE] shadow-lg rounded-lg p-2 z-40 animate-slideDown md:hidden"
+          className="absolute top-16 left-4 w-11/12 bg-[#E3E3E3] text-[#00A8DE] shadow-lg rounded-lg p-2 z-40 animate-slideDown md:hidden"
         >
           <div className="flex flex-col p-2 space-y-2">
             {visibleNavItems.map((item) => (

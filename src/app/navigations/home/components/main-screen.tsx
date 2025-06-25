@@ -92,19 +92,19 @@ export const MainScreen = () => {
         <Row gutter={[32, 32]} justify="center">
           {[
             {
-              src: "/assets/feature1.jpg",
+              src: "/assets/furniture_1.png",
               title: "3D Modeling",
-              desc: "Craft detailed models with precision and ease using our robust toolset.",
+              desc: "Create detailed and precise models of your products and publish them on our SnapTap marketplace.",
             },
             {
-              src: "/assets/feature2.jpg",
-              title: "Visualization",
-              desc: "Bring your designs to life with photorealistic rendering capabilities.",
-            },
-            {
-              src: "/assets/feature3.jpg",
+              src: "/assets/dining_2.png",
               title: "Collaboration",
-              desc: "Work seamlessly with your team in real-time, from anywhere in the world.",
+              desc: "Partner up with SnapTap to give your customers a immersive experience.",
+            },
+            {
+              src: "/assets/scan_view_3.png",
+              title: "Visualization",
+              desc: "View products in the comfort of your sofa with photorealistic rendering capabilities.",
             },
           ].map((feature, idx) => (
             <Col xs={24} sm={12} md={8} key={idx}>
