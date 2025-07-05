@@ -10,6 +10,7 @@ const Navbar = () => {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn, Admin, setAdmin } = useAdmin();
@@ -57,12 +58,24 @@ const Navbar = () => {
       }
     };
 
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white text-[#00A8DE] shadow-md h-14 md:h-18 flex items-center justify-between px-4 md:px-8">
+    <nav
+      className={`fixed top-0 w-full z-50 transition-colors duration-500 ${
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      } text-[#00A8DE] h-14 md:h-18 flex items-center justify-between px-4 md:px-8`}
+    >
       {/* Mobile Hamburger */}
       <div className="md:hidden flex items-center">
         <button
@@ -85,8 +98,8 @@ const Navbar = () => {
           <Image
             src="/assets/icon.png"
             alt="SnapTap Logo"
-            width={64}
-            height={64}
+            width={70}
+            height={73}
             priority
           />
         </div>
@@ -95,7 +108,7 @@ const Navbar = () => {
             <button
               key={item.name}
               onClick={() => handleNav(item.path)}
-              className="font-bold py-1.5 px-4 border-b-3 border-transparent hover:border-[#00A8DE] transition-all"
+              className="font-bold text-[17px] text-[#00A8DE] py-1.5 px-4 border-b-3 border-transparent hover:border-[#00A8DE] transition-all cursor-pointer"
             >
               {item.name}
             </button>
@@ -122,7 +135,7 @@ const Navbar = () => {
         {!isLoggedIn && (
           <button
             onClick={() => handleNav("/navigations/sign-up")}
-            className="hidden md:inline-block font-bold bg-[#00A8DE] text-white py-1.5 px-4 rounded-md hover:bg-[#007a9d] transition-all"
+            className="hidden md:inline-block font-bold bg-[#00A8DE] text-white py-1.5 px-4 rounded-md hover:bg-[#007a9d] transition-all cursor-pointer"
           >
             Start Free Trial
           </button>
@@ -134,7 +147,7 @@ const Navbar = () => {
             className="font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
               bg-[#00A8DE] text-white hover:bg-[#007a9d] 
               md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
-              transition-all"
+              transition-all cursor-pointer"
           >
             Login
           </button>
@@ -148,7 +161,7 @@ const Navbar = () => {
               className="flex items-center gap-2 font-bold text-sm md:text-base py-1.5 px-4 rounded-md 
               bg-[#00A8DE] text-white hover:bg-[#007a9d] 
               md:bg-white md:text-[#00A8DE] md:hover:bg-gray-200 
-              transition-all"
+              transition-all cursor-pointer"
             >
               <Icon icon="material-symbols:account-circle-full" width={24} />
               <span className="hidden md:inline">

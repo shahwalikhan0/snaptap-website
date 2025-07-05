@@ -50,16 +50,12 @@ export default function EditBilling() {
     };
 
     try {
-      const response = await axios.patch(
-        `${BASE_URL}/api/brands/brand-detail/`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.patch(`${BASE_URL}/brand/detail/`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       if (response.data) {
         setBrand(response.data);

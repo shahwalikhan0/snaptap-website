@@ -29,6 +29,13 @@ export type BrandDataType = {
   due_date: string;
   date_paid: string | null;
   totalBilling: number;
+  location: string | null;
+  website_url: string | null;
+  category: string | null;
+  subscribed_package_id: number;
+  scans_remaining: number;
+  total_models_generated: number;
+  phone: string | null;
 };
 
 export type BrandContextType = {

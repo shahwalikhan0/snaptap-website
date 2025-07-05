@@ -28,7 +28,7 @@ export const MainScreen = () => {
       <Navbar />
 
       <section
-        className="w-full flex flex-col items-center justify-center bg-white "
+        className="w-full flex flex-col items-center justify-center bg-white"
         style={{
           paddingLeft: 0,
           paddingRight: 0,
@@ -38,7 +38,7 @@ export const MainScreen = () => {
           className="w-full h-full max-w-[1400px] flex flex-col md:flex-row items-center justify-between overflow-hidden"
           style={{
             background:
-              "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(171, 174, 180))",
+              "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(175, 178, 184))",
             boxShadow: "rgba(0, 0, 0, 0.1) 0px 20px 50px",
             width: "100%",
             maxWidth: "100%",
@@ -136,9 +136,9 @@ export const MainScreen = () => {
 
       <section className="w-full bg-[radial-gradient(circle_at_50%_70%,_rgb(244,243,243),_rgb(171,174,180))]">
         {/* Testimonials Section */}
-        <section className=" py-20 px-6">
+        <section className="py-20 px-6 text-[#007cae]">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#007cae]">
+            <h2 className="text-3xl sm:text-4xl font-bold">
               What Our Users Say
             </h2>
           </div>
@@ -173,8 +173,9 @@ export const MainScreen = () => {
           </Row>
         </section>
 
+        {/* Call to Action Section */}
         <section className="flex justify-center items-center py-20 px-4">
-          <div className="bg-[#00A8DE] text-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 max-w-3xl w-full p-10 text-center">
+          <div className="bg-gradient-to-br from-[#007cae] to-[#4dcbe7] text-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 max-w-3xl w-full p-10 text-center">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
               Ready to Transform Your Designs?
             </h2>
