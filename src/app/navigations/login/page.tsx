@@ -58,9 +58,11 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${BASE_URL}/brand/allow-brand-login/${username}/${password}`
+        `${BASE_URL}/brand/allow-login/${username}/${password}`
       );
       const { data } = response.data;
+      console.log("API raw response:", response.data); // <-- Add this
+      console.log("Login extracted data:", data); // <-- Add this
       console.log("Login response data:", data);
       if (data.id) {
         setAdmin(data);
