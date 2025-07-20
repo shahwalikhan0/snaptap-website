@@ -28,7 +28,7 @@ export const MainScreen = () => {
       <Navbar />
 
       <section
-        className="w-full flex flex-col items-center justify-center bg-white"
+        className="w-full flex flex-col items-center justify-center bg-white "
         style={{
           paddingLeft: 0,
           paddingRight: 0,
@@ -82,7 +82,7 @@ export const MainScreen = () => {
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-10 bg-[radial-gradient(circle at 50% 70%, rgb(206, 206, 206), rgb(186, 186, 186))] px-6">
+      <section className="w-full py-10 bg-[radial-gradient(circle at 50% 70%, rgb(206, 206, 206), rgb(186, 186, 186))] px-6 ">
         <Row gutter={[32, 32]} justify="center">
           {[
             {

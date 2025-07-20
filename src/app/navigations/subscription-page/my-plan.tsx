@@ -46,7 +46,7 @@ export default function MyPlan() {
           <strong>Inactive Products:</strong> {Brand.in_active_products}
         </Paragraph>
         <Paragraph>
-          <strong>Scans Used:</strong> {Brand.scans_used}
+          <strong>Scans Remaining:</strong> {Brand.scans_remaining}
         </Paragraph>
         <Paragraph>
           <strong>Total Scans:</strong> {Brand.total_scans}

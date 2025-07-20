@@ -60,10 +60,8 @@ const LoginPage = () => {
       const response = await axios.get(
         `${BASE_URL}/brand/allow-login/${username}/${password}`
       );
-      const { data } = response.data;
-      console.log("API raw response:", response.data); // <-- Add this
-      console.log("Login extracted data:", data); // <-- Add this
-      console.log("Login response data:", data);
+      const { data } = response;
+
       if (data.id) {
         setAdmin(data);
         message.success("Admin login successful!");

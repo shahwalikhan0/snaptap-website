@@ -74,7 +74,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               <Paragraph>{p.description}</Paragraph>
               <Paragraph>Features:</Paragraph>
               {renderFeatures(p.id)}
-              {Brand.package_id !== p.id ? (
+              {Brand.subscribed_package_id !== p.id ? (
                 <Button type="primary">Select Plan</Button>
               ) : (
                 <Button
