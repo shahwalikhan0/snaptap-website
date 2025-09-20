@@ -34,7 +34,7 @@ export default function EditBilling() {
         due_date: Brand.due_date ? dayjs(Brand.due_date) : null,
         active_products: Brand.active_products,
         in_active_products: Brand.in_active_products,
-        scans_used: Brand.scans_used,
+        scans_remaining: Brand.scans_remaining,
         total_scans: Brand.total_scans,
       });
     }
@@ -145,8 +145,8 @@ export default function EditBilling() {
         </Form.Item>
 
         <Form.Item
-          label="Scans Used"
-          name="scans_used"
+          label="Scans Remaining"
+          name="scans_remaining"
           rules={[{ type: "number", min: 0, message: "Must be 0 or greater" }]}
         >
           <InputNumber style={{ width: "100%" }} min={0} />
