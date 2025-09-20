@@ -43,7 +43,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#00A8DE] text-white px-6 py-10 w-full">
+    <footer className="bg-[#00A8DE] text-white px-6 py-4 w-full">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {footerLinks.map((section) => (
           <div key={section.title}>

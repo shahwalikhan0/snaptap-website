@@ -26,12 +26,10 @@ const LoginPage = () => {
     try {
       if (!id) return;
 
-      const response = await axios.get(
-        `${BASE_URL}/api/brands/brand-detail/${id}`
-      );
-
-      if (response.data?.id) {
-        setBrand(response.data);
+      const response = await axios.get(`${BASE_URL}/brand/detail/${id}`);
+      const { data } = response.data;
+      if (data?.id) {
+        setBrand(data);
       }
     } catch (error) {
       console.error("Error fetching brand:", error);
@@ -60,13 +58,16 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/users/allow-seller-login/${username}/${password}`
+        `${BASE_URL}/brand/allow-login/${username}/${password}`
       );
-
-      if (response.data.id) {
-        setAdmin(response.data);
+      const { data } = response.data;
+      console.log("API raw response:", response.data); // <-- Add this
+      console.log("Login extracted data:", data); // <-- Add this
+      console.log("Login response data:", data);
+      if (data.id) {
+        setAdmin(data);
         message.success("Admin login successful!");
-        fetchBrand(response.data.id);
+        fetchBrand(data.id);
 
         router.replace("/");
       } else {
