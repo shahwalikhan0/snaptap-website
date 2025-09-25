@@ -20,16 +20,3 @@ export const AdminContext = createContext<AdminContextType>({
   setAdmin: () => {},
   setBrand: () => {},
 });
-
-// "use client";
-
-// import { AdminDataType } from "../navigations/types/admin-data";
-// import { BrandDataType } from "../navigations/types/brand-data";
-
-// export type AdminContextType = {
-//   Admin: AdminDataType | null;
-//   Brand: BrandDataType | null;
-//   isLoggedIn: boolean;
-//   setAdmin: (Admin: AdminDataType | null) => void;
-//   setBrand: (Brand: BrandDataType | null) => void;
-// };

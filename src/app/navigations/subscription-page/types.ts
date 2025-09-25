@@ -1,13 +1,10 @@
-// const handleSave = async (values: any) => {
-//   if (!Brand) return;
-
 // src/app/navigations/subscription-page/types.ts
 
 import { Dayjs } from "dayjs";
 
 export type BillingFormValues = {
-  package_name: string;
-  totalBilling: number;
+  name: string; // package name from "package"
+  total_amount: number; // from brand_billing.total_amount
   status: string;
   due_date: Dayjs | null;
   active_products: number;

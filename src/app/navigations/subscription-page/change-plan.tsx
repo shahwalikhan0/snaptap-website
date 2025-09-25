@@ -1,21 +1,23 @@
 "use client";
 
-import React from "react";
-import { Card, Row, Col, Typography, Button } from "antd";
+import React, { useState } from "react";
+import { Card, Row, Col, Typography, Button, Switch, message } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
-import { PlanType } from "../types/plan";
+import { Plan } from "@/app/navigations/types/plan";
+import axios from "axios";
 
 const { Title, Paragraph } = Typography;
 
-const features = {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const featuresMap: Record<number, string[]> = {
   1: ["Basic 3D tools", "AR previews", "Limited scans", "Basic support"],
   2: [
     "Full access to 3D tools",
     "AR previews",
     "Unlimited scans",
-    "Plugins support",
+    "Plugin support",
   ],
-
   3: [
     "All features unlocked",
     "Priority support",
@@ -26,24 +28,26 @@ const features = {
 
 const renderFeatures = (planId: number) => {
   return (
-    <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-gray-200">
-      {features[planId as keyof typeof features].map(
-        (feature: string, index: number) => (
-          <li className="text-black dark:text-black" key={index}>
-            {feature}
-          </li>
-        )
-      )}
+    <ul style={{ paddingLeft: 20, margin: "8px 0" }}>
+      {featuresMap[planId]?.map((feature, index) => (
+        <li key={index}>{feature}</li>
+      ))}
     </ul>
   );
 };
 
-export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
-  const { Brand } = useAdmin();
+type Props = {
+  plan: Plan[] | null;
+};
+
+export default function ChangePlan({ plan }: Props) {
+  const { Brand, setBrand } = useAdmin();
+  const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
+  const [yearlyPricing, setYearlyPricing] = useState(false);
 
   if (!plan) {
     return (
-      <div style={{ padding: "30px" }}>
+      <div style={{ padding: 30 }}>
         <Title level={4} type="danger">
           No plan data found. Please try again.
         </Title>
@@ -53,7 +57,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
   if (!Brand) {
     return (
-      <div style={{ padding: "30px" }}>
+      <div style={{ padding: 30 }}>
         <Title level={4} type="danger">
           No brand data found. Please try again.
         </Title>
@@ -61,32 +65,73 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     );
   }
 
+  const handleSelectPlan = async (planId: number, planName: string) => {
+    if (!Brand) return;
+
+    setLoadingPlanId(planId);
+
+    try {
+      const response = await axios.patch(`${BASE_URL}/brand/change-plan`, {
+        brand_id: Brand.id,
+        new_plan_id: planId,
+      });
+
+      if (response.data) {
+        setBrand(response.data);
+        message.success(`Your plan has been changed to "${planName}"`);
+      } else {
+        message.error("Failed to change plan. Please try again.");
+      }
+    } catch (err) {
+      console.error("Error changing plan:", err);
+      message.error("An error occurred while changing plan.");
+    } finally {
+      setLoadingPlanId(null);
+    }
+  };
+
   return (
-    <div style={{ padding: "30px" }}>
+    <div style={{ padding: 30 }}>
       <Title level={3}>Change Your Plan</Title>
+
+      <div style={{ marginBottom: 20 }}>
+        <span style={{ marginRight: 8 }}>Show Yearly Prices</span>
+        <Switch checked={yearlyPricing} onChange={setYearlyPricing} />
+      </div>
+
       <Row gutter={[16, 16]}>
-        {plan?.map((p: PlanType) => (
-          <Col xs={24} sm={12} md={8} key={p.id}>
-            <Card title={p.name} bordered>
-              <Paragraph>
-                <strong>{p.monthly_price}</strong>
-              </Paragraph>
-              <Paragraph>{p.description}</Paragraph>
-              <Paragraph>Features:</Paragraph>
-              {renderFeatures(p.id)}
-              {Brand.subscribed_package_id !== p.id ? (
-                <Button type="primary">Select Plan</Button>
-              ) : (
+        {plan.map((p) => {
+          const isCurrent = Brand.subscribed_package_id === p.id;
+          const price = yearlyPricing ? p.yearly_price : p.monthly_price;
+
+          return (
+            <Col xs={24} sm={12} md={8} key={p.id}>
+              <Card title={p.name} bordered>
+                <Paragraph>
+                  <strong>
+                    {yearlyPricing ? "Yearly Price:" : "Monthly Price:"}
+                  </strong>{" "}
+                  Rs. {price}
+                </Paragraph>
+
+                <Paragraph>
+                  <strong>Features:</strong>
+                </Paragraph>
+                {renderFeatures(p.id)}
+
                 <Button
                   type="primary"
-                  onClick={() => alert(`Selected ${p.name} plan`)}
+                  disabled={isCurrent || loadingPlanId === p.id}
+                  loading={loadingPlanId === p.id}
+                  onClick={() => handleSelectPlan(p.id, p.name)}
+                  style={{ marginTop: 12 }}
                 >
-                  Cancel
+                  {isCurrent ? "Current Plan" : "Select Plan"}
                 </Button>
-              )}
-            </Card>
-          </Col>
-        ))}
+              </Card>
+            </Col>
+          );
+        })}
       </Row>
     </div>
   );

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect } from "react";
 import { useForm } from "antd/es/form/Form";
 import { BillingFormValues } from "./types";
@@ -22,19 +23,19 @@ const { Option } = Select;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function EditBilling() {
-  const [form] = useForm();
+  const [form] = useForm<BillingFormValues>();
   const { Brand, setBrand } = useAdmin();
 
   useEffect(() => {
     if (Brand) {
       form.setFieldsValue({
-        package_name: Brand.package_name,
-        totalBilling: Brand.totalBilling,
+        name: Brand.package_name,
+        total_amount: Brand.total_amount,
         status: Brand.status,
         due_date: Brand.due_date ? dayjs(Brand.due_date) : null,
         active_products: Brand.active_products,
         in_active_products: Brand.in_active_products,
-        scans_remaining: Brand.scans_remaining,
+        scans_used: Brand.total_models_generated, // <-- using total_models_generated
         total_scans: Brand.total_scans,
       });
     }
@@ -44,18 +45,26 @@ export default function EditBilling() {
     if (!Brand) return;
 
     const payload = {
-      ...Brand,
-      ...values,
-      due_date: values.due_date?.format("YYYY-MM-DD"),
+      package_name: values.name,
+      total_amount: values.total_amount,
+      status: values.status,
+      due_date: values.due_date?.format("YYYY-MM-DD") || null,
+      active_products: values.active_products,
+      in_active_products: values.in_active_products,
+      total_models_generated: values.scans_used, // <-- send as total_models_generated
+      total_scans: values.total_scans,
     };
 
     try {
-      const response = await axios.patch(`${BASE_URL}/brand/detail/`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.patch(
+        `${BASE_URL}/brand/${Brand.id}`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.data) {
         setBrand(response.data);
@@ -85,7 +94,7 @@ export default function EditBilling() {
       <Form layout="vertical" form={form} onFinish={handleSave}>
         <Form.Item
           label="Package Name"
-          name="package_name"
+          name="name"
           rules={[{ required: true, message: "Package name is required" }]}
         >
           <Select>
@@ -96,11 +105,9 @@ export default function EditBilling() {
         </Form.Item>
 
         <Form.Item
-          label="Total Billing (Rs.)"
-          name="totalBilling"
-          rules={[
-            { required: true, message: "Total billing amount is required" },
-          ]}
+          label="Total Amount"
+          name="total_amount"
+          rules={[{ required: true, message: "Total amount is required" }]}
         >
           <InputNumber style={{ width: "100%" }} min={0} />
         </Form.Item>
@@ -138,15 +145,15 @@ export default function EditBilling() {
 
         <Form.Item
           label="Inactive Products"
-          name="in_active_products"
+          name="inactive_products"
           rules={[{ type: "number", min: 0, message: "Must be 0 or greater" }]}
         >
           <InputNumber style={{ width: "100%" }} min={0} />
         </Form.Item>
 
         <Form.Item
-          label="Scans Remaining"
-          name="scans_remaining"
+          label="Scans Used"
+          name="scans_used"
           rules={[{ type: "number", min: 0, message: "Must be 0 or greater" }]}
         >
           <InputNumber style={{ width: "100%" }} min={0} />

@@ -31,7 +31,7 @@ export default function MyPlan() {
           <strong>Status:</strong> {Brand.status || "N/A"}
         </Paragraph>
         <Paragraph>
-          <strong>Total Billing:</strong> Rs. {Brand.totalBilling || 0}
+          <strong>Total Amount Due:</strong> Rs. {Brand.total_amount || 0}
         </Paragraph>
         <Paragraph>
           <strong>Due Date:</strong>{" "}

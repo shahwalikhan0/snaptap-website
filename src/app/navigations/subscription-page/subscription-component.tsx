@@ -1,31 +1,26 @@
+// subscription-component.tsx
 "use client";
 
 import React from "react";
 import { SubscriptionComponentProps } from "./types";
 
-// import { PlanType } from "../types/plan";
+const MENU_ITEMS = [
+  { label: "My Plan", value: "my-plan" },
+  { label: "Change Plan", value: "change-plan" },
+  { label: "Edit Billing Info", value: "edit-billing" },
+];
 
-// type Props = {
-//   selectedPage: string;
-//   onSelect: (page: string) => void;
-// };
 export default function SubscriptionComponent({
   selectedPage,
   onSelect,
 }: SubscriptionComponentProps) {
-  const menuItems = [
-    { label: "My Plan", value: "my-plan" },
-    { label: "Change Plan", value: "change-plan" },
-    { label: "Edit Billing Info", value: "edit-billing" },
-  ];
-
   return (
     <div
       style={{ padding: "30px", backgroundColor: "#f8f8f8", height: "100%" }}
     >
       <h2 style={{ marginBottom: "30px" }}>Subscriptions</h2>
       <ul style={{ listStyle: "none", padding: 0 }}>
-        {menuItems.map((item) => (
+        {MENU_ITEMS.map((item) => (
           <li
             key={item.value}
             onClick={() => onSelect(item.value)}

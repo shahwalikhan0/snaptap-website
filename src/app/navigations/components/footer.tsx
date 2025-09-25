@@ -90,7 +90,7 @@ export default function Footer() {
                 <MailOutlined />
               </a>
               <a
-                href="https://www.instagram.com/snaptap.ar/"
+                href="https://www.instagram.com/snaptappk/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-black transition"
