@@ -57,7 +57,7 @@ export default function PricingComponent() {
   const router = useRouter();
 
   const handleGetStartedClick = () => {
-    router.push("/navigations/sign-up");
+    router.push("/app/sign-up");
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { MainScreen } from "./navigations/home/components/main-screen";
+import { MainScreen } from "./app/home/components/main-screen";
 
 export default function Home() {
   return (

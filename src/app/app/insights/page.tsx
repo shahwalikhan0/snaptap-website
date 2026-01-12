@@ -20,18 +20,25 @@ import dayjs from "dayjs";
 import { AdminData, BrandData } from "./types";
 import { Icon } from "@iconify/react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { useRouter } from "next/navigation";
 
 export default function InsightsPage() {
-  const { Admin, Brand } = useAdmin();
+  const router = useRouter();
+  const { isLoggedIn, Admin, Brand } = useAdmin();
   const [localAdmin, setLocalAdmin] = useState<AdminData | null>(null);
   const [localBrand, setLocalBrand] = useState<BrandData | null>(null);
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     const fetchBrandIfMissing = async () => {
+      if (!isLoggedIn) {
+        alert("Please log in to access the Insights Dashboard.");
+        router.push("/app/login");
+        return null;
+      }
       if (Admin && !Brand) {
         try {
-          const res = await fetch(`${BASE_URL}/brand/detail/${Admin.id}`);
+          const res = await fetch(`${BASE_URL}/brand/detail/${Admin?.id}`);
           const brandData = await res.json();
           setLocalAdmin(Admin);
           setLocalBrand(brandData);

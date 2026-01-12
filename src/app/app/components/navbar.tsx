@@ -19,17 +19,17 @@ const Navbar = () => {
   const visibleNavItems = isLoggedIn
     ? [
         { name: "Home", path: "/" },
-        { name: "Product", path: "/navigations/product" },
-        { name: "Insights", path: "/navigations/insights" },
+        { name: "Product", path: "/app/product" },
+        { name: "Insights", path: "/app/insights" },
         {
           name: "Payment & Subscription",
-          path: "/navigations/subscription-page",
+          path: "/app/subscription-page",
         },
       ]
     : [
         { name: "Home", path: "/" },
-        { name: "Pricing", path: "/navigations/pricing" },
-        { name: "Product", path: "/navigations/product" },
+        { name: "Pricing", path: "/app/pricing" },
+        { name: "Product", path: "/app/product" },
       ];
 
   const handleNav = (path: string) => {
@@ -40,7 +40,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     setAdmin(null);
-    router.push("/navigations/login");
+    router.push("/app/login");
   };
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           {!isLoggedIn && (
             <button
-              onClick={() => handleNav("/navigations/sign-up")}
+              onClick={() => handleNav("/app/sign-up")}
               className="hidden md:inline-block font-bold text-sm xl:text-base bg-[#00A8DE] text-white px-6 py-2.5 rounded-full hover:bg-[#007a9d] transition"
             >
               Start Free Trial
@@ -120,7 +120,7 @@ const Navbar = () => {
 
           {!isLoggedIn ? (
             <button
-              onClick={() => handleNav("/navigations/login")}
+              onClick={() => handleNav("/app/login")}
               className="font-bold text-sm xl:text-base px-6 py-2.5 border border-[#00A8DE] text-[#00A8DE] rounded-full hover:bg-[#00A8DE] hover:text-white transition"
             >
               Login
@@ -138,14 +138,14 @@ const Navbar = () => {
               {isUserDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white text-[#00A8DE] shadow-xl rounded-xl p-3 z-50 animate-fadeIn">
                   <button
-                    onClick={() => handleNav("/navigations/manage-profile")}
+                    onClick={() => handleNav("/app/manage-profile")}
                     className="w-full px-4 py-2 hover:bg-gray-100 rounded-md text-left flex items-center gap-2"
                   >
                     <Icon icon="material-symbols:person" width={18} />
                     Manage Profile
                   </button>
                   <button
-                    onClick={() => handleNav("/navigations/subscription-page")}
+                    onClick={() => handleNav("/app/subscription-page")}
                     className="w-full px-4 py-2 hover:bg-gray-100 rounded-md text-left flex items-center gap-2"
                   >
                     <Icon icon="fluent:payment-28-regular" width={18} />
@@ -190,7 +190,7 @@ const Navbar = () => {
             ))}
             {!isLoggedIn && (
               <button
-                onClick={() => handleNav("/navigations/sign-up")}
+                onClick={() => handleNav("/app/sign-up")}
                 className="text-left font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition"
               >
                 Start Free Trial

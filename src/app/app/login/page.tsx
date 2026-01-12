@@ -14,9 +14,8 @@ const { Title, Text } = Typography;
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-  const { setBrand, setAdmin } = useAdmin();
+  const { isLoggedIn, setBrand, setAdmin } = useAdmin();
   const router = useRouter();
-  const { isLoggedIn } = useAdmin();
 
   if (isLoggedIn) {
     router.replace("/");
@@ -208,7 +207,7 @@ const LoginPage = () => {
             <Text type="secondary">Don`t have an account?</Text>{" "}
             <Button
               type="link"
-              onClick={() => handleNav("/navigations/sign-up")}
+              onClick={() => handleNav("/app/sign-up")}
               style={{ padding: 0 }}
             >
               Sign up

@@ -1,4 +1,4 @@
-// src/app/navigations/sign-up/page.tsx
+// src/app/app/sign-up/page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -44,7 +44,7 @@ const SignUpPage: React.FC = () => {
 
       // TODO: Replace with actual API call
       message.success("Signup successful!");
-      router.push("/navigations/login");
+      router.push("/app/login");
     } catch (err: unknown) {
       if (typeof err === "object" && err !== null && "response" in err) {
         const error = err as { response?: { data?: { error?: string } } };
@@ -84,6 +84,7 @@ const SignUpPage: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "2rem",
+          marginTop: "10vh",
         }}
       >
         <div
@@ -233,7 +234,7 @@ const SignUpPage: React.FC = () => {
             <Text type="secondary">Already have an account?</Text>{" "}
             <Button
               type="link"
-              onClick={() => router.push("/navigations/login")}
+              onClick={() => router.push("/app/login")}
               style={{ padding: 0 }}
             >
               Log in

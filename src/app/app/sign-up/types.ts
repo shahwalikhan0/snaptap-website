@@ -1,4 +1,4 @@
-// src/app/navigations/sign-up/types.ts
+// src/app/app/sign-up/types.ts
 
 export interface SignUpFormValues {
   username: string;

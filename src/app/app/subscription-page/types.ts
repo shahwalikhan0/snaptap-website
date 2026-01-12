@@ -1,7 +1,7 @@
 // const handleSave = async (values: any) => {
 //   if (!Brand) return;
 
-// src/app/navigations/subscription-page/types.ts
+// src/app/app/subscription-page/types.ts
 
 import { Dayjs } from "dayjs";
 

@@ -184,7 +184,7 @@ export const MainScreen = () => {
               3D modeling needs.
             </p>
             <button
-              onClick={() => handleNav("/navigations/sign-up")}
+              onClick={() => handleNav("/app/sign-up")}
               className="relative font-bold bg-white text-[#00A8DE] py-2 px-6 rounded-full border-2 border-transparent hover:border-white hover:bg-[#00A8DE] hover:text-white transition-all duration-300 ease-in-out"
             >
               Start Free Trial

@@ -1,8 +1,8 @@
 "use client";
 // require("dotenv").config();
 
-import React, { useState } from "react";
-// import axios from "axios";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import SubscriptionComponent from "./subscription-component";
 import MyPlan from "./my-plan";
 import ChangePlan from "./change-plan";
@@ -10,31 +10,42 @@ import EditBilling from "./edit-billing";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
 import { Typography } from "antd";
+import { useRouter } from "next/navigation";
 
 const { Title } = Typography;
 
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function SubscriptionPage() {
-  const { Admin } = useAdmin();
+  const router = useRouter();
+  const { isLoggedIn, Admin } = useAdmin();
   const [selectedPage, setSelectedPage] = useState("my-plan");
-  const [plan] = useState<PlanType[] | null>(null);
-  const [loading] = useState(true);
+  const [plan, setPlan] = useState<PlanType[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // const fetchPackage = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await axios.get(`${BASE_URL}/api/packages`);
+  const fetchPackage = async () => {
+    if (!isLoggedIn) {
+      alert("Please log in to access the Insights Dashboard.");
+      router.push("/app/login");
+      return null;
+    }
+    try {
+      setLoading(true);
+      const response = await axios.get(`${BASE_URL}/package`);
 
-  //     if (Array.isArray(response.data)) {
-  //       setPlan(response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching Package:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (Array.isArray(response.data)) {
+        setPlan(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching Package:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPackage();
+  }, []);
 
   const renderRightPanel = () => {
     switch (selectedPage) {
@@ -52,13 +63,9 @@ export default function SubscriptionPage() {
     return null;
   }
 
-  // useEffect(() => {
-  //   fetchPackage();
-  // }, []);
-
   if (loading) {
     return (
-      <div style={{ padding: "30px" }}>
+      <div style={{ paddingTop: "120px" }}>
         <Title level={4} type="danger">
           Loading plans...
         </Title>
@@ -67,7 +74,7 @@ export default function SubscriptionPage() {
   }
   if (!plan) {
     return (
-      <div style={{ padding: "30px" }}>
+      <div style={{ paddingTop: "120px" }}>
         <Title level={4} type="danger">
           No plans available. Please try again.
         </Title>
@@ -76,7 +83,7 @@ export default function SubscriptionPage() {
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div style={{ display: "flex", minHeight: "100vh", paddingTop: "120px" }}>
       {/* Left Menu - 1/3 Width */}
       <div style={{ width: "33.33%", borderRight: "1px solid #e0e0e0" }}>
         <SubscriptionComponent

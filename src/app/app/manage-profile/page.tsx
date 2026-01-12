@@ -19,6 +19,7 @@ import { RcFile } from "antd/es/upload";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -26,7 +27,8 @@ const { Option } = Select;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ManageProfilePage = () => {
-  const { Admin, Brand } = useAdmin();
+  const router = useRouter();
+  const { isLoggedIn, Admin, Brand } = useAdmin();
   const [form] = Form.useForm<ProfileFormValues>();
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
@@ -37,6 +39,12 @@ const ManageProfilePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      alert("Please log in to access the Manage Profile page.");
+      router.push("/app/login");
+      return;
+    }
+
     if (Admin) {
       form.setFieldsValue({
         username: Admin.username,

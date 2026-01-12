@@ -99,8 +99,8 @@ const Clients = () => {
                           <Image
                             src={client.logo}
                             alt={client.name}
-                            layout="fill"
-                            objectFit="contain"
+                            fill
+                            style={{ objectFit: "contain" }}
                           />
                         </div>
                       </div>

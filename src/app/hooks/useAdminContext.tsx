@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useContext } from "react";
-import { AdminDataType } from "../navigations/types/admin-data";
+import { AdminDataType } from "../app/types/admin-data";
 import { AdminContext } from "./types";
-import { BrandDataType } from "../navigations/types/brand-data";
+import { BrandDataType } from "../app/types/brand-data";
 
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -25,8 +25,8 @@ export const useAdmin = () => useContext(AdminContext);
 
 // "use client";
 // import React, { createContext, useContext, useEffect, useState } from "react";
-// import { AdminDataType } from "../navigations/types/admin-data";
-// import { BrandDataType } from "../navigations/types/brand-data";
+// import { AdminDataType } from "../app/types/admin-data";
+// import { BrandDataType } from "../app/types/brand-data";
 
 // type AdminContextType = {
 //   Admin: AdminDataType | null;

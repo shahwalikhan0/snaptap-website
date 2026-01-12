@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext } from "react";
-import { AdminDataType } from "../navigations/types/admin-data";
-import { BrandDataType } from "../navigations/types/brand-data";
+import { AdminDataType } from "../app/types/admin-data";
+import { BrandDataType } from "../app/types/brand-data";
 
 export type AdminContextType = {
   Admin: AdminDataType | null;
@@ -23,8 +23,8 @@ export const AdminContext = createContext<AdminContextType>({
 
 // "use client";
 
-// import { AdminDataType } from "../navigations/types/admin-data";
-// import { BrandDataType } from "../navigations/types/brand-data";
+// import { AdminDataType } from "../app/types/admin-data";
+// import { BrandDataType } from "../app/types/brand-data";
 
 // export type AdminContextType = {
 //   Admin: AdminDataType | null;
