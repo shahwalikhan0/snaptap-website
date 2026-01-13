@@ -59,13 +59,13 @@ export default function EditBilling() {
 
       if (response.data) {
         setBrand(response.data);
-        message.success("Billing information updated successfully");
+        alert("Billing information updated successfully");
       } else {
-        message.error("Failed to update billing information");
+        alert("Failed to update billing information");
       }
     } catch (error) {
       console.error("Error updating brand:", error);
-      message.error("Could not update billing information. Try again.");
+      alert("Could not update billing information. Try again.");
     }
   };
 

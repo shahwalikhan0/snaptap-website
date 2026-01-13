@@ -67,23 +67,64 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       <Row gutter={[16, 16]}>
         {plan?.map((p: PlanType) => (
           <Col xs={24} sm={12} md={8} key={p.id}>
-            <Card title={p.name} bordered>
-              <Paragraph>
-                <strong>{p.monthly_price}</strong>
-              </Paragraph>
-              <Paragraph>{p.description}</Paragraph>
-              <Paragraph>Features:</Paragraph>
-              {renderFeatures(p.id)}
-              {Brand.subscribed_package_id !== p.id ? (
-                <Button type="primary">Select Plan</Button>
-              ) : (
-                <Button
-                  type="primary"
-                  onClick={() => alert(`Selected ${p.name} plan`)}
-                >
-                  Cancel
-                </Button>
-              )}
+            <Card
+              title={p.name}
+              hoverable // Optional: adds a nice lift effect on hover
+              style={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                borderRadius: "8px",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
+              }}
+              bodyStyle={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div style={{ flex: 1 }}>
+                <Paragraph style={{ fontSize: "24px", marginBottom: "4px" }}>
+                  <strong>{p.monthly_price}</strong>
+                  <span style={{ fontSize: "14px", color: "#8c8c8c" }}>
+                    {" "}
+                    / month
+                  </span>
+                </Paragraph>
+                <Paragraph style={{ color: "#595959", minHeight: "3em" }}>
+                  {p.description}
+                </Paragraph>
+                <Paragraph strong style={{ marginBottom: "8px" }}>
+                  Features:
+                </Paragraph>
+                <div style={{ marginBottom: "20px" }}>
+                  {renderFeatures(p.id)}
+                </div>
+              </div>
+
+              <div style={{ marginTop: "auto", paddingTop: "16px" }}>
+                {Brand.subscribed_package_id !== p.id ? (
+                  <Button
+                    type="primary"
+                    block
+                    size="large"
+                    style={{ borderRadius: "6px" }}
+                  >
+                    Select Plan
+                  </Button>
+                ) : (
+                  <Button
+                    type="default"
+                    danger
+                    block
+                    size="large"
+                    style={{ borderRadius: "6px" }}
+                    onClick={() => alert(`Selected ${p.name} plan`)}
+                  >
+                    Cancel Plan
+                  </Button>
+                )}
+              </div>
             </Card>
           </Col>
         ))}

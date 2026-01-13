@@ -14,19 +14,28 @@ const { Title, Text } = Typography;
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-  const { isLoggedIn, setBrand, setAdmin } = useAdmin();
+  const { isLoggedIn, setToken, setBrand, setAdmin } = useAdmin();
   const router = useRouter();
 
   if (isLoggedIn) {
     router.replace("/");
   }
-  const fetchBrand = async (id: number) => {
-    console.log("Fetching brand with ID:", id);
+  const fetchBrand = async (id: number, token: string | null) => {
     try {
       if (!id) return;
 
-      const response = await axios.get(`${BASE_URL}/brand/detail/${id}`);
-      const { data } = response.data;
+      if (!token) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await axios.get(`${BASE_URL}/brand/detail`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = response.data;
       if (data?.id) {
         setBrand(data);
       }
@@ -54,26 +63,30 @@ const LoginPage = () => {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    setLoading(true);
     try {
-      const response = await axios.get(
-        `${BASE_URL}/brand/allow-login/${username}/${password}`
+      setLoading(true);
+
+      const response = await axios.post(
+        `${BASE_URL}/brand/login`,
+        { username, password },
+        { withCredentials: true }
       );
-      const { data } = response;
 
-      if (data.id) {
-        setAdmin(data);
+      const { brand, accessToken } = response.data;
+
+      if (brand?.id && accessToken) {
+        setAdmin(brand);
+        setToken(accessToken);
         message.success("Admin login successful!");
-        fetchBrand(data.id);
 
-        router.replace("/");
+        fetchBrand(brand.id, accessToken);
+
+        router.replace("/app/inventory");
       } else {
         message.error("Invalid admin username or password.");
-        return;
       }
-    } catch (error) {
-      console.error(error);
-      message.error("An error occurred during login.");
+    } catch (err: unknown) {
+      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }

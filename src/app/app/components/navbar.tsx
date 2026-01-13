@@ -18,9 +18,9 @@ const Navbar = () => {
 
   const visibleNavItems = isLoggedIn
     ? [
-        { name: "Home", path: "/" },
-        { name: "Product", path: "/app/product" },
-        { name: "Insights", path: "/app/insights" },
+        // { name: "Home", path: "/" },
+        { name: "Inventory", path: "/app/inventory" },
+        // { name: "Insights", path: "/app/insights" },
         {
           name: "Payment & Subscription",
           path: "/app/subscription-page",
@@ -109,22 +109,21 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          {!isLoggedIn && (
-            <button
-              onClick={() => handleNav("/app/sign-up")}
-              className="hidden md:inline-block font-bold text-sm xl:text-base bg-[#00A8DE] text-white px-6 py-2.5 rounded-full hover:bg-[#007a9d] transition"
-            >
-              Start Free Trial
-            </button>
-          )}
-
           {!isLoggedIn ? (
-            <button
-              onClick={() => handleNav("/app/login")}
-              className="font-bold text-sm xl:text-base px-6 py-2.5 border border-[#00A8DE] text-[#00A8DE] rounded-full hover:bg-[#00A8DE] hover:text-white transition"
-            >
-              Login
-            </button>
+            <>
+              <button
+                onClick={() => handleNav("/app/sign-up")}
+                className="hidden md:inline-block font-bold text-sm xl:text-base bg-[#00A8DE] text-white px-6 py-2.5 rounded-full hover:bg-[#007a9d] transition"
+              >
+                Start Free Trial
+              </button>
+              <button
+                onClick={() => handleNav("/app/login")}
+                className="font-bold text-sm xl:text-base px-6 py-2.5 border border-[#00A8DE] text-[#00A8DE] rounded-full hover:bg-[#00A8DE] hover:text-white transition"
+              >
+                Login
+              </button>
+            </>
           ) : (
             <div className="relative" ref={userDropdownRef}>
               <button

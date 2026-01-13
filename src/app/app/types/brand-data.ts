@@ -1,23 +1,3 @@
-// "id": 11,
-//   "brand_id": 1,
-//   "location": "5th Charles, Brooklyn, 54000, New York, USA",
-//   "website_url": "https://acme.com",
-//   "category": "Aerospace",
-//   "subscribed_package_id": 1,
-//   "total_scans": 3,
-//   "scans_remaining": 0,
-//   "total_models_generated": 6,
-//   "created_at": "2025-06-25T13:00:53.336Z",
-//   "phone": "012345678",
-//   "active_products": 1,
-//   "in_active_products": 0,
-//   "package_name": "Free",
-//   "month": 0,
-//   "year": 0,
-//   "status": "Active",
-//   "due_date": null,
-//   "date_paid": null,
-//   "totalBilling": 0
 export type BrandDataType = {
   id: number;
   created_at: string;

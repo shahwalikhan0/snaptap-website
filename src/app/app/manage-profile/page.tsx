@@ -67,7 +67,6 @@ const ManageProfilePage = () => {
       const fetchBrandData = async () => {
         try {
           const res = await axios.get(`${BASE_URL}/brand/detail/${Admin.id}`);
-          console.log("Fetched brand data from API:", res.data);
 
           if (res.data) {
             const data = res.data;

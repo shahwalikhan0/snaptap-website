@@ -10,11 +10,20 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [admin, setAdmin] = useState<AdminDataType | null>(null);
   const [brand, setBrand] = useState<BrandDataType | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const isLoggedIn = !!admin?.id;
   return (
     <AdminContext.Provider
-      value={{ Admin: admin, isLoggedIn, setAdmin, Brand: brand, setBrand }}
+      value={{
+        Admin: admin,
+        isLoggedIn,
+        setAdmin,
+        Brand: brand,
+        setBrand,
+        token,
+        setToken,
+      }}
     >
       {children}
     </AdminContext.Provider>
