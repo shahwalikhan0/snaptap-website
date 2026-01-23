@@ -60,6 +60,7 @@ export interface BrandDetailFormValues {
   category?: string;
   phone?: string;
   location?: string;
+  subscribed_package_id?: number;
 }
 export interface BrandFormValues {
   brandName?: string;

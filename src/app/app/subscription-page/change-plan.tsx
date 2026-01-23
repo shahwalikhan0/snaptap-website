@@ -4,6 +4,11 @@ import React from "react";
 import { Card, Row, Col, Typography, Button } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const { Title, Paragraph } = Typography;
 
@@ -39,7 +44,37 @@ const renderFeatures = (planId: number) => {
 };
 
 export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
-  const { Brand } = useAdmin();
+  const { Brand, token, setBrand } = useAdmin();
+
+  const handleUpdatePlan = async (planId: number, planName: string) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/brand/update-detail`,
+        { subscribed_package_id: planId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data?.data) {
+        toast.success(`Successfully subscribed to ${planName}`);
+        if (Brand) {
+          setBrand({ ...Brand, subscribed_package_id: planId });
+        }
+      } else {
+        toast.error("Failed to update plan");
+      }
+    } catch (error) {
+      console.error("Plan update error:", error);
+      if (axios.isAxiosError(error) && error.response) {
+         toast.error(error.response.data?.error || "Failed to update plan");
+      } else {
+         toast.error("Failed to update plan");
+      }
+    }
+  };
 
   if (!plan) {
     return (
@@ -63,6 +98,12 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
   return (
     <div style={{ padding: "30px" }}>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        pauseOnHover
+      />
       <Title level={3}>Change Your Plan</Title>
       <Row gutter={[16, 16]}>
         {plan?.map((p: PlanType) => (
@@ -104,14 +145,15 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
               <div style={{ marginTop: "auto", paddingTop: "16px" }}>
                 {Brand.subscribed_package_id !== p.id ? (
-                  <Button
-                    type="primary"
-                    block
-                    size="large"
-                    style={{ borderRadius: "6px" }}
-                  >
-                    Select Plan
-                  </Button>
+                    <Button
+                      type="primary"
+                      block
+                      size="large"
+                      style={{ borderRadius: "6px" }}
+                      onClick={() => handleUpdatePlan(p.id, p.name)}
+                    >
+                      Select Plan
+                    </Button>
                 ) : (
                   <Button
                     type="default"

@@ -28,7 +28,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ManageProfilePage = () => {
   const router = useRouter();
-  const { isLoggedIn, Admin, Brand } = useAdmin();
+  const { isLoggedIn, Admin, Brand, token } = useAdmin();
   const [form] = Form.useForm<ProfileFormValues>();
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
@@ -37,6 +37,26 @@ const ManageProfilePage = () => {
     Admin?.image_url || null
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
+  interface Package {
+    id: number;
+    name: string;
+  }
+  const [packages, setPackages] = useState<Package[]>([]);
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/package`);
+        if (res.data) {
+           const filtered = res.data.filter((p: Package) => [1, 2, 3].includes(p.id));
+           setPackages(filtered);
+        }
+      } catch (error) {
+        console.error("Failed to fetch packages", error);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -61,12 +81,17 @@ const ManageProfilePage = () => {
         category: Brand.category || "",
         phone: Brand.phone || "",
         location: Brand.location || "",
+        subscribed_package_id: Brand.subscribed_package_id,
       });
     } else if (Admin?.id) {
       // If brand data is missing, fetch from API
       const fetchBrandData = async () => {
         try {
-          const res = await axios.get(`${BASE_URL}/brand/detail/${Admin.id}`);
+          const res = await axios.get(`${BASE_URL}/brand/detail`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
           if (res.data) {
             const data = res.data;
@@ -82,6 +107,7 @@ const ManageProfilePage = () => {
                 locationParts.length >= 2
                   ? `${locationParts[0]}, ${locationParts[1]}`
                   : data.location || "",
+              subscribed_package_id: data.subscribed_package_id,
             });
           }
         } catch (error) {
@@ -91,7 +117,7 @@ const ManageProfilePage = () => {
 
       fetchBrandData();
     }
-  }, [Admin, Brand, form, brandForm]);
+  }, [Admin, Brand, form, brandForm, isLoggedIn, router, token]);
 
   const handleImageUpload = (file: RcFile) => {
     const reader = new FileReader();
@@ -137,8 +163,13 @@ const ManageProfilePage = () => {
       };
 
       const response = await axios.put(
-        `${BASE_URL}/brand/update/${Admin?.id}`,
-        payload
+        `${BASE_URL}/brand/update`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.data?.error) {
@@ -161,11 +192,17 @@ const ManageProfilePage = () => {
         category: brandValues.category || "",
         phone: brandValues.phone || "",
         location: brandValues.location?.trim() || "",
+        subscribed_package_id: brandValues.subscribed_package_id,
       };
 
       const response = await axios.put(
-        `${BASE_URL}/brand/update-detail/${Admin?.id}`,
-        payload
+        `${BASE_URL}/brand/update-detail`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.data?.error) {
@@ -418,6 +455,18 @@ const ManageProfilePage = () => {
                   }
                 >
                   <Input size="large" className="font-medium" />
+                </Form.Item>
+                <Form.Item
+                  name="subscribed_package_id"
+                  label={<span className="font-semibold">Subscription Plan</span>}
+                >
+                  <Select placeholder="Select plan" size="large">
+                    {packages.map((pkg) => (
+                      <Option key={pkg.id} value={pkg.id}>
+                        {pkg.name}
+                      </Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </Form>
               <Button

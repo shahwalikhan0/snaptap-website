@@ -9,6 +9,7 @@ export type AdminContextType = {
   Brand: BrandDataType | null;
   token: string | null;
   isLoggedIn: boolean;
+  isInitialized: boolean;
   setAdmin: (Admin: AdminDataType | null) => void;
   setBrand: (Brand: BrandDataType | null) => void;
   setToken: (token: string | null) => void;
@@ -19,6 +20,7 @@ export const AdminContext = createContext<AdminContextType>({
   Brand: null,
   token: null,
   isLoggedIn: false,
+  isInitialized: false,
   setAdmin: () => {},
   setBrand: () => {},
   setToken: () => {},

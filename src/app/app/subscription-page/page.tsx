@@ -18,34 +18,38 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function SubscriptionPage() {
   const router = useRouter();
-  const { isLoggedIn, Admin } = useAdmin();
+  const { isLoggedIn, Admin, isInitialized } = useAdmin();
   const [selectedPage, setSelectedPage] = useState("my-plan");
   const [plan, setPlan] = useState<PlanType[] | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchPackage = async () => {
-    if (!isLoggedIn) {
-      alert("Please log in to access the Insights Dashboard.");
-      router.push("/app/login");
-      return null;
-    }
-    try {
-      setLoading(true);
-      const response = await axios.get(`${BASE_URL}/package`);
-
-      if (Array.isArray(response.data)) {
-        setPlan(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching Package:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchPackage();
-  }, []);
+    const fetchPackage = async () => {
+      if (!isInitialized) return;
+
+      if (!isLoggedIn) {
+        alert("Please log in to access the Insights Dashboard.");
+        router.push("/app/login");
+        return;
+      }
+      try {
+        setLoading(true);
+        const response = await axios.get(`${BASE_URL}/package`);
+
+        if (Array.isArray(response.data)) {
+          setPlan(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching Package:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (isInitialized) {
+      fetchPackage();
+    }
+  }, [isInitialized, isLoggedIn, router]);
 
   const renderRightPanel = () => {
     switch (selectedPage) {
@@ -57,6 +61,14 @@ export default function SubscriptionPage() {
         return <MyPlan />;
     }
   };
+
+  if (!isInitialized) {
+    return (
+      <div style={{ paddingTop: "120px" }}>
+        <Title level={4}>Loading session...</Title>
+      </div>
+    );
+  }
 
   if (!Admin) {
     // window.location.href = "/";
