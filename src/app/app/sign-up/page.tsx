@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import { Form, Input, Button, Typography, message, Upload } from "antd";
 import {
   UserOutlined,
@@ -13,6 +14,8 @@ import {
 } from "@ant-design/icons";
 import { RcFile } from "antd/es/upload/interface";
 import { SignUpFormValues } from "./types";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const { Title, Text } = Typography;
 
@@ -42,7 +45,16 @@ const SignUpPage: React.FC = () => {
         formData.append("image", image);
       }
 
-      // TODO: Replace with actual API call
+      if (image) {
+        formData.append("image", image);
+      }
+
+      await axios.post(`${BASE_URL}/brand/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       message.success("Signup successful!");
       router.push("/app/login");
     } catch (err: unknown) {
