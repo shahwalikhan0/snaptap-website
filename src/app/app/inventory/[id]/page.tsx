@@ -22,23 +22,28 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { useAdmin } from "@/app/hooks/useAdminContext";
+import { toast } from "react-toastify";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
-  const { isLoggedIn, token, Admin } = useAdmin();
+  const { isLoggedIn, token, Admin, isInitialized } = useAdmin();
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
+    if (!isInitialized) return;
+
     if (!isLoggedIn) {
-      alert("Please log in to access the Product Details.");
+      toast.error("Please log in to access the Product Details.");
       router.push("/app/login");
       return;
     }
@@ -74,9 +79,10 @@ export default function ProductDetailsPage() {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, isInitialized, isLoggedIn, token, Admin, router, form]);
 
   const handleUpdate = async (values: any) => {
+    setUpdating(true);
     try {
       const formData = new FormData();
 
@@ -93,17 +99,25 @@ export default function ProductDetailsPage() {
         return;
       }
 
-      await axios.put(`${BASE_URL}/product/${id}`, formData);
+      const response = await axios.put(`${BASE_URL}/product/update/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      //   message.success("Product updated");
+      if (response.data?.data) {
+        setProduct(response.data.data);
+      }
       setEditing(false);
-      window.location.reload();
     } catch {
       //   message.error("Update failed");
+    } finally {
+      setUpdating(false);
     }
   };
 
   const handleDelete = async () => {
+    setDeleting(true);
     try {
       if (Admin?.id != product?.brand_id) {
         alert("You are not authorized to delete this product.");
@@ -114,6 +128,8 @@ export default function ProductDetailsPage() {
       router.push("/inventory");
     } catch {
       //   message.error("Delete failed");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -141,7 +157,7 @@ export default function ProductDetailsPage() {
             handleDelete();
           }}
           okText="Delete"
-          okButtonProps={{ danger: true }}
+          okButtonProps={{ danger: true, loading: deleting }}
           title="Confirm Deletion"
         >
           <p>
@@ -166,6 +182,7 @@ export default function ProductDetailsPage() {
                 </Button>
                 <Button
                   danger
+                  loading={deleting}
                   icon={<DeleteOutlined />}
                   onClick={() => confirmDelete()}
                 >
@@ -219,6 +236,7 @@ export default function ProductDetailsPage() {
           onCancel={() => setEditing(false)}
           onOk={() => form.submit()}
           okText="Save Changes"
+          okButtonProps={{ loading: updating }}
           title="Edit Product"
         >
           <Form layout="vertical" form={form} onFinish={handleUpdate}>

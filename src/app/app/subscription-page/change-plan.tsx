@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, Row, Col, Typography, Button } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
@@ -45,8 +45,10 @@ const renderFeatures = (planId: number) => {
 
 export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   const { Brand, token, setBrand } = useAdmin();
+  const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
 
   const handleUpdatePlan = async (planId: number, planName: string) => {
+    setLoadingPlanId(planId);
     try {
       const response = await axios.put(
         `${BASE_URL}/brand/update-detail`,
@@ -73,6 +75,8 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       } else {
          toast.error("Failed to update plan");
       }
+    } finally {
+      setLoadingPlanId(null);
     }
   };
 
@@ -149,6 +153,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                       type="primary"
                       block
                       size="large"
+                      loading={loadingPlanId === p.id}
                       style={{ borderRadius: "6px" }}
                       onClick={() => handleUpdatePlan(p.id, p.name)}
                     >

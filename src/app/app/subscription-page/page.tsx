@@ -11,6 +11,7 @@ import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
 import { Typography } from "antd";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const { Title } = Typography;
 
@@ -28,7 +29,7 @@ export default function SubscriptionPage() {
       if (!isInitialized) return;
 
       if (!isLoggedIn) {
-        alert("Please log in to access the Insights Dashboard.");
+        toast.error("Please log in to access the Insights Dashboard.");
         router.push("/app/login");
         return;
       }

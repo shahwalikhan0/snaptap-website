@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Button, Card, Input, Tag, Spin, Segmented } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type ProductType = {
   id: number;
@@ -38,7 +39,7 @@ export default function InventoryPage() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      alert("Please log in to access the Inventory Dashboard.");
+      toast.error("Please log in to access the Inventory Dashboard.");
       router.push("/app/login");
       return;
     }

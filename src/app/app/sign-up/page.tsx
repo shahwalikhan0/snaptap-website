@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Form, Input, Button, Typography, message, Upload } from "antd";
+import { Form, Input, Button, Typography, Upload } from "antd";
 import {
   UserOutlined,
   LockOutlined,
@@ -14,6 +14,16 @@ import {
 } from "@ant-design/icons";
 import { RcFile } from "antd/es/upload/interface";
 import { SignUpFormValues } from "./types";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import dynamic from "next/dynamic";
+
+const ModelViewer = dynamic(
+  () => import("../components/ModelViewerWrapper"),
+  {
+    ssr: false,
+  }
+);
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -41,8 +51,9 @@ const SignUpPage: React.FC = () => {
       formData.append("phone", values.phone);
       formData.append("name", values.name);
 
-      if (image) {
-        formData.append("image", image);
+      const storedPlanId = localStorage.getItem("selectedPlanId");
+      if (storedPlanId) {
+        formData.append("subscribed_package_id", storedPlanId);
       }
 
       if (image) {
@@ -55,36 +66,68 @@ const SignUpPage: React.FC = () => {
         },
       });
 
-      message.success("Signup successful!");
-      router.push("/app/login");
+      if (storedPlanId) {
+        localStorage.removeItem("selectedPlanId");
+      }
+
+      toast.success("Signup successful! Redirecting to login...");
+      
+      setTimeout(() => {
+        router.push("/app/login");
+      }, 2000);
+      
     } catch (err: unknown) {
       if (typeof err === "object" && err !== null && "response" in err) {
         const error = err as { response?: { data?: { error?: string } } };
-        message.error(error.response?.data?.error || "Signup failed.");
+        toast.error(error.response?.data?.error || "Signup failed.");
       } else if (err instanceof Error) {
-        message.error(err.message);
+        toast.error(err.message);
       } else {
-        message.error("Signup failed.");
+        toast.error("Signup failed.");
       }
-    } finally {
       setLoading(false);
     }
   };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        pauseOnHover
+      />
+      {/* LEFT SIDE - 3D Model */}
       <div
         style={{
           flex: 1,
-          background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
+          background:
+            "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(175, 178, 184))",
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           padding: "2rem",
+          color: "#0A2540",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        <Title level={2} style={{ textAlign: "center", maxWidth: 400 }}>
-          Join SnapTap Today!
+        <div className="w-full h-[400px] relative z-10">
+          <ModelViewer />
+        </div>
+        <Title
+          level={2}
+          style={{
+            fontSize: "2.5rem",
+            color: "#00A8DE",
+            maxWidth: 400,
+            textAlign: "center",
+            marginTop: "20px",
+            zIndex: 20,
+          }}
+        >
+          Join SnapTap Today
         </Title>
       </div>
 

@@ -37,6 +37,8 @@ const ManageProfilePage = () => {
     Admin?.image_url || null
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [brandLoading, setBrandLoading] = useState(false);
   interface Package {
     id: number;
     name: string;
@@ -60,7 +62,7 @@ const ManageProfilePage = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      alert("Please log in to access the Manage Profile page.");
+      toast.error("Please log in to access the Manage Profile page.");
       router.push("/app/login");
       return;
     }
@@ -129,6 +131,7 @@ const ManageProfilePage = () => {
   };
 
   const handleProfileUpdate = async () => {
+    setProfileLoading(true);
     try {
       const profileValues = form.getFieldsValue();
       const passwordValues = passwordForm.getFieldsValue();
@@ -181,10 +184,13 @@ const ManageProfilePage = () => {
     } catch (error) {
       toast.error("Failed to update profile.");
       console.error(error);
+    } finally {
+      setProfileLoading(false);
     }
   };
 
   const handleBrandUpdate = async () => {
+    setBrandLoading(true);
     try {
       const brandValues = brandForm.getFieldsValue();
       const payload = {
@@ -214,6 +220,8 @@ const ManageProfilePage = () => {
     } catch (error) {
       toast.error("Failed to update brand details.");
       console.error(error);
+    } finally {
+      setBrandLoading(false);
     }
   };
 
@@ -382,6 +390,7 @@ const ManageProfilePage = () => {
               <Button
                 type="primary"
                 size="large"
+                loading={profileLoading}
                 className="mt-6 px-6 py-3 bg-[#00A8DE] hover:shadow-md hover:scale-105 transition text-white font-semibold rounded-xl"
                 onClick={handleProfileUpdate}
               >
@@ -472,6 +481,7 @@ const ManageProfilePage = () => {
               <Button
                 type="primary"
                 size="large"
+                loading={brandLoading}
                 className="mt-6 px-6 py-3 bg-[#00A8DE] hover:shadow-md hover:scale-105 transition text-white font-semibold rounded-xl"
                 onClick={handleBrandUpdate}
               >

@@ -7,6 +7,14 @@ import axios from "axios";
 import { Form, Input, Button, Typography, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAdmin } from "../../hooks/useAdminContext";
+import dynamic from "next/dynamic";
+
+const ModelViewer = dynamic(
+  () => import("../components/ModelViewerWrapper"),
+  {
+    ssr: false,
+  }
+);
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
@@ -104,29 +112,37 @@ const LoginPage = () => {
         flexDirection: "row",
       }}
     >
-      {/* LEFT SIDE - Gradient with heading */}
+      {/* LEFT SIDE - 3D Model */}
       <div
         style={{
           flex: 1,
-          background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
+          background:
+            "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(175, 178, 184))",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           padding: "2rem",
           color: "#0A2540",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        <div className="w-full h-[400px] relative z-10">
+          <ModelViewer />
+        </div>
         <Title
           level={2}
           style={{
             fontSize: "2.5rem",
-            color: "#0A2540",
+            color: "#00A8DE",
             maxWidth: 400,
             textAlign: "center",
+            marginTop: "20px",
+            zIndex: 20,
           }}
         >
-          Welcome, SnapTap Was Waiting!
+          Join SnapTap Today
         </Title>
       </div>
 

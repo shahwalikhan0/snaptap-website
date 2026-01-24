@@ -41,7 +41,8 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
   const setToken = (newToken: string | null) => {
     setTokenState(newToken);
     if (newToken) {
-      Cookies.set("token", newToken, { expires: 7 }); // Expires in 7 days
+      // Access token expires in ~50 minutes, set cookie expiry slightly longer
+      Cookies.set("token", newToken, { expires: 1 / 24 }); // ~1 hour
     } else {
       Cookies.remove("token");
     }

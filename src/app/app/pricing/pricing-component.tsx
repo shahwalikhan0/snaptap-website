@@ -17,10 +17,26 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 interface Plan {
   id: number;
   name: string;
-  price: number; // assuming monthly price
+  monthly_price: number;
   features: string[] | string;
   description?: string;
 }
+
+const featuresMap = {
+  1: ["Basic 3D tools", "AR previews", "Limited scans", "Basic support"],
+  2: [
+    "Full access to 3D tools",
+    "AR previews",
+    "Unlimited scans",
+    "Plugins support",
+  ],
+  3: [
+    "All features unlocked",
+    "Priority support",
+    "Custom plugins",
+    "Team collaboration",
+  ],
+};
 
 const getIcon = (id: number) => {
   switch (id) {
@@ -36,8 +52,8 @@ const getIcon = (id: number) => {
 };
 
 export default function PricingComponent() {
-  const [isAnnual, setIsAnnual] = useState(true);
   const [plans, setPlans] = useState<Plan[]>([]);
+  const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
   const router = useRouter();
   const { isLoggedIn, token, setBrand, Brand } = useAdmin();
 
@@ -59,10 +75,12 @@ export default function PricingComponent() {
 
   const handleSelectPlan = async (plan: Plan) => {
     if (!isLoggedIn) {
-      router.push("/app/login");
+      localStorage.setItem("selectedPlanId", plan.id.toString());
+      router.push("/app/sign-up");
       return;
     }
 
+    setLoadingPlanId(plan.id);
     try {
       const response = await axios.put(
         `${BASE_URL}/brand/update-detail`,
@@ -89,6 +107,8 @@ export default function PricingComponent() {
       } else {
          toast.error("Failed to update plan");
       }
+    } finally {
+      setLoadingPlanId(null);
     }
   };
 
@@ -97,60 +117,6 @@ export default function PricingComponent() {
       <Title level={2} style={{ color: "#007cae", marginBottom: 40 }}>
         Choose the Plan That’s Right for You
       </Title>
-
-      {/* Custom Toggle Switch */}
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <div
-          style={{
-            width: "220px",
-            margin: "0 auto",
-            backgroundColor: "#e0e0e0",
-            borderRadius: "30px",
-            display: "flex",
-            cursor: "pointer",
-            position: "relative",
-            padding: "5px",
-          }}
-          onClick={() => setIsAnnual(!isAnnual)}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "5px",
-              left: isAnnual ? "110px" : "5px",
-              width: "105px",
-              height: "40px",
-              backgroundColor: "#00A8DE",
-              borderRadius: "25px",
-              transition: "left 0.3s ease-in-out",
-            }}
-          />
-          <div
-            style={{
-              width: "110px",
-              textAlign: "center",
-              zIndex: 1,
-              color: isAnnual ? "#000" : "#fff",
-              fontWeight: !isAnnual ? "bold" : "normal",
-              lineHeight: "40px",
-            }}
-          >
-            Monthly
-          </div>
-          <div
-            style={{
-              width: "110px",
-              textAlign: "center",
-              zIndex: 1,
-              color: isAnnual ? "#fff" : "#000",
-              fontWeight: isAnnual ? "bold" : "normal",
-              lineHeight: "40px",
-            }}
-          >
-            Annual
-          </div>
-        </div>
-      </div>
 
       {/* Pricing Cards */}
       <Row
@@ -182,26 +148,24 @@ export default function PricingComponent() {
                 <h3 className="text-2xl font-bold">{plan.name}</h3>
               </div>
               <div className="text-xl font-bold mb-1">
-                {isAnnual ? `$${(plan.price * 10).toFixed(2)}` : `$${plan.price}`}
+                ${plan.monthly_price}
               </div>
               <p className="text-sm mb-4">
-                {isAnnual ? "per year" : "per month"}
+                per month
               </p>
 
               <ul className="text-left space-y-2 mb-6">
-                {(Array.isArray(plan.features)
-                  ? plan.features
-                  : (plan.features || "").split(",")
-                ).map((feature: string, i: number) => (
+                {featuresMap[plan.id as keyof typeof featuresMap]?.map((feature: string, i: number) => (
                   <li key={i} className="flex items-start">
                     <CheckOutlined className="mr-2 mt-1 text-green-500" />
-                    {feature.trim()}
+                    {feature}
                   </li>
                 ))}
               </ul>
 
               <Button
                 block
+                loading={loadingPlanId === plan.id}
                 onClick={() => handleSelectPlan(plan)}
                 className="bg-[#00A8DE] hover:bg-[#007cae] text-white font-semibold py-2 rounded-full transition duration-300"
               >
