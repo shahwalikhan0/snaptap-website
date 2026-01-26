@@ -319,13 +319,13 @@ const ManageProfilePage = () => {
                       name="email"
                       label={<span className="font-semibold">Email</span>}
                     >
-                      <Input size="large" className="font-medium" />
+                      <Input size="large"  placeholder={Brand?.brand_email} className="font-medium" />
                     </Form.Item>
                     <Form.Item
                       name="fullName"
                       label={<span className="font-semibold">Brand Name</span>}
                     >
-                      <Input size="large" className="font-medium" />
+                      <Input size="large" placeholder={Brand?.brand_name} className="font-medium" />
                     </Form.Item>
                     <Form.Item
                       name="description"
@@ -465,7 +465,7 @@ const ManageProfilePage = () => {
                 >
                   <Input size="large" className="font-medium" />
                 </Form.Item>
-                <Form.Item
+                {/* <Form.Item
                   name="subscribed_package_id"
                   label={<span className="font-semibold">Subscription Plan</span>}
                 >
@@ -476,7 +476,7 @@ const ManageProfilePage = () => {
                       </Option>
                     ))}
                   </Select>
-                </Form.Item>
+                </Form.Item> */}
               </Form>
               <Button
                 type="primary"

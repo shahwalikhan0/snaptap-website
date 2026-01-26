@@ -8,6 +8,8 @@ import Footer from "../../components/footer";
 import { useRouter } from "next/navigation";
 import Clients from "../../components/client";
 import dynamic from "next/dynamic";
+import { useAdmin } from "@/app/hooks/useAdminContext";
+import { useEffect } from "react";
 
 const ModelViewer = dynamic(
   () => import("../../components/ModelViewerWrapper"),
@@ -18,6 +20,13 @@ const ModelViewer = dynamic(
 
 export const MainScreen = () => {
   const router = useRouter();
+  const { isLoggedIn  } = useAdmin();
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/app/inventory");
+    }
+  }, [isLoggedIn, router]);
 
   const handleNav = (path: string) => {
     router.push(path);

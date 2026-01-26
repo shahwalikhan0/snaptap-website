@@ -7,6 +7,8 @@ import axios from "axios";
 import { Form, Input, Button, Typography, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAdmin } from "../../hooks/useAdminContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 
 const ModelViewer = dynamic(
@@ -80,7 +82,12 @@ const LoginPage = () => {
         { withCredentials: true }
       );
 
-      const { brand, accessToken } = response.data;
+      const { brand, accessToken, error } = response.data;
+
+     if (error) {
+      toast.error(error?.response?.data?.error);
+      return;
+    }
 
       if (brand?.id && accessToken) {
         setAdmin(brand);
@@ -95,6 +102,7 @@ const LoginPage = () => {
       }
     } catch (err: unknown) {
       console.error("Login error:", err);
+      toast.error(err?.response?.data?.error);
     } finally {
       setLoading(false);
     }
@@ -112,22 +120,26 @@ const LoginPage = () => {
         flexDirection: "row",
       }}
     >
-      {/* LEFT SIDE - 3D Model */}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+        pauseOnHover
+      />
+      {/* LEFT SIDE - Gradient with heading */}
       <div
         style={{
           flex: 1,
-          background:
-            "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(175, 178, 184))",
+          background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           padding: "2rem",
           color: "#0A2540",
-          position: "relative",
-          overflow: "hidden",
         }}
       >
+
         <div className="w-full h-[400px] relative z-10">
           <ModelViewer />
         </div>
@@ -142,7 +154,7 @@ const LoginPage = () => {
             zIndex: 20,
           }}
         >
-          Join SnapTap Today
+          Welcome, SnapTap Was Waiting!
         </Title>
       </div>
 

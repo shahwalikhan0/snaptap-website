@@ -11,6 +11,9 @@ import {
   MailOutlined,
   PhoneOutlined,
   InboxOutlined,
+  EnvironmentOutlined,
+  GlobalOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
 import { RcFile } from "antd/es/upload/interface";
 import { SignUpFormValues } from "./types";
@@ -54,6 +57,16 @@ const SignUpPage: React.FC = () => {
       const storedPlanId = localStorage.getItem("selectedPlanId");
       if (storedPlanId) {
         formData.append("subscribed_package_id", storedPlanId);
+      }
+
+      if (values.location) {
+        formData.append("location", values.location);
+      }
+      if (values.website_url) {
+        formData.append("website_url", values.website_url);
+      }
+      if (values.category) {
+        formData.append("category", values.category);
       }
 
       if (image) {
@@ -101,8 +114,7 @@ const SignUpPage: React.FC = () => {
       <div
         style={{
           flex: 1,
-          background:
-            "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(175, 178, 184))",
+          background: "linear-gradient(to bottom right, #6DD5FA, #FFFFFF)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -243,6 +255,30 @@ const SignUpPage: React.FC = () => {
               <Input.Password
                 prefix={<LockOutlined />}
                 placeholder="Enter your password"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item name="location" label="Location (Optional)">
+              <Input
+                prefix={<EnvironmentOutlined />}
+                placeholder="Enter your location"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item name="website_url" label="Website URL (Optional)">
+              <Input
+                prefix={<GlobalOutlined />}
+                placeholder="https://yourwebsite.com"
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item name="category" label="Business Category (Optional)">
+              <Input
+                prefix={<AppstoreOutlined />}
+                placeholder="e.g., Furniture, Electronics"
                 size="large"
               />
             </Form.Item>

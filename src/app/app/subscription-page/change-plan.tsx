@@ -80,6 +80,43 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     }
   };
 
+  const handleCancelPlan = async () => {
+    const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
+    if (totalProducts > 0) {
+      toast.error(`You have ${totalProducts} products. Please delete them first.`);
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/brand/cancel-plan`,
+        { subscribed_package_id: null},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data?.data) {
+        toast.success("Successfully unsubscribed from plan");
+        if (Brand) {
+          setBrand({ ...Brand, subscribed_package_id: null, total_scans: 0, scans_remaining: 0, scans_remaining: 0 });
+        }
+      } else {
+        toast.error("Failed to unsubscribe from plan");
+      }
+    } catch (error) {
+      console.error("Plan update error:", error);
+      if (axios.isAxiosError(error) && error.response) {
+         toast.error(error.response.data?.error || "Failed to unsubscribe from plan");
+      } else {
+         toast.error("Failed to unsubscribe from plan");
+      }
+    } finally {
+      setLoadingPlanId(null);
+    }
+  }
+
   if (!plan) {
     return (
       <div style={{ padding: "30px" }}>
@@ -166,7 +203,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                     block
                     size="large"
                     style={{ borderRadius: "6px" }}
-                    onClick={() => alert(`Selected ${p.name} plan`)}
+                    onClick={handleCancelPlan}
                   >
                     Cancel Plan
                   </Button>

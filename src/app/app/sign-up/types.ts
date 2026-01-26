@@ -6,5 +6,8 @@ export interface SignUpFormValues {
   email: string;
   phone: string;
   password: string;
+  location?: string;
+  website_url?: string;
+  category?: string;
   profileImage?: File[];
 }
