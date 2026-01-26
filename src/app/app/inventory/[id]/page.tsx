@@ -161,8 +161,13 @@ export default function ProductDetailsPage() {
           title="Confirm Deletion"
         >
           <p>
-            Are you sure you want to delete this product? This action cannot be
-            undone.
+            Are you sure you want to delete this product? <br />
+            <b>Warning:</b> This action cannot be undone. It will permanently delete:
+            <ul className="list-disc ml-5 mt-2">
+              <li>Product details and files (Images, 3D Models, QR Code)</li>
+              <li>All associated analytics (Views, Hits, Ratings)</li>
+              <li>Customer feedback and favorites</li>
+            </ul>
           </p>
         </Modal>
         <Card

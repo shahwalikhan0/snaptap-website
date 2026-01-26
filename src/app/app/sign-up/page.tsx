@@ -59,6 +59,11 @@ const SignUpPage: React.FC = () => {
         formData.append("subscribed_package_id", storedPlanId);
       }
 
+      const storedPlanScans = localStorage.getItem("selectedPlanScans");
+      if (storedPlanScans) {
+        formData.append("total_scans", storedPlanScans);
+      }
+
       if (values.location) {
         formData.append("location", values.location);
       }
@@ -81,6 +86,9 @@ const SignUpPage: React.FC = () => {
 
       if (storedPlanId) {
         localStorage.removeItem("selectedPlanId");
+      }
+      if (storedPlanScans) {
+        localStorage.removeItem("selectedPlanScans");
       }
 
       toast.success("Signup successful! Redirecting to login...");
@@ -288,8 +296,20 @@ const SignUpPage: React.FC = () => {
                 name="files"
                 multiple={false}
                 maxCount={1}
-                accept="image/*"
+                accept=".png,.jpg,.jpeg,.webp"
                 beforeUpload={(file) => {
+                  const allowedTypes = [
+                    "image/png",
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/webp",
+                  ];
+                  if (!allowedTypes.includes(file.type)) {
+                    toast.error(
+                      "Invalid file type. Only PNG, JPG, and WEBP are allowed."
+                    );
+                    return Upload.LIST_IGNORE;
+                  }
                   setImage(file);
                   return false;
                 }}

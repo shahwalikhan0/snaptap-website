@@ -128,7 +128,7 @@ export default function InventoryPage() {
         {/* List */}
         {filteredProducts.length === 0 ? (
           <p className="text-gray-500 text-lg">
-            No products match your filters.
+            No products match your filters. Login to SnapTap Admin app to add new products
           </p>
         ) : (
           <div className="space-y-4">
