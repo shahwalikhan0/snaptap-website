@@ -64,14 +64,16 @@ export const MainScreen = () => {
             </div>
           </div>
 
-          {/* Right side - Text and Button */}
+      {/* Right side - Text and Button */}
           <div className="w-full md:w-1/2 text-center md:text-left px-4 mt-[-30px] md:mt-0 text-[#007cae]">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-              Empower Your 3D Design Journey
+              Transform Products into Immersive AR Experiences
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-[#007cae] mb-6">
-              Experience intuitive modeling, real-time collaboration, and
-              stunning visualizations.
+              SnapTap is an augmented reality (AR) platform that enables businesses
+              to create 3D virtual models of their physical products using depth
+              sensors and photogrammetry, allowing customers to visualize items in
+              real-world environments before purchasing.
             </p>
             <Button
               type="primary"
@@ -96,18 +98,18 @@ export const MainScreen = () => {
           {[
             {
               src: "/assets/furniture_1.png",
-              title: "3D Modeling",
-              desc: "Create detailed and precise models of your products and publish them on our SnapTap marketplace.",
+              title: "Marketplace Platform",
+              desc: "Brands and merchants scan products to create AR models and publish listings. Target: E-commerce brands and individual sellers seeking enhanced product visualization.",
             },
             {
               src: "/assets/dining_2.png",
-              title: "Collaboration",
-              desc: "Partner up with SnapTap to give your customers a immersive experience.",
+              title: "Restaurant Menu Virtualization",
+              desc: "Digitize complete restaurant menus into 3D AR models and generate QR codes for physical menus. Target: Restaurants and food service businesses.",
             },
             {
               src: "/assets/scan_view_3.png",
-              title: "Visualization",
-              desc: "View products in the comfort of your sofa with photorealistic rendering capabilities.",
+              title: "Business Product Virtualization",
+              desc: "Convert product catalogs to AR models and integrate them into existing e-commerce websites. Target: Any business selling physical products.",
             },
           ].map((feature, idx) => (
             <Col xs={24} sm={12} md={8} key={idx}>
@@ -154,17 +156,17 @@ export const MainScreen = () => {
           <Row gutter={[24, 24]} justify="center">
             {[
               {
-                text: "This platform revolutionized our design process. The intuitive tools and collaborative features are unmatched.",
+                text: "SnapTap transformed how our furniture store operates. Customers love seeing sofas and tables in their living rooms before buying.",
                 name: "Alex Johnson",
                 avatar: "/assets/user1.jpg",
               },
               {
-                text: "The visualization tools helped us present our ideas more effectively to clients.",
+                text: "Our restaurant saw 30% fewer order returns after adding AR menu previews. Diners know exactly what they're getting now.",
                 name: "Sonam Bajwa",
                 avatar: "/assets/user2.jpeg",
               },
               {
-                text: `"Collaborating with my team has never been easier. Real-time updates keep everyone on the same page."`,
+                text: "The QR code integration was seamless. Our in-store displays now bridge the gap between physical and online shopping.",
                 name: "Neelum Muneer",
                 avatar: "/assets/user3.jpg",
               },
@@ -186,11 +188,10 @@ export const MainScreen = () => {
         <section className="flex justify-center items-center py-20 px-4">
           <div className="bg-gradient-to-br from-[#007cae] to-[#4dcbe7] text-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 max-w-3xl w-full p-10 text-center">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-              Ready to Transform Your Designs?
+              Ready to Bring Your Products to Life?
             </h2>
             <p className="text-xl mb-8">
-              Join thousands of professionals who trust our platform for their
-              3D modeling needs.
+              Join businesses transforming their customer shopping experience with accurate, scaled AR representations of their products.
             </p>
             <button
               onClick={() => handleNav("/app/sign-up")}

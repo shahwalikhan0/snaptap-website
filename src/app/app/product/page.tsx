@@ -39,8 +39,10 @@ export default function Page() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            SnapTap brings sellers, shoppers, and businesses into one immersive
-            platform — where 3D, AR, and interactivity meet.
+            SnapTap removes the guesswork from online and in-person shopping by
+            letting customers see accurate, scaled AR representations of
+            products in their actual environment before committing to a
+            purchase.
           </motion.p>
 
           <motion.div
@@ -67,48 +69,37 @@ export default function Page() {
       <section id="features-section" className="w-full flex flex-col">
         {[
           {
-            title: "Sell Smarter with SnapTap",
-            desc: "As a seller, upload your 3D products to the SnapTap marketplace. Reach a wide audience, add AR capabilities, and maximize visibility.",
+            title: "Marketplace Platform",
+            desc: "For E-commerce brands and individual sellers seeking enhanced product visualization. The Admin App allows brands and merchants to scan products to create AR models and publish listings/advertisements.",
             bullets: [
-              "Upload 3D products effortlessly",
-              "Enable AR previews for customers",
-              "Tag by category and reach your niche",
-              "Real-time engagement and analytics",
+              "Scan products for AR models",
+              "Publish listings on marketplace",
+              "Enhance product visualization",
+              "Target: E-commerce brands & sellers",
             ],
             reverse: false,
           },
           {
-            title: "Explore & Shop in Augmented Reality",
-            desc: "Buyers can browse through hundreds of 3D products from different brands and visualize them in their environment before purchasing.",
+            title: "Restaurant Menu Virtualization",
+            desc: "SnapTap digitizes complete restaurant menus into 3D AR models. Generates QR codes for printing on physical menus allowing customers to view realistic 3D representations of dishes before ordering.",
             bullets: [
-              "See products in your real space",
-              "Scroll, rotate, zoom in full 3D",
-              "Avoid guesswork with accurate sizing",
-              "Easy and immersive shopping experience",
+              "Digitize complete menus",
+              "3D AR models of dishes",
+              "QR codes for physical menus",
+              "Target: Restaurants & food service",
             ],
             reverse: true,
           },
           {
-            title: "Augmented Menus for Restaurants",
-            desc: "Restaurants can partner with SnapTap to digitize their menus. Diners can view realistic 3D dishes and portion sizes before ordering.",
+            title: "Business Product Virtualization",
+            desc: "Businesses (furniture stores, retail shops, etc.) get their product catalogs converted to AR models which integrate into existing e-commerce websites. QR codes provided for in-store displays and marketing materials.",
             bullets: [
-              "Preview meals in real-time",
-              "No more confusion with dish names",
-              "Boost customer confidence in orders",
-              "Enhanced dining experience",
+              "Convert catalogs to AR models",
+              "Integrate into e-commerce websites",
+              "QR codes for in-store displays",
+              "Target: Any business selling physical products",
             ],
             reverse: false,
-          },
-          {
-            title: "Scan, Preview & Share with QR Codes",
-            desc: "Shop owners can scan products and generate QR codes. Customers can preview them, even if they’re not physically available.",
-            bullets: [
-              "Instant QR generation",
-              "Great for unavailable stock",
-              "Ideal for showrooms & popups",
-              "Connects physical to digital",
-            ],
-            reverse: true,
           },
         ].map((feature, idx) => (
           <motion.div

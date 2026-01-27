@@ -2,6 +2,8 @@ export type BrandDataType = {
   id: number;
   created_at: string;
   brand_id: number;
+  brand_name: string;
+  brand_email: string;
   package_name: string;
   total_scans: number;
   scans_remaining: number;
@@ -12,7 +14,7 @@ export type BrandDataType = {
   location: string | null;
   website_url: string | null;
   category: string | null;
-  subscribed_package_id: number;
+  subscribed_package_id: number | null;
   month: number;
   year: number;
   status: string;

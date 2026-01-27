@@ -38,7 +38,7 @@ const renderFeatures = (planId: number) => {
           <li className="text-black dark:text-black" key={index}>
             {feature}
           </li>
-        )
+        ),
       )}
     </ul>
   );
@@ -50,10 +50,14 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
   /* Custom Plan State */
   const [customScans, setCustomScans] = useState(25);
-  const PRICE_PER_SCAN = 20; 
+  const PRICE_PER_SCAN = 20;
   const customPrice = customScans * PRICE_PER_SCAN;
 
-  const handleUpdatePlan = async (planId: number, planName: string, customLimit?: number) => {
+  const handleUpdatePlan = async (
+    planId: number,
+    planName: string,
+    customLimit?: number,
+  ) => {
     setLoadingPlanId(planId);
     try {
       const payload: any = { subscribed_package_id: planId };
@@ -68,7 +72,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (response.data?.data) {
@@ -82,9 +86,9 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     } catch (error) {
       console.error("Plan update error:", error);
       if (axios.isAxiosError(error) && error.response) {
-         toast.error(error.response.data?.error || "Failed to update plan");
+        toast.error(error.response.data?.error || "Failed to update plan");
       } else {
-         toast.error("Failed to update plan");
+        toast.error("Failed to update plan");
       }
     } finally {
       setLoadingPlanId(null);
@@ -92,26 +96,34 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   };
 
   const handleCancelPlan = async () => {
-    const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
+    const totalProducts =
+      (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
     if (totalProducts > 0) {
-      toast.error(`You have ${totalProducts} products. Please delete them first.`);
+      toast.error(
+        `You have ${totalProducts} products. Please delete them first.`,
+      );
       return;
     }
 
     try {
       const response = await axios.put(
         `${BASE_URL}/brand/cancel-plan`,
-        { subscribed_package_id: null},
+        { subscribed_package_id: null },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       if (response.data?.data) {
         toast.success("Successfully unsubscribed from plan");
         if (Brand) {
-          setBrand({ ...Brand, subscribed_package_id: null, total_scans: 0, scans_remaining: 0, scans_remaining: 0 });
+          setBrand({
+            ...Brand,
+            subscribed_package_id: null,
+            total_scans: 0,
+            scans_remaining: 0,
+          });
         }
       } else {
         toast.error("Failed to unsubscribe from plan");
@@ -119,14 +131,16 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     } catch (error) {
       console.error("Plan update error:", error);
       if (axios.isAxiosError(error) && error.response) {
-         toast.error(error.response.data?.error || "Failed to unsubscribe from plan");
+        toast.error(
+          error.response.data?.error || "Failed to unsubscribe from plan",
+        );
       } else {
-         toast.error("Failed to unsubscribe from plan");
+        toast.error("Failed to unsubscribe from plan");
       }
     } finally {
       setLoadingPlanId(null);
     }
-  }
+  };
 
   if (!plan) {
     return (
@@ -198,16 +212,16 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
               <div style={{ marginTop: "auto", paddingTop: "16px" }}>
                 {Brand.subscribed_package_id !== p.id ? (
-                    <Button
-                      type="primary"
-                      block
-                      size="large"
-                      loading={loadingPlanId === p.id}
-                      style={{ borderRadius: "6px" }}
-                      onClick={() => handleUpdatePlan(p.id, p.name)}
-                    >
-                      Select Plan
-                    </Button>
+                  <Button
+                    type="primary"
+                    block
+                    size="large"
+                    loading={loadingPlanId === p.id}
+                    style={{ borderRadius: "6px" }}
+                    onClick={() => handleUpdatePlan(p.id, p.name)}
+                  >
+                    Select Plan
+                  </Button>
                 ) : (
                   <Button
                     type="default"
@@ -227,87 +241,88 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
         {/* Custom Plan Card */}
         <Col xs={24} sm={12} md={6}>
-            <Card
-              title="Custom"
-              hoverable
-              style={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                borderRadius: "8px",
-                boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
-              }}
-              bodyStyle={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-               <div style={{ flex: 1 }}>
-                <Paragraph style={{ fontSize: "24px", marginBottom: "4px" }}>
-                  <strong>{customPrice}</strong>
-                  <span style={{ fontSize: "14px", color: "#8c8c8c" }}>
-                    {" "}
-                    / month
-                  </span>
-                </Paragraph>
-                 <div className="mb-6">
-                    <div className="flex justify-between items-center mb-2">
-                        <span>Scans:</span>
-                        <InputNumber
-                            min={21}
-                            disabled={Brand.subscribed_package_id === 4}
-                            max={1000}
-                            value={customScans}
-                            onChange={(v) => setCustomScans(v || 21)}
-                            className="w-20"
-                        />
-                    </div>
-                    <Slider
-                        min={21}
-                        max={200}
-                        value={customScans}
-                        onChange={setCustomScans}
-                        trackStyle={{ backgroundColor: "#00A8DE" }}
-                        handleStyle={{ borderColor: "#00A8DE", backgroundColor: "#00A8DE" }}
-                    />
-                  </div>
-                 
-                  <Paragraph strong style={{ marginBottom: "8px" }}>
-                    Features:
-                  </Paragraph>
-                   <div style={{ marginBottom: "20px" }}>
-                    {renderFeatures(3)}
-                  </div>
-               </div>
-
-               <div style={{ marginTop: "auto", paddingTop: "16px" }}>
-                  {Brand.subscribed_package_id !== 4 ? (
-                      <Button
-                        type="primary"
-                        block
-                        size="large"
-                        loading={loadingPlanId === 4}
-                        style={{ borderRadius: "6px" }}
-                        onClick={() => handleUpdatePlan(4, "Custom", customScans)}
-                      >
-                       Select Plan
-                      </Button>
-                  ) : (
-                    <Button
-                      type="default"
-                      danger
-                      block
-                      disabled={Brand.subscribed_package_id === 4}
-                      size="large"
-                      style={{ borderRadius: "6px" }}
-                      onClick={handleCancelPlan}
-                    >
-                      Cancel Plan
-                    </Button>
-                  )}
+          <Card
+            title="Custom"
+            hoverable
+            style={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
+            }}
+            bodyStyle={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <Paragraph style={{ fontSize: "24px", marginBottom: "4px" }}>
+                <strong>{customPrice}</strong>
+                <span style={{ fontSize: "14px", color: "#8c8c8c" }}>
+                  {" "}
+                  / month
+                </span>
+              </Paragraph>
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span>Scans:</span>
+                  <InputNumber
+                    min={21}
+                    disabled={Brand.subscribed_package_id === 4}
+                    max={1000}
+                    value={customScans}
+                    onChange={(v) => setCustomScans(v || 21)}
+                    className="w-20"
+                  />
                 </div>
-            </Card>
+                <Slider
+                  min={21}
+                  max={200}
+                  value={customScans}
+                  onChange={setCustomScans}
+                  trackStyle={{ backgroundColor: "#00A8DE" }}
+                  handleStyle={{
+                    borderColor: "#00A8DE",
+                    backgroundColor: "#00A8DE",
+                  }}
+                />
+              </div>
+
+              <Paragraph strong style={{ marginBottom: "8px" }}>
+                Features:
+              </Paragraph>
+              <div style={{ marginBottom: "20px" }}>{renderFeatures(3)}</div>
+            </div>
+
+            <div style={{ marginTop: "auto", paddingTop: "16px" }}>
+              {Brand.subscribed_package_id !== 4 ? (
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loadingPlanId === 4}
+                  style={{ borderRadius: "6px" }}
+                  onClick={() => handleUpdatePlan(4, "Custom", customScans)}
+                >
+                  Select Plan
+                </Button>
+              ) : (
+                <Button
+                  type="default"
+                  danger
+                  block
+                  disabled={Brand.subscribed_package_id === 4}
+                  size="large"
+                  style={{ borderRadius: "6px" }}
+                  onClick={handleCancelPlan}
+                >
+                  Cancel Plan
+                </Button>
+              )}
+            </div>
+          </Card>
         </Col>
       </Row>
     </div>

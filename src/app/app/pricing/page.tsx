@@ -56,7 +56,7 @@ export default function Page() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          Unlock Your 3D Creativity
+          Visualise Your Products in AR
         </motion.h1>
         <motion.p
           className="text-lg md:text-xl max-w-2xl mb-6 text-[#1a4f66]"
@@ -64,8 +64,8 @@ export default function Page() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          Choose the perfect plan to transform your design workflow. From
-          prototyping to production, we’ve got you covered.
+          Choose the perfect plan to digitize your inventory. From restaurants to
+          retail and e-commerce, we have a solution for you.
         </motion.p>
 
         {/* Down Scroll Arrow Button */}
@@ -102,11 +102,10 @@ export default function Page() {
           {/* Ready to Try Section */}
           <div className="text-[#007cae]">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              Ready to elevate your design experience?
+              Ready to transform how customers see your products?
             </h2>
             <p className="text-lg md:text-xl max-w-xl mb-6">
-              Join thousands of creators using our tools daily to design,
-              visualize, and share their best work.
+              Join businesses using SnapTap to create immersive AR experiences that remove guesswork from shopping.
             </p>
             <motion.button
               whileHover={{
@@ -116,7 +115,7 @@ export default function Page() {
               whileTap={{ scale: 0.96 }}
               className="transition-all duration-300 px-10 py-4 rounded-full font-semibold text-white bg-[#007cae] border border-[#007cae]"
             >
-              Try It Free
+              Start Free Trial
             </motion.button>
           </div>
 
@@ -129,11 +128,10 @@ export default function Page() {
             transition={{ delay: 0.2 }}
           >
             <h3 className="text-2xl font-semibold mb-4">
-              Need a bigger or customized plan?
+              Need enterprise or custom solutions?
             </h3>
             <p className="text-md mb-6">
-              For enterprise, educational, or highly customized requirements,
-              our team can create a plan just for you.
+              For large catalogs, white-label solutions, or custom integrations, our team can create a tailored AR solution for your business.
             </p>
             <motion.button
               onClick={goToContact}

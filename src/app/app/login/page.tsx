@@ -11,12 +11,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 
-const ModelViewer = dynamic(
-  () => import("../components/ModelViewerWrapper"),
-  {
-    ssr: false,
-  }
-);
+const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
+  ssr: false,
+});
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
@@ -68,7 +65,7 @@ const LoginPage = () => {
       Object.entries(newErrors).map(([name, error]) => ({
         name,
         errors: [error],
-      }))
+      })),
     );
 
     if (Object.keys(newErrors).length > 0) return;
@@ -79,15 +76,15 @@ const LoginPage = () => {
       const response = await axios.post(
         `${BASE_URL}/brand/login`,
         { username, password },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       const { brand, accessToken, error } = response.data;
 
-     if (error) {
-      toast.error(error?.response?.data?.error);
-      return;
-    }
+      if (error) {
+        toast.error(error?.response?.data?.error);
+        return;
+      }
 
       if (brand?.id && accessToken) {
         setAdmin(brand);
@@ -100,7 +97,7 @@ const LoginPage = () => {
       } else {
         message.error("Invalid admin username or password.");
       }
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error("Login error:", err);
       toast.error(err?.response?.data?.error);
     } finally {
@@ -139,7 +136,6 @@ const LoginPage = () => {
           color: "#0A2540",
         }}
       >
-
         <div className="w-full h-[400px] relative z-10">
           <ModelViewer />
         </div>
