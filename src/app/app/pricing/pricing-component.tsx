@@ -71,8 +71,17 @@ export default function PricingComponent() {
           const filtered = res.data.filter((p: Plan) => [1, 2, 3].includes(p.id));
           setPlans(filtered);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to fetch plans", error);
+        
+        // Check for network/server errors
+        if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
+          toast.error("Server is not accessible. Please check your connection and try again.");
+        } else if (!error.response) {
+          toast.error("Cannot reach the server. Please try again later.");
+        } else {
+          toast.error("Failed to fetch pricing plans. Please try again.");
+        }
       }
     };
     fetchPlans();

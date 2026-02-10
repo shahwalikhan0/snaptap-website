@@ -40,8 +40,17 @@ export default function SubscriptionPage() {
         if (Array.isArray(response.data)) {
           setPlan(response.data);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching Package:", error);
+        
+        // Check for network/server errors
+        if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
+          toast.error("Server is not accessible. Please check your connection and try again.");
+        } else if (!error.response) {
+          toast.error("Cannot reach the server. Please try again later.");
+        } else {
+          toast.error("Failed to fetch subscription plans. Please try again.");
+        }
       } finally {
         setLoading(false);
       }

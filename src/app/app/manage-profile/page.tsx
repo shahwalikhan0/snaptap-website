@@ -53,8 +53,17 @@ const ManageProfilePage = () => {
            const filtered = res.data.filter((p: Package) => [1, 2, 3].includes(p.id));
            setPackages(filtered);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to fetch packages", error);
+        
+        // Check for network/server errors
+        if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
+          toast.error("Server is not accessible. Please check your connection and try again.");
+        } else if (!error.response) {
+          toast.error("Cannot reach the server. Please try again later.");
+        } else {
+          toast.error("Failed to fetch subscription packages. Please try again.");
+        }
       }
     };
     fetchPackages();
@@ -158,7 +167,7 @@ const ManageProfilePage = () => {
       const payload = {
         name: profileValues.fullName,
         username: Admin?.username,
-        email: profileValues.email,
+        // email: profileValues.email, // Disabled email updates
         description: profileValues.description,
         image_url: imageUrl,
         password: newPassword || null,
@@ -319,7 +328,7 @@ const ManageProfilePage = () => {
                       name="email"
                       label={<span className="font-semibold">Email</span>}
                     >
-                      <Input size="large"  placeholder={Brand?.brand_email} className="font-medium" />
+                      <Input size="large" disabled placeholder={Brand?.brand_email} className="font-medium" />
                     </Form.Item>
                     <Form.Item
                       name="fullName"

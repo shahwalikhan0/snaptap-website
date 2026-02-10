@@ -97,14 +97,20 @@ const SignUpPage: React.FC = () => {
         router.push("/app/login");
       }, 2000);
       
-    } catch (err: unknown) {
-      if (typeof err === "object" && err !== null && "response" in err) {
-        const error = err as { response?: { data?: { error?: string } } };
-        toast.error(error.response?.data?.error || "Signup failed.");
+    } catch (err: any) {
+      console.error("Signup error:", err);
+      
+      // Check for network/server errors
+      if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+        toast.error("Server is not accessible. Please check your connection and try again.");
+      } else if (!err.response) {
+        toast.error("Cannot reach the server. Please try again later.");
+      } else if (err.response?.data?.error) {
+        toast.error(err.response.data.error);
       } else if (err instanceof Error) {
         toast.error(err.message);
       } else {
-        toast.error("Signup failed.");
+        toast.error("Signup failed. Please try again.");
       }
       setLoading(false);
     }

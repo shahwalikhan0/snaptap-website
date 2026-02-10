@@ -35,6 +35,7 @@ export default function ProductDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [form] = Form.useForm();
@@ -71,8 +72,20 @@ export default function ProductDetailsPage() {
           description: res.data.data.description,
           is_active: true,
         });
-      } catch (err) {
+      } catch (err: any) {
         console.error("Failed to load product", err);
+        
+        // Check for network/server errors
+        if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+          toast.error("Server is not accessible. Please check your connection and try again.");
+        } else if (!err.response) {
+          toast.error("Cannot reach the server. Please try again later.");
+        } else if (err.response?.status === 404) {
+          toast.error("Product not found.");
+          router.push("/app/inventory");
+        } else {
+          toast.error("Failed to load product details. Please try again.");
+        }
       } finally {
         setLoading(false);
       }
@@ -137,6 +150,29 @@ export default function ProductDetailsPage() {
     setShowDeleteConfirm(true);
   };
 
+  const handleDownloadQR = async () => {
+    if (!product?.qr_code_url) {
+      alert("QR code is not available");
+      return;
+    }
+    
+    try {
+      const response = await fetch(product.qr_code_url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${product.name}-qr-code.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download QR code", error);
+      alert("Failed to download QR code");
+    }
+  };
+
   if (loading) {
     return (
       <div className="w-full h-[60vh] flex items-center justify-center">
@@ -184,6 +220,12 @@ export default function ProductDetailsPage() {
                   onClick={() => setEditing(true)}
                 >
                   Edit
+                </Button>
+                <Button
+                  type="default"
+                  onClick={() => setShowQRModal(true)}
+                >
+                  View QR
                 </Button>
                 <Button
                   danger
@@ -285,6 +327,44 @@ export default function ProductDetailsPage() {
               </Upload>
             </Form.Item>
           </Form>
+        </Modal>
+
+        {/* QR Code Modal */}
+        <Modal
+          open={showQRModal}
+          onCancel={() => setShowQRModal(false)}
+          title="Product QR Code"
+          footer={[
+            <Button key="close" onClick={() => setShowQRModal(false)}>
+              Close
+            </Button>,
+            product?.qr_code_url && (
+              <Button 
+                key="download" 
+                type="primary" 
+                onClick={handleDownloadQR}
+              >
+                Download
+              </Button>
+            ),
+          ]}
+        >
+          {product?.qr_code_url ? (
+            <div className="flex flex-col items-center justify-center p-6">
+              <img
+                src={product.qr_code_url}
+                alt={`QR Code for ${product.name}`}
+                className="w-full max-w-sm h-auto"
+              />
+              <p className="mt-4 text-gray-600 text-sm text-center">
+                Scan this QR code to view product details
+              </p>
+            </div>
+          ) : (
+            <div className="p-6 text-center">
+              <p className="text-gray-500">QR code is not available for this product</p>
+            </div>
+          )}
         </Modal>
       </div>
     </div>

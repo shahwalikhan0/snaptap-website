@@ -52,8 +52,17 @@ export default function InventoryPage() {
           },
         });
         setProducts(res.data?.data || res.data || []);
-      } catch (err) {
-        alert("Failed to load products. Try logging in again.");
+      } catch (err: any) {
+        console.error("Failed to load products:", err);
+        
+        // Check for network/server errors
+        if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+          toast.error("Server is not accessible. Please check your connection and try again.");
+        } else if (!err.response) {
+          toast.error("Cannot reach the server. Please try again later.");
+        } else {
+          toast.error("Failed to load products. Please try logging in again.");
+        }
       } finally {
         setLoading(false);
       }

@@ -46,8 +46,15 @@ const LoginPage = () => {
       if (data?.id) {
         setBrand(data);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching brand:", error);
+      if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
+        toast.error("Server is not accessible. Please check your connection or try again later.");
+      } else if (!error.response) {
+        toast.error("Cannot reach the server. Please try again later.");
+      } else {
+        toast.error("Failed to fetch brand details. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -99,7 +106,17 @@ const LoginPage = () => {
       }
     } catch (err: any) {
       console.error("Login error:", err);
-      toast.error(err?.response?.data?.error);
+      
+      // Check for network/server errors
+      if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+        toast.error("Server is not accessible. Please check your connection and try again.");
+      } else if (!err.response) {
+        toast.error("Cannot reach the server. Please try again later.");
+      } else if (err.response?.data?.error) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error("Login failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
