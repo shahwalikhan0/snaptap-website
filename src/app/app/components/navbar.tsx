@@ -6,12 +6,14 @@ import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import clsx from "clsx";
+import { Modal } from "antd";
 
 const Navbar = () => {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn, Admin, setAdmin } = useAdmin();
@@ -39,7 +41,13 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
+    setShowLogoutConfirm(true);
+    setIsUserDropdownOpen(false);
+  };
+
+  const confirmLogout = () => {
     setAdmin(null);
+    setShowLogoutConfirm(false);
     router.push("/app/login");
   };
 
@@ -198,6 +206,19 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        open={showLogoutConfirm}
+        onCancel={() => setShowLogoutConfirm(false)}
+        onOk={confirmLogout}
+        okText="Logout"
+        cancelText="Cancel"
+        okButtonProps={{ danger: true }}
+        title="Confirm Logout"
+      >
+        <p>Are you sure you want to logout?</p>
+      </Modal>
     </nav>
   );
 };
