@@ -6,7 +6,7 @@ import {
   InstagramOutlined,
   FacebookOutlined,
 } from "@ant-design/icons";
-import { FaApple, FaGooglePlay } from "react-icons/fa";
+import { FaApple } from "react-icons/fa";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -47,7 +47,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="mailto:admin@snaptap.pk"
+                  href="mailto:admin@snaptap.com"
                   className="hover:text-black transition duration-300"
                 >
                   Support
@@ -71,7 +71,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:admin@snaptap.pk"
+                  href="mailto:admin@snaptap.com"
                   className="hover:text-black transition duration-300"
                 >
                   Contact Us
@@ -84,7 +84,7 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-end gap-4">
             <div className="flex gap-5 text-2xl justify-center">
               <a
-                href="mailto:admin@snaptap.pk"
+                href="mailto:admin@snaptap.com"
                 className="hover:text-black transition"
               >
                 <MailOutlined />
@@ -107,25 +107,15 @@ export default function Footer() {
               </a>
             </div>
 
-            {/* App Store Buttons */}
             <div className="flex gap-3 mt-2">
               <a
-                href="https://apps.apple.com/"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-black text-white flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold hover:scale-105 transition"
               >
                 <FaApple className="text-lg" />
                 App Store
-              </a>
-              <a
-                href="https://play.google.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black text-white flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold hover:scale-105 transition"
-              >
-                <FaGooglePlay className="text-lg" />
-                Play Store
               </a>
             </div>
           </div>
