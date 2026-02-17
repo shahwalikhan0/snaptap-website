@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Form, Input, Button, Typography, Upload } from "antd";
+import { Form, Input, Button, Typography, Upload, Select } from "antd";
 import {
   UserOutlined,
   LockOutlined,
@@ -20,6 +20,7 @@ import { SignUpFormValues } from "./types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
+import { CATEGORIES } from "@/app/constants/categories";
 
 const ModelViewer = dynamic(
   () => import("../components/ModelViewerWrapper"),
@@ -298,11 +299,17 @@ const SignUpPage: React.FC = () => {
             </Form.Item>
 
             <Form.Item name="category" label="Business Category (Optional)">
-              <Input
-                prefix={<AppstoreOutlined />}
-                placeholder="e.g., Furniture, Electronics"
+              <Select
+                placeholder="Select a category"
                 size="large"
-              />
+                allowClear
+              >
+                {CATEGORIES.map((category) => (
+                  <Select.Option key={category} value={category}>
+                    {category}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
 
             <Form.Item name="profileImage" label="Profile Image">

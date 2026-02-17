@@ -21,6 +21,7 @@ import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
 import api from "@/app/utils/api";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { CATEGORIES } from "@/app/constants/categories";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -416,31 +417,10 @@ const ManageProfilePage = () => {
                   name="category"
                   label={<span className="font-semibold">Category</span>}
                 >
-                  <Select placeholder="Select category" size="large">
-                    {[
-                      "Technology",
-                      "Fashion & Apparel",
-                      "Food & Beverages",
-                      "Automotive",
-                      "Beauty & Personal Care",
-                      "Home & Garden",
-                      "Sports & Fitness",
-                      "Healthcare & Pharmaceuticals",
-                      "Financial Services",
-                      "Entertainment & Media",
-                      "Travel & Hospitality",
-                      "Retail & E-commerce",
-                      "Energy & Utilities",
-                      "Real Estate",
-                      "Education",
-                      "Telecommunications",
-                      "Industrial & Manufacturing",
-                      "Luxury Goods",
-                      "Pet Care",
-                      "Gaming & Software",
-                    ].map((cat) => (
-                      <Option key={cat} value={cat}>
-                        {cat}
+                  <Select placeholder="Select category" size="large" allowClear>
+                    {CATEGORIES.map((category) => (
+                      <Option key={category} value={category}>
+                        {category}
                       </Option>
                     ))}
                   </Select>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import api from "@/app/utils/api";
+import { CATEGORIES } from "@/app/constants/categories";
 import Image from "next/image";
 import {
   Button,
@@ -291,15 +292,15 @@ export default function ProductDetailsPage() {
             <Form.Item
               name="category"
               label="Category"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "Category is required" }]}
             >
-              <Select
-                options={[
-                  { value: "food", label: "Food" },
-                  { value: "furniture", label: "Furniture" },
-                  { value: "electronics", label: "Electronics" },
-                ]}
-              />
+              <Select placeholder="Select a category" size="large" allowClear>
+                {CATEGORIES.map((category) => (
+                  <Select.Option key={category} value={category}>
+                    {category}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
 
             <Form.Item name="description" label="Description">
