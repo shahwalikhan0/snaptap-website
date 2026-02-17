@@ -66,6 +66,23 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const logout = () => {
+    // Clear all state
+    setAdminState(null);
+    setBrandState(null);
+    setTokenState(null);
+    
+    // Remove all cookies
+    Cookies.remove("token");
+    Cookies.remove("admin");
+    Cookies.remove("brand");
+    
+    // Redirect to login page
+    if (typeof window !== "undefined") {
+      window.location.href = "/app/login";
+    }
+  };
+
   const isLoggedIn = !!admin?.id;
   return (
     <AdminContext.Provider
@@ -78,6 +95,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
         setBrand,
         token,
         setToken,
+        logout,
       }}
     >
       {children}

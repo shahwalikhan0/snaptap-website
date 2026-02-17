@@ -12,14 +12,13 @@ import {
   Typography,
   message,
 } from "antd";
-import axios from "axios";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
+import api from "@/app/utils/api";
 
 const { Title } = Typography;
 const { Option } = Select;
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function EditBilling() {
   const [form] = useForm();
@@ -50,12 +49,7 @@ export default function EditBilling() {
     };
 
     try {
-      const response = await axios.patch(`${BASE_URL}/brand/detail/`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await api.patch("/brand/detail/", payload);
 
       if (response.data) {
         setBrand(response.data);

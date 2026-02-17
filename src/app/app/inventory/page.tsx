@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import api from "@/app/utils/api";
 import { motion } from "framer-motion";
 import { Button, Card, Input, Tag, Spin, Segmented } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
@@ -24,11 +24,10 @@ type ProductType = {
   rating: number | null;
 };
 const { Search } = Input;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function InventoryPage() {
   const router = useRouter();
-  const { isLoggedIn, token, Admin } = useAdmin();
+  const { isLoggedIn, Admin } = useAdmin();
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,11 +45,7 @@ export default function InventoryPage() {
 
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/product/brand-id`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await api.get("/product/brand-id");
         setProducts(res.data?.data || res.data || []);
       } catch (err: any) {
         console.error("Failed to load products:", err);

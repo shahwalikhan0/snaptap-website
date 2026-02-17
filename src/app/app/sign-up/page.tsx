@@ -78,7 +78,7 @@ const SignUpPage: React.FC = () => {
         formData.append("image", image);
       }
 
-      await axios.post(`${BASE_URL}/brand/create`, formData, {
+      const response = await axios.post(`${BASE_URL}/brand/create`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -91,11 +91,19 @@ const SignUpPage: React.FC = () => {
         localStorage.removeItem("selectedPlanScans");
       }
 
-      toast.success("Signup successful! Redirecting to login...");
-      
-      setTimeout(() => {
-        router.push("/app/login");
-      }, 2000);
+      // Check if email verification is required
+      if (response.data.requiresVerification) {
+        toast.success(response.data.message || "Account created! Please check your email to verify your account.", {
+          autoClose: 8000, // Keep visible longer
+        });
+        setLoading(false);
+        // Don't redirect - let user read message and check email
+      } else {
+        toast.success("Signup successful! Redirecting to login...");
+        setTimeout(() => {
+          router.push("/app/login");
+        }, 2000);
+      }
       
     } catch (err: any) {
       console.error("Signup error:", err);

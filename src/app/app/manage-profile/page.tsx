@@ -18,12 +18,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { RcFile } from "antd/es/upload";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
+import api from "@/app/utils/api";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
-const { Option } = Select;
+const { Option} = Select;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ManageProfilePage = () => {
@@ -98,11 +99,7 @@ const ManageProfilePage = () => {
       // If brand data is missing, fetch from API
       const fetchBrandData = async () => {
         try {
-          const res = await axios.get(`${BASE_URL}/brand/detail`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const res = await api.get("/brand/detail");
 
           if (res.data) {
             const data = res.data;
@@ -174,14 +171,9 @@ const ManageProfilePage = () => {
         oldPassword: oldPassword || null,
       };
 
-      const response = await axios.put(
-        `${BASE_URL}/brand/update`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await api.put(
+        "/brand/update",
+        payload
       );
 
       if (response.data?.error) {
@@ -210,14 +202,9 @@ const ManageProfilePage = () => {
         subscribed_package_id: brandValues.subscribed_package_id,
       };
 
-      const response = await axios.put(
-        `${BASE_URL}/brand/update-detail`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await api.put(
+        "/brand/update-detail",
+        payload
       );
 
       if (response.data?.error) {

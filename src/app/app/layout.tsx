@@ -4,7 +4,7 @@ import Footer from "./components/footer";
 
 export const metadata: Metadata = {
   title: "SnapTap",
-  description: "A simple and fast way to share your screen",
+  description: "Snap. Tap. Experience.",
 };
 
 export default function RootLayout({
