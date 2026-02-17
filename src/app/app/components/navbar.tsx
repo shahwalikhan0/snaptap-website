@@ -27,11 +27,13 @@ const Navbar = () => {
           name: "Payment & Subscription",
           path: "/app/subscription-page",
         },
+        { name: "Docs", path: "/app/docs" },
       ]
     : [
         { name: "Home", path: "/" },
         { name: "Pricing", path: "/app/pricing" },
         { name: "Product", path: "/app/product" },
+        { name: "Docs", path: "/app/docs" },
       ];
 
   const handleNav = (path: string) => {
