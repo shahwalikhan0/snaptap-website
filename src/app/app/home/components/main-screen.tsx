@@ -32,13 +32,6 @@ export const MainScreen = () => {
     router.push(path);
   };
 
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="bg-white min-h-screen font-sans text-slate-800">
       <Navbar />
@@ -58,13 +51,14 @@ export const MainScreen = () => {
                 onClick={() => handleNav("/app/sign-up")}
                 className="bg-[#007cae] text-white font-semibold py-3 px-8 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                Request Demo
+                Start Free Trial
               </button>
               <button
-                onClick={() => scrollToSection("how-it-works")}
-                className="bg-white text-slate-700 border border-slate-200 font-semibold py-3 px-8 rounded-full hover:bg-slate-50 transition-all shadow hover:shadow-md"
+                onClick={() => handleNav("/app/docs")}
+                className="bg-white text-slate-700 border border-slate-200 font-semibold py-3 px-8 rounded-full hover:bg-slate-50 transition-all shadow hover:shadow-md flex items-center gap-2"
               >
-                See How It Works
+                Learn More
+                <Icon icon="mdi:arrow-right" width={18} />
               </button>
             </div>
           </div>
@@ -73,11 +67,6 @@ export const MainScreen = () => {
               {/* Using ModelViewer as the Hero Visual */}
               <div className="w-full h-full rounded-xl overflow-hidden relative bg-gray-50">
                 <ModelViewer />
-                <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
-                  <span className="bg-black/50 text-white text-sm px-3 py-1 rounded-full backdrop-blur-md">
-                    Interactive 3D Preview
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -92,7 +81,67 @@ export const MainScreen = () => {
         </div>
       </div> */}
 
-      {/* SECTION 4 — CORE VALUE / USP (Moved) */}
+      {/* SECTION — FEATURES GRID */}
+      <section className="py-24 px-6 md:px-12 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Everything Your Business Needs for AR
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              One platform. All the tools to create, manage, and deliver world-class augmented reality experiences — at any scale.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: "mdi:cube-scan",
+                title: "One-Click 3D Scanning",
+                desc: "No specialized equipment needed. Use any modern smartphone to capture high-quality 3D product models in minutes using depth sensors or photogrammetry."
+              },
+              {
+                icon: "mdi:augmented-reality",
+                title: "True-to-Scale AR Placement",
+                desc: "Products are rendered at an exact 1:1 scale in the real world, giving customers a precise sense of size, fit, and proportion before buying."
+              },
+              {
+                icon: "mdi:qrcode",
+                title: "Instant QR Deployment",
+                desc: "Generate QR codes for any AR model instantly. Print them on menus, price tags, packaging, or in-store displays — no app download required."
+              },
+              {
+                icon: "mdi:web",
+                title: "Web Embed & API Access",
+                desc: "Embed SnapTap's AR viewer directly into your existing website or e-commerce store with a simple code snippet or via our developer API."
+              },
+              {
+                icon: "mdi:buffer",
+                title: "Inventory Management",
+                desc: "Manage your entire 3D product catalog from one dashboard. Organize, update, and publish AR assets across multiple channels with ease."
+              },
+              {
+                icon: "mdi:chart-timeline-variant",
+                title: "Analytics & Insights",
+                desc: "Track AR views, QR scans, product interaction rates, and conversion attribution for every asset in your catalog — in real time."
+              }
+            ].map((feature, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-[#007cae]/20 transition-all group"
+              >
+                <div className="w-12 h-12 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/20 transition-all">
+                  <Icon icon={feature.icon} className="text-[#007cae]" width={26} />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">{feature.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION — CORE VALUE / USP */}
       <section className="py-24 px-6 md:px-12 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/2 order-2 md:order-1">
@@ -360,8 +409,7 @@ export const MainScreen = () => {
               Request Demo
             </button>
             <button
-              // Assuming a contact page or just linking to email/same page for now
-              onClick={() => window.location.href = "mailto:sales@snaptap.com"}
+              onClick={() => handleNav("/navigations/contact")}
               className="bg-transparent border-2 border-white/30 text-white font-bold py-4 px-10 rounded-full hover:bg-white/10 transition-all"
             >
               Contact Sales

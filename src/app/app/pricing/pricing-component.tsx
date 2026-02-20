@@ -23,18 +23,32 @@ interface Plan {
 }
 
 const featuresMap = {
-  1: ["Basic 3D tools", "AR previews", "Limited scans", "Basic support"],
+  1: [
+    "Up to 10 AR product scans/month",
+    "Standard 3D model generation",
+    "QR code for each product",
+    "Web-embeddable AR viewer",
+    "Basic inventory dashboard",
+    "Email support",
+  ],
   2: [
-    "Full access to 3D tools",
-    "AR previews",
-    "Unlimited scans",
-    "Plugins support",
+    "Up to 50 AR product scans/month",
+    "High-fidelity 3D model generation",
+    "QR codes + direct share links",
+    "Web embed + API access",
+    "Advanced inventory management",
+    "Analytics & conversion tracking",
+    "Priority email & chat support",
   ],
   3: [
-    "All features unlocked",
-    "Priority support",
-    "Custom plugins",
-    "Team collaboration",
+    "Unlimited AR product scans",
+    "Premium 3D model quality",
+    "White-label AR viewer",
+    "Full API & webhook access",
+    "Multi-user team accounts",
+    "Custom integrations on request",
+    "Dedicated account manager",
+    "SLA-backed priority support",
   ],
 };
 
@@ -73,7 +87,7 @@ export default function PricingComponent() {
         }
       } catch (error: any) {
         console.error("Failed to fetch plans", error);
-        
+
         // Check for network/server errors
         if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
           toast.error("Server is not accessible. Please check your connection and try again.");
@@ -91,7 +105,7 @@ export default function PricingComponent() {
     if (!isLoggedIn) {
       localStorage.setItem("selectedPlanId", plan.id.toString());
       if (plan.id === 4) {
-         localStorage.setItem("selectedPlanScans", customScans.toString());
+        localStorage.setItem("selectedPlanScans", customScans.toString());
       }
       router.push("/app/sign-up");
       return;
@@ -100,7 +114,7 @@ export default function PricingComponent() {
     setLoadingPlanId(plan.id);
     try {
       const payload: any = { subscribed_package_id: plan.id };
-      
+
       // If Custom Plan (ID 4)
       if (plan.id === 4) {
         payload.total_scans = customScans;
@@ -119,7 +133,7 @@ export default function PricingComponent() {
       if (response.data?.data) {
         toast.success(`Successfully subscribed to ${plan.name}`);
         if (Brand) {
-            setBrand({ ...Brand, subscribed_package_id: plan.id });
+          setBrand({ ...Brand, subscribed_package_id: plan.id });
         }
       } else {
         toast.error("Failed to update plan");
@@ -127,9 +141,9 @@ export default function PricingComponent() {
     } catch (error) {
       console.error("Plan update error:", error);
       if (axios.isAxiosError(error) && error.response) {
-         toast.error(error.response.data?.error || "Failed to update plan");
+        toast.error(error.response.data?.error || "Failed to update plan");
       } else {
-         toast.error("Failed to update plan");
+        toast.error("Failed to update plan");
       }
     } finally {
       setLoadingPlanId(null);
@@ -153,47 +167,64 @@ export default function PricingComponent() {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ y: -4 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative bg-white/10 backdrop-blur-xl text-[#007cae] rounded-2xl shadow-xl px-6 py-8 border border-white/30 transition-all ${
-                plan.id === 2 ? "ring-2 ring-[#00A8DE]" : ""
-              }`}
+              className={`relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-7 py-8 border transition-all h-full ${plan.id === 2
+                  ? "border-[#007cae] shadow-[0_8px_30px_rgba(0,124,174,0.18)]"
+                  : "border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg"
+                }`}
             >
-              {/* Recommended Ribbon */}
+              {/* Most Popular badge */}
               {plan.id === 2 && (
-                <div className="absolute top-4 right-4 bg-[#00A8DE] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                  Recommended
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#007cae] text-white text-xs font-bold px-5 py-1 rounded-full shadow uppercase tracking-widest whitespace-nowrap">
+                  Most Popular
                 </div>
               )}
 
-              <div className="flex items-center justify-center gap-2 mb-4">
-                {getIcon(plan.id)}
-                <h3 className="text-2xl font-bold">{plan.name}</h3>
+              {/* Icon + Name */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${plan.id === 2 ? "bg-[#007cae]/15" : "bg-slate-100"
+                  }`}>
+                  {getIcon(plan.id)}
+                </div>
+                <h3 className="text-xl font-black text-slate-900">{plan.name}</h3>
               </div>
-              <div className="text-xl font-bold mb-1">
-                ${plan.monthly_price}
-              </div>
-              <p className="text-sm mb-4">
-                per month
-              </p>
 
-              <ul className="text-left space-y-2 mb-6">
+              {/* Price */}
+              <div className="mb-6">
+                <div className="flex items-end gap-1">
+                  <span className="text-4xl font-black text-slate-900">${plan.monthly_price}</span>
+                  <span className="text-slate-400 font-medium pb-1">/mo</span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-slate-100 mb-6" />
+
+              {/* Features */}
+              <ul className="space-y-3 mb-8 flex-grow text-left">
                 {featuresMap[plan.id as keyof typeof featuresMap]?.map((feature: string, i: number) => (
-                  <li key={i} className="flex items-start">
-                    <CheckOutlined className="mr-2 mt-1 text-green-500" />
-                    {feature}
+                  <li key={i} className="flex items-start gap-2.5">
+                    <div className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
+                      <CheckOutlined className="text-green-600 text-[10px]" />
+                    </div>
+                    <span className="text-slate-600 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <Button
                 block
+                size="large"
                 loading={loadingPlanId === plan.id}
                 onClick={() => handleSelectPlan(plan)}
-                className="bg-[#00A8DE] hover:bg-[#007cae] text-white font-semibold py-2 rounded-full transition duration-300"
+                className={`h-12 font-bold rounded-xl transition duration-300 ${plan.id === 2
+                    ? "!bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md"
+                    : "!bg-white hover:!bg-slate-50 !text-[#007cae] !border-[#007cae]/50 !border"
+                  }`}
               >
-                {isLoggedIn && Brand?.subscribed_package_id === plan.id ? "Current Plan" : "Select Plan"}
+                {isLoggedIn && Brand?.subscribed_package_id === plan.id ? "✓ Current Plan" : "Get Started"}
               </Button>
             </motion.div>
           </Col>
@@ -201,69 +232,84 @@ export default function PricingComponent() {
 
         {/* Custom Plan Card */}
         <Col xs={24} sm={12} md={6}>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="relative bg-white/10 backdrop-blur-xl text-[#007cae] rounded-2xl shadow-xl px-6 py-8 border border-white/30 transition-all"
-            >
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <FaCogs size={28} className="text-[#00A8DE]" />
-                <h3 className="text-2xl font-bold">Custom</h3>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-7 py-8 border border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg transition-all h-full"
+          >
+            {/* Icon + Name */}
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center">
+                <FaCogs size={22} className="text-[#007cae]" />
               </div>
-              <div className="text-xl font-bold mb-1">
-                ${customPrice}
-              </div>
-              <p className="text-sm mb-4">
-                per month
-              </p>
+              <h3 className="text-xl font-black text-slate-900">Custom</h3>
+            </div>
 
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-2">
-                    <span>Scans:</span>
-                    <InputNumber
-                        min={21}
-                        max={1000}
-                        value={customScans}
-                        onChange={(v) => setCustomScans(v || 21)}
-                        className="w-20"
-                    />
-                </div>
-                <Slider
-                    min={21}
-                    max={200}
-                    value={customScans}
-                    onChange={setCustomScans}
-                    trackStyle={{ backgroundColor: "#00A8DE" }}
-                    handleStyle={{ borderColor: "#00A8DE", backgroundColor: "#00A8DE" }}
+            {/* Price */}
+            <div className="mb-2">
+              <div className="flex items-end gap-1">
+                <span className="text-4xl font-black text-slate-900">${customPrice}</span>
+                <span className="text-slate-400 font-medium pb-1">/mo</span>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">Based on {customScans} scans</p>
+            </div>
+
+            {/* Slider */}
+            <div className="my-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-sm font-semibold text-slate-600">Monthly Scans</span>
+                <InputNumber
+                  min={21}
+                  max={1000}
+                  value={customScans}
+                  onChange={(v) => setCustomScans(v || 21)}
+                  className="w-20 font-bold"
                 />
               </div>
+              <Slider
+                min={21}
+                max={200}
+                value={customScans}
+                onChange={setCustomScans}
+                trackStyle={{ backgroundColor: "#007cae" }}
+                handleStyle={{ borderColor: "#007cae", backgroundColor: "#007cae" }}
+              />
+              <p className="text-[11px] text-slate-400 text-center mt-1">Drag to adjust scan capacity</p>
+            </div>
 
-               <ul className="text-left space-y-2 mb-6">
-                  {featuresMap[3].map((feature: string, i: number) => (
-                    <li key={i} className="flex items-start">
-                      <CheckOutlined className="mr-2 mt-1 text-green-500" />
-                      {feature}
-                    </li>
-                  ))}
-              </ul>
+            {/* Divider */}
+            <div className="border-t border-slate-100 mb-5" />
 
-              <Button
-                block
-                loading={loadingPlanId === 4}
-                onClick={() => handleSelectPlan({
-                    id: 4,
-                    name: "Custom",
-                    monthly_price: customPrice,
-                    features: [],
-                })}
-                className="bg-[#00A8DE] hover:bg-[#007cae] text-white font-semibold py-2 rounded-full transition duration-300"
-              >
-                {isLoggedIn && Brand?.subscribed_package_id === 4 ? "Current Plan" : "Select Plan"}
-              </Button>
-            </motion.div>
+            {/* Features */}
+            <ul className="space-y-3 mb-8 flex-grow text-left">
+              {featuresMap[3].map((feature: string, i: number) => (
+                <li key={i} className="flex items-start gap-2.5">
+                  <div className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
+                    <CheckOutlined className="text-green-600 text-[10px]" />
+                  </div>
+                  <span className="text-slate-600 text-sm">{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              block
+              size="large"
+              loading={loadingPlanId === 4}
+              onClick={() => handleSelectPlan({
+                id: 4,
+                name: "Custom",
+                monthly_price: customPrice,
+                features: [],
+              })}
+              className="h-12 font-bold rounded-xl !bg-white hover:!bg-slate-50 !text-[#007cae] !border-[#007cae]/50 !border transition duration-300"
+            >
+              {isLoggedIn && Brand?.subscribed_package_id === 4 ? "✓ Current Plan" : "Get Started"}
+            </Button>
+          </motion.div>
         </Col>
       </Row>
     </div>

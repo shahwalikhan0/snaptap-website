@@ -3,9 +3,8 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import { ArrowDownOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import { Icon } from "@iconify/react";
 
 const PricingComponent = dynamic(() => import("./pricing-component"), {
   ssr: false,
@@ -26,128 +25,92 @@ export default function Page() {
     }
   };
 
-  const goToContact = () => {
-    router.push("/contact");
-  };
-
   return (
-    <div className="w-full overflow-x-hidden scroll-smooth">
+    <div className="w-full overflow-x-hidden bg-white">
+
       {/* HERO SECTION */}
       <motion.section
-        initial={{ opacity: 0, y: -50 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="relative w-full h-screen flex items-center justify-center flex-col px-6 md:px-12 text-center text-white"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 70%, rgb(244, 243, 243), rgb(171, 174, 180))",
-        }}
+        className="pt-36 pb-20 px-6 md:px-12 text-center bg-gradient-to-b from-slate-50 to-white"
       >
-        <Image
-          src="/assets/dining_2.png"
-          alt="Hero Illustration"
-          width={500}
-          height={300}
-          className="mb-6 rounded-xl shadow-xl"
-        />
-        <motion.h1
-          className="text-4xl md:text-6xl font-bold mb-3 text-[#007cae]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          Visualise Your Products in AR
-        </motion.h1>
-        <motion.p
-          className="text-lg md:text-xl max-w-2xl mb-6 text-[#1a4f66]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          Choose the perfect plan to digitize your inventory. From restaurants to
-          retail and e-commerce, we have a solution for you.
-        </motion.p>
-
-        {/* Down Scroll Arrow Button */}
-        <motion.button
-          onClick={scrollToPricing}
-          whileHover={{ scale: 1.1, rotate: 2 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-[#4b4b4b]/30 border border-[#4b4b4b]/50 text-[#222] p-5 rounded-full hover:bg-[#00A8DE] hover:text-white hover:shadow-lg backdrop-blur-md transition-all duration-300"
-        >
-          <ArrowDownOutlined className="text-xl" />
-        </motion.button>
+        <div className="max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 bg-[#007cae]/10 text-[#007cae] text-sm font-semibold px-4 py-2 rounded-full mb-6">
+            <Icon icon="mdi:tag-outline" width={16} />
+            Simple, Transparent Pricing
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+            Plans That Grow <span className="text-[#007cae]">With You</span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+            From independent sellers to enterprise teams — choose the plan that fits your business and start bringing your products to life in AR.
+          </p>
+          <button
+            onClick={scrollToPricing}
+            className="inline-flex items-center gap-2 bg-[#007cae] text-white font-semibold px-8 py-3.5 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          >
+            See All Plans
+            <Icon icon="mdi:arrow-down" width={18} />
+          </button>
+        </div>
       </motion.section>
 
-      {/* PRICING SECTION */}
+      {/* PRICING CARDS SECTION */}
       <motion.section
         ref={pricingRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="pt-[80px] bg-gradient-to-br from-[#b1e4f7] via-[#a0d7f0] to-[#e2f4fb]"
+        className="py-16 px-6 md:px-12 bg-white"
       >
         <PricingComponent />
       </motion.section>
 
-      <motion.section
-        className="w-full py-24 px-6 md:px-24 bg-[radial-gradient(circle_at_50%_70%,_rgb(244,243,243),_rgb(171,174,180))] md:min-h-[80vh]"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true }}
-      >
-        <div className="grid md:grid-cols-2 gap-12 items-center text-center md:text-left">
-          {/* Ready to Try Section */}
-          <div className="text-[#007cae]">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+      {/* BOTTOM CTA SECTION */}
+      <section className="py-24 px-6 md:px-12 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+
+          {/* Left: Start Free Trial */}
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Ready to transform how customers see your products?
             </h2>
-            <p className="text-lg md:text-xl max-w-xl mb-6">
+            <p className="text-lg text-slate-600 mb-8">
               Join businesses using SnapTap to create immersive AR experiences that remove guesswork from shopping.
             </p>
-            <motion.button
-              whileHover={{
-                scale: 1.08,
-                backgroundColor: "#006a9c",
-              }}
-              whileTap={{ scale: 0.96 }}
-              className="transition-all duration-300 px-10 py-4 rounded-full font-semibold text-white bg-[#007cae] border border-[#007cae]"
+            <button
+              onClick={() => router.push("/app/sign-up")}
+              className="bg-[#007cae] text-white font-semibold px-10 py-4 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               Start Free Trial
-            </motion.button>
+            </button>
           </div>
 
-          {/* Contact for Custom Plans Section */}
-          <motion.div
-            className="rounded-2xl p-8 backdrop-blur-xl bg-gradient-to-br from-[#4EC3E0]/70 via-[#29B1DB]/70 to-[#B3E4F5]/70 border border-white/20 hover:shadow-2xl transition-shadow duration-300 text-white"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <h3 className="text-2xl font-semibold mb-4">
+          {/* Right: Enterprise card */}
+          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-md">
+            <div className="w-12 h-12 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-5">
+              <Icon icon="mdi:office-building-outline" className="text-[#007cae]" width={26} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 mb-3">
               Need enterprise or custom solutions?
             </h3>
-            <p className="text-md mb-6">
-              For large catalogs, white-label solutions, or custom integrations, our team can create a tailored AR solution for your business.
+            <p className="text-slate-600 mb-6">
+              For large catalogs, white-label solutions, or custom integrations, our team can build a tailored AR solution for your business.
             </p>
-            <motion.button
-              onClick={goToContact}
-              whileHover={{
-                scale: 1.07,
-                backgroundColor: "white",
-                color: "#007cae",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="transition-all duration-300 px-8 py-3 rounded-full font-semibold text-[#007cae] border border-[#007cae] bg-white"
+            <button
+              onClick={() => router.push("/navigations/contact")}
+              className="inline-flex items-center gap-2 border border-[#007cae] text-[#007cae] font-semibold px-8 py-3 rounded-full hover:bg-[#007cae] hover:text-white transition-all"
             >
               Contact Our Team
-            </motion.button>
-          </motion.div>
+              <Icon icon="mdi:arrow-right" width={18} />
+            </button>
+          </div>
+
         </div>
-      </motion.section>
+      </section>
+
     </div>
   );
 }
