@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, InputNumber, Select, DatePicker, Button } from "antd";
-import axios from "axios";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { toast } from "react-toastify";
-import { Icon } from "@iconify/react";
+import api from "@/app/utils/api";
 
 const { Option } = Select;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function EditBilling() {
   const [form] = Form.useForm();
@@ -42,7 +40,8 @@ export default function EditBilling() {
     };
 
     try {
-      const response = await axios.patch(`${BASE_URL}/brand/detail/`, payload);
+      const response = await api.patch("/brand/detail/", payload);
+
       if (response.data) {
         setBrand(response.data);
         toast.success("Billing information updated.");

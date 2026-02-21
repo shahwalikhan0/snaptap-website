@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
+import api from "@/app/utils/api";
+import { CATEGORIES } from "@/app/constants/categories";
 import Image from "next/image";
 import {
   Button,
@@ -24,12 +25,10 @@ import {
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { toast } from "react-toastify";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
-  const { isLoggedIn, token, Admin, isInitialized } = useAdmin();
+  const { isLoggedIn, Admin, isInitialized } = useAdmin();
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -50,13 +49,8 @@ export default function ProductDetailsPage() {
     }
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(
-          `${BASE_URL}/product/detail-for-brand/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const res = await api.get(
+          `/product/detail-for-brand/${id}`
         );
 
         if (!res.data || res.data.data.brand_id !== Admin?.id) {
@@ -92,7 +86,7 @@ export default function ProductDetailsPage() {
     };
 
     fetchProduct();
-  }, [id, isInitialized, isLoggedIn, token, Admin, router, form]);
+  }, [id, isInitialized, isLoggedIn, Admin, router, form]);
 
   const handleUpdate = async (values: any) => {
     setUpdating(true);
@@ -112,11 +106,7 @@ export default function ProductDetailsPage() {
         return;
       }
 
-      const response = await axios.put(`${BASE_URL}/product/update/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.put(`/product/update/${id}`, formData);
 
       if (response.data?.data) {
         setProduct(response.data.data);
@@ -136,7 +126,7 @@ export default function ProductDetailsPage() {
         alert("You are not authorized to delete this product.");
         return;
       }
-      await axios.delete(`${BASE_URL}/product/${id}`);
+      await api.delete(`/product/${id}`);
       //   message.success("Product deleted");
       router.push("/inventory");
     } catch {
@@ -304,15 +294,15 @@ export default function ProductDetailsPage() {
             <Form.Item
               name="category"
               label="Category"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "Category is required" }]}
             >
-              <Select
-                options={[
-                  { value: "food", label: "Food" },
-                  { value: "furniture", label: "Furniture" },
-                  { value: "electronics", label: "Electronics" },
-                ]}
-              />
+              <Select placeholder="Select a category" size="large" allowClear>
+                {CATEGORIES.map((category) => (
+                  <Select.Option key={category} value={category}>
+                    {category}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
 
             <Form.Item name="description" label="Description">

@@ -13,6 +13,7 @@ export type AdminContextType = {
   setAdmin: (Admin: AdminDataType | null) => void;
   setBrand: (Brand: BrandDataType | null) => void;
   setToken: (token: string | null) => void;
+  logout: () => void;
 };
 
 export const AdminContext = createContext<AdminContextType>({
@@ -24,4 +25,5 @@ export const AdminContext = createContext<AdminContextType>({
   setAdmin: () => {},
   setBrand: () => {},
   setToken: () => {},
+  logout: () => {},
 });

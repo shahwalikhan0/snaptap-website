@@ -7,12 +7,13 @@ import { FaRocket, FaCogs, FaBuilding } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import axios from "axios";
+import api from "@/app/utils/api";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { toast } from "react-toastify";
 
 const { Title } = Typography;
-
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 
 interface Plan {
   id: number;
@@ -120,14 +121,9 @@ export default function PricingComponent() {
         payload.total_scans = customScans;
       }
 
-      const response = await axios.put(
-        `${BASE_URL}/brand/update-detail`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await api.put(
+        "/brand/update-detail",
+        payload
       );
 
       if (response.data?.data) {

@@ -1,15 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Row, Col, Typography, Button, Slider, InputNumber, Tag } from "antd";
+import { Card, Button, Slider, InputNumber, Tag } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
-import axios from "axios";
+import api from "@/app/utils/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+type Package = {
+  id: number;
+  name: string;
+  monthly_price: number;
+};
 
 const features = {
   1: ["Basic 3D tools", "AR previews", "Limited scans", "Basic support"],
@@ -18,7 +22,7 @@ const features = {
 };
 
 export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
-  const { Brand, token, setBrand } = useAdmin();
+  const { Brand, setBrand } = useAdmin();
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
 
   /* Custom Plan State */
@@ -38,14 +42,9 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
         payload.total_scans = customLimit;
       }
 
-      const response = await axios.put(
-        `${BASE_URL}/brand/update-detail`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+      const response = await api.put(
+        "/brand/update-detail",
+        payload
       );
 
       if (response.data?.data) {
@@ -56,9 +55,9 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       } else {
         toast.error("Failed to update plan");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Plan update error:", error);
-      toast.error("Failed to update plan.");
+      toast.error(error?.response?.data?.error || "Failed to update plan");
     } finally {
       setLoadingPlanId(null);
     }
@@ -72,14 +71,9 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     }
 
     try {
-      const response = await axios.put(
-        `${BASE_URL}/brand/cancel-plan`,
-        { subscribed_package_id: null },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+      const response = await api.put(
+        "/brand/cancel-plan",
+        { subscribed_package_id: null }
       );
       if (response.data?.data) {
         toast.success("Successfully unsubscribed from plan");
@@ -92,8 +86,9 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
           });
         }
       }
-    } catch (error) {
-      toast.error("Failed to unsubscribe from plan");
+    } catch (error: any) {
+      console.error("Plan update error:", error);
+      toast.error(error?.response?.data?.error || "Failed to unsubscribe from plan");
     } finally {
       setLoadingPlanId(null);
     }

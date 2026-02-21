@@ -19,7 +19,7 @@ import { SignUpFormValues } from "./types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
-import { Icon } from "@iconify/react";
+import { CATEGORIES } from "@/app/constants/categories";
 
 const ModelViewer = dynamic(
   () => import("../components/ModelViewerWrapper"),
@@ -68,8 +68,10 @@ const SignUpPage: React.FC = () => {
       if (values.category) formData.append("category", values.category);
       if (image) formData.append("image", image);
 
-      await axios.post(`${BASE_URL}/brand/create`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await axios.post(`${BASE_URL}/brand/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       if (storedPlanId) localStorage.removeItem("selectedPlanId");
@@ -78,6 +80,20 @@ const SignUpPage: React.FC = () => {
       toast.success("Account created successfully!");
       setTimeout(() => router.push("/app/login"), 2000);
 
+      // Check if email verification is required
+      if (response.data.requiresVerification) {
+        toast.success(response.data.message || "Account created! Please check your email to verify your account.", {
+          autoClose: 8000, // Keep visible longer
+        });
+        setLoading(false);
+        // Don't redirect - let user read message and check email
+      } else {
+        toast.success("Signup successful! Redirecting to login...");
+        setTimeout(() => {
+          router.push("/app/login");
+        }, 2000);
+      }
+      
     } catch (err: any) {
       if (err.code === 'ERR_NETWORK') {
         toast.error("Server connection failed.");
@@ -206,6 +222,20 @@ const SignUpPage: React.FC = () => {
 
             <Form.Item name="website_url" label={<span className="font-semibold text-slate-700">Website URL</span>} className="sm:col-span-2">
               <Input prefix={<GlobalOutlined className="text-slate-300" />} placeholder="https://yourbrand.com" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+            </Form.Item>
+
+            <Form.Item name="category" label="Business Category (Optional)">
+              <Select
+                placeholder="Select a category"
+                size="large"
+                allowClear
+              >
+                {CATEGORIES.map((category) => (
+                  <Select.Option key={category} value={category}>
+                    {category}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
 
             <Form.Item name="profileImage" label={<span className="font-semibold text-slate-700">Brand Logo / Profile Image</span>} className="sm:col-span-2">

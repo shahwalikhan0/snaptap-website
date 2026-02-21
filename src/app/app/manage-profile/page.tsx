@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -8,21 +8,19 @@ import {
   Upload,
   Modal,
   Select,
-  Spin,
 } from "antd";
-import { UploadOutlined, EyeInvisibleOutlined, UserOutlined, MailOutlined, GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import { UploadOutlined, UserOutlined, MailOutlined, GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RcFile } from "antd/es/upload";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
-import axios from "axios";
+import api from "@/app/utils/api";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 
 const { Option } = Select;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ManageProfilePage = () => {
   const router = useRouter();
@@ -61,6 +59,35 @@ const ManageProfilePage = () => {
         location: Brand.location || "",
         subscribed_package_id: Brand.subscribed_package_id,
       });
+    } else if (Admin?.id) {
+      // If brand data is missing, fetch from API
+      const fetchBrandData = async () => {
+        try {
+          const res = await api.get("/brand/detail");
+
+          if (res.data) {
+            const data = res.data;
+            const locationParts = (data.location || "")
+              .split(",")
+              .map((p: string) => p.trim());
+
+            brandForm.setFieldsValue({
+              website_url: data.website_url || "",
+              category: data.category || "",
+              phone: data.phone || "",
+              location:
+                locationParts.length >= 2
+                  ? `${locationParts[0]}, ${locationParts[1]}`
+                  : data.location || "",
+              subscribed_package_id: data.subscribed_package_id,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching brand details:", error);
+        }
+      };
+
+      fetchBrandData();
     }
   }, [Admin, Brand, form, brandForm, isLoggedIn, router]);
 
@@ -92,9 +119,15 @@ const ManageProfilePage = () => {
         oldPassword: oldPassword || null,
       };
 
-      await axios.put(`${BASE_URL}/brand/update`, payload, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await api.put(
+        "/brand/update",
+        payload
+      );
+
+      if (response.data?.error) {
+        toast.error(response.data.error);
+        return;
+      }
 
       toast.success("Profile updated successfully");
     } catch (error) {
@@ -117,9 +150,15 @@ const ManageProfilePage = () => {
         subscribed_package_id: brandValues.subscribed_package_id,
       };
 
-      await axios.put(`${BASE_URL}/brand/update-detail`, payload, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await api.put(
+        "/brand/update-detail",
+        payload
+      );
+
+      if (response.data?.error) {
+        toast.error(response.data.error);
+        return;
+      }
 
       toast.success("Brand details updated successfully");
     } catch (error) {
