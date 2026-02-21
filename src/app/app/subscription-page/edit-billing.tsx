@@ -60,11 +60,11 @@ export default function EditBilling() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Billing Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Billing Settings</h1>
         <p className="text-slate-500">Configure your internal billing metrics and metadata.</p>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+      <div className="bg-white rounded-3xl border border-slate-100 p-4 sm:p-8 shadow-sm">
         <Form layout="vertical" form={form} onFinish={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
 
           <Form.Item label={<span className="font-bold text-slate-700 text-sm">Active Package</span>} name="package_name" className="md:col-span-1">
@@ -110,12 +110,12 @@ export default function EditBilling() {
             <InputNumber className="w-full !rounded-xl !h-12 flex items-center border-slate-200" min={0} />
           </Form.Item>
 
-          <div className="md:col-span-2 mt-8 flex items-center gap-3">
+          <div className="md:col-span-2 mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Button
               type="primary"
               htmlType="submit"
               loading={loading}
-              className="h-12 px-10 rounded-xl bg-[#00A8DE] hover:bg-[#007cae] border-none font-bold shadow-lg shadow-[#00A8DE]/10"
+              className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold shadow-lg shadow-[#007cae]/10 !text-white"
             >
               Save Billing Profile
             </Button>

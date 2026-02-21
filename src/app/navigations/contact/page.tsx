@@ -33,7 +33,7 @@ export default function ContactPage() {
         <div className="bg-white min-h-screen font-sans text-slate-800">
             <Navbar />
 
-            <main className="pt-32 pb-20 px-6 md:px-12 lg:px-24">
+            <main className="pt-24 sm:pt-32 pb-20 px-4 sm:px-6 md:px-12 lg:px-24">
                 <div className="max-w-5xl mx-auto">
                     {/* Page Header */}
                     <div className="text-center mb-16">
@@ -43,13 +43,13 @@ export default function ContactPage() {
                             </div>
                             <span className="text-sm font-semibold text-[#007cae] uppercase tracking-wider">Get in Touch</span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Contact Us</h1>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">Contact Us</h1>
                         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
                             Have questions, feedback, or need support? We&apos;d love to hear from you. Reach out and our team will get back to you as soon as possible.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
                         {/* Contact Info Cards */}
                         <div className="md:col-span-1 space-y-6">
                             {/* Email */}
@@ -104,7 +104,7 @@ export default function ContactPage() {
 
                         {/* Contact Form */}
                         <div className="md:col-span-2">
-                            <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-lg">
+                            <div className="bg-white rounded-2xl p-5 sm:p-8 border border-slate-100 shadow-lg">
                                 <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
 
                                 {submitted ? (

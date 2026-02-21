@@ -33,17 +33,17 @@ export default function Page() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="pt-36 pb-20 px-6 md:px-12 text-center bg-gradient-to-b from-slate-50 to-white"
+        className="pt-28 sm:pt-36 pb-14 sm:pb-20 px-4 sm:px-6 md:px-12 text-center bg-gradient-to-b from-slate-50 to-white"
       >
         <div className="max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-[#007cae]/10 text-[#007cae] text-sm font-semibold px-4 py-2 rounded-full mb-6">
             <Icon icon="mdi:tag-outline" width={16} />
             Simple, Transparent Pricing
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 mb-4 sm:mb-6 leading-tight">
             Plans That Grow <span className="text-[#007cae]">With You</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-8 sm:mb-10 max-w-2xl mx-auto">
             From independent sellers to enterprise teams — choose the plan that fits your business and start bringing your products to life in AR.
           </p>
           <button
@@ -63,18 +63,18 @@ export default function Page() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="py-16 px-6 md:px-12 bg-white"
+        className="py-12 sm:py-16 px-2 sm:px-6 md:px-12 bg-white"
       >
         <PricingComponent />
       </motion.section>
 
       {/* BOTTOM CTA SECTION */}
-      <section className="py-24 px-6 md:px-12 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
 
           {/* Left: Start Free Trial */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Ready to transform how customers see your products?
             </h2>
             <p className="text-lg text-slate-600 mb-8">
@@ -84,12 +84,12 @@ export default function Page() {
               onClick={() => router.push("/app/sign-up")}
               className="bg-[#007cae] text-white font-semibold px-10 py-4 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
-              Start Free Trial
+              Get Started as Seller
             </button>
           </div>
 
           {/* Right: Enterprise card */}
-          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-md">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-md">
             <div className="w-12 h-12 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-5">
               <Icon icon="mdi:office-building-outline" className="text-[#007cae]" width={26} />
             </div>

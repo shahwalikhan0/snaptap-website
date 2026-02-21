@@ -37,13 +37,13 @@ export const MainScreen = () => {
       <Navbar />
 
       {/* SECTION 1 — HERO */}
-      <section className="pt-32 pb-20 px-6 md:px-12 lg:px-24 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 md:px-12 lg:px-24 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/2 text-center md:text-left z-10">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-slate-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-slate-900 mb-4 sm:mb-6">
               See Before You Buy with <span className="text-[#007cae]">SNAPTAP</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto md:mx-0">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto md:mx-0">
               SnapTap transforms physical products into realistic, scalable 3D AR experiences that customers can place in their real environment before purchasing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -63,7 +63,7 @@ export const MainScreen = () => {
             </div>
           </div>
           <div className="w-full md:w-1/2 relative">
-            <div className="relative rounded-2xl p-2 bg-white/50 backdrop-blur-sm border border-slate-100 shadow-2xl h-[400px] md:h-[500px] w-full items-center justify-center flex">
+            <div className="relative rounded-2xl p-2 bg-white/50 backdrop-blur-sm border border-slate-100 shadow-2xl h-[280px] sm:h-[350px] md:h-[500px] w-full items-center justify-center flex">
               {/* Using ModelViewer as the Hero Visual */}
               <div className="w-full h-full rounded-xl overflow-hidden relative bg-gray-50">
                 <ModelViewer />
@@ -82,10 +82,10 @@ export const MainScreen = () => {
       </div> */}
 
       {/* SECTION — FEATURES GRID */}
-      <section className="py-24 px-6 md:px-12 bg-slate-50">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Everything Your Business Needs for AR
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
@@ -93,7 +93,7 @@ export const MainScreen = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 icon: "mdi:cube-scan",
@@ -128,7 +128,7 @@ export const MainScreen = () => {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-[#007cae]/20 transition-all group"
+                className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-[#007cae]/20 transition-all group"
               >
                 <div className="w-12 h-12 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/20 transition-all">
                   <Icon icon={feature.icon} className="text-[#007cae]" width={26} />
@@ -142,8 +142,8 @@ export const MainScreen = () => {
       </section>
 
       {/* SECTION — CORE VALUE / USP */}
-      <section className="py-24 px-6 md:px-12 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-white">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-12">
           <div className="w-full md:w-1/2 order-2 md:order-1">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
               <Image
@@ -160,7 +160,7 @@ export const MainScreen = () => {
             </div>
           </div>
           <div className="w-full md:w-1/2 order-1 md:order-2">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
               Remove Guesswork from Buying
             </h2>
             <div className="space-y-4">
@@ -176,7 +176,7 @@ export const MainScreen = () => {
                   <div className="mt-1 w-6 h-6 rounded-full bg-[#007cae]/10 flex items-center justify-center shrink-0">
                     <Icon icon="mdi:check" className="text-[#007cae]" width={16} />
                   </div>
-                  <span className="text-lg text-slate-700">{point}</span>
+                  <span className="text-base sm:text-lg text-slate-700">{point}</span>
                 </div>
               ))}
             </div>
@@ -186,18 +186,18 @@ export const MainScreen = () => {
 
       {/* SECTION 2 — PRODUCT OVERVIEW */
       }
-      <section className="py-24 px-6 md:px-12 bg-white">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              One Platform. Three AR Solutions.
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              One Platform. Multiple AR Solutions.
             </h2>
             <p className="text-lg text-slate-600">
               SnapTap helps businesses digitize physical products into interactive 3D augmented reality experiences — improving customer confidence, reducing returns, and increasing conversions.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Card 1: Marketplace */}
             <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
               <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
@@ -289,10 +289,10 @@ export const MainScreen = () => {
       </section>
 
       {/* SECTION 3 — HOW SNAP TAP WORKS */}
-      <section id="how-it-works" className="py-24 px-6 md:px-12 bg-slate-50">
+      <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               How Snap Tap Works
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
@@ -304,7 +304,7 @@ export const MainScreen = () => {
             {/* Connector Line for Desktop */}
             <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-[#007cae]/20 w-4/5 mx-auto -z-0"></div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
               {[
                 {
                   icon: "mdi:cube-scan",
@@ -332,12 +332,13 @@ export const MainScreen = () => {
                 }
               ].map((item, idx) => (
                 <div key={idx} className="relative z-10 flex flex-col items-center text-center">
-                  <div className="w-24 h-24 rounded-full bg-white border-4 border-[#007cae]/10 shadow-lg flex items-center justify-center mb-6 text-[#007cae] group transition-all hover:border-[#007cae] hover:scale-110">
-                    <Icon icon={item.icon} width={40} />
+                  <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-white border-4 border-[#007cae]/10 shadow-lg flex items-center justify-center mb-4 sm:mb-6 text-[#007cae] group transition-all hover:border-[#007cae] hover:scale-110">
+                    <Icon icon={item.icon} width={28} className="sm:hidden" />
+                    <Icon icon={item.icon} width={40} className="hidden sm:block" />
                   </div>
                   <span className="text-sm font-bold text-[#007cae] tracking-wider uppercase mb-2">{item.step}</span>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                  <p className="text-slate-600">{item.desc}</p>
+                  <h3 className="text-base sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">{item.title}</h3>
+                  <p className="text-sm sm:text-base text-slate-600">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -389,28 +390,28 @@ export const MainScreen = () => {
       </section> */}
 
       {/* SECTION 6 — CALL TO ACTION */}
-      <section className="py-24 px-6 md:px-12 bg-[#007cae] relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-[#007cae] relative overflow-hidden">
         {/* Abstract shapes for background interest */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-2xl transform -translate-x-1/3 translate-y-1/3 text-white"></div>
 
         <div className="relative max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
             Bring Your Products Into the Real World — Digitally
           </h2>
-          <p className="text-xl text-blue-50 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-xl text-blue-50 mb-8 sm:mb-10 max-w-2xl mx-auto">
             Join businesses using SnapTap to deliver immersive product experiences that customers trust.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => handleNav("/app/sign-up")}
-              className="bg-white text-[#007cae] font-bold py-4 px-10 rounded-full hover:bg-gray-100 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+              className="bg-white text-[#007cae] font-bold py-4 px-10 rounded-full hover:bg-slate-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
             >
-              Request Demo
+              Become a Seller
             </button>
             <button
               onClick={() => handleNav("/navigations/contact")}
-              className="bg-transparent border-2 border-white/30 text-white font-bold py-4 px-10 rounded-full hover:bg-white/10 transition-all"
+              className="bg-transparent border-2 border-white/40 text-white font-bold py-4 px-10 rounded-full hover:bg-white/10 transition-all"
             >
               Contact Sales
             </button>

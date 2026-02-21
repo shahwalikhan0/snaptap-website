@@ -106,17 +106,17 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Change Your Plan</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Change Your Plan</h1>
         <p className="text-slate-500">Pick the best plan for your growing business needs.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {plan?.map((p: PlanType) => (
           <Card
             key={p.id}
             className={`
               rounded-3xl shadow-sm hover:shadow-md transition-all border-slate-100 overflow-hidden
-              ${Brand.subscribed_package_id === p.id ? "ring-2 ring-[#00A8DE] border-transparent" : ""}
+              ${Brand.subscribed_package_id === p.id ? "ring-2 ring-[#007cae] border-transparent" : ""}
             `}
           >
             <div className="mb-6">
@@ -150,7 +150,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 block
                 size="large"
                 loading={loadingPlanId === p.id}
-                className="h-12 rounded-xl bg-[#00A8DE] hover:bg-[#007cae] border-none font-bold"
+                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
                 onClick={() => handleUpdatePlan(p.id, p.name)}
               >
                 Upgrade to {p.name}
@@ -173,17 +173,17 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
         <Card
           className={`
             rounded-3xl shadow-sm hover:shadow-md transition-all border-slate-100 
-            ${Brand.subscribed_package_id === 4 ? "ring-2 ring-[#00A8DE] border-transparent" : "bg-slate-50/50"}
+            ${Brand.subscribed_package_id === 4 ? "ring-2 ring-[#007cae] border-transparent" : "bg-slate-50/50"}
           `}
         >
           <div className="mb-6">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Custom Enterprise</h3>
             <div className="flex items-baseline gap-1 mb-6">
-              <span className="text-3xl font-black text-[#00A8DE]">Rs. {customPrice}</span>
+              <span className="text-3xl font-black text-[#007cae]">Rs. {customPrice}</span>
               <span className="text-slate-400 font-medium">/ month</span>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 mb-6">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 mb-6">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Number of Scans</span>
                 <InputNumber
@@ -202,8 +202,8 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 onChange={setCustomScans}
                 disabled={Brand.subscribed_package_id === 4}
                 className="mb-0"
-                trackStyle={{ backgroundColor: "#00A8DE" }}
-                handleStyle={{ borderColor: "#00A8DE", backgroundColor: "#00A8DE" }}
+                trackStyle={{ backgroundColor: "#007cae" }}
+                handleStyle={{ borderColor: "#007cae", backgroundColor: "#007cae" }}
               />
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
             size="large"
             disabled={Brand.subscribed_package_id === 4}
             loading={loadingPlanId === 4}
-            className={`h-12 rounded-xl font-bold ${Brand.subscribed_package_id !== 4 ? "bg-[#00A8DE] hover:bg-[#007cae] border-none" : ""}`}
+            className={`h-12 rounded-xl font-bold !text-white ${Brand.subscribed_package_id !== 4 ? "!bg-[#007cae] hover:!bg-[#006080] border-none" : ""}`}
             onClick={() => handleUpdatePlan(4, "Custom", customScans)}
           >
             {Brand.subscribed_package_id === 4 ? "Currently Active" : "Submit Custom Selection"}

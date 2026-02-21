@@ -151,8 +151,8 @@ export default function PricingComponent() {
   };
 
   return (
-    <div className="text-[#007cae] text-center px-4 pb-20 max-w-screen-xl mx-auto">
-      <Title level={2} style={{ color: "#007cae", marginBottom: 40 }}>
+    <div className="text-[#007cae] text-center px-2 sm:px-4 pb-20 max-w-screen-xl mx-auto">
+      <Title level={2} className="!text-[#007cae] !mb-10 font-bold">
         Choose the Plan That’s Right for You
       </Title>
 
@@ -160,19 +160,19 @@ export default function PricingComponent() {
       <Row
         gutter={[24, 24]}
         justify="center"
-        className="max-w-6xl mx-auto w-full px-4"
+        className="max-w-6xl mx-auto w-full px-0 sm:px-4"
       >
         {plans.map((plan, index) => (
-          <Col xs={24} sm={12} md={6} key={plan.id}>
+          <Col xs={24} sm={12} lg={6} key={plan.id}>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={{ y: -4 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-7 py-8 border transition-all h-full ${plan.id === 2
-                  ? "border-[#007cae] shadow-[0_8px_30px_rgba(0,124,174,0.18)]"
-                  : "border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg"
+              className={`relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-5 sm:px-7 py-6 sm:py-8 border transition-all h-full ${plan.id === 2
+                ? "border-[#007cae] shadow-[0_8px_30px_rgba(0,124,174,0.18)]"
+                : "border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg"
                 }`}
             >
               {/* Most Popular badge */}
@@ -194,7 +194,7 @@ export default function PricingComponent() {
               {/* Price */}
               <div className="mb-6">
                 <div className="flex items-end gap-1">
-                  <span className="text-4xl font-black text-slate-900">${plan.monthly_price}</span>
+                  <span className="text-3xl sm:text-4xl font-black text-slate-900">${plan.monthly_price}</span>
                   <span className="text-slate-400 font-medium pb-1">/mo</span>
                 </div>
               </div>
@@ -219,10 +219,7 @@ export default function PricingComponent() {
                 size="large"
                 loading={loadingPlanId === plan.id}
                 onClick={() => handleSelectPlan(plan)}
-                className={`h-12 font-bold rounded-xl transition duration-300 ${plan.id === 2
-                    ? "!bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md"
-                    : "!bg-white hover:!bg-slate-50 !text-[#007cae] !border-[#007cae]/50 !border"
-                  }`}
+                className="h-12 font-bold rounded-xl !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
               >
                 {isLoggedIn && Brand?.subscribed_package_id === plan.id ? "✓ Current Plan" : "Get Started"}
               </Button>
@@ -231,14 +228,14 @@ export default function PricingComponent() {
         ))}
 
         {/* Custom Plan Card */}
-        <Col xs={24} sm={12} md={6}>
+        <Col xs={24} sm={12} lg={6}>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={{ y: -4 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-7 py-8 border border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg transition-all h-full"
+            className="relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-5 sm:px-7 py-6 sm:py-8 border border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg transition-all h-full"
           >
             {/* Icon + Name */}
             <div className="flex items-center gap-3 mb-5">
@@ -251,7 +248,7 @@ export default function PricingComponent() {
             {/* Price */}
             <div className="mb-2">
               <div className="flex items-end gap-1">
-                <span className="text-4xl font-black text-slate-900">${customPrice}</span>
+                <span className="text-3xl sm:text-4xl font-black text-slate-900">${customPrice}</span>
                 <span className="text-slate-400 font-medium pb-1">/mo</span>
               </div>
               <p className="text-xs text-slate-400 mt-1">Based on {customScans} scans</p>
@@ -305,7 +302,7 @@ export default function PricingComponent() {
                 monthly_price: customPrice,
                 features: [],
               })}
-              className="h-12 font-bold rounded-xl !bg-white hover:!bg-slate-50 !text-[#007cae] !border-[#007cae]/50 !border transition duration-300"
+              className="h-12 font-bold rounded-xl !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
             >
               {isLoggedIn && Brand?.subscribed_package_id === 4 ? "✓ Current Plan" : "Get Started"}
             </Button>

@@ -74,7 +74,7 @@ export default function ProductDetailsPage() {
         });
       } catch (err: any) {
         console.error("Failed to load product", err);
-        
+
         // Check for network/server errors
         if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
           toast.error("Server is not accessible. Please check your connection and try again.");
@@ -155,7 +155,7 @@ export default function ProductDetailsPage() {
       alert("QR code is not available");
       return;
     }
-    
+
     try {
       const response = await fetch(product.qr_code_url);
       const blob = await response.blob();
@@ -183,8 +183,8 @@ export default function ProductDetailsPage() {
   }
 
   return (
-    <div className="w-full px-6 sm:px-10 md:px-20 py-16 bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFEFF]">
-      <div className="max-w-5xl mx-auto" style={{ marginTop: "7vh" }}>
+    <div className="w-full px-3 sm:px-6 md:px-10 lg:px-20 py-10 sm:py-16 bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFEFF]">
+      <div className="max-w-5xl mx-auto" style={{ marginTop: "5vh" }}>
         <Modal
           open={showDeleteConfirm}
           onCancel={() => setShowDeleteConfirm(false)}
@@ -209,21 +209,23 @@ export default function ProductDetailsPage() {
         <Card
           className="rounded-xl shadow-md"
           title={
-            <div className="flex justify-between items-center">
-              <span className="text-xl font-semibold text-[#007cae]">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <span className="text-lg sm:text-xl font-semibold text-[#007cae]">
                 Product Details
               </span>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   icon={<EditOutlined />}
                   onClick={() => setEditing(true)}
+                  className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
                 >
                   Edit
                 </Button>
                 <Button
                   type="default"
                   onClick={() => setShowQRModal(true)}
+                  className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
                 >
                   View QR
                 </Button>
@@ -232,6 +234,7 @@ export default function ProductDetailsPage() {
                   loading={deleting}
                   icon={<DeleteOutlined />}
                   onClick={() => confirmDelete()}
+                  className="rounded-xl border-red-200 hover:!border-red-500 hover:!text-red-500"
                 >
                   Delete
                 </Button>
@@ -240,7 +243,7 @@ export default function ProductDetailsPage() {
           }
         >
           {/* Image */}
-          <div className="relative w-full h-[280px] bg-gray-100 rounded-xl mb-6">
+          <div className="relative w-full h-[200px] sm:h-[280px] bg-gray-100 rounded-xl mb-6">
             <img
               src={product?.image_url}
               alt={product?.name}
@@ -252,7 +255,7 @@ export default function ProductDetailsPage() {
 
           {/* Info */}
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-[#00A8DE]">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#007cae]">
               {product?.name}
             </h2>
             <p className="text-gray-600">{product?.description}</p>
@@ -265,11 +268,10 @@ export default function ProductDetailsPage() {
                 {product?.category}
               </span>
               <span
-                className={`px-3 py-1 rounded-full ${
-                  product?.is_active
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
-                }`}
+                className={`px-3 py-1 rounded-full ${product?.is_active
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+                  }`}
               >
                 {product?.is_active ? "Active" : "Inactive"}
               </span>
@@ -339,9 +341,9 @@ export default function ProductDetailsPage() {
               Close
             </Button>,
             product?.qr_code_url && (
-              <Button 
-                key="download" 
-                type="primary" 
+              <Button
+                key="download"
+                type="primary"
                 onClick={handleDownloadQR}
               >
                 Download

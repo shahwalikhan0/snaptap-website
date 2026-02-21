@@ -54,17 +54,17 @@ export default function Page() {
     <div className="w-full overflow-x-hidden bg-white">
 
       {/* HERO SECTION */}
-      <section className="pt-36 pb-24 px-6 md:px-12 bg-gradient-to-b from-slate-50 to-white text-center">
+      <section className="pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 md:px-12 bg-gradient-to-b from-slate-50 to-white text-center">
         <div className="max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-[#007cae]/10 text-[#007cae] text-sm font-semibold px-4 py-2 rounded-full mb-6">
             <Icon icon="mdi:augmented-reality" width={16} />
             Product Overview
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 mb-4 sm:mb-6 leading-tight">
             Experience the Future of{" "}
             <span className="text-[#007cae]">3D Commerce</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-8 sm:mb-10 max-w-2xl mx-auto">
             SnapTap removes the guesswork from online and in-person shopping by letting customers place accurate, scaled AR representations of products in their real environment before purchasing.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -85,12 +85,12 @@ export default function Page() {
       </section>
 
       {/* FEATURES SECTION */}
-      <section className="pb-24 px-6 md:px-12">
-        <div className="max-w-6xl mx-auto space-y-24">
+      <section className="pb-16 sm:pb-24 px-4 sm:px-6 md:px-12">
+        <div className="max-w-6xl mx-auto space-y-16 sm:space-y-24">
           {features.map((feature, idx) => (
             <motion.div
               key={idx}
-              className={`flex flex-col ${feature.reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-12`}
+              className={`flex flex-col ${feature.reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-8 sm:gap-12`}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -137,14 +137,14 @@ export default function Page() {
       </section>
 
       {/* BOTTOM CTA */}
-      <section className="py-24 px-6 md:px-12 bg-[#007cae] relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-[#007cae] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-2xl transform -translate-x-1/3 translate-y-1/3" />
         <div className="relative max-w-3xl mx-auto text-center text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
             Ready to Bring Your Products Into the Real World?
           </h2>
-          <p className="text-xl text-blue-50 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-xl text-blue-50 mb-8 sm:mb-10 max-w-2xl mx-auto">
             Join businesses using SnapTap to deliver immersive product experiences customers can trust.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -152,7 +152,7 @@ export default function Page() {
               onClick={() => router.push("/app/sign-up")}
               className="bg-white text-[#007cae] font-bold py-4 px-10 rounded-full hover:bg-slate-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
             >
-              Get Started Free
+              Become a Seller
             </button>
             <button
               onClick={() => router.push("/navigations/contact")}

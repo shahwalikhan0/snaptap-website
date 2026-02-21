@@ -74,7 +74,7 @@ export default function SubscriptionPage() {
   if (!Admin) return null;
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-white pt-20 sm:pt-28">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
@@ -88,11 +88,11 @@ export default function SubscriptionPage() {
         </aside>
 
         {/* Right Content Area */}
-        <main className="flex-1 bg-white p-6 md:p-12 overflow-y-auto">
+        <main className="flex-1 bg-white p-4 sm:p-6 md:p-12 overflow-y-auto">
           <div className="max-w-4xl">
-            <motion_container key={selectedPage}>
+            <MotionContainer key={selectedPage}>
               {renderRightPanel()}
-            </motion_container>
+            </MotionContainer>
           </div>
         </main>
 
@@ -102,7 +102,7 @@ export default function SubscriptionPage() {
 }
 
 // Wrapper for simple fade transition
-const motion_container = ({ children }: { children: React.ReactNode }) => {
+const MotionContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
       {children}

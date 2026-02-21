@@ -109,9 +109,6 @@ export default function Footer() {
           <p className="text-xs text-slate-400">
             © {currentYear} SnapTap. All rights reserved.
           </p>
-          <p className="text-xs text-slate-400">
-            Built with ❤️ for businesses worldwide.
-          </p>
         </div>
       </div>
     </footer>

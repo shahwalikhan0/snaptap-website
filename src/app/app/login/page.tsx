@@ -95,17 +95,17 @@ const LoginPage = () => {
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
-      {/* LEFT SIDE - Branding & 3D Visual */}
-      <div className="flex-1 bg-gradient-to-br from-[#00A8DE]/10 via-[#00A8DE]/5 to-white flex flex-col items-center justify-center p-8 md:p-12 relative overflow-hidden">
+      {/* LEFT SIDE - Branding & 3D Visual (hidden on mobile) */}
+      <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-8 md:p-12 pt-28 md:pt-28 relative overflow-hidden">
         {/* Decorative background shape */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#00A8DE]/5 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
 
         <div className="w-full max-w-lg aspect-square relative z-10 mb-8">
           <ModelViewer />
         </div>
 
         <div className="text-center z-10 max-w-sm">
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 whitespace-nowrap">
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
             Welcome Back!
           </h1>
           <p className="text-slate-600 text-lg">
@@ -115,12 +115,12 @@ const LoginPage = () => {
       </div>
 
       {/* RIGHT SIDE - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-12 bg-white">
+      <div className="flex-1 flex items-start justify-center p-4 sm:p-6 md:p-12 bg-white pt-24 sm:pt-28 md:pt-28">
         <div className="w-full max-w-[400px]">
           {/* Mobile Logo / Branding */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-2xl bg-[#00A8DE]/10 flex items-center justify-center mb-6">
-              <Icon icon="mdi:shield-key-outline" className="text-[#00A8DE]" width={32} />
+            <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mb-6">
+              <Icon icon="mdi:shield-key-outline" className="text-[#007cae]" width={32} />
             </div>
             <Title level={2} className="!mb-2 !text-slate-900 font-bold">Admin Login</Title>
             <Text className="text-slate-400">Manage your SnapTap business account</Text>
@@ -141,7 +141,7 @@ const LoginPage = () => {
               <Input
                 prefix={<UserOutlined className="text-slate-400 mr-2" />}
                 placeholder="Enter your username"
-                className="h-12 rounded-xl border-slate-200 focus:border-[#00A8DE] hover:border-[#00A8DE]/50"
+                className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -153,14 +153,14 @@ const LoginPage = () => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
                 placeholder="••••••••"
-                className="h-12 rounded-xl border-slate-200 focus:border-[#00A8DE] hover:border-[#00A8DE]/50"
+                className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
             <div className="flex justify-end mb-6">
               <button
                 type="button"
-                className="text-sm font-semibold text-[#00A8DE] hover:text-[#007cae] transition"
+                className="text-sm font-semibold text-[#007cae] hover:text-[#006080] transition"
               >
                 Forgot Password?
               </button>
@@ -172,7 +172,7 @@ const LoginPage = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-xl bg-[#00A8DE] hover:bg-[#007cae] border-none font-bold text-base shadow-lg shadow-[#00A8DE]/20 transition-all active:scale-95"
+                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
               >
                 Sign In
               </Button>
@@ -184,7 +184,7 @@ const LoginPage = () => {
               Don&apos;t have an account?{" "}
               <button
                 onClick={() => router.push("/app/sign-up")}
-                className="font-bold text-[#00A8DE] hover:text-[#007cae] transition ml-1"
+                className="font-bold text-[#007cae] hover:text-[#006080] transition ml-1"
               >
                 Create Account
               </button>

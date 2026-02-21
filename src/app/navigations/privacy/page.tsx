@@ -9,7 +9,7 @@ export default function PrivacyPolicy() {
         <div className="bg-white min-h-screen font-sans text-slate-800">
             <Navbar />
 
-            <main className="pt-32 pb-20 px-6 md:px-12 lg:px-24">
+            <main className="pt-24 sm:pt-32 pb-20 px-4 sm:px-6 md:px-12 lg:px-24">
                 <div className="max-w-4xl mx-auto">
                     {/* Page Header */}
                     <div className="mb-12">
@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
                             </div>
                             <span className="text-sm font-semibold text-[#007cae] uppercase tracking-wider">Legal</span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Privacy Policy</h1>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">Privacy Policy</h1>
                         <p className="text-slate-400 text-sm">Last updated: February 20, 2026</p>
                     </div>
 

@@ -132,42 +132,42 @@ const ManageProfilePage = () => {
   if (!Admin) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50/30 pt-24">
+    <div className="min-h-screen bg-slate-50/30 pt-20 sm:pt-28">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
 
         {/* Navigation Sidebar */}
-        <aside className="w-full lg:w-[320px] bg-slate-50/50 p-6 flex flex-col gap-2 border-r border-slate-100">
+        <aside className="w-full lg:w-[320px] bg-slate-50/50 p-3 sm:p-6 flex lg:flex-col gap-2 border-b lg:border-b-0 lg:border-r border-slate-100 overflow-x-auto">
           <div className="mb-8">
-            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-4">Account Settings</h2>
+            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 hidden lg:block">Account Settings</h2>
           </div>
 
           <button
             onClick={() => setActiveSection("profile")}
-            className={`flex items-center gap-3 px-4 py-3.5 rounded-xl font-semibold transition-all ${activeSection === "profile"
-                ? "bg-white text-[#00A8DE] shadow-sm border border-slate-200 ring-1 ring-[#00A8DE]/5"
-                : "text-slate-500 hover:bg-slate-100"
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${activeSection === "profile"
+              ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+              : "text-slate-500 hover:bg-slate-100"
               }`}
           >
-            <Icon icon="mdi:account-box-outline" width={22} className={activeSection === "profile" ? "text-[#00A8DE]" : "text-slate-400"} />
+            <Icon icon="mdi:account-box-outline" width={22} className={activeSection === "profile" ? "text-[#007cae]" : "text-slate-400"} />
             Manage Profile
           </button>
 
           <button
             onClick={() => setActiveSection("brand")}
-            className={`flex items-center gap-3 px-4 py-3.5 rounded-xl font-semibold transition-all ${activeSection === "brand"
-                ? "bg-white text-[#00A8DE] shadow-sm border border-slate-200 ring-1 ring-[#00A8DE]/5"
-                : "text-slate-500 hover:bg-slate-100"
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${activeSection === "brand"
+              ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+              : "text-slate-500 hover:bg-slate-100"
               }`}
           >
-            <Icon icon="mdi:store-edit-outline" width={22} className={activeSection === "brand" ? "text-[#00A8DE]" : "text-slate-400"} />
+            <Icon icon="mdi:store-edit-outline" width={22} className={activeSection === "brand" ? "text-[#007cae]" : "text-slate-400"} />
             Edit Brand Info
           </button>
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 bg-white p-6 md:p-12 overflow-y-auto">
+        <main className="flex-1 bg-white p-4 sm:p-6 md:p-12 overflow-y-auto">
           <AnimatePresence mode="wait">
             {activeSection === "profile" ? (
               <motion.div
@@ -182,7 +182,7 @@ const ManageProfilePage = () => {
                   <p className="text-slate-500">Update your account identity and login credentials.</p>
                 </div>
 
-                <div className="flex items-center gap-8 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 p-4 sm:p-6 bg-slate-50 rounded-3xl border border-slate-100">
                   <div className="relative group">
                     <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
                       <img
@@ -193,26 +193,26 @@ const ManageProfilePage = () => {
                     </div>
                     <button
                       onClick={() => setIsModalVisible(true)}
-                      className="absolute -bottom-1 -right-1 bg-[#00A8DE] text-white w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition shadow-lg ring-2 ring-white"
+                      className="absolute -bottom-1 -right-1 !bg-[#007cae] text-white w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition shadow-lg ring-2 ring-white"
                     >
                       <UploadOutlined />
                     </button>
                   </div>
-                  <div>
+                  <div className="text-center sm:text-left">
                     <h2 className="text-xl font-bold text-slate-900">{Admin?.name}</h2>
-                    <p className="text-[#00A8DE] font-semibold text-sm">@{Admin?.username}</p>
+                    <p className="text-[#007cae] font-semibold text-sm">@{Admin?.username}</p>
                   </div>
                 </div>
 
                 <Form layout="vertical" form={form} className="space-y-4">
                   <Form.Item name="fullName" label={<span className="font-bold text-slate-700">Display Name</span>}>
-                    <Input size="large" prefix={<UserOutlined className="text-slate-300" />} className="h-12 rounded-xl" />
+                    <Input size="large" prefix={<UserOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                   </Form.Item>
                   <Form.Item name="email" label={<span className="font-bold text-slate-700">Email Address</span>}>
                     <Input size="large" disabled prefix={<MailOutlined className="text-slate-300" />} className="h-12 rounded-xl bg-slate-50" />
                   </Form.Item>
                   <Form.Item name="description" label={<span className="font-bold text-slate-700">Bio / Description</span>}>
-                    <Input.TextArea rows={4} className="rounded-xl p-4" placeholder="Briefly describe your business..." />
+                    <Input.TextArea rows={4} className="rounded-xl p-4 border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="Briefly describe your business..." />
                   </Form.Item>
                 </Form>
 
@@ -223,13 +223,13 @@ const ManageProfilePage = () => {
                   </h3>
                   <Form layout="vertical" form={passwordForm} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Form.Item name="oldPassword" label={<span className="font-semibold text-slate-500">Current Password</span>} className="md:col-span-2">
-                      <Input.Password size="large" className="h-12 rounded-xl" />
+                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
                     <Form.Item name="newPassword" label={<span className="font-semibold text-slate-500">New Password</span>}>
-                      <Input.Password size="large" className="h-12 rounded-xl" />
+                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
                     <Form.Item name="confirmNewPassword" label={<span className="font-semibold text-slate-500">Confirm Password</span>}>
-                      <Input.Password size="large" className="h-12 rounded-xl" />
+                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
                   </Form>
                 </div>
@@ -238,7 +238,7 @@ const ManageProfilePage = () => {
                   type="primary"
                   size="large"
                   loading={profileLoading}
-                  className="h-12 px-10 rounded-xl bg-[#00A8DE] hover:bg-[#007cae] border-none font-bold"
+                  className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
                   onClick={handleProfileUpdate}
                 >
                   Save All Changes
@@ -259,11 +259,11 @@ const ManageProfilePage = () => {
 
                 <Form layout="vertical" form={brandForm} className="space-y-4">
                   <Form.Item name="website_url" label={<span className="font-bold text-slate-700">Official Website</span>}>
-                    <Input size="large" prefix={<GlobalOutlined className="text-slate-300" />} className="h-12 rounded-xl" placeholder="https://..." />
+                    <Input size="large" prefix={<GlobalOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="https://..." />
                   </Form.Item>
 
                   <Form.Item name="category" label={<span className="font-bold text-slate-700">Business Category</span>}>
-                    <Select size="large" className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center">
+                    <Select size="large" className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50">
                       {["Technology", "Fashion", "Food & Beverages", "Retail", "Gaming", "Other"].map(cat => (
                         <Option key={cat} value={cat}>{cat}</Option>
                       ))}
@@ -272,10 +272,10 @@ const ManageProfilePage = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Form.Item name="phone" label={<span className="font-bold text-slate-700">Contact Number</span>}>
-                      <Input size="large" prefix={<PhoneOutlined className="text-slate-300" />} className="h-12 rounded-xl" />
+                      <Input size="large" prefix={<PhoneOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
                     <Form.Item name="location" label={<span className="font-bold text-slate-700">Headquarters</span>}>
-                      <Input size="large" prefix={<EnvironmentOutlined className="text-slate-300" />} className="h-12 rounded-xl" placeholder="City, Country" />
+                      <Input size="large" prefix={<EnvironmentOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="City, Country" />
                     </Form.Item>
                   </div>
                 </Form>
@@ -284,7 +284,7 @@ const ManageProfilePage = () => {
                   type="primary"
                   size="large"
                   loading={brandLoading}
-                  className="h-12 px-10 rounded-xl bg-[#00A8DE] hover:bg-[#007cae] border-none font-bold"
+                  className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
                   onClick={handleBrandUpdate}
                 >
                   Update Brand Profile
@@ -309,7 +309,7 @@ const ManageProfilePage = () => {
             showUploadList={false}
           >
             <div className="w-full py-12 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
-              <UploadOutlined className="text-3xl text-[#00A8DE] mb-3" />
+              <UploadOutlined className="text-3xl text-[#007cae] mb-3" />
               <p className="text-slate-600 font-medium">Click here to upload your photo</p>
               <p className="text-slate-400 text-xs">JPG, PNG or WEBP formats only</p>
             </div>
@@ -317,7 +317,7 @@ const ManageProfilePage = () => {
           <Button
             block
             type="primary"
-            className="mt-6 h-11 rounded-xl bg-[#00A8DE] border-none font-bold"
+            className="mt-6 h-11 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
             onClick={() => setIsModalVisible(false)}
           >
             Done
