@@ -18,7 +18,7 @@ export default function Page() {
         "Customers visualize products in their real space",
         "Direct customer-to-seller contact",
       ],
-      image: "/assets/marketplace_1.png",
+      image: "/assets/marketplace.png",
       imageAlt: "SnapTap Marketplace Platform",
       reverse: false,
     },

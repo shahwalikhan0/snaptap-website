@@ -25,7 +25,7 @@ export default function Footer() {
       >
         {/* Branding */}
         <div>
-          <h2 className="text-xl font-bold text-slate-900 mb-2">SnapTap</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Snap. Tap. Experience.</h2>
           <p className="text-sm text-slate-500 mb-3 max-w-xs leading-relaxed">
             Helping businesses bring physical products to life through immersive augmented reality experiences.
           </p>

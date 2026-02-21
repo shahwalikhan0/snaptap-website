@@ -7,7 +7,7 @@ const ModelViewer = () => {
     <div className="relative w-full h-[470px] sm:h-[500px] mt-10 md:mt-0">
       {/* @ts-expect-error google model viewer not supported*/}
       <model-viewer
-        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+        src="/assets/models/shoe-model.glb"
         alt="A 3D model"
         auto-rotate
         camera-controls

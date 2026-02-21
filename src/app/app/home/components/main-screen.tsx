@@ -201,7 +201,7 @@ export const MainScreen = () => {
             {/* Card 1: Marketplace */}
             <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
               <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
-                <Image src="/assets/marketplace_1.png" alt="Marketplace" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                <Image src="/assets/marketplace.png" alt="Marketplace" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
                 <Icon icon="mdi:storefront-outline" className="text-[#007cae]" width={24} />
@@ -400,7 +400,7 @@ export const MainScreen = () => {
             Bring Your Products Into the Real World — Digitally
           </h2>
           <p className="text-base sm:text-xl text-blue-50 mb-8 sm:mb-10 max-w-2xl mx-auto">
-            Join businesses using SnapTap to deliver immersive product experiences that customers trust.
+            Join businesses using SnapTap to deliver immersive product experiences that customers trust
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
