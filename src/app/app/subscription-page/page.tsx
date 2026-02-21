@@ -1,5 +1,4 @@
 "use client";
-// require("dotenv").config();
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,11 +8,11 @@ import ChangePlan from "./change-plan";
 import EditBilling from "./edit-billing";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
-import { Typography } from "antd";
+import { Spin } from "antd";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-
-const { Title } = Typography;
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Icon } from "@iconify/react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -29,28 +28,19 @@ export default function SubscriptionPage() {
       if (!isInitialized) return;
 
       if (!isLoggedIn) {
-        toast.error("Please log in to access the Insights Dashboard.");
+        toast.error("Please log in to manage your subscription.");
         router.push("/app/login");
         return;
       }
       try {
         setLoading(true);
         const response = await axios.get(`${BASE_URL}/package`);
-
         if (Array.isArray(response.data)) {
           setPlan(response.data);
         }
       } catch (error: any) {
         console.error("Error fetching Package:", error);
-        
-        // Check for network/server errors
-        if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
-          toast.error("Server is not accessible. Please check your connection and try again.");
-        } else if (!error.response) {
-          toast.error("Cannot reach the server. Please try again later.");
-        } else {
-          toast.error("Failed to fetch subscription plans. Please try again.");
-        }
+        toast.error("Failed to load subscription plans.");
       } finally {
         setLoading(false);
       }
@@ -72,52 +62,50 @@ export default function SubscriptionPage() {
     }
   };
 
-  if (!isInitialized) {
+  if (!isInitialized || loading) {
     return (
-      <div style={{ paddingTop: "120px" }}>
-        <Title level={4}>Loading session...</Title>
+      <div className="w-full h-screen flex flex-col items-center justify-center bg-white gap-4">
+        <Spin size="large" />
+        <p className="text-slate-400 font-medium animate-pulse">Loading Subscription Data...</p>
       </div>
     );
   }
 
-  if (!Admin) {
-    // window.location.href = "/";
-    return null;
-  }
-
-  if (loading) {
-    return (
-      <div style={{ paddingTop: "120px" }}>
-        <Title level={4} type="danger">
-          Loading plans...
-        </Title>
-      </div>
-    );
-  }
-  if (!plan) {
-    return (
-      <div style={{ paddingTop: "120px" }}>
-        <Title level={4} type="danger">
-          No plans available. Please try again.
-        </Title>
-      </div>
-    );
-  }
+  if (!Admin) return null;
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", paddingTop: "120px" }}>
-      {/* Left Menu - 1/3 Width */}
-      <div style={{ width: "33.33%", borderRight: "1px solid #e0e0e0" }}>
-        <SubscriptionComponent
-          selectedPage={selectedPage}
-          onSelect={setSelectedPage}
-        />
-      </div>
+    <div className="min-h-screen bg-white pt-20 sm:pt-28">
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
-      {/* Right Content - 2/3 Width */}
-      <div style={{ width: "66.66%", backgroundColor: "#fff" }}>
-        {renderRightPanel()}
+      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
+
+        {/* Left Nav — Sidebar style */}
+        <aside className="w-full lg:w-[320px] lg:border-r border-slate-100 bg-slate-50/30 flex flex-col">
+          <SubscriptionComponent
+            selectedPage={selectedPage}
+            onSelect={setSelectedPage}
+          />
+        </aside>
+
+        {/* Right Content Area */}
+        <main className="flex-1 bg-white p-4 sm:p-6 md:p-12 overflow-y-auto">
+          <div className="max-w-4xl">
+            <MotionContainer key={selectedPage}>
+              {renderRightPanel()}
+            </MotionContainer>
+          </div>
+        </main>
+
       </div>
     </div>
   );
 }
+
+// Wrapper for simple fade transition
+const MotionContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+      {children}
+    </div>
+  );
+};

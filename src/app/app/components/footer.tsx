@@ -4,133 +4,113 @@ import { motion } from "framer-motion";
 import {
   MailOutlined,
   InstagramOutlined,
-  FacebookOutlined,
+  // FacebookOutlined,
 } from "@ant-design/icons";
-import { FaApple, FaGooglePlay } from "react-icons/fa";
+import { FaApple } from "react-icons/fa";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <>
-      {/* Gradient Pulse Line */}
+    <footer className="w-full bg-white border-t border-slate-100">
+      {/* Top gradient accent line */}
+      <div className="w-full h-[3px] bg-gradient-to-r from-[#007cae] via-[#4dcbe7] to-[#007cae]" />
+
       <motion.div
-        className="w-full h-1 bg-gradient-to-r from-[#00A8DE] via-[#4dcbe7] to-[#00A8DE] animate-pulse"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      />
-
-      <motion.footer
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="w-full px-6 py-12 bg-white/30 backdrop-blur-md border-t border-gray-200 shadow-inner text-[#007cae]"
+        className="max-w-7xl mx-auto px-6 md:px-12 py-14 grid grid-cols-1 md:grid-cols-3 gap-10"
       >
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-          {/* Branding */}
-          <div>
-            <h2 className="text-xl font-bold">SnapTap</h2>
-            <p className="mt-2 text-sm text-[#007cae]/80">
-              Empowering 3D product experiences.
-            </p>
-            <p className="mt-2 text-sm text-[#007cae]/60">
-              © {currentYear} SnapTap. All rights reserved.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="mailto:admin@snaptap.pk"
-                  className="hover:text-black transition duration-300"
-                >
-                  Support
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/privacy"
-                  className="hover:text-black transition duration-300"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/terms"
-                  className="hover:text-black transition duration-300"
-                >
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:admin@snaptap.pk"
-                  className="hover:text-black transition duration-300"
-                >
-                  Contact Us
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Social & Store Buttons */}
-          <div className="flex flex-col items-center md:items-end gap-4">
-            <div className="flex gap-5 text-2xl justify-center">
-              <a
-                href="mailto:admin@snaptap.pk"
-                className="hover:text-black transition"
-              >
-                <MailOutlined />
-              </a>
-              <a
-                href="https://www.instagram.com/snaptap.ar/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-black transition"
-              >
-                <InstagramOutlined />
-              </a>
-              <a
-                href="https://www.instagram.com/snaptap.ar/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-black transition"
-              >
-                <FacebookOutlined />
-              </a>
-            </div>
-
-            {/* App Store Buttons */}
-            <div className="flex gap-3 mt-2">
-              <a
-                href="https://apps.apple.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black text-white flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold hover:scale-105 transition"
-              >
-                <FaApple className="text-lg" />
-                App Store
-              </a>
-              <a
-                href="https://play.google.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black text-white flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold hover:scale-105 transition"
-              >
-                <FaGooglePlay className="text-lg" />
-                Play Store
-              </a>
-            </div>
-          </div>
+        {/* Branding */}
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Snap. Tap. Experience.</h2>
+          <p className="text-sm text-slate-500 mb-3 max-w-xs leading-relaxed">
+            Helping businesses bring physical products to life through immersive augmented reality experiences.
+          </p>
         </div>
-      </motion.footer>
-    </>
+
+        {/* Quick Links */}
+        <div>
+          <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest mb-4">
+            Quick Links
+          </h3>
+          <ul className="space-y-2.5 text-sm text-slate-500">
+            <li>
+              <a href="/navigations/privacy" className="hover:text-[#007cae] transition duration-200">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="/navigations/terms" className="hover:text-[#007cae] transition duration-200">
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a href="/navigations/contact" className="hover:text-[#007cae] transition duration-200">
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Social & Store */}
+        <div>
+          <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest mb-4">
+            Connect
+          </h3>
+          <div className="flex items-center gap-4 text-xl text-slate-400 mb-5">
+            <a
+              href="mailto:admin@snaptap.pk"
+              className="hover:text-[#007cae] transition"
+              aria-label="Email"
+            >
+              <MailOutlined />
+            </a>
+            <a
+              href="https://www.instagram.com/snaptappk/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#007cae] transition"
+              aria-label="Instagram"
+            >
+              <InstagramOutlined />
+            </a>
+            {/* <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#007cae] transition"
+              aria-label="Facebook"
+            >
+              <FacebookOutlined />
+            </a> */}
+          </div>
+
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-700 transition"
+          >
+            <FaApple className="text-base" />
+            <div className="flex flex-col items-start leading-none">
+              <span className="text-[10px] opacity-70">Download on the</span>
+              <span className="text-sm font-bold">App Store</span>
+            </div>
+          </a>
+        </div>
+      </motion.div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-xs text-slate-400">
+            © {currentYear} SnapTap. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 }

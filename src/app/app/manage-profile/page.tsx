@@ -1,32 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Form,
   Input,
   Button,
-  Typography,
   Upload,
   Modal,
-  Collapse,
   Select,
 } from "antd";
-import { UploadOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { motion } from "framer-motion";
+import { UploadOutlined, UserOutlined, MailOutlined, GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RcFile } from "antd/es/upload";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
 import api from "@/app/utils/api";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { CATEGORIES } from "@/app/constants/categories";
+import { Icon } from "@iconify/react";
 
-const { Title, Text } = Typography;
-const { Panel } = Collapse;
-const { Option} = Select;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const { Option } = Select;
 
 const ManageProfilePage = () => {
   const router = useRouter();
@@ -35,45 +29,14 @@ const ManageProfilePage = () => {
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
   const [activeSection, setActiveSection] = useState<SectionKey>("profile");
-  const [imageUrl, setImageUrl] = useState<string | null>(
-    Admin?.image_url || null
-  );
+  const [imageUrl, setImageUrl] = useState<string | null>(Admin?.image_url || null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
   const [brandLoading, setBrandLoading] = useState(false);
-  interface Package {
-    id: number;
-    name: string;
-  }
-  const [packages, setPackages] = useState<Package[]>([]);
-
-  useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/package`);
-        if (res.data) {
-           const filtered = res.data.filter((p: Package) => [1, 2, 3].includes(p.id));
-           setPackages(filtered);
-        }
-      } catch (error: any) {
-        console.error("Failed to fetch packages", error);
-        
-        // Check for network/server errors
-        if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
-          toast.error("Server is not accessible. Please check your connection and try again.");
-        } else if (!error.response) {
-          toast.error("Cannot reach the server. Please try again later.");
-        } else {
-          toast.error("Failed to fetch subscription packages. Please try again.");
-        }
-      }
-    };
-    fetchPackages();
-  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) {
-      toast.error("Please log in to access the Manage Profile page.");
+      toast.error("Please log in to manage your profile.");
       router.push("/app/login");
       return;
     }
@@ -126,13 +89,11 @@ const ManageProfilePage = () => {
 
       fetchBrandData();
     }
-  }, [Admin, Brand, form, brandForm, isLoggedIn, router, token]);
+  }, [Admin, Brand, form, brandForm, isLoggedIn, router]);
 
   const handleImageUpload = (file: RcFile) => {
     const reader = new FileReader();
-    reader.onload = () => {
-      setImageUrl(reader.result as string);
-    };
+    reader.onload = () => setImageUrl(reader.result as string);
     reader.readAsDataURL(file);
     return false;
   };
@@ -142,30 +103,16 @@ const ManageProfilePage = () => {
     try {
       const profileValues = form.getFieldsValue();
       const passwordValues = passwordForm.getFieldsValue();
-
       const { oldPassword, newPassword, confirmNewPassword } = passwordValues;
 
-      if (oldPassword && newPassword && oldPassword === newPassword) {
-        toast.error("Cannot be the same as your current password.");
-        return;
-      }
-
-      if (newPassword && !/(?=.*[A-Za-z])(?=.*\d).{6,}/.test(newPassword)) {
-        toast.error(
-          "Password must be at least 6 characters and contain a letter and number."
-        );
-        return;
-      }
-
       if (newPassword && newPassword !== confirmNewPassword) {
-        toast.error("New password and confirm password do not match.");
+        toast.error("Passwords do not match.");
         return;
       }
 
       const payload = {
         name: profileValues.fullName,
         username: Admin?.username,
-        // email: profileValues.email, // Disabled email updates
         description: profileValues.description,
         image_url: imageUrl,
         password: newPassword || null,
@@ -184,8 +131,8 @@ const ManageProfilePage = () => {
 
       toast.success("Profile updated successfully");
     } catch (error) {
-      toast.error("Failed to update profile.");
       console.error(error);
+      toast.error("Failed to update profile.");
     } finally {
       setProfileLoading(false);
     }
@@ -216,272 +163,207 @@ const ManageProfilePage = () => {
       toast.success("Brand details updated successfully");
     } catch (error) {
       toast.error("Failed to update brand details.");
-      console.error(error);
     } finally {
       setBrandLoading(false);
     }
   };
 
-  if (!Admin) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <Text type="danger" className="text-red-600 text-lg font-semibold">
-          You are not logged in currently. Please log in to access your profile.
-        </Text>
-      </div>
-    );
-  }
+  if (!Admin) return null;
 
   return (
-    <>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar
-        pauseOnHover
-      />
+    <div className="min-h-screen bg-slate-50/30 pt-20 sm:pt-28">
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
-      <div className="flex min-h-screen bg-gray-50 pt-20">
-        <div className="w-1/4 bg-white border-r shadow-md p-6 sticky top-16 h-[calc(100vh-64px)]">
-          <Title level={4} className="mb-6 text-[#00A8DE] font-bold">
-            Account Settings
-          </Title>
-          <div className="space-y-4">
-            <button
-              onClick={() => setActiveSection("profile")}
-              className={`w-full text-left px-4 py-2 rounded-md transition-all font-medium ${
-                activeSection === "profile"
-                  ? "bg-blue-100 text-[#00A8DE]"
-                  : "hover:bg-gray-100 text-gray-700"
-              }`}
-            >
-              Manage Profile
-            </button>
-            <button
-              onClick={() => setActiveSection("brand")}
-              className={`w-full text-left px-4 py-2 rounded-md transition-all font-medium ${
-                activeSection === "brand"
-                  ? "bg-blue-100 text-[#00A8DE]"
-                  : "hover:bg-gray-100 text-gray-700"
-              }`}
-            >
-              Edit Brand
-            </button>
+      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
+
+        {/* Navigation Sidebar */}
+        <aside className="w-full lg:w-[320px] bg-slate-50/50 p-3 sm:p-6 flex lg:flex-col gap-2 border-b lg:border-b-0 lg:border-r border-slate-100 overflow-x-auto">
+          <div className="mb-8">
+            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 hidden lg:block">Account Settings</h2>
           </div>
-        </div>
 
-        <div className="w-3/4 p-8">
-          {activeSection === "profile" && (
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-white rounded-3xl shadow-xl p-8"
-            >
-              <div className="flex items-center mb-6 gap-6">
-                <div className="relative w-28 h-28">
-                  <img
-                    src={imageUrl || "/default-profile.png"}
-                    className="w-full h-full object-cover rounded-full border-4 border-[#00A8DE]"
-                    alt="profile"
-                  />
-                  <button
-                    onClick={() => setIsModalVisible(true)}
-                    className="absolute bottom-0 right-0 bg-[#00A8DE] text-white p-3 rounded-full hover:scale-110 transition shadow-lg"
-                  >
-                    <UploadOutlined />
-                  </button>
-                </div>
+          <button
+            onClick={() => setActiveSection("profile")}
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${activeSection === "profile"
+              ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+              : "text-slate-500 hover:bg-slate-100"
+              }`}
+          >
+            <Icon icon="mdi:account-box-outline" width={22} className={activeSection === "profile" ? "text-[#007cae]" : "text-slate-400"} />
+            Manage Profile
+          </button>
+
+          <button
+            onClick={() => setActiveSection("brand")}
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${activeSection === "brand"
+              ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+              : "text-slate-500 hover:bg-slate-100"
+              }`}
+          >
+            <Icon icon="mdi:store-edit-outline" width={22} className={activeSection === "brand" ? "text-[#007cae]" : "text-slate-400"} />
+            Edit Brand Info
+          </button>
+        </aside>
+
+        {/* Content Area */}
+        <main className="flex-1 bg-white p-4 sm:p-6 md:p-12 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            {activeSection === "profile" ? (
+              <motion.div
+                key="profile"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="max-w-2xl space-y-10"
+              >
                 <div>
-                  <Title level={4} className="text-[#00A8DE] font-bold">
-                    {Admin?.name}
-                  </Title>
-                  <Text className="text-gray-500 font-medium">
-                    @{Admin?.username}
-                  </Text>
+                  <h1 className="text-3xl font-bold text-slate-900 mb-2">Manage Profile</h1>
+                  <p className="text-slate-500">Update your account identity and login credentials.</p>
                 </div>
-              </div>
 
-              <Collapse bordered={false} expandIconPosition="end">
-                <Panel
-                  header={
-                    <span className="font-semibold text-base">
-                      Profile Information
-                    </span>
-                  }
-                  key="1"
-                >
-                  <Form layout="vertical" form={form}>
-                    <Form.Item
-                      name="email"
-                      label={<span className="font-semibold">Email</span>}
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 p-4 sm:p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                  <div className="relative group">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                      <img
+                        src={imageUrl || "/default-profile.png"}
+                        className="w-full h-full object-cover"
+                        alt="avatar"
+                      />
+                    </div>
+                    <button
+                      onClick={() => setIsModalVisible(true)}
+                      className="absolute -bottom-1 -right-1 !bg-[#007cae] text-white w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition shadow-lg ring-2 ring-white"
                     >
-                      <Input size="large" disabled placeholder={Brand?.brand_email} className="font-medium" />
+                      <UploadOutlined />
+                    </button>
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <h2 className="text-xl font-bold text-slate-900">{Admin?.name}</h2>
+                    <p className="text-[#007cae] font-semibold text-sm">@{Admin?.username}</p>
+                  </div>
+                </div>
+
+                <Form layout="vertical" form={form} className="space-y-4">
+                  <Form.Item name="fullName" label={<span className="font-bold text-slate-700">Display Name</span>}>
+                    <Input size="large" prefix={<UserOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                  </Form.Item>
+                  <Form.Item name="email" label={<span className="font-bold text-slate-700">Email Address</span>}>
+                    <Input size="large" disabled prefix={<MailOutlined className="text-slate-300" />} className="h-12 rounded-xl bg-slate-50" />
+                  </Form.Item>
+                  <Form.Item name="description" label={<span className="font-bold text-slate-700">Bio / Description</span>}>
+                    <Input.TextArea rows={4} className="rounded-xl p-4 border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="Briefly describe your business..." />
+                  </Form.Item>
+                </Form>
+
+                <div className="pt-6 border-t border-slate-100">
+                  <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <Icon icon="mdi:lock-outline" width={20} className="text-slate-400" />
+                    Security Settings
+                  </h3>
+                  <Form layout="vertical" form={passwordForm} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Form.Item name="oldPassword" label={<span className="font-semibold text-slate-500">Current Password</span>} className="md:col-span-2">
+                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
-                    <Form.Item
-                      name="fullName"
-                      label={<span className="font-semibold">Brand Name</span>}
-                    >
-                      <Input size="large" placeholder={Brand?.brand_name} className="font-medium" />
+                    <Form.Item name="newPassword" label={<span className="font-semibold text-slate-500">New Password</span>}>
+                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
-                    <Form.Item
-                      name="description"
-                      label={<span className="font-semibold">Description</span>}
-                    >
-                      <Input.TextArea rows={3} className="font-medium" />
+                    <Form.Item name="confirmNewPassword" label={<span className="font-semibold text-slate-500">Confirm Password</span>}>
+                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
                     </Form.Item>
                   </Form>
-                </Panel>
-              </Collapse>
+                </div>
 
-              <Collapse bordered={false} expandIconPosition="end">
-                <Panel
-                  header={
-                    <span className="font-semibold text-base">
-                      Change Password
-                    </span>
-                  }
-                  key="2"
-                  className="mt-4"
+                <Button
+                  type="primary"
+                  size="large"
+                  loading={profileLoading}
+                  className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
+                  onClick={handleProfileUpdate}
                 >
-                  <Form layout="vertical" form={passwordForm}>
-                    <Form.Item
-                      name="oldPassword"
-                      label={
-                        <span className="font-semibold">Current Password</span>
-                      }
-                    >
-                      <Input.Password
-                        size="large"
-                        iconRender={() => <EyeInvisibleOutlined />}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="newPassword"
-                      label={
-                        <span className="font-semibold">New Password</span>
-                      }
-                    >
-                      <Input.Password
-                        size="large"
-                        iconRender={() => <EyeInvisibleOutlined />}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="confirmNewPassword"
-                      label={
-                        <span className="font-semibold">
-                          Confirm New Password
-                        </span>
-                      }
-                    >
-                      <Input.Password
-                        size="large"
-                        iconRender={() => <EyeInvisibleOutlined />}
-                      />
-                    </Form.Item>
-                  </Form>
-                </Panel>
-              </Collapse>
-
-              <Button
-                type="primary"
-                size="large"
-                loading={profileLoading}
-                className="mt-6 px-6 py-3 bg-[#00A8DE] hover:shadow-md hover:scale-105 transition text-white font-semibold rounded-xl"
-                onClick={handleProfileUpdate}
+                  Save All Changes
+                </Button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="brand"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="max-w-2xl space-y-10"
               >
-                Save Changes
-              </Button>
-            </motion.div>
-          )}
+                <div>
+                  <h1 className="text-3xl font-bold text-slate-900 mb-2">Edit Brand Details</h1>
+                  <p className="text-slate-500">Customize your business presence on SnapTap.</p>
+                </div>
 
-          {activeSection === "brand" && (
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-white rounded-3xl shadow-xl p-8 mt-10"
-            >
-              <Title level={4} className="text-[#00A8DE] mb-6 font-bold">
-                Edit Brand Details
-              </Title>
-              <Form layout="vertical" form={brandForm}>
-                <Form.Item
-                  name="website_url"
-                  label={<span className="font-semibold">Your Website</span>}
-                >
-                  <Input size="large" className="font-medium" />
-                </Form.Item>
-                <Form.Item
-                  name="category"
-                  label={<span className="font-semibold">Category</span>}
-                >
-                  <Select placeholder="Select category" size="large" allowClear>
-                    {CATEGORIES.map((category) => (
-                      <Option key={category} value={category}>
-                        {category}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  name="phone"
-                  label={<span className="font-semibold">Contact Phone</span>}
-                >
-                  <Input size="large" className="font-medium" />
-                </Form.Item>
-                <Form.Item
-                  name="location"
-                  label={
-                    <span className="font-semibold">
-                      Location (City, Country)
-                    </span>
-                  }
-                >
-                  <Input size="large" className="font-medium" />
-                </Form.Item>
-                {/* <Form.Item
-                  name="subscribed_package_id"
-                  label={<span className="font-semibold">Subscription Plan</span>}
-                >
-                  <Select placeholder="Select plan" size="large">
-                    {packages.map((pkg) => (
-                      <Option key={pkg.id} value={pkg.id}>
-                        {pkg.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item> */}
-              </Form>
-              <Button
-                type="primary"
-                size="large"
-                loading={brandLoading}
-                className="mt-6 px-6 py-3 bg-[#00A8DE] hover:shadow-md hover:scale-105 transition text-white font-semibold rounded-xl"
-                onClick={handleBrandUpdate}
-              >
-                Save Changes
-              </Button>
-            </motion.div>
-          )}
-        </div>
+                <Form layout="vertical" form={brandForm} className="space-y-4">
+                  <Form.Item name="website_url" label={<span className="font-bold text-slate-700">Official Website</span>}>
+                    <Input size="large" prefix={<GlobalOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="https://..." />
+                  </Form.Item>
 
-        <Modal
-          title="Upload Brand Image"
-          open={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          onOk={() => {
-            toast.success("Image uploaded (mock)");
-            setIsModalVisible(false);
-          }}
-        >
-          <Upload beforeUpload={handleImageUpload} showUploadList={false}>
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-          </Upload>
-        </Modal>
+                  <Form.Item name="category" label={<span className="font-bold text-slate-700">Business Category</span>}>
+                    <Select size="large" className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50">
+                      {["Technology", "Fashion", "Food & Beverages", "Retail", "Gaming", "Other"].map(cat => (
+                        <Option key={cat} value={cat}>{cat}</Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Form.Item name="phone" label={<span className="font-bold text-slate-700">Contact Number</span>}>
+                      <Input size="large" prefix={<PhoneOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                    </Form.Item>
+                    <Form.Item name="location" label={<span className="font-bold text-slate-700">Headquarters</span>}>
+                      <Input size="large" prefix={<EnvironmentOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="City, Country" />
+                    </Form.Item>
+                  </div>
+                </Form>
+
+                <Button
+                  type="primary"
+                  size="large"
+                  loading={brandLoading}
+                  className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
+                  onClick={handleBrandUpdate}
+                >
+                  Update Brand Profile
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
       </div>
-    </>
+
+      <Modal
+        title={<span className="text-lg font-bold">Update Profile Image</span>}
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        centered
+        className="[&_.ant-modal-content]:!rounded-3xl"
+      >
+        <div className="p-6 text-center">
+          <Upload
+            beforeUpload={handleImageUpload}
+            showUploadList={false}
+          >
+            <div className="w-full py-12 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
+              <UploadOutlined className="text-3xl text-[#007cae] mb-3" />
+              <p className="text-slate-600 font-medium">Click here to upload your photo</p>
+              <p className="text-slate-400 text-xs">JPG, PNG or WEBP formats only</p>
+            </div>
+          </Upload>
+          <Button
+            block
+            type="primary"
+            className="mt-6 h-11 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
+            onClick={() => setIsModalVisible(false)}
+          >
+            Done
+          </Button>
+        </div>
+      </Modal>
+    </div>
   );
 };
 

@@ -1,6 +1,17 @@
-snaptap blue: #00A8DE
-darker snaptap blu ecolour: #007cae
-Dark Grey (for headings): #2e2e2e
-Medium Grey (for body text/subheadings): #555555
-Light Grey (for labels/hints/less important text): #888888
-light grey for page backgrounds rgb(227, 227, 227)
+# SnapTap Official Color Palette
+
+## Primary Brand Colors
+- SnapTap Blue (Primary): #00A8DE (RESERVED: Exclusive to Navbar & main branding logo)
+- SnapTap Blue Dark (Actions/Highlights): #007cae (Use for ALL action buttons, text highlighting, page accents, and UI elements)
+- SnapTap Blue Deep (Hover): #006080 (Use for hover states of action buttons)
+
+## Secondary / Grayscale
+- Dark Grey (Headings): #2e2e2e
+- Medium Grey (Body Text): #555555
+- Light Grey (Labels/Hints): #888888
+- Background Slate: #F8FAFC (Standard light/slate background)
+
+## Implementation Notes
+These are mapped to Tailwind 4 variables:
+- `text-snaptap-blue` / `bg-snaptap-blue`
+- `text-snaptap-blue-dark` / `bg-snaptap-blue-dark`
