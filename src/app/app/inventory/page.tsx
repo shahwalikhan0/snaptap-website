@@ -62,7 +62,7 @@ export default function InventoryPage() {
     };
 
     fetchProducts();
-  }, [Admin?.id, isLoggedIn, router, token]);
+  }, [Admin?.id, isLoggedIn, router]);
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
