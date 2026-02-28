@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { Suspense, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Form, Input, Button, Typography } from "antd";
@@ -12,7 +12,7 @@ import { Icon } from "@iconify/react";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
 
-const ResetPasswordPage = () => {
+const ResetPasswordInner = () => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [form] = Form.useForm();
@@ -211,5 +211,11 @@ const ResetPasswordPage = () => {
     </div>
   );
 };
+
+const ResetPasswordPage = () => (
+  <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><span className="text-slate-400">Loading…</span></div>}>
+    <ResetPasswordInner />
+  </Suspense>
+);
 
 export default ResetPasswordPage;
