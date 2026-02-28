@@ -160,7 +160,8 @@ const LoginPage = () => {
             <div className="flex justify-end mb-6">
               <button
                 type="button"
-                className="text-sm font-semibold text-[#007cae] hover:text-[#006080] transition"
+                onClick={() => router.push("/app/forgot-password")}
+                className="text-sm font-semibold text-[#007cae] hover:text-[#006080] transition cursor-pointer"
               >
                 Forgot Password?
               </button>
