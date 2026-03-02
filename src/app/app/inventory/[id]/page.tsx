@@ -49,9 +49,7 @@ export default function ProductDetailsPage() {
     }
     const fetchProduct = async () => {
       try {
-        const res = await api.get(
-          `/product/detail-for-brand/${id}`
-        );
+        const res = await api.get(`/product/detail-for-brand/${id}`);
 
         if (!res.data || res.data.data.brand_id !== Admin?.id) {
           alert("Product not found.");
@@ -70,8 +68,13 @@ export default function ProductDetailsPage() {
         console.error("Failed to load product", err);
 
         // Check for network/server errors
-        if (err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
-          toast.error("Server is not accessible. Please check your connection and try again.");
+        if (
+          err.code === "ERR_NETWORK" ||
+          err.message?.includes("Network Error")
+        ) {
+          toast.error(
+            "Server is not accessible. Please check your connection and try again.",
+          );
         } else if (!err.response) {
           toast.error("Cannot reach the server. Please try again later.");
         } else if (err.response?.status === 404) {
@@ -150,7 +153,7 @@ export default function ProductDetailsPage() {
       const response = await fetch(product.qr_code_url);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
       link.download = `${product.name}-qr-code.png`;
       document.body.appendChild(link);
@@ -188,7 +191,8 @@ export default function ProductDetailsPage() {
         >
           <p>
             Are you sure you want to delete this product? <br />
-            <b>Warning:</b> This action cannot be undone. It will permanently delete:
+            <b>Warning:</b> This action cannot be undone. It will permanently
+            delete:
             <ul className="list-disc ml-5 mt-2">
               <li>Product details and files (Images, 3D Models, QR Code)</li>
               <li>All associated analytics (Views, Hits, Ratings)</li>
@@ -218,6 +222,24 @@ export default function ProductDetailsPage() {
                   className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
                 >
                   View QR
+                </Button>
+                <Button
+                  type="default"
+                  onClick={() => {
+                    if (product?.model_url) {
+                      navigator.clipboard
+                        .writeText(product.model_url)
+                        .then(() =>
+                          toast.success("Model URL copied to clipboard!"),
+                        )
+                        .catch(() => toast.error("Failed to copy URL."));
+                    } else {
+                      toast.error("Model URL is not available.");
+                    }
+                  }}
+                  className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
+                >
+                  Copy Model URL
                 </Button>
                 <Button
                   danger
@@ -258,10 +280,11 @@ export default function ProductDetailsPage() {
                 {product?.category}
               </span>
               <span
-                className={`px-3 py-1 rounded-full ${product?.is_active
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-                  }`}
+                className={`px-3 py-1 rounded-full ${
+                  product?.is_active
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
+                }`}
               >
                 {product?.is_active ? "Active" : "Inactive"}
               </span>
@@ -331,11 +354,7 @@ export default function ProductDetailsPage() {
               Close
             </Button>,
             product?.qr_code_url && (
-              <Button
-                key="download"
-                type="primary"
-                onClick={handleDownloadQR}
-              >
+              <Button key="download" type="primary" onClick={handleDownloadQR}>
                 Download
               </Button>
             ),
@@ -354,7 +373,9 @@ export default function ProductDetailsPage() {
             </div>
           ) : (
             <div className="p-6 text-center">
-              <p className="text-gray-500">QR code is not available for this product</p>
+              <p className="text-gray-500">
+                QR code is not available for this product
+              </p>
             </div>
           )}
         </Modal>
