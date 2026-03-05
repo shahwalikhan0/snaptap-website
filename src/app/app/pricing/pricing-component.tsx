@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 const { Title } = Typography;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-
 interface Plan {
   id: number;
   name: string;
@@ -83,15 +82,22 @@ export default function PricingComponent() {
         const res = await axios.get(`${BASE_URL}/package`);
         if (res.data) {
           // Filter for IDs 1, 2, 3 just in case, though server handles it
-          const filtered = res.data.filter((p: Plan) => [1, 2, 3].includes(p.id));
+          const filtered = res.data.filter((p: Plan) =>
+            [1, 2, 3].includes(p.id),
+          );
           setPlans(filtered);
         }
       } catch (error: any) {
         console.error("Failed to fetch plans", error);
 
         // Check for network/server errors
-        if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
-          toast.error("Server is not accessible. Please check your connection and try again.");
+        if (
+          error.code === "ERR_NETWORK" ||
+          error.message?.includes("Network Error")
+        ) {
+          toast.error(
+            "Server is not accessible. Please check your connection and try again.",
+          );
         } else if (!error.response) {
           toast.error("Cannot reach the server. Please try again later.");
         } else {
@@ -121,10 +127,7 @@ export default function PricingComponent() {
         payload.total_scans = customScans;
       }
 
-      const response = await api.put(
-        "/brand/update-detail",
-        payload
-      );
+      const response = await api.put("/brand/update-detail", payload);
 
       if (response.data?.data) {
         toast.success(`Successfully subscribed to ${plan.name}`);
@@ -166,10 +169,11 @@ export default function PricingComponent() {
               whileHover={{ y: -4 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-5 sm:px-7 py-6 sm:py-8 border transition-all h-full ${plan.id === 2
-                ? "border-[#007cae] shadow-[0_8px_30px_rgba(0,124,174,0.18)]"
-                : "border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg"
-                }`}
+              className={`relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-5 sm:px-7 py-6 sm:py-8 border transition-all h-full ${
+                plan.id === 2
+                  ? "border-[#007cae] shadow-[0_8px_30px_rgba(0,124,174,0.18)]"
+                  : "border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg"
+              }`}
             >
               {/* Most Popular badge */}
               {plan.id === 2 && (
@@ -180,17 +184,24 @@ export default function PricingComponent() {
 
               {/* Icon + Name */}
               <div className="flex items-center gap-3 mb-5">
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${plan.id === 2 ? "bg-[#007cae]/15" : "bg-slate-100"
-                  }`}>
+                <div
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center ${
+                    plan.id === 2 ? "bg-[#007cae]/15" : "bg-slate-100"
+                  }`}
+                >
                   {getIcon(plan.id)}
                 </div>
-                <h3 className="text-xl font-black text-slate-900">{plan.name}</h3>
+                <h3 className="text-xl font-black text-slate-900">
+                  {plan.name}
+                </h3>
               </div>
 
               {/* Price */}
               <div className="mb-6">
                 <div className="flex items-end gap-1">
-                  <span className="text-3xl sm:text-4xl font-black text-slate-900">${plan.monthly_price}</span>
+                  <span className="text-3xl sm:text-4xl font-black text-slate-900">
+                    Rs. {plan.monthly_price}
+                  </span>
                   <span className="text-slate-400 font-medium pb-1">/mo</span>
                 </div>
               </div>
@@ -200,14 +211,16 @@ export default function PricingComponent() {
 
               {/* Features */}
               <ul className="space-y-3 mb-8 flex-grow text-left">
-                {featuresMap[plan.id as keyof typeof featuresMap]?.map((feature: string, i: number) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <div className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
-                      <CheckOutlined className="text-green-600 text-[10px]" />
-                    </div>
-                    <span className="text-slate-600 text-sm">{feature}</span>
-                  </li>
-                ))}
+                {featuresMap[plan.id as keyof typeof featuresMap]?.map(
+                  (feature: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <div className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
+                        <CheckOutlined className="text-green-600 text-[10px]" />
+                      </div>
+                      <span className="text-slate-600 text-sm">{feature}</span>
+                    </li>
+                  ),
+                )}
               </ul>
 
               <Button
@@ -217,7 +230,9 @@ export default function PricingComponent() {
                 onClick={() => handleSelectPlan(plan)}
                 className="h-12 font-bold rounded-xl !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
               >
-                {isLoggedIn && Brand?.subscribed_package_id === plan.id ? "✓ Current Plan" : "Get Started"}
+                {isLoggedIn && Brand?.subscribed_package_id === plan.id
+                  ? "✓ Current Plan"
+                  : "Get Started"}
               </Button>
             </motion.div>
           </Col>
@@ -244,16 +259,22 @@ export default function PricingComponent() {
             {/* Price */}
             <div className="mb-2">
               <div className="flex items-end gap-1">
-                <span className="text-3xl sm:text-4xl font-black text-slate-900">${customPrice}</span>
+                <span className="text-3xl sm:text-4xl font-black text-slate-900">
+                  ${customPrice}
+                </span>
                 <span className="text-slate-400 font-medium pb-1">/mo</span>
               </div>
-              <p className="text-xs text-slate-400 mt-1">Based on {customScans} scans</p>
+              <p className="text-xs text-slate-400 mt-1">
+                Based on {customScans} scans
+              </p>
             </div>
 
             {/* Slider */}
             <div className="my-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
               <div className="flex justify-between items-center mb-3">
-                <span className="text-sm font-semibold text-slate-600">Monthly Scans</span>
+                <span className="text-sm font-semibold text-slate-600">
+                  Monthly Scans
+                </span>
                 <InputNumber
                   min={21}
                   max={1000}
@@ -268,9 +289,14 @@ export default function PricingComponent() {
                 value={customScans}
                 onChange={setCustomScans}
                 trackStyle={{ backgroundColor: "#007cae" }}
-                handleStyle={{ borderColor: "#007cae", backgroundColor: "#007cae" }}
+                handleStyle={{
+                  borderColor: "#007cae",
+                  backgroundColor: "#007cae",
+                }}
               />
-              <p className="text-[11px] text-slate-400 text-center mt-1">Drag to adjust scan capacity</p>
+              <p className="text-[11px] text-slate-400 text-center mt-1">
+                Drag to adjust scan capacity
+              </p>
             </div>
 
             {/* Divider */}
@@ -292,15 +318,19 @@ export default function PricingComponent() {
               block
               size="large"
               loading={loadingPlanId === 4}
-              onClick={() => handleSelectPlan({
-                id: 4,
-                name: "Custom",
-                monthly_price: customPrice,
-                features: [],
-              })}
+              onClick={() =>
+                handleSelectPlan({
+                  id: 4,
+                  name: "Custom",
+                  monthly_price: customPrice,
+                  features: [],
+                })
+              }
               className="h-12 font-bold rounded-xl !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
             >
-              {isLoggedIn && Brand?.subscribed_package_id === 4 ? "✓ Current Plan" : "Get Started"}
+              {isLoggedIn && Brand?.subscribed_package_id === 4
+                ? "✓ Current Plan"
+                : "Get Started"}
             </Button>
           </motion.div>
         </Col>

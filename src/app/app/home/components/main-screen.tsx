@@ -16,7 +16,7 @@ const ModelViewer = dynamic(
   () => import("../../components/ModelViewerWrapper"),
   {
     ssr: false,
-  }
+  },
 );
 
 export const MainScreen = () => {
@@ -42,17 +42,20 @@ export const MainScreen = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/2 text-center md:text-left z-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-slate-900 mb-4 sm:mb-6">
-              See Before You Buy with <span className="text-[#007cae]">SNAPTAP</span>
+              See Before You Buy with{" "}
+              <span className="text-[#007cae]">SNAPTAP</span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto md:mx-0">
-              SnapTap transforms physical products into realistic, scalable 3D AR experiences that customers can place in their real environment before purchasing.
+              SnapTap transforms physical products into realistic, scalable 3D
+              AR experiences that customers can place in their real environment
+              before purchasing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <button
                 onClick={() => handleNav("/app/sign-up")}
                 className="bg-[#007cae] text-white font-semibold py-3 px-8 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                Start Free Trial
+                Start as Seller
               </button>
               <button
                 onClick={() => handleNav("/app/docs")}
@@ -82,62 +85,463 @@ export const MainScreen = () => {
         </div>
       </div> */}
 
-      {/* SECTION — FEATURES GRID */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+      {/* SECTION — FEATURES GRID (dark themed) */}
+      <section
+        className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative overflow-hidden"
+        style={{ background: "#020d14" }}
+      >
+        {/* Ambient glow */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,124,174,0.12) 0%, transparent 70%)",
+          }}
+        />
+        {/* Grid overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 60px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 60px)",
+          }}
+        />
+
+        <div className="relative max-w-7xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+              Platform Capabilities
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4">
               Everything Your Business Needs for AR
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              One platform. All the tools to create, manage, and deliver world-class augmented reality experiences — at any scale.
+            <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+              One platform. All the tools to create, manage, and deliver
+              world-class augmented reality experiences — at any scale.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {[
               {
                 icon: "mdi:cube-scan",
-                title: "One-Click 3D Scanning",
-                desc: "No specialized equipment needed. Use any modern smartphone to capture high-quality 3D product models in minutes using depth sensors or photogrammetry."
+                title: "Simple 3D Scanning",
+                desc: "No specialized equipment needed. Use any iPhone Pro or Pro Max with iOS 17+ to capture high-quality 3D product models in minutes using the built-in LiDAR sensor.",
               },
               {
                 icon: "mdi:augmented-reality",
                 title: "True-to-Scale AR Placement",
-                desc: "Products are rendered at an exact 1:1 scale in the real world, giving customers a precise sense of size, fit, and proportion before buying."
+                desc: "Products are rendered at an exact 1:1 scale in the real world, giving customers a precise sense of size, fit, and proportion before buying.",
               },
               {
                 icon: "mdi:qrcode",
                 title: "Instant QR Deployment",
-                desc: "Generate QR codes for any AR model instantly. Print them on menus, price tags, packaging, or in-store displays — no app download required."
+                desc: "QR codes are generated automatically for every AR model. Print them on menus, price tags, packaging, or in-store displays — no app download required.",
               },
               {
                 icon: "mdi:web",
-                title: "Web Embed & API Access",
-                desc: "Embed SnapTap's AR viewer directly into your existing website or e-commerce store with a simple code snippet or via our developer API."
+                title: "Embed 3D Models",
+                desc: "Simply embed the generated 3D model directly into your existing website or e-commerce store with the provided model link.",
               },
               {
                 icon: "mdi:buffer",
                 title: "Inventory Management",
-                desc: "Manage your entire 3D product catalog from one dashboard. Organize, update, and publish AR assets across multiple channels with ease."
+                desc: "Manage your entire 3D product catalog from one dashboard. Organize, update, and publish AR assets across multiple channels with ease.",
               },
               {
                 icon: "mdi:chart-timeline-variant",
                 title: "Analytics & Insights",
-                desc: "Track AR views, QR scans, product interaction rates, and conversion attribution for every asset in your catalog — in real time."
-              }
+                desc: "Track AR views, QR scans, product interaction rates, and conversion attribution for every asset in your catalog — in real time.",
+              },
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-[#007cae]/20 transition-all group"
+                className="bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
               >
-                <div className="w-12 h-12 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/20 transition-all">
-                  <Icon icon={feature.icon} className="text-[#007cae]" width={26} />
+                <div className="w-12 h-12 rounded-xl bg-[#007cae]/20 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/30 transition-all">
+                  <Icon
+                    icon={feature.icon}
+                    className="text-[#007cae]"
+                    width={26}
+                  />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">{feature.desc}</p>
+                <h3 className="text-base sm:text-lg font-bold text-white mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  {feature.desc}
+                </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2 — PRODUCT OVERVIEW */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              One Platform. Multiple AR Solutions.
+            </h2>
+            <p className="text-lg text-slate-600">
+              SnapTap helps businesses digitize physical products into
+              interactive 3D augmented reality experiences — improving customer
+              confidence, reducing returns, and increasing conversions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            {/* Card 1: Marketplace */}
+            <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
+                <Image
+                  src="/assets/marketplace.png"
+                  alt="Marketplace"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <Icon
+                  icon="mdi:storefront-outline"
+                  className="text-[#007cae]"
+                  width={24}
+                />
+                Marketplace Platform
+              </h3>
+              <ul className="space-y-3 text-slate-600">
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Businesses scan products → generate AR models</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Publish listings inside SnapTap marketplace</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Customers visualize products in their own space</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Direct customer-to-seller contact</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Card 2: Restaurant Menu */}
+            <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
+                <Image
+                  src="/assets/dining_2.png"
+                  alt="Restaurant Menu"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <Icon
+                  icon="mdi:silverware-fork-knife"
+                  className="text-[#007cae]"
+                  width={24}
+                />
+                Restaurant Menu Virtualization
+              </h3>
+              <ul className="space-y-3 text-slate-600">
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Convert full menu into 3D AR dishes</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Generate QR codes for printed menus</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>
+                    Customers scan → view realistic dishes before ordering
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Improves engagement and ordering confidence</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Card 3: Business Product */}
+            <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
+                <Image
+                  src="/assets/scan_view_3.png"
+                  alt="Business Product"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <Icon
+                  icon="mdi:briefcase-outline"
+                  className="text-[#007cae]"
+                  width={24}
+                />
+                Business Product Virtualization
+              </h3>
+              <ul className="space-y-3 text-slate-600">
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Convert product catalogs to AR models</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>
+                    Embed AR directly inside existing e-commerce websites
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>Provide QR codes for in-store and marketing usage</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Icon
+                    icon="mdi:check-circle"
+                    className="text-[#007cae] mt-1 shrink-0"
+                    width={18}
+                  />
+                  <span>
+                    Works for furniture, retail, showrooms, and product brands
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION — FEATURES BY USER TYPE */}
+      <section
+        className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative overflow-hidden"
+        style={{ background: "#020d14" }}
+      >
+        {/* Ambient glow — shifted right for variety */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 60% at 70% 50%, rgba(0,124,174,0.10) 0%, transparent 70%)",
+          }}
+        />
+        {/* Grid overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 60px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 60px)",
+          }}
+        />
+        {/* Top separator glow line */}
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-[#007cae]/40 to-transparent" />
+
+        <div className="relative max-w-7xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+              Who Benefits
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4">
+              Built for Every Side of the Market
+            </h2>
+            <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+              Whether you&apos;re a business listing products or a customer
+              discovering them — SnapTap delivers a premium experience tailored
+              to you.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            {/* Seller Column */}
+            <div className="rounded-2xl border border-[#007cae]/30 bg-[#007cae]/5 p-6 sm:p-8 hover:border-[#007cae]/60 transition-all">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-xl bg-[#007cae]/20 flex items-center justify-center shrink-0">
+                  <Icon
+                    icon="mdi:store-outline"
+                    className="text-[#007cae]"
+                    width={26}
+                  />
+                </div>
+                <div>
+                  <p className="text-[#007cae] text-xs font-bold uppercase tracking-widest mb-0.5">
+                    For Sellers
+                  </p>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                    Business &amp; Merchant Features
+                  </h3>
+                </div>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  {
+                    icon: "mdi:cube-scan",
+                    text: "Scan physical products into photorealistic 3D models using your iPhone's LiDAR sensor — no studio required.",
+                  },
+                  {
+                    icon: "mdi:qrcode-edit",
+                    text: "Auto-generate QR codes for every product to print on packaging, menus, tags, and in-store displays.",
+                  },
+                  {
+                    icon: "mdi:web",
+                    text: "Embed AR model viewers directly into your existing website or e-commerce store with a single link.",
+                  },
+                  {
+                    icon: "mdi:buffer",
+                    text: "Manage your entire AR product catalog from one centralized dashboard — organize, update, and publish with ease.",
+                  },
+                  {
+                    icon: "mdi:chart-timeline-variant",
+                    text: "Track real-time analytics: AR views, QR scans, session durations, and conversion attribution per product.",
+                  },
+                  {
+                    icon: "mdi:rocket-launch-outline",
+                    text: "Publish products to the SnapTap marketplace and reach customers who are actively exploring AR experiences.",
+                  },
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 group">
+                    <div className="w-8 h-8 rounded-lg bg-[#007cae]/20 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#007cae]/30 transition-all">
+                      <Icon
+                        icon={item.icon}
+                        className="text-[#007cae]"
+                        width={16}
+                      />
+                    </div>
+                    <span className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                      {item.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <button
+                  onClick={() => handleNav("/app/sign-up")}
+                  className="w-full sm:w-auto bg-[#007cae] hover:bg-[#006080] text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg shadow-[#007cae]/20 hover:shadow-[#007cae]/40 hover:-translate-y-0.5 transform text-sm"
+                >
+                  Start as a Seller
+                </button>
+              </div>
+            </div>
+
+            {/* Customer / Viewer Column */}
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8 hover:border-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                  <Icon
+                    icon="mdi:account-eye-outline"
+                    className="text-slate-300"
+                    width={26}
+                  />
+                </div>
+                <div>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-0.5">
+                    For Customers
+                  </p>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                    Buyer &amp; Viewer Experience
+                  </h3>
+                </div>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  {
+                    icon: "mdi:qrcode-scan",
+                    text: "Scan any SnapTap QR code with your smartphone camera — no app download, no account needed.",
+                  },
+                  {
+                    icon: "mdi:augmented-reality",
+                    text: "Place true-to-scale 3D products directly in your real environment through your phone's camera.",
+                  },
+                  {
+                    icon: "mdi:move-resize",
+                    text: "Resize, reposition, and walk around placed AR objects to explore every angle and perspective.",
+                  },
+                  {
+                    icon: "mdi:eye-check-outline",
+                    text: "See exact product dimensions in your actual space before committing to a purchase — zero guesswork.",
+                  },
+                  {
+                    icon: "mdi:store-search-outline",
+                    text: "Browse the SnapTap marketplace to discover AR-enabled products from multiple sellers in one place.",
+                  },
+                  {
+                    icon: "mdi:chat-outline",
+                    text: "Contact sellers directly from a product listing — no middlemen, no friction, just direct communication.",
+                  },
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 group">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-white/15 transition-all">
+                      <Icon
+                        icon={item.icon}
+                        className="text-slate-300"
+                        width={16}
+                      />
+                    </div>
+                    <span className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                      {item.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <button
+                  onClick={() => handleNav("/app/docs")}
+                  className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full transition-all border border-white/20 hover:border-white/40 hover:-translate-y-0.5 transform text-sm"
+                >
+                  Explore as a Customer
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -156,7 +560,9 @@ export const MainScreen = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               <div className="absolute bottom-6 left-6 text-white overflow-hidden">
-                <p className="font-semibold text-lg drop-shadow-md">Visualize scale & style instantly</p>
+                <p className="font-semibold text-lg drop-shadow-md">
+                  Visualize scale & style instantly
+                </p>
               </div>
             </div>
           </div>
@@ -171,13 +577,19 @@ export const MainScreen = () => {
                 "Improves conversion rates and customer trust",
                 "Works for both online and physical stores",
                 "No special hardware required (smartphone-based)",
-                "One platform → multiple business use cases"
+                "One platform → multiple business use cases",
               ].map((point, idx) => (
                 <div key={idx} className="flex items-start gap-3">
                   <div className="mt-1 w-6 h-6 rounded-full bg-[#007cae]/10 flex items-center justify-center shrink-0">
-                    <Icon icon="mdi:check" className="text-[#007cae]" width={16} />
+                    <Icon
+                      icon="mdi:check"
+                      className="text-[#007cae]"
+                      width={16}
+                    />
                   </div>
-                  <span className="text-base sm:text-lg text-slate-700">{point}</span>
+                  <span className="text-base sm:text-lg text-slate-700">
+                    {point}
+                  </span>
                 </div>
               ))}
             </div>
@@ -185,119 +597,19 @@ export const MainScreen = () => {
         </div>
       </section>
 
-      {/* SECTION 2 — PRODUCT OVERVIEW */
-      }
-      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              One Platform. Multiple AR Solutions.
-            </h2>
-            <p className="text-lg text-slate-600">
-              SnapTap helps businesses digitize physical products into interactive 3D augmented reality experiences — improving customer confidence, reducing returns, and increasing conversions.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            {/* Card 1: Marketplace */}
-            <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
-                <Image src="/assets/marketplace.png" alt="Marketplace" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <Icon icon="mdi:storefront-outline" className="text-[#007cae]" width={24} />
-                Marketplace Platform
-              </h3>
-              <ul className="space-y-3 text-slate-600">
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Businesses scan products → generate AR models</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Publish listings inside SnapTap marketplace</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Customers visualize products in their own space</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Direct customer-to-seller contact</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Card 2: Restaurant Menu */}
-            <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
-                <Image src="/assets/dining_2.png" alt="Restaurant Menu" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <Icon icon="mdi:silverware-fork-knife" className="text-[#007cae]" width={24} />
-                Restaurant Menu Virtualization
-              </h3>
-              <ul className="space-y-3 text-slate-600">
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Convert full menu into 3D AR dishes</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Generate QR codes for printed menus</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Customers scan → view realistic dishes before ordering</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Improves engagement and ordering confidence</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Card 3: Business Product */}
-            <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
-                <Image src="/assets/scan_view_3.png" alt="Business Product" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <Icon icon="mdi:briefcase-outline" className="text-[#007cae]" width={24} />
-                Business Product Virtualization
-              </h3>
-              <ul className="space-y-3 text-slate-600">
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Convert product catalogs to AR models</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Embed AR directly inside existing e-commerce websites</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Provide QR codes for in-store and marketing usage</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Icon icon="mdi:check-circle" className="text-[#007cae] mt-1 shrink-0" width={18} />
-                  <span>Works for furniture, retail, showrooms, and product brands</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* SECTION 3 — HOW SNAP TAP WORKS */}
-      <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50">
+      <section
+        id="how-it-works"
+        className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               How Snap Tap Works
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              A simple, streamlined process to bring your products into the augmented world.
+              A simple, streamlined process to bring your products into the
+              augmented world.
             </p>
           </div>
 
@@ -311,35 +623,48 @@ export const MainScreen = () => {
                   icon: "mdi:cube-scan",
                   step: "Step 1",
                   title: "Scan Products",
-                  desc: "Businesses capture products using phone depth sensors or photogrammetry."
+                  desc: "Businesses capture products using phone depth sensors or photogrammetry.",
                 },
                 {
                   icon: "mdi:cube-send",
                   step: "Step 2",
                   title: "Generate 3D Model",
-                  desc: "SnapTap automatically builds optimized, realistic, scaled AR models."
+                  desc: "SnapTap automatically builds optimized, realistic, scaled AR models.",
                 },
                 {
                   icon: "mdi:rocket-launch-outline",
                   step: "Step 3",
                   title: "Publish Anywhere",
-                  desc: "Deploy to marketplace, websites, QR menus, or in-store displays."
+                  desc: "Deploy to marketplace, websites, QR menus, or in-store displays.",
                 },
                 {
                   icon: "mdi:augmented-reality",
                   step: "Step 4",
                   title: "Customers Experience",
-                  desc: "Customers place products in their real environment before buying."
-                }
+                  desc: "Customers place products in their real environment before buying.",
+                },
               ].map((item, idx) => (
-                <div key={idx} className="relative z-10 flex flex-col items-center text-center">
+                <div
+                  key={idx}
+                  className="relative z-10 flex flex-col items-center text-center"
+                >
                   <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-white border-4 border-[#007cae]/10 shadow-lg flex items-center justify-center mb-4 sm:mb-6 text-[#007cae] group transition-all hover:border-[#007cae] hover:scale-110">
                     <Icon icon={item.icon} width={28} className="sm:hidden" />
-                    <Icon icon={item.icon} width={40} className="hidden sm:block" />
+                    <Icon
+                      icon={item.icon}
+                      width={40}
+                      className="hidden sm:block"
+                    />
                   </div>
-                  <span className="text-sm font-bold text-[#007cae] tracking-wider uppercase mb-2">{item.step}</span>
-                  <h3 className="text-base sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">{item.title}</h3>
-                  <p className="text-sm sm:text-base text-slate-600">{item.desc}</p>
+                  <span className="text-sm font-bold text-[#007cae] tracking-wider uppercase mb-2">
+                    {item.step}
+                  </span>
+                  <h3 className="text-base sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-slate-600">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>

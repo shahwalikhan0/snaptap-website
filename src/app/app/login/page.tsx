@@ -79,7 +79,7 @@ const LoginPage = () => {
         message.error("Invalid username or password.");
       }
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK') {
+      if (err.code === "ERR_NETWORK") {
         toast.error("Server unreachable. Check your connection.");
       } else if (err.response?.data?.error) {
         toast.error(err.response.data.error);
@@ -120,10 +120,18 @@ const LoginPage = () => {
           {/* Mobile Logo / Branding */}
           <div className="flex flex-col items-center mb-10">
             <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mb-6">
-              <Icon icon="mdi:shield-key-outline" className="text-[#007cae]" width={32} />
+              <Icon
+                icon="mdi:shield-key-outline"
+                className="text-[#007cae]"
+                width={32}
+              />
             </div>
-            <Title level={2} className="!mb-2 !text-slate-900 font-bold">Admin Login</Title>
-            <Text className="text-slate-400">Manage your SnapTap business account</Text>
+            <Title level={2} className="!mb-2 !text-slate-900 font-bold">
+              Business Login
+            </Title>
+            <Text className="text-slate-400">
+              Manage your SnapTap business account
+            </Text>
           </div>
 
           <Form
@@ -135,8 +143,12 @@ const LoginPage = () => {
           >
             <Form.Item
               name="username"
-              label={<span className="font-semibold text-slate-700">Username</span>}
-              rules={[{ required: true, message: "Please enter your username" }]}
+              label={
+                <span className="font-semibold text-slate-700">Username</span>
+              }
+              rules={[
+                { required: true, message: "Please enter your username" },
+              ]}
             >
               <Input
                 prefix={<UserOutlined className="text-slate-400 mr-2" />}
@@ -147,8 +159,12 @@ const LoginPage = () => {
 
             <Form.Item
               name="password"
-              label={<span className="font-semibold text-slate-700">Password</span>}
-              rules={[{ required: true, message: "Please enter your password" }]}
+              label={
+                <span className="font-semibold text-slate-700">Password</span>
+              }
+              rules={[
+                { required: true, message: "Please enter your password" },
+              ]}
             >
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
