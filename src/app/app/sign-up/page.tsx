@@ -21,12 +21,9 @@ import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { CATEGORIES } from "@/app/constants/categories";
 
-const ModelViewer = dynamic(
-  () => import("../components/ModelViewerWrapper"),
-  {
-    ssr: false,
-  }
-);
+const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
+  ssr: false,
+});
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
@@ -64,7 +61,8 @@ const SignUpPage: React.FC = () => {
       }
 
       if (values.location) formData.append("location", values.location);
-      if (values.website_url) formData.append("website_url", values.website_url);
+      if (values.website_url)
+        formData.append("website_url", values.website_url);
       if (values.category) formData.append("category", values.category);
       if (image) formData.append("image", image);
 
@@ -82,9 +80,13 @@ const SignUpPage: React.FC = () => {
 
       // Check if email verification is required
       if (response.data.requiresVerification) {
-        toast.success(response.data.message || "Account created! Please check your email to verify your account.", {
-          autoClose: 8000, // Keep visible longer
-        });
+        toast.success(
+          response.data.message ||
+            "Account created! Please check your email to verify your account.",
+          {
+            autoClose: 8000, // Keep visible longer
+          },
+        );
         setLoading(false);
         // Don't redirect - let user read message and check email
       } else {
@@ -93,9 +95,8 @@ const SignUpPage: React.FC = () => {
           router.push("/app/login");
         }, 2000);
       }
-      
     } catch (err: any) {
-      if (err.code === 'ERR_NETWORK') {
+      if (err.code === "ERR_NETWORK") {
         toast.error("Server connection failed.");
       } else if (err.response?.data?.error) {
         toast.error(err.response.data.error);
@@ -124,7 +125,8 @@ const SignUpPage: React.FC = () => {
             Join SnapTap
           </h1>
           <p className="text-slate-600 text-lg">
-            Create your account and start building your 3D product catalog in minutes.
+            Create your account and start building your 3D product catalog in
+            minutes.
           </p>
         </div>
       </div>
@@ -133,8 +135,12 @@ const SignUpPage: React.FC = () => {
       <div className="flex-1 flex items-start justify-center p-4 sm:p-6 md:p-12 bg-white overflow-y-auto pt-24 sm:pt-28 md:pt-28">
         <div className="w-full max-w-[550px]">
           <div className="mb-10">
-            <Title level={2} className="!mb-2 !text-slate-900 font-bold">Create Business Account</Title>
-            <Text className="text-slate-400">Enter your details below to get started</Text>
+            <Title level={2} className="!mb-2 !text-slate-900 font-bold">
+              Create Business Account
+            </Title>
+            <Text className="text-slate-400">
+              Enter your details below to get started
+            </Text>
           </div>
 
           <Form
@@ -146,40 +152,67 @@ const SignUpPage: React.FC = () => {
           >
             <Form.Item
               name="username"
-              label={<span className="font-semibold text-slate-700">Username</span>}
+              label={
+                <div className="flex flex-col">
+                  <span className="font-semibold text-slate-700">Username</span>
+                  <span className="text-xs text-slate-400 font-normal mt-0.5">
+                    Will be saved as lowercase
+                  </span>
+                </div>
+              }
               rules={[
                 { required: true, message: "Required" },
                 { pattern: /^[^\s]+$/, message: "No spaces" },
               ]}
               className="sm:col-span-1"
             >
-              <Input prefix={<UserOutlined className="text-slate-300" />} placeholder="johndoe" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+              <Input
+                prefix={<UserOutlined className="text-slate-300" />}
+                placeholder="johndoe"
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
             <Form.Item
               name="name"
-              label={<span className="font-semibold text-slate-700">Full Name</span>}
+              label={
+                <span className="font-semibold text-slate-700">Full Name</span>
+              }
               rules={[{ required: true, message: "Required" }]}
               className="sm:col-span-1"
             >
-              <Input prefix={<UserOutlined className="text-slate-300" />} placeholder="John Doe" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+              <Input
+                prefix={<UserOutlined className="text-slate-300" />}
+                placeholder="John Doe"
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
             <Form.Item
               name="email"
-              label={<span className="font-semibold text-slate-700">Email</span>}
+              label={
+                <span className="font-semibold text-slate-700">Email</span>
+              }
               rules={[
                 { required: true, message: "Required" },
                 { type: "email", message: "Invalid email" },
               ]}
               className="sm:col-span-2"
             >
-              <Input prefix={<MailOutlined className="text-slate-300" />} placeholder="john@example.com" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+              <Input
+                prefix={<MailOutlined className="text-slate-300" />}
+                placeholder="john@example.com"
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
             <Form.Item
               name="phone"
-              label={<span className="font-semibold text-slate-700">Phone Number</span>}
+              label={
+                <span className="font-semibold text-slate-700">
+                  Phone Number
+                </span>
+              }
               rules={[
                 { required: true, message: "Required" },
                 {
@@ -191,23 +224,42 @@ const SignUpPage: React.FC = () => {
               ]}
               className="sm:col-span-1"
             >
-              <Input prefix={<PhoneOutlined className="text-slate-300" />} placeholder="+92..." className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+              <Input
+                prefix={<PhoneOutlined className="text-slate-300" />}
+                placeholder="+92..."
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
             <Form.Item
               name="password"
-              label={<span className="font-semibold text-slate-700">Password</span>}
+              label={
+                <span className="font-semibold text-slate-700">Password</span>
+              }
               rules={[
                 { required: true, message: "Required" },
                 { min: 6, message: "Min 6 chars" },
               ]}
               className="sm:col-span-1"
             >
-              <Input.Password prefix={<LockOutlined className="text-slate-300" />} placeholder="••••••••" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+              <Input.Password
+                prefix={<LockOutlined className="text-slate-300" />}
+                placeholder="••••••••"
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
-            <Form.Item name="category" label={<span className="font-semibold text-slate-700">Category</span>} className="sm:col-span-1 text-slate-300">
-              <Select placeholder="Select a business category" className="h-11 rounded-xl [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-11 [&_.ant-select-selection-search-input]:!h-11 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50">
+            <Form.Item
+              name="category"
+              label={
+                <span className="font-semibold text-slate-700">Category</span>
+              }
+              className="sm:col-span-1 text-slate-300"
+            >
+              <Select
+                placeholder="Select a business category"
+                className="h-11 rounded-xl [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-11 [&_.ant-select-selection-search-input]:!h-11 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              >
                 <Select.Option value="Furniture">Furniture</Select.Option>
                 <Select.Option value="Electronics">Electronics</Select.Option>
                 <Select.Option value="Retail">Retail</Select.Option>
@@ -216,20 +268,38 @@ const SignUpPage: React.FC = () => {
               </Select>
             </Form.Item>
 
-            <Form.Item name="location" label={<span className="font-semibold text-slate-700">Location</span>} className="sm:col-span-1">
-              <Input prefix={<EnvironmentOutlined className="text-slate-300" />} placeholder="New York, USA" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+            <Form.Item
+              name="location"
+              label={
+                <span className="font-semibold text-slate-700">Location</span>
+              }
+              className="sm:col-span-1"
+            >
+              <Input
+                prefix={<EnvironmentOutlined className="text-slate-300" />}
+                placeholder="New York, USA"
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
-            <Form.Item name="website_url" label={<span className="font-semibold text-slate-700">Website URL</span>} className="sm:col-span-2">
-              <Input prefix={<GlobalOutlined className="text-slate-300" />} placeholder="https://yourbrand.com" className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+            <Form.Item
+              name="website_url"
+              label={
+                <span className="font-semibold text-slate-700">
+                  Website URL
+                </span>
+              }
+              className="sm:col-span-2"
+            >
+              <Input
+                prefix={<GlobalOutlined className="text-slate-300" />}
+                placeholder="https://yourbrand.com"
+                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              />
             </Form.Item>
 
             <Form.Item name="category" label="Business Category (Optional)">
-              <Select
-                placeholder="Select a category"
-                size="large"
-                allowClear
-              >
+              <Select placeholder="Select a category" size="large" allowClear>
                 {CATEGORIES.map((category) => (
                   <Select.Option key={category} value={category}>
                     {category}
@@ -238,7 +308,15 @@ const SignUpPage: React.FC = () => {
               </Select>
             </Form.Item>
 
-            <Form.Item name="profileImage" label={<span className="font-semibold text-slate-700">Brand Logo / Profile Image</span>} className="sm:col-span-2">
+            <Form.Item
+              name="profileImage"
+              label={
+                <span className="font-semibold text-slate-700">
+                  Brand Logo / Profile Image
+                </span>
+              }
+              className="sm:col-span-2"
+            >
               <Upload.Dragger
                 name="files"
                 multiple={false}
@@ -255,8 +333,12 @@ const SignUpPage: React.FC = () => {
                   <p className="ant-upload-drag-icon !mb-2">
                     <InboxOutlined className="!text-[#007cae]" />
                   </p>
-                  <p className="ant-upload-text text-slate-700 font-medium">Click or drag logo here</p>
-                  <p className="ant-upload-hint text-slate-400 text-xs text-center">PNG, JPG or WEBP (max 5MB)</p>
+                  <p className="ant-upload-text text-slate-700 font-medium">
+                    Click or drag logo here
+                  </p>
+                  <p className="ant-upload-hint text-slate-400 text-xs text-center">
+                    PNG, JPG or WEBP (max 5MB)
+                  </p>
                 </div>
               </Upload.Dragger>
             </Form.Item>

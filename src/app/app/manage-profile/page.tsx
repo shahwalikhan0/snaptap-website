@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Form, Input, Button, Upload, Modal, Select } from "antd";
 import {
-  Form,
-  Input,
-  Button,
-  Upload,
-  Modal,
-  Select,
-} from "antd";
-import { UploadOutlined, UserOutlined, MailOutlined, GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/icons";
+  UploadOutlined,
+  UserOutlined,
+  MailOutlined,
+  GlobalOutlined,
+  PhoneOutlined,
+  EnvironmentOutlined,
+} from "@ant-design/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +29,9 @@ const ManageProfilePage = () => {
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
   const [activeSection, setActiveSection] = useState<SectionKey>("profile");
-  const [imageUrl, setImageUrl] = useState<string | null>(Admin?.image_url || null);
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    Admin?.image_url || null,
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
   const [brandLoading, setBrandLoading] = useState(false);
@@ -112,17 +114,14 @@ const ManageProfilePage = () => {
 
       const payload = {
         name: profileValues.fullName,
-        username: Admin?.username,
+        username: profileValues.username || Admin?.username,
         description: profileValues.description,
         image_url: imageUrl,
         password: newPassword || null,
         oldPassword: oldPassword || null,
       };
 
-      const response = await api.put(
-        "/brand/update",
-        payload
-      );
+      const response = await api.put("/brand/update", payload);
 
       if (response.data?.error) {
         toast.error(response.data.error);
@@ -150,10 +149,7 @@ const ManageProfilePage = () => {
         subscribed_package_id: brandValues.subscribed_package_id,
       };
 
-      const response = await api.put(
-        "/brand/update-detail",
-        payload
-      );
+      const response = await api.put("/brand/update-detail", payload);
 
       if (response.data?.error) {
         toast.error(response.data.error);
@@ -175,32 +171,49 @@ const ManageProfilePage = () => {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
-
         {/* Navigation Sidebar */}
         <aside className="w-full lg:w-[320px] bg-slate-50/50 p-3 sm:p-6 flex lg:flex-col gap-2 border-b lg:border-b-0 lg:border-r border-slate-100 overflow-x-auto">
           <div className="mb-8">
-            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 hidden lg:block">Account Settings</h2>
+            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 hidden lg:block">
+              Account Settings
+            </h2>
           </div>
 
           <button
             onClick={() => setActiveSection("profile")}
-            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${activeSection === "profile"
-              ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
-              : "text-slate-500 hover:bg-slate-100"
-              }`}
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
+              activeSection === "profile"
+                ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+                : "text-slate-500 hover:bg-slate-100"
+            }`}
           >
-            <Icon icon="mdi:account-box-outline" width={22} className={activeSection === "profile" ? "text-[#007cae]" : "text-slate-400"} />
+            <Icon
+              icon="mdi:account-box-outline"
+              width={22}
+              className={
+                activeSection === "profile"
+                  ? "text-[#007cae]"
+                  : "text-slate-400"
+              }
+            />
             Manage Profile
           </button>
 
           <button
             onClick={() => setActiveSection("brand")}
-            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${activeSection === "brand"
-              ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
-              : "text-slate-500 hover:bg-slate-100"
-              }`}
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
+              activeSection === "brand"
+                ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+                : "text-slate-500 hover:bg-slate-100"
+            }`}
           >
-            <Icon icon="mdi:store-edit-outline" width={22} className={activeSection === "brand" ? "text-[#007cae]" : "text-slate-400"} />
+            <Icon
+              icon="mdi:store-edit-outline"
+              width={22}
+              className={
+                activeSection === "brand" ? "text-[#007cae]" : "text-slate-400"
+              }
+            />
             Edit Brand Info
           </button>
         </aside>
@@ -217,8 +230,12 @@ const ManageProfilePage = () => {
                 className="max-w-2xl space-y-10"
               >
                 <div>
-                  <h1 className="text-3xl font-bold text-slate-900 mb-2">Manage Profile</h1>
-                  <p className="text-slate-500">Update your account identity and login credentials.</p>
+                  <h1 className="text-3xl font-bold text-slate-900 mb-2">
+                    Manage Profile
+                  </h1>
+                  <p className="text-slate-500">
+                    Update your account identity and login credentials.
+                  </p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 p-4 sm:p-6 bg-slate-50 rounded-3xl border border-slate-100">
@@ -238,37 +255,137 @@ const ManageProfilePage = () => {
                     </button>
                   </div>
                   <div className="text-center sm:text-left">
-                    <h2 className="text-xl font-bold text-slate-900">{Admin?.name}</h2>
-                    <p className="text-[#007cae] font-semibold text-sm">@{Admin?.username}</p>
+                    <h2 className="text-xl font-bold text-slate-900">
+                      {Admin?.name}
+                    </h2>
+                    <p className="text-[#007cae] font-semibold text-sm">
+                      @{Admin?.username}
+                    </p>
                   </div>
                 </div>
 
                 <Form layout="vertical" form={form} className="space-y-4">
-                  <Form.Item name="fullName" label={<span className="font-bold text-slate-700">Display Name</span>}>
-                    <Input size="large" prefix={<UserOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                  <Form.Item
+                    name="username"
+                    label={
+                      <div className="flex flex-col">
+                        <span className="font-bold text-slate-700">
+                          Username
+                        </span>
+                        <span className="text-xs text-slate-400 font-normal mt-0.5">
+                          Will be saved as lowercase
+                        </span>
+                      </div>
+                    }
+                    rules={[
+                      { required: true, message: "Required" },
+                      { pattern: /^[^\s]+$/, message: "No spaces" },
+                    ]}
+                  >
+                    <Input
+                      size="large"
+                      prefix={<UserOutlined className="text-slate-300" />}
+                      className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                    />
                   </Form.Item>
-                  <Form.Item name="email" label={<span className="font-bold text-slate-700">Email Address</span>}>
-                    <Input size="large" disabled prefix={<MailOutlined className="text-slate-300" />} className="h-12 rounded-xl bg-slate-50" />
+                  <Form.Item
+                    name="fullName"
+                    label={
+                      <span className="font-bold text-slate-700">
+                        Display Name
+                      </span>
+                    }
+                  >
+                    <Input
+                      size="large"
+                      prefix={<UserOutlined className="text-slate-300" />}
+                      className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                    />
                   </Form.Item>
-                  <Form.Item name="description" label={<span className="font-bold text-slate-700">Bio / Description</span>}>
-                    <Input.TextArea rows={4} className="rounded-xl p-4 border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="Briefly describe your business..." />
+                  <Form.Item
+                    name="email"
+                    label={
+                      <span className="font-bold text-slate-700">
+                        Email Address
+                      </span>
+                    }
+                  >
+                    <Input
+                      size="large"
+                      disabled
+                      prefix={<MailOutlined className="text-slate-300" />}
+                      className="h-12 rounded-xl bg-slate-50"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="description"
+                    label={
+                      <span className="font-bold text-slate-700">
+                        Bio / Description
+                      </span>
+                    }
+                  >
+                    <Input.TextArea
+                      rows={4}
+                      className="rounded-xl p-4 border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                      placeholder="Briefly describe your business..."
+                    />
                   </Form.Item>
                 </Form>
 
                 <div className="pt-6 border-t border-slate-100">
                   <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <Icon icon="mdi:lock-outline" width={20} className="text-slate-400" />
+                    <Icon
+                      icon="mdi:lock-outline"
+                      width={20}
+                      className="text-slate-400"
+                    />
                     Security Settings
                   </h3>
-                  <Form layout="vertical" form={passwordForm} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Form.Item name="oldPassword" label={<span className="font-semibold text-slate-500">Current Password</span>} className="md:col-span-2">
-                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                  <Form
+                    layout="vertical"
+                    form={passwordForm}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  >
+                    <Form.Item
+                      name="oldPassword"
+                      label={
+                        <span className="font-semibold text-slate-500">
+                          Current Password
+                        </span>
+                      }
+                      className="md:col-span-2"
+                    >
+                      <Input.Password
+                        size="large"
+                        className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                      />
                     </Form.Item>
-                    <Form.Item name="newPassword" label={<span className="font-semibold text-slate-500">New Password</span>}>
-                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                    <Form.Item
+                      name="newPassword"
+                      label={
+                        <span className="font-semibold text-slate-500">
+                          New Password
+                        </span>
+                      }
+                    >
+                      <Input.Password
+                        size="large"
+                        className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                      />
                     </Form.Item>
-                    <Form.Item name="confirmNewPassword" label={<span className="font-semibold text-slate-500">Confirm Password</span>}>
-                      <Input.Password size="large" className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                    <Form.Item
+                      name="confirmNewPassword"
+                      label={
+                        <span className="font-semibold text-slate-500">
+                          Confirm Password
+                        </span>
+                      }
+                    >
+                      <Input.Password
+                        size="large"
+                        className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                      />
                     </Form.Item>
                   </Form>
                 </div>
@@ -292,29 +409,89 @@ const ManageProfilePage = () => {
                 className="max-w-2xl space-y-10"
               >
                 <div>
-                  <h1 className="text-3xl font-bold text-slate-900 mb-2">Edit Brand Details</h1>
-                  <p className="text-slate-500">Customize your business presence on SnapTap.</p>
+                  <h1 className="text-3xl font-bold text-slate-900 mb-2">
+                    Edit Brand Details
+                  </h1>
+                  <p className="text-slate-500">
+                    Customize your business presence on SnapTap.
+                  </p>
                 </div>
 
                 <Form layout="vertical" form={brandForm} className="space-y-4">
-                  <Form.Item name="website_url" label={<span className="font-bold text-slate-700">Official Website</span>}>
-                    <Input size="large" prefix={<GlobalOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="https://..." />
+                  <Form.Item
+                    name="website_url"
+                    label={
+                      <span className="font-bold text-slate-700">
+                        Official Website
+                      </span>
+                    }
+                  >
+                    <Input
+                      size="large"
+                      prefix={<GlobalOutlined className="text-slate-300" />}
+                      className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                      placeholder="https://..."
+                    />
                   </Form.Item>
 
-                  <Form.Item name="category" label={<span className="font-bold text-slate-700">Business Category</span>}>
-                    <Select size="large" className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50">
-                      {["Technology", "Fashion", "Food & Beverages", "Retail", "Gaming", "Other"].map(cat => (
-                        <Option key={cat} value={cat}>{cat}</Option>
+                  <Form.Item
+                    name="category"
+                    label={
+                      <span className="font-bold text-slate-700">
+                        Business Category
+                      </span>
+                    }
+                  >
+                    <Select
+                      size="large"
+                      className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                    >
+                      {[
+                        "Technology",
+                        "Fashion",
+                        "Food & Beverages",
+                        "Retail",
+                        "Gaming",
+                        "Other",
+                      ].map((cat) => (
+                        <Option key={cat} value={cat}>
+                          {cat}
+                        </Option>
                       ))}
                     </Select>
                   </Form.Item>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Form.Item name="phone" label={<span className="font-bold text-slate-700">Contact Number</span>}>
-                      <Input size="large" prefix={<PhoneOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" />
+                    <Form.Item
+                      name="phone"
+                      label={
+                        <span className="font-bold text-slate-700">
+                          Contact Number
+                        </span>
+                      }
+                    >
+                      <Input
+                        size="large"
+                        prefix={<PhoneOutlined className="text-slate-300" />}
+                        className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                      />
                     </Form.Item>
-                    <Form.Item name="location" label={<span className="font-bold text-slate-700">Headquarters</span>}>
-                      <Input size="large" prefix={<EnvironmentOutlined className="text-slate-300" />} className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50" placeholder="City, Country" />
+                    <Form.Item
+                      name="location"
+                      label={
+                        <span className="font-bold text-slate-700">
+                          Headquarters
+                        </span>
+                      }
+                    >
+                      <Input
+                        size="large"
+                        prefix={
+                          <EnvironmentOutlined className="text-slate-300" />
+                        }
+                        className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                        placeholder="City, Country"
+                      />
                     </Form.Item>
                   </div>
                 </Form>
@@ -343,14 +520,15 @@ const ManageProfilePage = () => {
         className="[&_.ant-modal-content]:!rounded-3xl"
       >
         <div className="p-6 text-center">
-          <Upload
-            beforeUpload={handleImageUpload}
-            showUploadList={false}
-          >
+          <Upload beforeUpload={handleImageUpload} showUploadList={false}>
             <div className="w-full py-12 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
               <UploadOutlined className="text-3xl text-[#007cae] mb-3" />
-              <p className="text-slate-600 font-medium">Click here to upload your photo</p>
-              <p className="text-slate-400 text-xs">JPG, PNG or WEBP formats only</p>
+              <p className="text-slate-600 font-medium">
+                Click here to upload your photo
+              </p>
+              <p className="text-slate-400 text-xs">
+                JPG, PNG or WEBP formats only
+              </p>
             </div>
           </Upload>
           <Button

@@ -144,7 +144,12 @@ const LoginPage = () => {
             <Form.Item
               name="username"
               label={
-                <span className="font-semibold text-slate-700">Username</span>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-slate-700">Username</span>
+                  <span className="text-xs text-slate-400 font-normal mt-0.5">
+                    Not case-sensitive
+                  </span>
+                </div>
               }
               rules={[
                 { required: true, message: "Please enter your username" },
