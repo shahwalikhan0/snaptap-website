@@ -154,9 +154,11 @@ const SignUpPage: React.FC = () => {
               name="username"
               label={
                 <div className="flex flex-col">
-                  <span className="font-semibold text-slate-700">Username</span>
-                  <span className="text-xs text-slate-400 font-normal mt-0.5">
-                    Will be saved as lowercase
+                  <span className="font-semibold text-slate-700">
+                    Username{" "}
+                    <span className="text-xs text-slate-400 font-normal mt-0.5">
+                      (Will be saved as lowercase)
+                    </span>
                   </span>
                 </div>
               }
@@ -164,6 +166,7 @@ const SignUpPage: React.FC = () => {
                 { required: true, message: "Required" },
                 { pattern: /^[^\s]+$/, message: "No spaces" },
               ]}
+              getValueFromEvent={(e) => e.target.value.replace(/\s/g, "")}
               className="sm:col-span-1"
             >
               <Input
@@ -247,25 +250,6 @@ const SignUpPage: React.FC = () => {
                 placeholder="••••••••"
                 className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
-            </Form.Item>
-
-            <Form.Item
-              name="category"
-              label={
-                <span className="font-semibold text-slate-700">Category</span>
-              }
-              className="sm:col-span-1 text-slate-300"
-            >
-              <Select
-                placeholder="Select a business category"
-                className="h-11 rounded-xl [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-11 [&_.ant-select-selection-search-input]:!h-11 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
-              >
-                <Select.Option value="Furniture">Furniture</Select.Option>
-                <Select.Option value="Electronics">Electronics</Select.Option>
-                <Select.Option value="Retail">Retail</Select.Option>
-                <Select.Option value="Restaurant">Restaurant</Select.Option>
-                <Select.Option value="Other">Other</Select.Option>
-              </Select>
             </Form.Item>
 
             <Form.Item
