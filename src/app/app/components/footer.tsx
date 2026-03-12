@@ -27,7 +27,8 @@ export default function Footer() {
         <div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">SnapTap</h2>
           <p className="text-sm text-slate-500 mb-3 max-w-xs leading-relaxed">
-            Helping businesses bring physical products to life through immersive augmented reality experiences.
+            Helping businesses bring physical products to life through immersive
+            augmented reality experiences.
           </p>
         </div>
 
@@ -38,17 +39,26 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2.5 text-sm text-slate-500">
             <li>
-              <a href="/navigations/privacy" className="hover:text-[#007cae] transition duration-200">
+              <a
+                href="/navigations/privacy"
+                className="hover:text-[#007cae] transition duration-200"
+              >
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a href="/navigations/terms" className="hover:text-[#007cae] transition duration-200">
+              <a
+                href="/navigations/terms"
+                className="hover:text-[#007cae] transition duration-200"
+              >
                 Terms of Service
               </a>
             </li>
             <li>
-              <a href="/navigations/contact" className="hover:text-[#007cae] transition duration-200">
+              <a
+                href="/navigations/contact"
+                className="hover:text-[#007cae] transition duration-200"
+              >
                 Contact Us
               </a>
             </li>
@@ -60,6 +70,9 @@ export default function Footer() {
           <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest mb-4">
             Connect
           </h3>
+          <div className="flex items-center gap-4 text-sm text-slate-400 mb-5">
+            162, Ali Town, Lahore, 54000
+          </div>
           <div className="flex items-center gap-4 text-xl text-slate-400 mb-5">
             <a
               href="mailto:admin@snaptap.pk"
