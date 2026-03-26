@@ -79,7 +79,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
     
     // Redirect to login page
     if (typeof window !== "undefined") {
-      window.location.href = "/app/login";
+      window.location.href = `/app/login?redirect=${encodeURIComponent(window.location.pathname)}`;
     }
   };
 

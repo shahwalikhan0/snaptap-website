@@ -24,7 +24,7 @@ const { Option } = Select;
 
 const ManageProfilePage = () => {
   const router = useRouter();
-  const { isLoggedIn, Admin, Brand, token } = useAdmin();
+  const { isLoggedIn, Admin, Brand, token, logout } = useAdmin();
   const [form] = Form.useForm<ProfileFormValues>();
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
@@ -36,10 +36,17 @@ const ManageProfilePage = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [brandLoading, setBrandLoading] = useState(false);
 
+  // Account Management States
+  const [isDeactivateModalVisible, setIsDeactivateModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deactivating, setDeactivating] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   useEffect(() => {
     if (!isLoggedIn) {
       toast.error("Please log in to manage your profile.");
-      router.push("/app/login");
+      router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
 
@@ -161,6 +168,50 @@ const ManageProfilePage = () => {
       toast.error("Failed to update brand details.");
     } finally {
       setBrandLoading(false);
+    }
+  };
+
+  const handleDeactivateAccount = async () => {
+    setDeactivating(true);
+    try {
+      const response = await api.put("/brand/deactivate");
+      if (response.data?.success) {
+        toast.success(response.data.message);
+        if (response.data.warning) {
+          toast.info(response.data.warning, { autoClose: 10000 });
+        }
+        setIsDeactivateModalVisible(false);
+        // Logout via Context to clean up all storage and redirect
+        setTimeout(() => logout(), 3000);
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.error || "Failed to deactivate account.");
+    } finally {
+      setDeactivating(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!deletePassword) {
+      toast.error("Password is required to delete your account.");
+      return;
+    }
+    setDeleting(true);
+    try {
+      const response = await api.delete("/brand/delete", {
+        data: { password: deletePassword },
+      });
+      if (response.data?.success) {
+        toast.success(response.data.message, { autoClose: 10000 });
+        setIsDeleteModalVisible(false);
+        setTimeout(() => logout(), 4000);
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.error || "Failed to delete account.");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -399,6 +450,47 @@ const ManageProfilePage = () => {
                 >
                   Save All Changes
                 </Button>
+
+                <div className="pt-10 border-t border-slate-100 mt-10">
+                  <h3 className="text-lg font-bold text-red-600 mb-2 flex items-center gap-2">
+                    <Icon icon="mdi:alert-octagon-outline" width={22} />
+                    Account Management
+                  </h3>
+                  <p className="text-slate-500 mb-6 text-sm">
+                    Manage the lifecycle of your account. These actions cannot be easily undone.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div className="p-5 border border-slate-200 rounded-2xl bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                      <div>
+                        <h4 className="font-bold text-slate-800">Deactivate Account</h4>
+                        <p className="text-sm text-slate-500 mt-1">Take a break. Your products will be hidden from users.</p>
+                      </div>
+                      <Button 
+                        size="large" 
+                        onClick={() => setIsDeactivateModalVisible(true)}
+                        className="rounded-xl font-bold whitespace-nowrap bg-orange-50 text-orange-600 hover:!bg-orange-100 hover:!text-orange-700 border-none px-6"
+                      >
+                        Deactivate
+                      </Button>
+                    </div>
+
+                    <div className="p-5 border border-red-100 rounded-2xl bg-red-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                      <div>
+                        <h4 className="font-bold text-slate-800">Delete Account</h4>
+                        <p className="text-sm text-slate-500 mt-1">Permanently remove your account and all associated data.</p>
+                      </div>
+                      <Button 
+                        danger 
+                        size="large" 
+                        onClick={() => setIsDeleteModalVisible(true)}
+                        className="rounded-xl font-bold whitespace-nowrap px-6"
+                      >
+                        Delete Account
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ) : (
               <motion.div
@@ -539,6 +631,112 @@ const ManageProfilePage = () => {
           >
             Done
           </Button>
+        </div>
+      </Modal>
+
+      {/* Deactivate Modal */}
+      <Modal
+        title={<span className="text-lg font-bold text-orange-600">Deactivate Account</span>}
+        open={isDeactivateModalVisible}
+        onCancel={() => setIsDeactivateModalVisible(false)}
+        footer={null}
+        centered
+        className="[&_.ant-modal-content]:!rounded-3xl"
+      >
+        <div className="p-2">
+          <div className="bg-orange-50 border border-orange-100 rounded-2xl p-4 mb-6">
+            <h4 className="font-bold text-orange-800 mb-2 flex items-center gap-2">
+              <Icon icon="mdi:pause-circle-outline" width={20} />
+              What happens when you deactivate?
+            </h4>
+            <ul className="text-sm text-orange-700 space-y-2 list-disc pl-5">
+              <li>Your profile and products will be hidden from all users.</li>
+              <li>Your active subscription will be automatically cancelled and you will not be billed.</li>
+              <li>You can reactivate simply by logging back in within <strong className="font-bold">6 months</strong>.</li>
+              <li>After 6 months, your account and data will be <strong className="font-bold">permanently deleted</strong>.</li>
+            </ul>
+          </div>
+          
+          <p className="text-slate-600 mb-6 font-medium">
+            Are you sure you want to proceed with deactivation?
+          </p>
+
+          <div className="flex gap-3">
+            <Button
+              className="flex-1 h-12 rounded-xl font-bold border-slate-200"
+              onClick={() => setIsDeactivateModalVisible(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              className="flex-1 h-12 rounded-xl font-bold !bg-orange-500 hover:!bg-orange-600 border-none"
+              loading={deactivating}
+              onClick={handleDeactivateAccount}
+            >
+              Yes, Deactivate
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal
+        title={<span className="text-lg font-bold text-red-600">Delete Account</span>}
+        open={isDeleteModalVisible}
+        onCancel={() => {
+          setIsDeleteModalVisible(false);
+          setDeletePassword("");
+        }}
+        footer={null}
+        centered
+        className="[&_.ant-modal-content]:!rounded-3xl"
+      >
+        <div className="p-2">
+          <div className="bg-red-50 border border-red-100 rounded-2xl p-4 mb-6">
+            <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+              <Icon icon="mdi:delete-alert-outline" width={20} />
+              This action represents permanent deletion
+            </h4>
+            <p className="text-sm text-red-700 leading-relaxed">
+              Once initiated, your account will be scheduled for deletion in <strong className="font-bold">30 days</strong>. 
+              After 30 days, your brand profile, 3D models, active subscriptions, and user engagement metrics will be <strong className="font-bold">deleted forever</strong> without any possibility of recovery.
+            </p>
+          </div>
+
+          <Form layout="vertical">
+            <Form.Item label={<span className="font-bold text-slate-700">Enter Password to Confirm Deletion</span>} required>
+              <Input.Password
+                size="large"
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.target.value)}
+                className="h-12 rounded-xl border-slate-200 focus:border-red-500 hover:border-red-500/50"
+                placeholder="Your password"
+                autoComplete="new-password"
+              />
+            </Form.Item>
+            <div className="flex gap-3 mt-2">
+              <Button
+                className="flex-1 h-12 rounded-xl font-bold border-slate-200"
+                onClick={() => {
+                  setIsDeleteModalVisible(false);
+                  setDeletePassword("");
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                danger
+                type="primary"
+                className="flex-[2] h-12 rounded-xl font-bold"
+                loading={deleting}
+                disabled={!deletePassword}
+                onClick={handleDeleteAccount}
+              >
+                Schedule Deletion (30 Days)
+              </Button>
+            </div>
+          </Form>
         </div>
       </Modal>
     </div>

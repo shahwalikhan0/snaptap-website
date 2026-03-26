@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Form, Input, Button, Typography, message } from "antd";
+import { Form, Input, Button, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -26,7 +26,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.replace("/");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectUrl = searchParams.get("redirect");
+      router.replace(redirectUrl || "/");
     }
   }, [isLoggedIn, router]);
 
@@ -72,9 +74,16 @@ const LoginPage = () => {
       if (brand?.id && accessToken) {
         setAdmin(brand);
         setToken(accessToken);
-        message.success("Login successful!");
+        toast.success(`Welcome back, ${brand.name || brand.username}!`);
         fetchBrand(brand.id, accessToken);
-        router.replace("/app/inventory");
+
+        if (brand.account_status === "deactivated" || brand.account_status === "pending_deletion") {
+          router.replace("/app/reactivate");
+        } else {
+          const searchParams = new URLSearchParams(window.location.search);
+          const redirectUrl = searchParams.get("redirect");
+          router.replace(redirectUrl || "/app/inventory");
+        }
       } else {
         message.error("Invalid username or password.");
       }

@@ -10,6 +10,7 @@ export type AdminDataType = {
   image_url?: string | null;
   created_at: string;
   password?: string; // only if used in frontend logic, else remove for security
+  account_status: string;
 };
 
 export type AdminContextType = {

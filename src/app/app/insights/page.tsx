@@ -33,7 +33,7 @@ export default function InsightsPage() {
     const fetchBrandIfMissing = async () => {
       if (!isLoggedIn) {
         alert("Please log in to access the Insights Dashboard.");
-        router.push("/app/login");
+        router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
         return null;
       }
       if (Admin && !Brand) {

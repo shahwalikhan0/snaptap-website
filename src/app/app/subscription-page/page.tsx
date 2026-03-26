@@ -5,7 +5,7 @@ import axios from "axios";
 import SubscriptionComponent from "./subscription-component";
 import MyPlan from "./my-plan";
 import ChangePlan from "./change-plan";
-import EditBilling from "./edit-billing";
+import BillingHistory from "./billing-history";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
 import { Spin } from "antd";
@@ -29,7 +29,7 @@ export default function SubscriptionPage() {
 
       if (!isLoggedIn) {
         toast.error("Please log in to manage your subscription.");
-        router.push("/app/login");
+        router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
         return;
       }
       try {
@@ -55,8 +55,8 @@ export default function SubscriptionPage() {
     switch (selectedPage) {
       case "change-plan":
         return <ChangePlan plan={plan} />;
-      case "edit-billing":
-        return <EditBilling />;
+      case "billing-history":
+        return <BillingHistory />;
       default:
         return <MyPlan />;
     }

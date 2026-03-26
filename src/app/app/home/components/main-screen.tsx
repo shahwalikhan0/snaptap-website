@@ -126,7 +126,7 @@ export const MainScreen = () => {
               {
                 icon: "mdi:cube-scan",
                 title: "Simple 3D Scanning",
-                desc: "No specialized equipment needed. Use any iPhone Pro or Pro Max with iOS 17+ to capture high-quality 3D product models in minutes using the built-in LiDAR sensor.",
+                desc: "No specialized equipment needed. Use any iPhone Pro or Pro Max with iOS 18+ to capture high-quality 3D product models in minutes using the built-in LiDAR sensor.",
               },
               {
                 icon: "mdi:augmented-reality",
@@ -597,7 +597,7 @@ export const MainScreen = () => {
         </div>
       </section>
 
-      {/* SECTION 3 — HOW SNAP TAP WORKS */}
+      {/* SECTION 3 — HOW SNAPTAP WORKS */}
       <section
         id="how-it-works"
         className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50"
@@ -605,7 +605,7 @@ export const MainScreen = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              How Snap Tap Works
+              How SnapTap Works
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               A simple, streamlined process to bring your products into the
@@ -715,7 +715,7 @@ export const MainScreen = () => {
         </div>
       </section> */}
 
-      {/* SECTION — SNAP TAP EXPERIENCE SLIDER */}
+      {/* SECTION — SNAPTAP EXPERIENCE SLIDER */}
       <SnapSlider />
 
       {/* SECTION 6 — CALL TO ACTION */}

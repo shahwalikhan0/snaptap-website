@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Button, Slider, InputNumber, Tag } from "antd";
+import { Card, Button, Slider, InputNumber, Tag, Modal, Input, Form } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
 import api from "@/app/utils/api";
@@ -29,6 +29,11 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   const [customScans, setCustomScans] = useState(25);
   const PRICE_PER_SCAN = 20;
   const customPrice = customScans * PRICE_PER_SCAN;
+
+  /* Cancel Plan State */
+  const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
+  const [cancelPassword, setCancelPassword] = useState("");
+  const [cancelling, setCancelling] = useState(false);
 
   const handleUpdatePlan = async (
     planId: number,
@@ -64,19 +69,22 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   };
 
   const handleCancelPlan = async () => {
-    const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
-    if (totalProducts > 0) {
-      toast.error(`You have ${totalProducts} products. Please delete them first.`);
+    if (!cancelPassword) {
+      toast.error("Please enter your password to confirm");
       return;
     }
 
+    setCancelling(true);
     try {
       const response = await api.put(
         "/brand/cancel-plan",
-        { subscribed_package_id: null }
+        { password: cancelPassword }
       );
       if (response.data?.data) {
         toast.success("Successfully unsubscribed from plan");
+        if (response.data?.warning) {
+          toast.info(response.data.warning, { autoClose: 8000 });
+        }
         if (Brand) {
           setBrand({
             ...Brand,
@@ -85,12 +93,18 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
             scans_remaining: 0,
           });
         }
+        setIsCancelModalVisible(false);
+        setCancelPassword("");
       }
     } catch (error: any) {
       console.error("Plan update error:", error);
       toast.error(error?.response?.data?.error || "Failed to unsubscribe from plan");
+      if (error?.response?.data?.requiresPayment) {
+        setIsCancelModalVisible(false);
+        setCancelPassword("");
+      }
     } finally {
-      setLoadingPlanId(null);
+      setCancelling(false);
     }
   };
 
@@ -156,7 +170,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 block
                 size="large"
                 className="h-12 rounded-xl font-bold hover:bg-red-50"
-                onClick={handleCancelPlan}
+                onClick={() => setIsCancelModalVisible(true)}
               >
                 Cancel Subscription
               </Button>
@@ -216,6 +230,49 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
           </Button>
         </Card>
       </div>
+
+      <Modal
+        title={<span className="text-lg font-bold text-red-600">Cancel Subscription</span>}
+        open={isCancelModalVisible}
+        onCancel={() => {
+          setIsCancelModalVisible(false);
+          setCancelPassword("");
+        }}
+        footer={null}
+        centered
+        className="[&_.ant-modal-content]:!rounded-3xl"
+      >
+        <div className="p-2">
+          <p className="text-slate-600 mb-6 leading-relaxed">
+            Are you sure you want to cancel your subscription? <strong className="text-red-500">All your active and inactive products will be permanently deleted.</strong>
+            <br/><br/>
+            If you just want to take a break, consider <strong className="text-slate-800">deactivating your account</strong> from the Manage Profile page instead.
+          </p>
+          <Form layout="vertical">
+            <Form.Item label={<span className="font-bold text-slate-700">Enter Password to Confirm</span>} required>
+              <Input.Password
+                size="large"
+                value={cancelPassword}
+                onChange={(e) => setCancelPassword(e.target.value)}
+                className="h-12 rounded-xl border-slate-200 focus:border-red-500 hover:border-red-500/50"
+                placeholder="Your password"
+              />
+            </Form.Item>
+            <Button
+              danger
+              type="primary"
+              block
+              size="large"
+              loading={cancelling}
+              onClick={handleCancelPlan}
+              disabled={!cancelPassword}
+              className="mt-2 h-12 rounded-xl font-bold"
+            >
+              Understand & Cancel Subscription
+            </Button>
+          </Form>
+        </div>
+      </Modal>
     </div>
   );
 }

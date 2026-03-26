@@ -31,6 +31,7 @@ const sections = [
       { id: "scan-requirements", title: "Device Requirements" },
       { id: "scan-tips", title: "Scanning Tips" },
       { id: "scan-upload", title: "Uploading to SnapTap" },
+      { id: "scan-area-mode", title: "Area Mode (New)" },
     ],
   },
   {
@@ -562,7 +563,7 @@ export default function DocsPage() {
               <InfoBox type="warning">
                 Scanning requires an{" "}
                 <strong>iPhone Pro or iPhone Pro Max</strong> running{" "}
-                <strong>iOS 17 or later</strong>. Standard iPhone models do not
+                <strong>iOS 18 or later</strong>. Standard iPhone models do not
                 have the LiDAR sensor required for 3D scanning.
               </InfoBox>
             </section>
@@ -589,7 +590,7 @@ export default function DocsPage() {
                     color: "bg-green-50 border-green-200",
                     iconColor: "text-green-600",
                     items: [
-                      "Any iPhone Pro / Pro Max with iOS 17 or later",
+                      "Any iPhone Pro / Pro Max with iOS 18 or later",
                       "iPhone 15 Pro / Pro Max",
                       "iPhone 14 Pro / Pro Max",
                       "iPhone 13 Pro / Pro Max",
@@ -714,6 +715,29 @@ export default function DocsPage() {
                 Uploading uses one scan from your monthly quota. If your quota
                 reaches zero, uploads are blocked until your plan renews or you
                 upgrade.
+              </InfoBox>
+
+              <SubHeading id="scan-area-mode">
+                Area Mode Functionality (New)
+              </SubHeading>
+              <p className="text-slate-600 text-sm leading-relaxed mb-3">
+                SnapTap now supports <strong>Area Mode</strong>, designed
+                specifically for scanning rooms, portions of rooms, and large
+                objects (like furniture or outdoor setups) that don't fit into a
+                standard object scan.
+              </p>
+              <CheckList
+                items={[
+                  "Optimized for large extents: Area Mode maps out wide geometry without restricting you to a single, small bounding box.",
+                  "Pause and resume: You can pause scanning at any time to move to a better vantage point, then resume without losing progress.",
+                  "Efficient memory usage: Scans large spaces effectively while ensuring stable performance on your device.",
+                  "Best for large-scale items: Ideal for big furniture pieces, room layouts, and vehicles.",
+                ]}
+              />
+              <InfoBox type="tip">
+                When using Area Mode, ensure smooth movements and capture
+                overlapping areas when resuming after a pause. The same lighting
+                recommendations apply!
               </InfoBox>
             </section>
 
@@ -1119,7 +1143,7 @@ export default function DocsPage() {
                 {[
                   {
                     q: "Can I use any iPhone to scan products?",
-                    a: "No. Scanning requires an iPhone Pro or iPhone Pro Max (12 Pro or later) running iOS 17+. These are the only models with the LiDAR depth sensor required for accurate 3D scanning. Standard iPhone models (without Pro) cannot scan. However, any iPhone 12 or newer can view AR products.",
+                    a: "No. Scanning requires an iPhone Pro or iPhone Pro Max (12 Pro or later) running iOS 18+. These are the only models with the LiDAR depth sensor required for accurate 3D scanning. Standard iPhone models (without Pro) cannot scan. However, any iPhone 6s or newer can view AR products.",
                   },
                   {
                     q: "How long does processing take after I upload a product?",
@@ -1139,7 +1163,7 @@ export default function DocsPage() {
                   },
                   {
                     q: "What devices support AR viewing?",
-                    a: "iOS: iPhone 12+ in Safari using Apple Quick Look. Android: ARCore-supported devices in Chrome using Google Scene Viewer. Desktop: Interactive 3D viewer (no AR). Most modern smartphones released after 2020 are supported.",
+                    a: "iOS: iPhone 6s+ in Safari using Apple Quick Look. Android: ARCore-supported devices in Chrome using Google Scene Viewer. Desktop: Interactive 3D viewer (no AR). Most modern smartphones are supported.",
                   },
                   {
                     q: "Can I downgrade my plan?",

@@ -44,7 +44,7 @@ export default function ProductDetailsPage() {
 
     if (!isLoggedIn) {
       toast.error("Please log in to access the Product Details.");
-      router.push("/app/login");
+      router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
     const fetchProduct = async () => {

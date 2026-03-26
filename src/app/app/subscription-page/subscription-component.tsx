@@ -21,9 +21,9 @@ export default function SubscriptionComponent({ selectedPage, onSelect }: Props)
       icon: "mdi:rocket-launch-outline",
     },
     {
-      id: "edit-billing",
-      label: "Billing Settings",
-      icon: "mdi:credit-card-settings-outline",
+      id: "billing-history",
+      label: "Billing History",
+      icon: "mdi:receipt-text-outline",
     },
   ];
 

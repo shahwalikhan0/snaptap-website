@@ -6,7 +6,7 @@ import { AdminProvider } from "./hooks/useAdminContext";
 export const metadata: Metadata = {
   title: "SnapTap | Immersive AR Product Experiences",
   description:
-    "SnapTap turns any physical product into a web-based augmented reality experience. Scan with iPhone LiDAR, view it life-size in your real environment.",
+    "SnapTap AR turns any physical product into a web-based augmented reality experience. Scan with iPhone LiDAR, view it life-size in your real environment.",
   openGraph: {
     title: "SnapTap | Immersive AR Product Experiences",
     description:

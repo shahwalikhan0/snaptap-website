@@ -22,7 +22,7 @@ export default function Page() {
       step: "02",
       icon: "mdi:cube-scan",
       title: "Scan with iPhone LiDAR",
-      desc: "Use any iPhone Pro or Pro Max (iOS 17+) with the SnapTap iOS app to capture your physical product. The built-in LiDAR depth sensor records precise geometry, scale, and texture — no photography studio needed.",
+      desc: "Use any iPhone Pro or Pro Max (iOS 18+) with the SnapTap iOS app to capture your physical product. The built-in LiDAR depth sensor records precise geometry, scale, and texture — no photography studio needed.",
     },
     {
       step: "03",

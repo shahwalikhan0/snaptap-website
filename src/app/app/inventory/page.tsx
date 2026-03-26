@@ -41,7 +41,7 @@ export default function InventoryPage() {
   useEffect(() => {
     if (!isLoggedIn) {
       toast.error("Please log in to access your inventory.");
-      router.push("/app/login");
+      router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
 
