@@ -3,27 +3,15 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import api from "@/app/utils/api";
-import { CATEGORIES } from "@/app/constants/categories";
-import Image from "next/image";
-import {
-  Button,
-  Card,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Select,
-  Switch,
-  Upload,
-  Spin,
-} from "antd";
-import {
-  UploadOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { Form, Spin } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { ProductDetailCard } from "./components/ProductDetailCard";
+import { EditProductModal } from "./components/EditProductModal";
+import { DeleteConfirmModal } from "./components/DeleteConfirmModal";
+import { QRCodeModal } from "./components/QRCodeModal";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
@@ -130,8 +118,7 @@ export default function ProductDetailsPage() {
         return;
       }
       await api.delete(`/product/${id}`);
-      //   message.success("Product deleted");
-      router.push("/inventory");
+      router.push("/app/inventory");
     } catch {
       //   message.error("Delete failed");
     } finally {
@@ -166,219 +153,64 @@ export default function ProductDetailsPage() {
     }
   };
 
+  const handleCopyUrl = () => {
+    if (product?.model_url) {
+      navigator.clipboard
+        .writeText(product.model_url)
+        .then(() => toast.success("Model URL copied to clipboard!"))
+        .catch(() => toast.error("Failed to copy URL."));
+    } else {
+      toast.error("Model URL is not available.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="w-full h-[60vh] flex items-center justify-center">
         <Spin size="large" />
-        <Form form={form} />
       </div>
     );
   }
 
   return (
-    <div className="w-full px-3 sm:px-6 md:px-10 lg:px-20 py-10 sm:py-16 bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFEFF]">
+    <div className="w-full px-3 sm:px-6 md:px-10 lg:px-20 py-10 sm:py-16 bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFEFF] min-h-screen">
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+      
       <div className="max-w-5xl mx-auto" style={{ marginTop: "5vh" }}>
-        <Modal
-          open={showDeleteConfirm}
-          onCancel={() => setShowDeleteConfirm(false)}
-          onOk={() => {
+        <DeleteConfirmModal 
+          visible={showDeleteConfirm} 
+          onCancel={() => setShowDeleteConfirm(false)} 
+          onConfirm={() => {
             setShowDeleteConfirm(false);
             handleDelete();
-          }}
-          okText="Delete"
-          okButtonProps={{ danger: true, loading: deleting }}
-          title="Confirm Deletion"
-        >
-          <p>
-            Are you sure you want to delete this product? <br />
-            <b>Warning:</b> This action cannot be undone. It will permanently
-            delete:
-            <ul className="list-disc ml-5 mt-2">
-              <li>Product details and files (Images, 3D Models, QR Code)</li>
-              <li>All associated analytics (Views, Hits, Ratings)</li>
-              <li>Customer feedback and favorites</li>
-            </ul>
-          </p>
-        </Modal>
-        <Card
-          className="rounded-xl shadow-md"
-          title={
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <span className="text-lg sm:text-xl font-semibold text-[#007cae]">
-                Product Details
-              </span>
+          }} 
+          deleting={deleting} 
+        />
 
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  icon={<EditOutlined />}
-                  onClick={() => setEditing(true)}
-                  className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
-                >
-                  Edit
-                </Button>
-                <Button
-                  type="default"
-                  onClick={() => setShowQRModal(true)}
-                  className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
-                >
-                  View QR
-                </Button>
-                <Button
-                  type="default"
-                  onClick={() => {
-                    if (product?.model_url) {
-                      navigator.clipboard
-                        .writeText(product.model_url)
-                        .then(() =>
-                          toast.success("Model URL copied to clipboard!"),
-                        )
-                        .catch(() => toast.error("Failed to copy URL."));
-                    } else {
-                      toast.error("Model URL is not available.");
-                    }
-                  }}
-                  className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
-                >
-                  Copy Model URL
-                </Button>
-                <Button
-                  danger
-                  loading={deleting}
-                  icon={<DeleteOutlined />}
-                  onClick={() => confirmDelete()}
-                  className="rounded-xl border-red-200 hover:!border-red-500 hover:!text-red-500"
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          }
-        >
-          {/* Image */}
-          <div className="relative w-full h-[200px] sm:h-[280px] bg-gray-100 rounded-xl mb-6">
-            <img
-              src={product?.image_url}
-              alt={product?.name}
-              //   fill
-              style={{ objectFit: "contain" }}
-              className="p-6"
-            />
-          </div>
+        <ProductDetailCard 
+          product={product} 
+          onEdit={() => setEditing(true)} 
+          onViewQR={() => setShowQRModal(true)} 
+          onCopyUrl={handleCopyUrl} 
+          onDelete={confirmDelete} 
+          deleting={deleting} 
+        />
 
-          {/* Info */}
-          <div className="space-y-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#007cae]">
-              {product?.name}
-            </h2>
-            <p className="text-gray-600">{product?.description}</p>
+        <EditProductModal 
+          visible={editing} 
+          onCancel={() => setEditing(false)} 
+          onUpdate={handleUpdate} 
+          updating={updating} 
+          form={form} 
+        />
 
-            <div className="flex flex-wrap gap-4 mt-3">
-              <span className="text-lg font-semibold">
-                Rs. {product?.price}
-              </span>
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
-                {product?.category}
-              </span>
-              <span
-                className={`px-3 py-1 rounded-full ${
-                  product?.is_active
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
-                }`}
-              >
-                {product?.is_active ? "Active" : "Inactive"}
-              </span>
-            </div>
-          </div>
-        </Card>
-
-        {/* Edit Modal */}
-        <Modal
-          open={editing}
-          onCancel={() => setEditing(false)}
-          onOk={() => form.submit()}
-          okText="Save Changes"
-          okButtonProps={{ loading: updating }}
-          title="Edit Product"
-        >
-          <Form layout="vertical" form={form} onFinish={handleUpdate}>
-            <Form.Item
-              name="name"
-              label="Product Name"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item name="price" label="Price" rules={[{ required: true }]}>
-              <InputNumber className="w-full" />
-            </Form.Item>
-
-            <Form.Item
-              name="category"
-              label="Category"
-              rules={[{ required: true, message: "Category is required" }]}
-            >
-              <Select placeholder="Select a category" size="large" allowClear>
-                {CATEGORIES.map((category) => (
-                  <Select.Option key={category} value={category}>
-                    {category}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            <Form.Item name="description" label="Description">
-              <Input.TextArea rows={3} />
-            </Form.Item>
-
-            <Form.Item name="is_active" label="Active" valuePropName="checked">
-              <Switch />
-            </Form.Item>
-
-            <Form.Item name="image" label="Product Image">
-              <Upload beforeUpload={() => false} maxCount={1}>
-                <Button icon={<UploadOutlined />}>Replace Image</Button>
-              </Upload>
-            </Form.Item>
-          </Form>
-        </Modal>
-
-        {/* QR Code Modal */}
-        <Modal
-          open={showQRModal}
-          onCancel={() => setShowQRModal(false)}
-          title="Product QR Code"
-          footer={[
-            <Button key="close" onClick={() => setShowQRModal(false)}>
-              Close
-            </Button>,
-            product?.qr_code_url && (
-              <Button key="download" type="primary" onClick={handleDownloadQR}>
-                Download
-              </Button>
-            ),
-          ]}
-        >
-          {product?.qr_code_url ? (
-            <div className="flex flex-col items-center justify-center p-6">
-              <img
-                src={product.qr_code_url}
-                alt={`QR Code for ${product.name}`}
-                className="w-full max-w-sm h-auto"
-              />
-              <p className="mt-4 text-gray-600 text-sm text-center">
-                Scan this QR code to view product details
-              </p>
-            </div>
-          ) : (
-            <div className="p-6 text-center">
-              <p className="text-gray-500">
-                QR code is not available for this product
-              </p>
-            </div>
-          )}
-        </Modal>
+        <QRCodeModal 
+          visible={showQRModal} 
+          onCancel={() => setShowQRModal(false)} 
+          onDownload={handleDownloadQR} 
+          productName={product?.name || "Product"} 
+          qrCodeUrl={product?.qr_code_url} 
+        />
       </div>
     </div>
   );

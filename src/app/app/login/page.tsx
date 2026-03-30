@@ -14,6 +14,7 @@ import { Icon } from "@iconify/react";
 const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
   ssr: false,
 });
+import { AuthVisual } from "../components/auth/AuthVisual";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
@@ -85,7 +86,7 @@ const LoginPage = () => {
           router.replace(redirectUrl || "/app/inventory");
         }
       } else {
-        message.error("Invalid username or password.");
+        toast.error("Invalid username or password.");
       }
     } catch (err: any) {
       if (err.code === "ERR_NETWORK") {
@@ -105,23 +106,13 @@ const LoginPage = () => {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       {/* LEFT SIDE - Branding & 3D Visual (hidden on mobile) */}
-      <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-8 md:p-12 pt-28 md:pt-28 relative overflow-hidden">
-        {/* Decorative background shape */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
-
-        <div className="w-full max-w-lg aspect-square relative z-10 mb-8">
-          <ModelViewer />
-        </div>
-
-        <div className="text-center z-10 max-w-sm">
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-            Welcome Back!
-          </h1>
-          <p className="text-slate-600 text-lg">
-            Your 3D inventory is just a click away. Let&apos;s get back to work.
-          </p>
-        </div>
-      </div>
+      <AuthVisual
+        title="Welcome Back!"
+        subtitle="Your 3D inventory is just a click away. Let's get back to work."
+        isLogin={true}
+      >
+        <ModelViewer />
+      </AuthVisual>
 
       {/* RIGHT SIDE - Form */}
       <div className="flex-1 flex items-start justify-center p-4 sm:p-6 md:p-12 bg-white pt-24 sm:pt-28 md:pt-28">

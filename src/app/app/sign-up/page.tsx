@@ -24,6 +24,7 @@ import { CATEGORIES } from "@/app/constants/categories";
 const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
   ssr: false,
 });
+import { AuthVisual } from "../components/auth/AuthVisual";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const { Title, Text } = Typography;
@@ -113,23 +114,13 @@ const SignUpPage: React.FC = () => {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       {/* LEFT SIDE - Branding */}
-      <div className="hidden md:flex md:w-[40%] bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-8 md:p-12 pt-28 md:pt-28 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
-
-        <div className="w-full max-w-sm aspect-square relative z-10 mb-8">
-          <ModelViewer />
-        </div>
-
-        <div className="text-center z-10 max-w-sm">
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-            Join SnapTap
-          </h1>
-          <p className="text-slate-600 text-lg">
-            Create your account and start building your 3D product catalog in
-            minutes.
-          </p>
-        </div>
-      </div>
+      <AuthVisual
+        title="Join SnapTap"
+        subtitle="Create your account and start building your 3D product catalog in minutes."
+        isLogin={false}
+      >
+        <ModelViewer />
+      </AuthVisual>
 
       {/* RIGHT SIDE - Form */}
       <div className="flex-1 flex items-start justify-center p-4 sm:p-6 md:p-12 bg-white overflow-y-auto pt-24 sm:pt-28 md:pt-28">

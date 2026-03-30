@@ -36,7 +36,9 @@ export default function ReactivatePage() {
       
       if (res.data.success) {
         toast.success(res.data.message || "Account restored successfully!");
-        setAdmin((prev: any) => ({ ...prev, account_status: "active" }));
+        if (Admin) {
+          setAdmin({ ...Admin, account_status: "active" });
+        }
         setTimeout(() => {
           router.replace("/app/inventory");
         }, 1500);
