@@ -13,9 +13,25 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "SnapTap",
+            "alternateName": "Snaptap",
             "url": "https://snaptap.pk",
             "logo": "https://snaptap.pk/assets/icon.png",
             "sameAs": ["https://www.instagram.com/snaptappk/"],
+            "description": "SnapTap provides immersive 3D and Augmented Reality e-commerce solutions."
+          }),
+        }}
+      />
+      {/* WebSite Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "SnapTap",
+            "url": "https://snaptap.pk",
+            "description": "Create and view 3D Augmented Reality product models for your business using SnapTap.",
+            "inLanguage": "en"
           }),
         }}
       />

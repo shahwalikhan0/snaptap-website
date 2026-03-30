@@ -19,14 +19,12 @@ export function HeroSection() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="w-full md:w-1/2 text-center md:text-left z-10">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-slate-900 mb-4 sm:mb-6">
-            See Before You Buy with{" "}
-            <span className="text-[#007cae]">SNAPTAP</span>
+            <span className="text-[#007cae]">SnapTap:</span> The Ultimate AR Product Viewer
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto md:mx-0">
+          <h2 className="text-base sm:text-lg md:text-xl text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto md:mx-0 font-medium">
             SnapTap transforms physical products into realistic, scalable 3D
-            AR experiences that customers can place in their real environment
-            before purchasing.
-          </p>
+            Augmented Reality experiences. Let your customers visualize products in their real environment before buying.
+          </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <button
               onClick={() => router.push("/app/sign-up")}

@@ -4,13 +4,29 @@ import { AdminProvider } from "./hooks/useAdminContext";
 // import "@google/model-viewer";
 
 export const metadata: Metadata = {
-  title: "SnapTap | Immersive AR Product Experiences",
+  title: "SnapTap - 3D & Augmented Reality Product Experiences",
   description:
-    "SnapTap AR turns any physical product into a web-based augmented reality experience. Scan with iPhone LiDAR, view it life-size in your real environment.",
+    "SnapTap is the leading platform for 3D model generation, web-based Augmented Reality, and immersive E-commerce experiences. Digitize your products with SnapTap AR.",
+  keywords: [
+    "snaptap",
+    "SnapTap",
+    "snaptap.pk",
+    "SnapTap AR",
+    "3D model generation",
+    "Web AR",
+    "Augmented Reality E-commerce",
+    "AR product viewer",
+    "LiDAR scanning",
+    "snap tap",
+  ],
+  metadataBase: new URL("https://snaptap.pk"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "SnapTap | Immersive AR Product Experiences",
+    title: "SnapTap - 3D & Augmented Reality Product Experiences",
     description:
-      "Convert your physical products to AR in minutes with LiDAR scanning.",
+      "Transform your physical products to immersive AR in minutes with the SnapTap platform.",
     url: "https://snaptap.pk",
     siteName: "SnapTap",
     images: [
@@ -25,9 +41,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SnapTap | Immersive AR Product Experiences",
+    title: "SnapTap - 3D & Augmented Reality Product Experiences",
     description:
-      "Convert your physical products to AR in minutes with LiDAR scanning.",
+      "Transform your physical products to immersive AR in minutes with the SnapTap platform.",
     images: ["https://snaptap.pk/assets/hero-bg.jpg"],
   },
 };
