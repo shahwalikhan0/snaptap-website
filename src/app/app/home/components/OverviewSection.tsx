@@ -133,7 +133,7 @@ export function OverviewSection() {
           <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
               <Image
-                src="/assets/scan_view_3.png"
+                src="/assets/scan_view_3.jpg"
                 alt="Business Product"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
