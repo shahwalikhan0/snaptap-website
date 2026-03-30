@@ -82,7 +82,7 @@ export const platformCaps = [
 export const useCases = [
   {
     icon: "mdi:storefront-outline",
-    image: "/assets/marketplace.png",
+    image: "/assets/marketplace.jpg",
     tag: "Marketplace",
     title: "Marketplace Platform",
     desc: "Brands scan and publish their products to the SnapTap marketplace. Customers browse AR-enabled listings, visualize items in their real space, and contact sellers directly — no intermediary, no guesswork.",
@@ -101,7 +101,7 @@ export const useCases = [
   },
   {
     icon: "mdi:silverware-fork-knife",
-    image: "/assets/dining_2.png",
+    image: "/assets/dining_2.webp",
     tag: "Restaurants",
     title: "Restaurant Menu Virtualization",
     desc: "Convert your entire food menu into photorealistic 3D AR models. Guests scan a QR code on the physical menu and see every dish rendered life-size on their table — improving ordering confidence, reducing returns, and boosting upsells.",
@@ -120,7 +120,7 @@ export const useCases = [
   },
   {
     icon: "mdi:briefcase-outline",
-    image: "/assets/scan_view_3.png",
+    image: "/assets/scan_view_3.jpg",
     tag: "Retail & E-Commerce",
     title: "Business Product Virtualization",
     desc: "Furniture stores, showrooms, retail brands, and e-commerce businesses convert their product catalogs into AR. Embed the AR viewer on your own website, or hand out QR codes in-store — no app download required by customers.",

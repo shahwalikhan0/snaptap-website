@@ -10,7 +10,7 @@ export function CoreValueSection() {
         <div className="w-full md:w-1/2 order-2 md:order-1">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
             <Image
-              src="/assets/furniture_1.png"
+              src="/assets/furniture_1.jpg"
               alt="AR Furniture in Living Room"
               width={800}
               height={600}

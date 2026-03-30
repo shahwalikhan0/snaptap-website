@@ -9,7 +9,7 @@ const slides = [
     tagline: "Scan Any Product in Seconds",
     description:
       "Point your smartphone camera at any physical product. SnapTap's scanning engine captures depth, texture, and geometry — turning real objects into precise 3D models in minutes.",
-    image: "/assets/snap_slide.png",
+    image: "/assets/snap_slide.jpg",
     alt: "Phone scanning a chair with blue holographic rays",
     badge: "Step 01",
   },
@@ -18,7 +18,7 @@ const slides = [
     tagline: "Preview Before You Place an Order",
     description:
       "Customers tap a QR code and instantly see the product rendered true-to-scale inside their camera view. No app download. No guessing. Just tap — and it's there.",
-    image: "/assets/tap_slide.png",
+    image: "/assets/tap_slide.jpg",
     alt: "Smartphone showing AR chair in camera viewfinder",
     badge: "Step 02",
   },
@@ -27,7 +27,7 @@ const slides = [
     tagline: "See It in Your Space Before You Buy",
     description:
       "Walk around it, resize it, reposition it. SnapTap AR is so accurate, customers can decide with full confidence — reducing returns and boosting conversion.",
-    image: "/assets/experience_slide.png",
+    image: "/assets/experience_slide.webp",
     alt: "Person experiencing AR chair in a beautiful living room",
     badge: "Step 03",
   },
@@ -91,7 +91,7 @@ export const SnapSlider = () => {
      */
     <div
       ref={wrapperRef}
-      style={{ height: `${slides.length * 180}vh`, width: '100vw' }}
+      style={{ height: `${slides.length * 180}vh`, width: "100vw" }}
       className="relative"
     >
       {/* Sticky inner — stays pinned while the wrapper is in view */}

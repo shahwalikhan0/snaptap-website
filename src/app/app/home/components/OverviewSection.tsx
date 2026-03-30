@@ -12,9 +12,9 @@ export function OverviewSection() {
             One Platform. Multiple AR Solutions.
           </h2>
           <p className="text-lg text-slate-600">
-            SnapTap helps businesses digitize physical products into
-            interactive 3D augmented reality experiences — improving customer
-            confidence, reducing returns, and increasing conversions.
+            SnapTap helps businesses digitize physical products into interactive
+            3D augmented reality experiences — improving customer confidence,
+            reducing returns, and increasing conversions.
           </p>
         </div>
 
@@ -23,7 +23,7 @@ export function OverviewSection() {
           <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
               <Image
-                src="/assets/marketplace.png"
+                src="/assets/marketplace.jpg"
                 alt="Marketplace"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -77,7 +77,7 @@ export function OverviewSection() {
           <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
             <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
               <Image
-                src="/assets/dining_2.png"
+                src="/assets/dining_2.webp"
                 alt="Restaurant Menu"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
