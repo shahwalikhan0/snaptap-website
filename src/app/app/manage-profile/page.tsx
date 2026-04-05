@@ -26,7 +26,7 @@ const { Option } = Select;
 
 const ManageProfilePage = () => {
   const router = useRouter();
-  const { isLoggedIn, Admin, Brand, token, logout } = useAdmin();
+  const { isLoggedIn, Admin, Brand, token, logout, setAdmin, setBrand } = useAdmin();
   const [form] = Form.useForm<ProfileFormValues>();
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
@@ -37,6 +37,8 @@ const ManageProfilePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
   const [brandLoading, setBrandLoading] = useState(false);
+  const [isProfileModified, setIsProfileModified] = useState(false);
+  const [isBrandModified, setIsBrandModified] = useState(false);
 
   // Account Management States
   const [isDeactivateModalVisible, setIsDeactivateModalVisible] = useState(false);
@@ -104,7 +106,10 @@ const ManageProfilePage = () => {
 
   const handleImageUpload = (file: RcFile) => {
     const reader = new FileReader();
-    reader.onload = () => setImageUrl(reader.result as string);
+    reader.onload = () => {
+      setImageUrl(reader.result as string);
+      setIsProfileModified(true);
+    };
     reader.readAsDataURL(file);
     return false;
   };
@@ -137,6 +142,11 @@ const ManageProfilePage = () => {
         return;
       }
 
+      if (response.data?.data) {
+        setAdmin({ ...Admin, ...response.data.data } as any);
+        setIsProfileModified(false);
+      }
+
       toast.success("Profile updated successfully");
     } catch (error) {
       console.error(error);
@@ -163,6 +173,11 @@ const ManageProfilePage = () => {
       if (response.data?.error) {
         toast.error(response.data.error);
         return;
+      }
+
+      if (response.data?.data) {
+        setBrand({ ...Brand, ...response.data.data } as any);
+        setIsBrandModified(false);
       }
 
       toast.success("Brand details updated successfully");
@@ -285,12 +300,16 @@ const ManageProfilePage = () => {
                 handleProfileUpdate={handleProfileUpdate}
                 setIsDeactivateModalVisible={setIsDeactivateModalVisible}
                 setIsDeleteModalVisible={setIsDeleteModalVisible}
+                isProfileModified={isProfileModified}
+                setIsProfileModified={setIsProfileModified}
               />
             ) : (
               <BrandSection
                 brandForm={brandForm}
                 brandLoading={brandLoading}
                 handleBrandUpdate={handleBrandUpdate}
+                isBrandModified={isBrandModified}
+                setIsBrandModified={setIsBrandModified}
               />
             )}
           </AnimatePresence>

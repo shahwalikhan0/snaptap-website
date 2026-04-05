@@ -2,6 +2,7 @@ import { Form, Input, Button, FormInstance, Select } from "antd";
 import { GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { BrandDetailFormValues } from "../types";
+import { CATEGORIES } from "@/app/constants/categories";
 
 const { Option } = Select;
 
@@ -9,12 +10,16 @@ interface BrandSectionProps {
   brandForm: FormInstance<BrandDetailFormValues>;
   brandLoading: boolean;
   handleBrandUpdate: () => void;
+  isBrandModified: boolean;
+  setIsBrandModified: (val: boolean) => void;
 }
 
 export function BrandSection({
   brandForm,
   brandLoading,
   handleBrandUpdate,
+  isBrandModified,
+  setIsBrandModified,
 }: BrandSectionProps) {
   return (
     <motion.div
@@ -33,7 +38,7 @@ export function BrandSection({
         </p>
       </div>
 
-      <Form layout="vertical" form={brandForm} className="space-y-4">
+      <Form layout="vertical" form={brandForm} className="space-y-4" onValuesChange={() => setIsBrandModified(true)}>
         <Form.Item
           name="website_url"
           label={
@@ -58,14 +63,7 @@ export function BrandSection({
             size="large"
             className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
           >
-            {[
-              "Technology",
-              "Fashion",
-              "Food & Beverages",
-              "Retail",
-              "Gaming",
-              "Other",
-            ].map((cat) => (
+            {CATEGORIES.map((cat) => (
               <Option key={cat} value={cat}>
                 {cat}
               </Option>
@@ -104,7 +102,8 @@ export function BrandSection({
         type="primary"
         size="large"
         loading={brandLoading}
-        className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
+        disabled={!isBrandModified}
+        className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white disabled:!bg-slate-300 disabled:!text-slate-500"
         onClick={handleBrandUpdate}
       >
         Update Brand Profile

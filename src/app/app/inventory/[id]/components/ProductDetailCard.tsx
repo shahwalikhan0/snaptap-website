@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, Button } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Card, Button, Dropdown } from "antd";
+import { EditOutlined, DeleteOutlined, CopyOutlined, MoreOutlined } from "@ant-design/icons";
 
 interface ProductDetailCardProps {
   product: any;
@@ -29,14 +29,7 @@ export function ProductDetailCard({
             Product Details
           </span>
 
-          <div className="flex flex-wrap gap-2">
-            <Button
-              icon={<EditOutlined />}
-              onClick={onEdit}
-              className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
-            >
-              Edit
-            </Button>
+          <div className="flex items-center gap-2">
             <Button
               type="default"
               onClick={onViewQR}
@@ -44,22 +37,43 @@ export function ProductDetailCard({
             >
               View QR
             </Button>
-            <Button
-              type="default"
-              onClick={onCopyUrl}
-              className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: "edit",
+                    label: "Edit",
+                    icon: <EditOutlined />,
+                    onClick: onEdit,
+                  },
+                  {
+                    key: "copy",
+                    label: "Copy Model URL",
+                    icon: <CopyOutlined />,
+                    onClick: onCopyUrl,
+                  },
+                  {
+                    type: "divider",
+                  },
+                  {
+                    key: "delete",
+                    label: deleting ? "Deleting..." : "Delete",
+                    icon: <DeleteOutlined />,
+                    onClick: onDelete,
+                    danger: true,
+                    disabled: deleting,
+                  },
+                ],
+              }}
+              trigger={["click"]}
+              placement="bottomRight"
             >
-              Copy Model URL
-            </Button>
-            <Button
-              danger
-              loading={deleting}
-              icon={<DeleteOutlined />}
-              onClick={onDelete}
-              className="rounded-xl border-red-200 hover:!border-red-500 hover:!text-red-500"
-            >
-              Delete
-            </Button>
+              <Button
+                type="text"
+                icon={<MoreOutlined className="text-xl text-slate-600" />}
+                className="rounded-xl flex items-center justify-center hover:bg-slate-100"
+              />
+            </Dropdown>
           </div>
         </div>
       }

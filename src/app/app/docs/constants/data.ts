@@ -57,16 +57,6 @@ export const sections = [
     ],
   },
   {
-    id: "ar-viewer",
-    title: "AR Viewer",
-    icon: "mdi:augmented-reality",
-    children: [
-      { id: "ar-ios", title: "iOS (Quick Look)" },
-      { id: "ar-android", title: "Android (Scene Viewer)" },
-      { id: "ar-desktop", title: "Desktop / Web 3D" },
-    ],
-  },
-  {
     id: "customer",
     title: "Customer Experience",
     icon: "mdi:account-eye-outline",

@@ -14,6 +14,8 @@ interface ProfileSectionProps {
   handleProfileUpdate: () => void;
   setIsDeactivateModalVisible: (val: boolean) => void;
   setIsDeleteModalVisible: (val: boolean) => void;
+  isProfileModified: boolean;
+  setIsProfileModified: (val: boolean) => void;
 }
 
 export function ProfileSection({
@@ -26,6 +28,8 @@ export function ProfileSection({
   handleProfileUpdate,
   setIsDeactivateModalVisible,
   setIsDeleteModalVisible,
+  isProfileModified,
+  setIsProfileModified,
 }: ProfileSectionProps) {
   return (
     <motion.div
@@ -68,7 +72,7 @@ export function ProfileSection({
         </div>
       </div>
 
-      <Form layout="vertical" form={form} className="space-y-4">
+      <Form layout="vertical" form={form} className="space-y-4" onValuesChange={() => setIsProfileModified(true)}>
         <Form.Item
           name="username"
           label={
@@ -136,6 +140,7 @@ export function ProfileSection({
           layout="vertical"
           form={passwordForm}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          onValuesChange={() => setIsProfileModified(true)}
         >
           <Form.Item
             name="oldPassword"
@@ -182,7 +187,8 @@ export function ProfileSection({
         type="primary"
         size="large"
         loading={profileLoading}
-        className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
+        disabled={!isProfileModified}
+        className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white disabled:!bg-slate-300 disabled:!text-slate-500"
         onClick={handleProfileUpdate}
       >
         Save All Changes
