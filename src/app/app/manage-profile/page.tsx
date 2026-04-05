@@ -105,10 +105,17 @@ const ManageProfilePage = () => {
   }, [Admin, Brand, form, brandForm, isLoggedIn, router]);
 
   const handleImageUpload = (file: RcFile) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+      toast.error("You can only upload image files!");
+      return Upload.LIST_IGNORE;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       setImageUrl(reader.result as string);
       setIsProfileModified(true);
+      setIsModalVisible(false);
     };
     reader.readAsDataURL(file);
     return false;
@@ -325,7 +332,7 @@ const ManageProfilePage = () => {
         className="[&_.ant-modal-content]:!rounded-3xl"
       >
         <div className="p-6 text-center">
-          <Upload beforeUpload={handleImageUpload} showUploadList={false}>
+          <Upload beforeUpload={handleImageUpload} showUploadList={false} accept="image/*">
             <div className="w-full py-12 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
               <UploadOutlined className="text-3xl text-[#007cae] mb-3" />
               <p className="text-slate-600 font-medium">
@@ -336,14 +343,6 @@ const ManageProfilePage = () => {
               </p>
             </div>
           </Upload>
-          <Button
-            block
-            type="primary"
-            className="mt-6 h-11 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
-            onClick={() => setIsModalVisible(false)}
-          >
-            Done
-          </Button>
         </div>
       </Modal>
 
