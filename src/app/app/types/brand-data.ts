@@ -21,6 +21,7 @@ export type BrandDataType = {
   due_date: string | null;
   date_paid: string | null;
   totalBilling: number;
+  is_estimate?: boolean;
 };
 
 export type BrandContextType = {

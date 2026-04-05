@@ -1,12 +1,25 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Card, Progress, Tag } from "antd";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
 
 export default function MyPlan() {
-  const { Brand } = useAdmin();
+  const { Brand, setBrand } = useAdmin();
+  const [currentEst, setCurrentEst] = useState<any>(null);
+
+  useEffect(() => {
+    if (Brand?.id) {
+       axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/billing/brand/${Brand.id}/current`, { withCredentials: true })
+         .then((res: any) => {
+             setCurrentEst(res.data);
+         })
+         .catch((err: any) => console.log("Failed to load current billing estimate", err));
+    }
+  }, [Brand?.id]);
 
   if (!Brand) {
     return (
@@ -39,8 +52,10 @@ export default function MyPlan() {
                 <h2 className="text-2xl sm:text-4xl font-black">{Brand.package_name || "Enterprise"}</h2>
               </div>
               <div className="sm:text-right">
-                <p className="text-white/70 text-sm font-semibold uppercase tracking-wider">Current Monthly Billing</p>
-                <p className="text-2xl sm:text-3xl font-bold">Rs. {Brand.totalBilling || 0}</p>
+                <p className="text-white/70 text-sm font-semibold uppercase tracking-wider">
+                  {currentEst?.is_estimate ? "Current Month Estimate" : "Current Monthly Billing"}
+                </p>
+                <p className="text-2xl sm:text-3xl font-bold">Rs. {currentEst?.total_amount ?? Brand.totalBilling ?? 0}</p>
               </div>
             </div>
           </div>
@@ -54,9 +69,15 @@ export default function MyPlan() {
               </div>
             </div>
             <div>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Next Billing Date</p>
+              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">
+                {currentEst?.is_estimate ? "Ongoing Cycle" : "Next Billing Date"}
+              </p>
               <span className="font-bold text-slate-700">
-                {Brand.due_date ? dayjs(Brand.due_date).format("MMM D, YYYY") : "Auto-renew disabled"}
+                {currentEst?.is_estimate
+                  ? dayjs().format("MMMM YYYY")
+                  : Brand.due_date
+                  ? dayjs(Brand.due_date).format("MMM D, YYYY")
+                  : "Auto-renew disabled"}
               </span>
             </div>
           </div>

@@ -53,7 +53,14 @@ export default function InsightsPage() {
               setBillingInfo(billingRes.data);
               // Override the brand's totalBilling with actual current month amount if they differ
               if (brandData) {
+                brandData.is_estimate = billingRes.data.is_estimate;
                 brandData.totalBilling = billingRes.data.total_amount;
+                // Force sync month/year to reflect the live data returned
+                if (billingRes.data.month) {
+                  const m = new Date(billingRes.data.month);
+                  brandData.month = m.getMonth() + 1; // 1-indexed for display
+                  brandData.year = m.getFullYear();
+                }
               }
             }
           } catch (err) {

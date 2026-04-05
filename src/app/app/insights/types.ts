@@ -34,6 +34,7 @@ export interface BrandData {
   date_paid: string | null;
 
   totalBilling: number;
+  is_estimate?: boolean;
 
   subscribed_package_id: number | null;
   brand_name?: string;
