@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { BrandData } from "../types";
 
@@ -28,7 +28,7 @@ export function StatsCards({
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: easeOut },
     },
   };
 
