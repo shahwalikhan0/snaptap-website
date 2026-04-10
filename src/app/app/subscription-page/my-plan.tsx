@@ -1,25 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Card, Progress, Tag } from "antd";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
+import api from "@/app/utils/api";
 
 export default function MyPlan() {
   const { Brand, setBrand } = useAdmin();
   const [currentEst, setCurrentEst] = useState<any>(null);
 
   useEffect(() => {
-    if (Brand?.id) {
-       axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/billing/brand/${Brand.id}/current`, { withCredentials: true })
+    if (Brand?.brand_id) {
+       api
+         .get(`/billing/brand/${Brand.brand_id}/current`)
          .then((res: any) => {
              setCurrentEst(res.data);
          })
          .catch((err: any) => console.log("Failed to load current billing estimate", err));
     }
-  }, [Brand?.id]);
+  }, [Brand?.brand_id]);
 
   if (!Brand) {
     return (

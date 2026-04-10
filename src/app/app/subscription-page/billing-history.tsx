@@ -29,10 +29,10 @@ export default function BillingHistory() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (Brand?.id) {
-      fetchBillingData(Brand.id);
+    if (Brand?.brand_id) {
+      fetchBillingData(Brand.brand_id);
     }
-  }, [Brand]);
+  }, [Brand?.brand_id]);
 
   const fetchBillingData = async (brandId: number) => {
     setLoading(true);
@@ -55,7 +55,7 @@ export default function BillingHistory() {
   const generateInvoicePDF = (record: BillingRecord) => {
     if (!Brand) return;
     const doc = new jsPDF();
-    const invoiceNumber = `INV-${dayjs(record.month).format("YYYYMM")}-${Brand.id}`;
+    const invoiceNumber = `INV-${dayjs(record.month).format("YYYYMM")}-${Brand.brand_id}`;
     
     // Header
     doc.setFontSize(22);
@@ -73,7 +73,7 @@ export default function BillingHistory() {
     doc.setFontSize(10);
     doc.setTextColor(100);
     doc.text(`Brand: ${(Brand as any).brand_name || "SnapTap User"}`, 20, 52);
-    doc.text(`Account ID: ${Brand.id}`, 20, 58);
+    doc.text(`Account ID: ${Brand.brand_id}`, 20, 58);
     
     // Invoice Details
     doc.setTextColor(0);
