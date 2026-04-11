@@ -43,7 +43,7 @@ export function AnalyticsBilling() {
           },
           {
             title: "2. Per-View Usage",
-            desc: "AR views beyond a threshold contribute a small per-view charge. This is tracked monthly per product.",
+            desc: "AR views contribute a small per-view charge based on your plan rate. This is tracked monthly per product.",
           },
         ].map((item, i) => (
           <div
@@ -87,7 +87,7 @@ export function AnalyticsBilling() {
           },
           {
             title: "Confirm",
-            desc: "For Custom plans, set your required monthly scan count (minimum 21). The plan activates immediately.",
+            desc: "For Custom plans, set your required monthly product limit (minimum 81). The plan activates immediately.",
           },
         ]}
       />

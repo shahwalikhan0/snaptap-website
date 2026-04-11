@@ -25,7 +25,7 @@ export function PricingOverview() {
           {[
             {
               name: "Starter",
-              scans: "10 scans/mo",
+              scans: "20 products",
               highlight: false,
               perks: [
                 "Perfect for testing",
@@ -36,7 +36,7 @@ export function PricingOverview() {
             },
             {
               name: "Growth",
-              scans: "50 scans/mo",
+              scans: "50 products",
               highlight: true,
               perks: [
                 "Most Popular",
@@ -47,7 +47,7 @@ export function PricingOverview() {
             },
             {
               name: "Enterprise",
-              scans: "Unlimited scans",
+              scans: "80 products",
               highlight: false,
               perks: [
                 "Unlimited AR products",
@@ -94,7 +94,7 @@ export function PricingOverview() {
 
         <p className="text-slate-500 text-sm mb-6">
           Need more? We also offer a fully <strong>Custom plan</strong> — set
-          your own scan limit (21+) and pay per scan.
+          your own product limit (81+) and pay per product.
         </p>
         <button
           onClick={() => router.push("/app/pricing")}

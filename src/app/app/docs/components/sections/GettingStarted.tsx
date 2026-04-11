@@ -78,12 +78,12 @@ export function GettingStarted() {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {[
-              ["Starter", "10", "Testing & small catalogs"],
+              ["Starter", "20", "Testing & small catalogs"],
               ["Growth", "50", "Growing brands"],
-              ["Enterprise", "Unlimited", "Large product libraries"],
+              ["Enterprise", "80", "Large product libraries"],
               [
                 "Custom",
-                "21+ (you choose)",
+                "> 80 (you choose)",
                 "Agencies & unique requirements",
               ],
             ].map(([plan, scans, best]) => (

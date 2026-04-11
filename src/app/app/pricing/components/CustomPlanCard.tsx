@@ -50,7 +50,7 @@ export function CustomPlanCard({
             <span className="text-slate-400 font-medium pb-1">/mo</span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Based on {customScans} scans
+            Based on {customScans} products
           </p>
         </div>
 
@@ -58,10 +58,10 @@ export function CustomPlanCard({
         <div className="my-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
           <div className="flex justify-between items-center mb-3">
             <span className="text-sm font-semibold text-slate-600">
-              Monthly Scans
+              Inventory Size
             </span>
             <InputNumber
-              min={51}
+              min={81}
               max={1000}
               value={customScans}
               onChange={onScansChange}
@@ -69,7 +69,7 @@ export function CustomPlanCard({
             />
           </div>
           <Slider
-            min={51}
+            min={81}
             max={500}
             value={customScans}
             onChange={(val) => onScansChange(val)}
@@ -80,7 +80,7 @@ export function CustomPlanCard({
             }}
           />
           <p className="text-[11px] text-slate-400 text-center mt-1">
-            Drag to adjust scan capacity
+            Drag to adjust inventory capacity
           </p>
         </div>
 

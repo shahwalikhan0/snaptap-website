@@ -26,9 +26,9 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
 
   /* Custom Plan State */
-  const [customScans, setCustomScans] = useState(25);
-  const PRICE_PER_SCAN = 20;
-  const customPrice = customScans * PRICE_PER_SCAN;
+  const [customScans, setCustomScans] = useState(81);
+  const BASE_CUSTOM_PRICE = 6000;
+  const customPrice = BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
 
   /* Cancel Plan State */
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
@@ -194,18 +194,18 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
             <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 mb-6">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Number of Scans</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Number of Products</span>
                 <InputNumber
-                  min={21}
+                  min={81}
                   disabled={Brand.subscribed_package_id === 4}
                   max={1000}
                   value={customScans}
-                  onChange={(v) => setCustomScans(v || 21)}
+                  onChange={(v) => setCustomScans(v || 81)}
                   className="rounded-lg border-slate-200 w-20"
                 />
               </div>
               <Slider
-                min={21}
+                min={81}
                 max={500}
                 value={customScans}
                 onChange={setCustomScans}

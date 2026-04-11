@@ -16,9 +16,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function PricingComponent() {
   /* Custom Plan State */
-  const [customScans, setCustomScans] = useState(51);
-  const PRICE_PER_SCAN = 20; // Example price factor
-  const customPrice = customScans * PRICE_PER_SCAN;
+  const [customScans, setCustomScans] = useState(81);
+  const BASE_CUSTOM_PRICE = 6000;
+  const customPrice = BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
 
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
@@ -128,7 +128,7 @@ export default function PricingComponent() {
           loadingPlanId={loadingPlanId}
           isLoggedIn={isLoggedIn}
           Brand={Brand}
-          onScansChange={(val) => setCustomScans(val || 51)}
+          onScansChange={(val) => setCustomScans(val || 81)}
           onSelectPlan={handleSelectPlan}
         />
       </Row>
