@@ -39,17 +39,21 @@ export default function ProductDetailsPage() {
       try {
         const res = await api.get(`/product/detail-for-brand/${id}`);
 
-        if (!res.data || res.data.data.brand_id !== Admin?.id) {
+        const row = res.data?.data;
+        if (
+          !row ||
+          Number(row.brand_id) !== Number(Admin?.id)
+        ) {
           alert("Product not found.");
           router.push("/app/inventory");
           return;
         }
-        setProduct(res.data.data);
+        setProduct(row);
         form.setFieldsValue({
-          name: res.data.data.name,
-          price: Number(res.data.data.price),
-          category: res.data.data.category,
-          description: res.data.data.description,
+          name: row.name,
+          price: Number(row.price),
+          category: row.category,
+          description: row.description,
           is_active: true,
         });
       } catch (err: any) {
@@ -92,7 +96,7 @@ export default function ProductDetailsPage() {
         formData.append("image", values.image.file);
       }
 
-      if (Admin?.id != product?.brand_id) {
+      if (Number(Admin?.id) !== Number(product?.brand_id)) {
         alert("You are not authorized to update this product.");
         return;
       }
@@ -113,7 +117,7 @@ export default function ProductDetailsPage() {
   const handleDelete = async () => {
     setDeleting(true);
     try {
-      if (Admin?.id != product?.brand_id) {
+      if (Number(Admin?.id) !== Number(product?.brand_id)) {
         alert("You are not authorized to delete this product.");
         return;
       }
