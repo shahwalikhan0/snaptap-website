@@ -10,6 +10,7 @@ interface InventoryHeaderProps {
   setSearch: (val: string) => void;
   statusFilter: "all" | "active" | "inactive";
   setStatusFilter: (val: "all" | "active" | "inactive") => void;
+  stats: { total: number; active: number; inactive: number };
 }
 
 export function InventoryHeader({
@@ -19,38 +20,57 @@ export function InventoryHeader({
   setStatusFilter,
 }: InventoryHeaderProps) {
   return (
-    <div className="flex flex-col gap-4 sm:gap-6 mb-8 sm:mb-10">
-      <div>
-        <div className="flex items-center gap-2 text-[#007cae] mb-2">
-          <Icon icon="mdi:package-variant-closed" width={24} />
-          <span className="font-bold uppercase tracking-wider text-sm">Dashboard</span>
+    <div className="flex flex-col gap-4 mb-10">
+      {/* Title Section */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-slate-100 pb-4">
+        <div>
+          <div className="flex items-center gap-2 text-snaptap-blue-dark mb-1">
+            <Icon icon="solar:BoxMinimalistic-bold-duotone" width={22} />
+            <span className="font-bold uppercase tracking-[0.2em] text-[10px]">
+              Management Dashboard
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            Inventory <span className="text-snaptap-blue-dark">Portfolio</span>
+          </h1>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-bold text-slate-900">Your Inventory</h1>
-        <p className="text-slate-500 mt-1 sm:mt-2 text-sm sm:text-base">Manage and monitor your 3D product catalog</p>
+
+        <div className="hidden lg:flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-[6px] border border-slate-100 mb-1">
+           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+           Cloud Synced
+        </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-        <div className="relative w-full sm:w-64">
+      {/* Control Bar: Search & Filters */}
+      <div className="flex flex-col md:flex-row items-end justify-between gap-4 md:gap-10">
+        <div className="relative w-full flex-1">
           <Search
-            placeholder="Search by name or category..."
+            placeholder="Search products by name or category..."
             allowClear
+            variant="borderless"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="[&_.ant-input]:!rounded-[6px] [&_.ant-input-group-addon]:!bg-white [&_.ant-input-search-button]:!border-none [&_.ant-input:focus]:!border-[#007cae] [&_.ant-input:hover]:!border-[#007cae]/50"
+            className="!p-0 border-b-2 border-slate-200 focus-within:border-snaptap-blue-dark transition-all duration-300 [&_.ant-input]:!text-lg [&_.ant-input]:!font-bold [&_.ant-input]:!py-3 [&_.ant-input]:text-slate-900 [&_.ant-input::placeholder]:text-slate-300 [&_.ant-input-suffix_svg]:text-slate-300"
             size="large"
           />
         </div>
-        <Segmented
-          options={[
-            { label: "All Items", value: "all" },
-            { label: "Active", value: "active" },
-            { label: "Inactive", value: "inactive" },
-          ]}
-          value={statusFilter}
-          onChange={(val) => setStatusFilter(val as any)}
-          className="p-1 rounded-[6px] bg-slate-200/50"
-          size="large"
-        />
+        
+        <div className="flex items-center gap-4 shrink-0 w-full md:w-auto">
+            <div className="flex flex-col gap-1.5 w-full md:w-auto">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em] ml-1">Status Filter</span>
+                <Segmented
+                  options={[
+                    { label: "All Items", value: "all" },
+                    { label: "Active", value: "active" },
+                    { label: "Inactive", value: "inactive" },
+                  ]}
+                  value={statusFilter}
+                  onChange={(val) => setStatusFilter(val as any)}
+                  className="p-1 rounded-[6px] bg-slate-100 font-bold text-xs"
+                  size="large"
+                />
+            </div>
+        </div>
       </div>
     </div>
   );

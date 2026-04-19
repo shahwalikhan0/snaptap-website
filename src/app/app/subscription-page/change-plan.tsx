@@ -16,9 +16,50 @@ type Package = {
 };
 
 const features = {
-  1: ["Basic 3D tools", "AR previews", "Limited scans", "Basic support"],
-  2: ["Full access to 3D tools", "AR previews", "Unlimited scans", "Plugins support"],
-  3: ["All features unlocked", "Priority support", "Custom plugins", "Team collaboration"],
+  1: [
+    "Up to 20 products in inventory",
+    "3D model generation",
+    "QR code for each product",
+    "Direct share links for each product",
+    "Web-embeddable AR viewer",
+    "Rs 1.20 per model view",
+    "Inventory dashboard",
+    "Product Analytics",
+    "Email support",
+  ],
+  2: [
+    "Up to 50 products in inventory",
+    "3D model generation",
+    "QR code for each product",
+    "Direct share links for each product",
+    "Web-embeddable AR viewer",
+    "Rs 1.00 per model view",
+    "Inventory management",
+    "Product Analytics",
+    "Email support",
+  ],
+  3: [
+    "Up to 80 products in inventory",
+    "3D model generation",
+    "QR code for each product",
+    "Direct share links for each product",
+    "Web-embeddable AR viewer",
+    "Inventory management",
+    "Product Analytics",
+    "Rs 0.80 per model view",
+    "Email support",
+  ],
+  4: [
+    "Over 80+ products inventory",
+    "3D model generation",
+    "QR code for each product",
+    "Direct share links for each product",
+    "Web-embeddable AR viewer",
+    "Inventory management",
+    "Product Analytics",
+    "Rs 0.80 per model view",
+    "Email support",
+  ],
 };
 
 export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
@@ -215,6 +256,15 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 handleStyle={{ borderColor: "#007cae", backgroundColor: "#007cae" }}
               />
             </div>
+          </div>
+
+          <div className="space-y-3 mb-8">
+            {features[4].map((feature, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-slate-600">
+                <Icon icon="mdi:check-circle" className="text-green-500" width={18} />
+                {feature}
+              </div>
+            ))}
           </div>
 
           <Button

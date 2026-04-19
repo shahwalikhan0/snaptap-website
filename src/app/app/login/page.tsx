@@ -102,115 +102,130 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-white">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
-      {/* LEFT SIDE - Branding & 3D Visual (hidden on mobile) */}
+      {/* LEFT SIDE - Branding & 3D Visual */}
       <AuthVisual
-        title="Welcome Back!"
-        subtitle="Your 3D inventory is just a click away. Let's get back to work."
+        title="Welcome Back"
+        subtitle="Access your premium 3D inventory and manage your brand's digital presence."
         isLogin={true}
       >
         <ModelViewer />
       </AuthVisual>
 
       {/* RIGHT SIDE - Form */}
-      <div className="flex-1 flex items-start justify-center p-4 sm:p-6 md:p-12 bg-white pt-24 sm:pt-28 md:pt-28">
-        <div className="w-full max-w-[400px]">
-          {/* Mobile Logo / Branding */}
-          <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
-              <Icon
-                icon="mdi:shield-key-outline"
-                className="text-[#007cae]"
-                width={32}
-              />
+      <div className="flex-1 flex items-start justify-center p-6 md:p-12 pt-16 md:pt-24 relative overflow-hidden">
+        {/* Subtle background decorative element for mobile/tablet */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#007cae]/5 rounded-full blur-3xl -mr-32 -mt-32 md:hidden" />
+        
+        <div className="w-full max-w-[440px] z-10">
+          <div className="bg-white p-8 md:p-10 rounded-[12px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
+            {/* Mobile Logo / Branding */}
+            <div className="flex flex-col items-center mb-8">
+              <div className="w-16 h-16 rounded-[12px] bg-gradient-to-br from-[#007cae] to-[#00A8DE] flex items-center justify-center mb-6 shadow-lg shadow-[#007cae]/20 group transition-transform duration-500 hover:rotate-6">
+                <Icon
+                  icon="mdi:shield-key-outline"
+                  className="text-white group-hover:scale-110 transition-transform"
+                  width={34}
+                />
+              </div>
+              <Title level={2} className="!mb-2 !text-[#2e2e2e] !font-black !text-3xl tracking-tight">
+                Business Login
+              </Title>
+              <Text className="text-[#888888] font-medium">
+                Manage your SnapTap ecosystem
+              </Text>
             </div>
-            <Title level={2} className="!mb-2 !text-slate-900 font-bold">
-              Business Login
-            </Title>
-            <Text className="text-slate-400">
-              Manage your SnapTap business account
-            </Text>
-          </div>
 
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleLogin}
-            requiredMark={false}
-            className="space-y-4"
-          >
-            <Form.Item
-              name="username"
-              label={
-                <div className="flex flex-col">
-                  <span className="font-semibold text-slate-700">Username</span>
-                  <span className="text-xs text-slate-400 font-normal mt-0.5">
-                    Not case-sensitive
-                  </span>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleLogin}
+              requiredMark={false}
+              className="space-y-6"
+            >
+              <Form.Item
+                name="username"
+                label={
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">Username</span>
+                    <span className="text-[10px] text-[#888888] font-bold uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+                      Identity
+                    </span>
+                  </div>
+                }
+                rules={[
+                  { required: true, message: "Username is required" },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined className="text-[#888888] mr-2" />}
+                  placeholder="e.g. snaptap_official"
+                  className="h-13 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="password"
+                label={
+                  <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">Password</span>
+                }
+                rules={[
+                  { required: true, message: "Password is required" },
+                ]}
+                className="!mb-6"
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="text-[#888888] mr-2" />}
+                  placeholder="••••••••••••"
+                  className="h-13 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
+                />
+                <div className="flex justify-end mt-2">
+                  <button
+                    type="button"
+                    onClick={() => router.push("/app/forgot-password")}
+                    className="text-[11px] font-bold text-[#007cae] hover:text-[#006080] transition-colors uppercase tracking-wider underline-offset-4 hover:underline"
+                  >
+                    Forgot Password?
+                  </button>
                 </div>
-              }
-              rules={[
-                { required: true, message: "Please enter your username" },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="text-slate-400 mr-2" />}
-                placeholder="Enter your username"
-                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
-              />
-            </Form.Item>
+              </Form.Item>
 
-            <Form.Item
-              name="password"
-              label={
-                <span className="font-semibold text-slate-700">Password</span>
-              }
-              rules={[
-                { required: true, message: "Please enter your password" },
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined className="text-slate-400 mr-2" />}
-                placeholder="••••••••"
-                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
-              />
-            </Form.Item>
+              <Form.Item className="!mb-6">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  block
+                  className="h-13 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-black text-base shadow-xl shadow-[#007cae]/25 transition-all active:scale-[0.98] !text-white flex items-center justify-center gap-2 group"
+                >
+                  Sign In to Dashboard
+                  <Icon icon="mdi:arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Form.Item>
+            </Form>
 
-            <div className="flex justify-end mb-6">
-              <button
-                type="button"
-                onClick={() => router.push("/app/forgot-password")}
-                className="text-sm font-semibold text-[#007cae] hover:text-[#006080] transition cursor-pointer"
-              >
-                Forgot Password?
-              </button>
+            <div className="text-center pt-8 border-t border-slate-100">
+              <p className="text-[#555555] font-medium text-sm">
+                New to the platform?{" "}
+                <button
+                  onClick={() => router.push("/app/sign-up")}
+                  className="font-black text-[#007cae] hover:text-[#006080] transition-colors ml-1 decoration-skip-ink hover:underline underline-offset-4"
+                >
+                  Create Business Account
+                </button>
+              </p>
             </div>
-
-            <Form.Item className="!mb-0">
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                block
-                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
-              >
-                Sign In
-              </Button>
-            </Form.Item>
-          </Form>
-
-          <div className="mt-8 text-center pt-8 border-t border-slate-100">
-            <p className="text-slate-500">
-              Don&apos;t have an account?{" "}
-              <button
-                onClick={() => router.push("/app/sign-up")}
-                className="font-bold text-[#007cae] hover:text-[#006080] transition ml-1"
-              >
-                Create Account
-              </button>
-            </p>
+          </div>
+          
+          {/* Bottom Footer Info */}
+          <div className="mt-8 text-center flex items-center justify-center gap-4 text-xs font-bold text-[#888888] uppercase tracking-widest">
+            <span>Privacy</span>
+            <div className="w-1 h-1 bg-slate-300 rounded-full" />
+            <span>Terms</span>
+            <div className="w-1 h-1 bg-slate-300 rounded-full" />
+            <span>Support</span>
           </div>
         </div>
       </div>

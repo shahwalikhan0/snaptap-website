@@ -47,6 +47,14 @@ export default function InventoryPage() {
     fetchProducts();
   }, [Admin?.id, isLoggedIn, router]);
 
+  const stats = useMemo(() => {
+    return {
+      total: products.length,
+      active: products.filter(p => p.is_active).length,
+      inactive: products.filter(p => !p.is_active).length
+    };
+  }, [products]);
+
   const filteredProducts = useMemo(() => {
     if (!products) return [];
     return products.filter((product) => {
@@ -75,22 +83,27 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-12 lg:px-24">
+    <div className="min-h-screen bg-[#F8FAFC] pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-12 lg:px-24 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-snaptap-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-snaptap-blue/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         <InventoryHeader 
           search={search} 
           setSearch={setSearch} 
           statusFilter={statusFilter} 
-          setStatusFilter={setStatusFilter} 
+          setStatusFilter={setStatusFilter}
+          stats={stats}
         />
 
         {/* Content Section */}
         {filteredProducts.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid gap-4">
+          <div className="grid gap-4 sm:gap-6">
             {filteredProducts.map((product) => (
               <ProductCard key={product?.id} product={product} />
             ))}

@@ -54,7 +54,7 @@ export default function ProductDetailsPage() {
           price: Number(row.price),
           category: row.category,
           description: row.description,
-          is_active: true,
+          is_active: row.is_active,
         });
       } catch (err: any) {
         console.error("Failed to load product", err);
