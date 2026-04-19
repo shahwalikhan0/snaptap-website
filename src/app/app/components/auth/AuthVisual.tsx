@@ -15,7 +15,7 @@ export function AuthVisual({ children, title, subtitle, isLogin = false }: AuthV
       } bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-8 md:p-12 pt-28 md:pt-28 relative overflow-hidden`}
     >
       {/* Decorative background shape */}
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
 
       <div
         className={`w-full ${

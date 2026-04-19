@@ -24,7 +24,7 @@ export default function MyPlan() {
 
   if (!Brand) {
     return (
-      <div className="bg-red-50 p-6 rounded-2xl border border-red-100 flex items-center gap-4 text-red-600">
+      <div className="bg-red-50 p-6 rounded-[6px] border border-red-100 flex items-center gap-4 text-red-600">
         <Icon icon="mdi:alert-circle-outline" width={24} />
         <p className="font-semibold">Subscription data not found. Please refresh the page.</p>
       </div>
@@ -44,12 +44,12 @@ export default function MyPlan() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Main Plan Card */}
-        <Card className="md:col-span-2 rounded-3xl border-slate-100 shadow-sm overflow-hidden p-0 [&_.ant-card-body]:p-0">
+        <Card className="md:col-span-2 rounded-[6px] border-slate-100 shadow-sm overflow-hidden p-0 [&_.ant-card-body]:p-0">
           <div className="bg-[#007cae] p-5 sm:p-8 text-white relative overflow-hidden">
             <Icon icon="mdi:rocket-launch" className="absolute -right-8 -bottom-8 opacity-10" width={200} />
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start relative z-10 gap-4">
               <div>
-                <Tag className="bg-white/20 border-none text-white font-bold rounded-full px-4 mb-4">Active Plan</Tag>
+                <Tag className="bg-white/20 border-none text-white font-bold rounded-[6px] px-4 mb-4">Active Plan</Tag>
                 <h2 className="text-2xl sm:text-4xl font-black">{Brand.package_name || "Enterprise"}</h2>
               </div>
               <div className="sm:text-right">
@@ -65,7 +65,7 @@ export default function MyPlan() {
             <div>
               <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Status</p>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <div className="w-2 h-2 rounded-[6px] bg-green-500 animate-pulse" />
                 <span className="font-bold text-slate-700 capitalize">{Brand.status || "Active"}</span>
               </div>
             </div>
@@ -86,7 +86,7 @@ export default function MyPlan() {
 
         {/* Usage Stats Card */}
         <div className="space-y-6">
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+          <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
             <div className="flex items-center justify-between mb-4">
               <span className="font-bold text-slate-800">Scan Usage</span>
               <span className="text-xs font-black text-[#007cae]">{Brand.total_scans - Brand.scans_remaining} / {Brand.total_scans}</span>
@@ -102,9 +102,9 @@ export default function MyPlan() {
             <p className="text-[11px] text-slate-500 text-right font-medium">Resetting in {dayjs(Brand.due_date).diff(dayjs(), 'day')} days</p>
           </div>
 
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+          <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-600">
+              <div className="w-10 h-10 rounded-[6px] bg-cyan-100 flex items-center justify-center text-cyan-600">
                 <Icon icon="mdi:package-variant-closed" width={22} />
               </div>
               <div>

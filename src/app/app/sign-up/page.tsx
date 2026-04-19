@@ -163,7 +163,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 prefix={<UserOutlined className="text-slate-300" />}
                 placeholder="johndoe"
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -178,7 +178,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 prefix={<UserOutlined className="text-slate-300" />}
                 placeholder="John Doe"
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -196,7 +196,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 prefix={<MailOutlined className="text-slate-300" />}
                 placeholder="john@example.com"
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -221,7 +221,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 prefix={<PhoneOutlined className="text-slate-300" />}
                 placeholder="+92..."
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -239,7 +239,7 @@ const SignUpPage: React.FC = () => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-300" />}
                 placeholder="••••••••"
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -253,7 +253,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 prefix={<EnvironmentOutlined className="text-slate-300" />}
                 placeholder="New York, USA"
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -269,7 +269,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 prefix={<GlobalOutlined className="text-slate-300" />}
                 placeholder="https://yourbrand.com"
-                className="h-11 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-11 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -297,7 +297,7 @@ const SignUpPage: React.FC = () => {
                 multiple={false}
                 maxCount={1}
                 accept=".png,.jpg,.jpeg,.webp"
-                className="!rounded-2xl !bg-slate-50 border-dashed border-2 !border-slate-200"
+                className="!rounded-[6px] !bg-slate-50 border-dashed border-2 !border-slate-200"
                 beforeUpload={(file) => {
                   setImage(file);
                   return false;
@@ -324,7 +324,7 @@ const SignUpPage: React.FC = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
               >
                 Create Account
               </Button>

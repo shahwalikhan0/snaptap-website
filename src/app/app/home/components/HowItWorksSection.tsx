@@ -35,7 +35,7 @@ export function HowItWorksSection() {
                 icon: "mdi:cube-send",
                 step: "Step 2",
                 title: "Generate 3D Model",
-                desc: "SnapTap automatically builds optimized, realistic, scaled AR models.",
+                desc: "SnapTap automatically builds optimized, realistic, true to size AR models.",
               },
               {
                 icon: "mdi:rocket-launch-outline",
@@ -54,7 +54,7 @@ export function HowItWorksSection() {
                 key={idx}
                 className="relative z-10 flex flex-col items-center text-center"
               >
-                <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-white border-4 border-[#007cae]/10 shadow-lg flex items-center justify-center mb-4 sm:mb-6 text-[#007cae] group transition-all hover:border-[#007cae] hover:scale-110">
+                <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-[6px] bg-white border-4 border-[#007cae]/10 shadow-lg flex items-center justify-center mb-4 sm:mb-6 text-[#007cae] group transition-all hover:border-[#007cae] hover:scale-110">
                   <Icon icon={item.icon} width={28} className="sm:hidden" />
                   <Icon
                     icon={item.icon}

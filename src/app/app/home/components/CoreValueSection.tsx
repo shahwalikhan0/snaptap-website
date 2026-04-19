@@ -8,7 +8,7 @@ export function CoreValueSection() {
     <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-12">
         <div className="w-full md:w-1/2 order-2 md:order-1">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
+          <div className="relative rounded-[6px] overflow-hidden shadow-2xl border border-slate-100">
             <Image
               src="/assets/furniture_1.jpg"
               alt="AR Furniture in Living Room"
@@ -38,7 +38,7 @@ export function CoreValueSection() {
               "One platform → multiple business use cases",
             ].map((point, idx) => (
               <div key={idx} className="flex items-start gap-3">
-                <div className="mt-1 w-6 h-6 rounded-full bg-[#007cae]/10 flex items-center justify-center shrink-0">
+                <div className="mt-1 w-6 h-6 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center shrink-0">
                   <Icon
                     icon="mdi:check"
                     className="text-[#007cae]"

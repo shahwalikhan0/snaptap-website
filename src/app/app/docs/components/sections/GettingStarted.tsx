@@ -1,20 +1,26 @@
 "use client";
 
-import { SectionHeading, SubHeading, StepList, InfoBox, CheckList } from "../shared";
+import {
+  SectionHeading,
+  SubHeading,
+  StepList,
+  InfoBox,
+  CheckList,
+} from "../shared";
 
 export function GettingStarted() {
   return (
     <section id="getting-started" className="mb-16 scroll-mt-28">
       <SectionHeading>Getting Started</SectionHeading>
       <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-        Follow these steps to go from a new account to your first live
-        AR product.
+        Follow these steps to go from a new account to your first live AR
+        product.
       </p>
 
       <SubHeading id="gs-signup">1. Create a Seller Account</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        Sellers register on the SnapTap website. You'll provide your
-        brand name, username, email, and password.
+        Sellers register on the SnapTap website. You'll provide your brand name,
+        username, email, and password.
       </p>
       <StepList
         steps={[
@@ -37,32 +43,27 @@ export function GettingStarted() {
         ]}
       />
       <InfoBox type="warning">
-        The email verification link expires in{" "}
-        <strong>15 minutes</strong>. If it expires, you'll need to
-        re-register.
+        The email verification link expires in <strong>15 minutes</strong>. If
+        it expires, you'll need to re-register.
       </InfoBox>
 
       <SubHeading id="gs-verify">2. Verify Your Email</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        Check your inbox for an email from SnapTap with a verification
-        link. Click it to activate your account. After verification, you
-        can log in immediately.
+        Check your inbox for an email from SnapTap with a verification link.
+        Click it to activate your account. After verification, you can log in
+        immediately.
       </p>
       <InfoBox type="tip">
-        Check your spam/junk folder if the email doesn't arrive within a
-        minute.
+        Check your spam/junk folder if the email doesn't arrive within a minute.
       </InfoBox>
 
-      <SubHeading id="gs-plan">
-        3. Choose a Subscription Plan
-      </SubHeading>
+      <SubHeading id="gs-plan">3. Choose a Subscription Plan</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        Each plan includes a monthly quota of{" "}
-        <strong>AR product scans</strong> — the number of new products
-        you can add each month. After choosing a plan, your quota is
+        Each plan includes a monthly quota of <strong>AR product scans</strong>{" "}
+        — Products in Inventory. After choosing a plan, your quota is
         immediately applied.
       </p>
-      <div className="overflow-x-auto rounded-xl border border-slate-200 mb-4">
+      <div className="overflow-x-auto rounded-[6px] border border-slate-200 mb-4">
         <table className="w-full text-sm text-left">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
@@ -81,22 +82,13 @@ export function GettingStarted() {
               ["Starter", "20", "Testing & small catalogs"],
               ["Growth", "50", "Growing brands"],
               ["Enterprise", "80", "Large product libraries"],
-              [
-                "Custom",
-                "> 80 (you choose)",
-                "Agencies & unique requirements",
-              ],
+              ["Custom", "> 80 (you choose)", "Agencies & unique requirements"],
             ].map(([plan, scans, best]) => (
-              <tr
-                key={plan}
-                className="hover:bg-slate-50 transition-colors"
-              >
+              <tr key={plan} className="hover:bg-slate-50 transition-colors">
                 <td className="px-4 py-3 font-semibold text-slate-800">
                   {plan}
                 </td>
-                <td className="px-4 py-3 text-[#007cae] font-bold">
-                  {scans}
-                </td>
+                <td className="px-4 py-3 text-[#007cae] font-bold">{scans}</td>
                 <td className="px-4 py-3 text-slate-500">{best}</td>
               </tr>
             ))}
@@ -105,29 +97,29 @@ export function GettingStarted() {
       </div>
       <InfoBox type="info">
         You can upgrade or downgrade at any time from your dashboard.
-        Downgrading to a smaller plan is blocked if you already have
-        more active products than the new plan allows.
+        Downgrading to a smaller plan is blocked if you already have more
+        products than the new plan allows.
       </InfoBox>
 
       <SubHeading id="gs-ios">4. Set Up the iOS App</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        All product scanning is done through the SnapTap iOS app. The
-        web dashboard is used for management, analytics, and settings
-        only.
+        All product scanning is done through the SnapTap Admin app available on
+        App Store. The web dashboard is used for management, analytics, and
+        settings only.
       </p>
       <CheckList
         items={[
-          "Download the SnapTap iOS app from the App Store",
+          "Download the SnapTap Admin app from the App Store",
           "Log in with the same username and password as your web account",
           "The iOS app uses your iPhone's built-in LiDAR sensor to scan products",
           "After scanning, you upload the generated model directly from the app",
         ]}
       />
       <InfoBox type="warning">
-        Scanning requires an{" "}
-        <strong>iPhone Pro or iPhone Pro Max</strong> running{" "}
-        <strong>iOS 18 or later</strong>. Standard iPhone models do not
-        have the LiDAR sensor required for 3D scanning.
+        Scanning requires an <strong>iPhone Pro or iPhone Pro Max</strong>{" "}
+        running <strong>iOS 18 or later</strong> (iPhone 12 Pro or newer).
+        Standard iPhone models do not have the LiDAR sensor required for 3D
+        scanning.
       </InfoBox>
     </section>
   );

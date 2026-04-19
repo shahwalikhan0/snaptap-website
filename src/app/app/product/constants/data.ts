@@ -3,19 +3,19 @@ export const workflowSteps = [
     step: "01",
     icon: "mdi:account-plus-outline",
     title: "Create Your Brand Account",
-    desc: "Sign up as a seller, verify your email, and choose a subscription plan that matches how many products you plan to list. Plans scale from 10 to unlimited AR scans per month.",
+    desc: "Sign up as a seller, verify your email, and choose a subscription plan that matches how many products you plan to list. Plans starts from 20 to almost unlimited AR scans.",
   },
   {
     step: "02",
     icon: "mdi:cube-scan",
     title: "Scan with iPhone LiDAR",
-    desc: "Use any iPhone Pro or Pro Max (iOS 18+) with the SnapTap iOS app to capture your physical product. The built-in LiDAR depth sensor records precise geometry, scale, and texture — no photography studio needed.",
+    desc: "Use iPhone Pro or Pro Max (iOS 18+ and starting with iPhone 12 Pro) with the SnapTap Admin app to capture your physical product. The built-in LiDAR depth sensor records precise geometry, scale, and texture — no photography studio needed.",
   },
   {
     step: "03",
     icon: "mdi:cloud-upload-outline",
     title: "Upload & Auto-Process",
-    desc: "The iOS app uploads your scanned model to SnapTap. Our backend automatically converts it to a web-compatible .GLB file, generates a branded QR code, and notifies you the moment your product is live.",
+    desc: "The iOS app uploads your scanned model to SnapTap. Our backend automatically converts it to a global format, generates a branded QR code, and notifies you the moment your product is live.",
   },
   {
     step: "04",
@@ -35,12 +35,12 @@ export const platformCaps = [
   {
     icon: "mdi:cube-scan",
     title: "LiDAR-Powered 3D Scanning",
-    desc: "Captures true depth, texture, and scale using iPhone Pro's built-in LiDAR sensor. Models are photorealistic and exact — not approximated.",
+    desc: "Captures true depth, texture, and scale using iPhone Pro's built-in LiDAR sensor. Highly realistic models that accurately represent the real product.",
   },
   {
     icon: "mdi:swap-horizontal",
     title: "Automatic Model Conversion",
-    desc: "The scanned model is automatically converted to web-standard format in the background.",
+    desc: "The scanned model is automatically converted to global format in the background.",
   },
   {
     icon: "mdi:qrcode-plus",
@@ -55,12 +55,12 @@ export const platformCaps = [
   {
     icon: "mdi:buffer",
     title: "Inventory Dashboard",
-    desc: "Manage your entire AR product catalog from the SnapTap web dashboard. Toggle products active/inactive, update details, and monitor scan quotas — all from one screen.",
+    desc: "Manage your entire AR product catalog from the SnapTap web dashboard and SnapTap Admin app. Toggle products active/inactive, update details, and monitor scan quotas — all from one screen.",
   },
   {
     icon: "mdi:bell-ring-outline",
     title: "Real-Time Notifications",
-    desc: "Get notified when a product finishes processing, when conversion fails (with guidance to retry), and when customers leave feedback or ratings on your products.",
+    desc: "Get notified when a product finishes processing, when conversion fails, and when customers leave feedback or ratings on your products (coming soon).",
   },
   {
     icon: "mdi:web",
@@ -74,7 +74,7 @@ export const platformCaps = [
   },
   {
     icon: "mdi:star-outline",
-    title: "Customer Ratings & Feedback",
+    title: "Customer Ratings & Feedback (Coming Soon)",
     desc: "Customers can rate and leave written feedback on products they've experienced in AR. Ratings appear on product listings and notify the brand, building trust and social proof.",
   },
 ];
@@ -87,16 +87,16 @@ export const useCases = [
     title: "Marketplace Platform",
     desc: "Brands scan and publish their products to the SnapTap marketplace. Customers browse AR-enabled listings, visualize items in their real space, and contact sellers directly — no intermediary, no guesswork.",
     sellerPoints: [
-      "Publish listings to the SnapTap marketplace",
+      "Publish listings using SnapTap",
       "Reach customers actively exploring AR products",
       "Manage your catalog and toggle visibility anytime",
-      "Receive direct customer inquiries from your listing",
+      "Receive direct customer inquiries from your listing (coming soon)",
     ],
     customerPoints: [
       "Browse AR-enabled products from multiple sellers",
       "See items true-to-scale in your own space",
-      "Save favorites and compare before buying",
-      "Message sellers directly without leaving the app",
+      "Save favorites and compare before buying (coming soon)",
+      "Message sellers directly without leaving the app (coming soon)",
     ],
   },
   {

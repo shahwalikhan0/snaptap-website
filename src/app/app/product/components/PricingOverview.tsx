@@ -59,14 +59,14 @@ export function PricingOverview() {
           ].map((plan, i) => (
             <div
               key={i}
-              className={`rounded-2xl p-6 border transition-all ${
+              className={`rounded-[6px] p-6 border transition-all ${
                 plan.highlight
                   ? "bg-white border-[#007cae] shadow-xl shadow-[#007cae]/15"
                   : "bg-white border-slate-200 hover:border-[#007cae]/30 hover:shadow-md"
               }`}
             >
               {plan.highlight && (
-                <span className="inline-block bg-[#007cae] text-white text-xs font-bold px-4 py-1 rounded-full mb-4 uppercase tracking-widest">
+                <span className="inline-block bg-[#007cae] text-white text-xs font-bold px-4 py-1 rounded-[6px] mb-4 uppercase tracking-widest">
                   Most Popular
                 </span>
               )}
@@ -98,7 +98,7 @@ export function PricingOverview() {
         </p>
         <button
           onClick={() => router.push("/app/pricing")}
-          className="bg-[#007cae] text-white font-bold px-10 py-3.5 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="bg-[#007cae] text-white font-bold px-10 py-3.5 rounded-[6px] hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           See Full Pricing Details
         </button>

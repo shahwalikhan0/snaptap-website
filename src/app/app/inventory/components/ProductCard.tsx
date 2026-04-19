@@ -18,9 +18,9 @@ export function ProductCard({ product }: ProductCardProps) {
       whileHover={{ y: -2 }}
       className="group"
     >
-      <div className="bg-white rounded-2xl p-3 sm:p-4 md:p-6 border border-slate-100 shadow-sm group-hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+      <div className="bg-white rounded-[6px] p-3 sm:p-4 md:p-6 border border-slate-100 shadow-sm group-hover:shadow-md transition-all flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
         {/* Product Visual */}
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 p-2 overflow-hidden">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-[6px] bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 p-2 overflow-hidden">
           <img
             src={product?.image_url}
             alt={product?.name}
@@ -32,11 +32,11 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="flex-1 text-center sm:text-left min-w-0">
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 sm:gap-3 mb-2">
             <h3 className="text-lg font-bold text-slate-900">{product?.name}</h3>
-            <Tag color="cyan" className="rounded-full border-none px-3 font-medium bg-cyan-50 text-cyan-600">
+            <Tag color="cyan" className="rounded-[6px] border-none px-3 font-medium bg-cyan-50 text-cyan-600">
               {product?.category}
             </Tag>
             <Tag
-              className={`rounded-full border-none px-3 font-medium ${product?.is_active
+              className={`rounded-[6px] border-none px-3 font-medium ${product?.is_active
                 ? "bg-green-50 text-green-600"
                 : "bg-red-50 text-red-600"
                 }`}
@@ -63,7 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <Button
             type="primary"
             onClick={() => router.push(`/app/inventory/${product?.id}`)}
-            className="h-11 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold px-8 shadow-sm !text-white"
+            className="h-11 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold px-8 shadow-sm !text-white"
           >
             View Details
           </Button>

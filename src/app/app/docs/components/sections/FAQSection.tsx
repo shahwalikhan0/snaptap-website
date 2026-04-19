@@ -17,11 +17,11 @@ export function FAQSection() {
           },
           {
             q: "How long does processing take after I upload a product?",
-            a: "Most products are fully processed within 2–10 minutes. The main variable is the model conversion step. Once complete, you receive an in-app notification confirming the product is live.",
+            a: "Most products are fully processed within 1–5 minutes. In rare cases conversion and upload to storage may take extra 30 seconds to 2 minutes depending on the size of the model.",
           },
           {
             q: "What happens if the processing pipeline fails?",
-            a: "If any step fails (conversion, QR generation, etc.), the product is automatically deleted from your catalog and your scan quota is NOT decremented. You'll receive a notification explaining what went wrong. Simply retry the upload.",
+            a: "If any step fails (conversion, QR generation, etc.), the product is automatically deleted from your catalog and your scan quota is NOT decremented. You'll receive a notification for the failure. You can retry the upload.",
           },
           {
             q: "Can I replace the 3D model for an existing product?",
@@ -33,7 +33,7 @@ export function FAQSection() {
           },
           {
             q: "What devices support AR viewing?",
-            a: "iOS: iPhone 6s+ in Safari using Apple Quick Look. Android: ARCore-supported devices in Chrome using Google Scene Viewer. Desktop: Interactive 3D viewer (no AR). Most modern smartphones are supported.",
+            a: "iOS: iPhone 6s+ in Safari using Apple Quick Look. Android: ARCore-supported devices using Google Scene Viewer. Desktop: Interactive 3D viewer (no AR). Most modern smartphones are supported.",
           },
           {
             q: "Can I downgrade my plan?",
@@ -56,13 +56,13 @@ export function FAQSection() {
         ))}
       </div>
 
-      <div className="mt-10 p-6 bg-[#007cae]/5 border border-[#007cae]/20 rounded-2xl text-center">
+      <div className="mt-10 p-6 bg-[#007cae]/5 border border-[#007cae]/20 rounded-[6px] text-center">
         <p className="text-slate-600 text-sm mb-4">
           Still have questions? We're happy to help.
         </p>
         <button
           onClick={() => router.push("/navigations/contact")}
-          className="bg-[#007cae] text-white font-bold px-8 py-3 rounded-full hover:bg-[#006080] transition-all text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="bg-[#007cae] text-white font-bold px-8 py-3 rounded-[6px] hover:bg-[#006080] transition-all text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           Contact Support
         </button>

@@ -26,7 +26,7 @@ export function DocsSidebar({
     <>
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="lg:hidden fixed bottom-6 right-6 z-50 bg-[#007cae] text-white p-3.5 rounded-full shadow-2xl hover:bg-[#006080] transition"
+        className="lg:hidden fixed bottom-6 right-6 z-50 bg-[#007cae] text-white p-3.5 rounded-[6px] shadow-2xl hover:bg-[#006080] transition"
         aria-label="Open docs navigation"
       >
         <Icon icon={isSidebarOpen ? "mdi:close" : "mdi:menu"} width={22} />
@@ -42,7 +42,7 @@ export function DocsSidebar({
       <aside
         className={`
           fixed lg:sticky top-20 sm:top-24 left-0 h-[calc(100vh-5rem)] overflow-y-auto
-          w-64 bg-white border border-slate-200 rounded-r-2xl lg:rounded-2xl shadow-lg p-5 z-40
+          w-64 bg-white border border-slate-200 rounded-r-2xl lg:rounded-[6px] shadow-lg p-5 z-40
           transition-transform duration-300 lg:translate-x-0 shrink-0
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}

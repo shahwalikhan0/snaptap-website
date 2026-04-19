@@ -149,10 +149,10 @@ export default function BillingHistory() {
       key: "status",
       render: (_: any, record: BillingRecord) => (
         record.is_paid ? (
-          <Tag color="success" className="rounded-full px-3 m-0 border-none font-bold">Paid</Tag>
+          <Tag color="success" className="rounded-[6px] px-3 m-0 border-none font-bold">Paid</Tag>
         ) : (
           <Tooltip title={dayjs().isAfter(dayjs(record.due_date)) ? "Overdue" : "Pending Payment"}>
-            <Tag color={dayjs().isAfter(dayjs(record.due_date)) ? "error" : "warning"} className="rounded-full px-3 m-0 border-none font-bold">
+            <Tag color={dayjs().isAfter(dayjs(record.due_date)) ? "error" : "warning"} className="rounded-[6px] px-3 m-0 border-none font-bold">
               Unpaid
             </Tag>
           </Tooltip>
@@ -185,7 +185,7 @@ export default function BillingHistory() {
       </div>
 
       {currentUsage && (
-        <div className="bg-slate-50 rounded-3xl border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
+        <div className="bg-slate-50 rounded-[6px] border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Icon icon="mdi:chart-timeline-variant-shimmer" className="text-[#007cae]" width={20} />
@@ -206,7 +206,7 @@ export default function BillingHistory() {
                <Button 
                 onClick={() => generateInvoicePDF(currentUsage)}
                 type="default" 
-                className="rounded-xl flex items-center gap-1 font-semibold text-slate-600 bg-white shadow-sm border-slate-200"
+                className="rounded-[6px] flex items-center gap-1 font-semibold text-slate-600 bg-white shadow-sm border-slate-200"
                >
                  <Icon icon="mdi:file-pdf-box" width={20} className="text-red-500"/> Download PDF
                </Button>
@@ -215,7 +215,7 @@ export default function BillingHistory() {
         </div>
       )}
 
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm overflow-hidden">
         <Table
           dataSource={history}
           columns={columns}

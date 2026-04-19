@@ -34,7 +34,7 @@ export function UseCases() {
             >
               {/* Image */}
               <div className="w-full lg:w-[45%] shrink-0">
-                <div className="rounded-2xl overflow-hidden shadow-2xl border border-slate-100 aspect-[4/3] relative">
+                <div className="rounded-[6px] overflow-hidden shadow-2xl border border-slate-100 aspect-[4/3] relative">
                   <Image
                     src={uc.image}
                     alt={uc.title}
@@ -42,7 +42,7 @@ export function UseCases() {
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                  <span className="absolute top-4 left-4 bg-[#007cae] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="absolute top-4 left-4 bg-[#007cae] text-white text-xs font-bold px-3 py-1 rounded-[6px] uppercase tracking-wider">
                     {uc.tag}
                   </span>
                 </div>
@@ -50,7 +50,7 @@ export function UseCases() {
 
               {/* Text */}
               <div className="flex-1">
-                <div className="inline-flex items-center gap-2 bg-[#007cae]/10 text-[#007cae] text-xs font-bold px-3 py-1.5 rounded-full mb-4 uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 bg-[#007cae]/10 text-[#007cae] text-xs font-bold px-3 py-1.5 rounded-[6px] mb-4 uppercase tracking-wider">
                   <Icon icon={uc.icon} width={14} />
                   Use Case {idx + 1}
                 </div>
@@ -63,7 +63,7 @@ export function UseCases() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Seller side */}
-                  <div className="bg-[#007cae]/5 border border-[#007cae]/20 rounded-xl p-4">
+                  <div className="bg-[#007cae]/5 border border-[#007cae]/20 rounded-[6px] p-4">
                     <p className="text-[#007cae] text-xs font-extrabold uppercase tracking-widest mb-3 flex items-center gap-1.5">
                       <Icon icon="mdi:store-outline" width={14} />
                       Seller Workflow
@@ -83,7 +83,7 @@ export function UseCases() {
                   </div>
 
                   {/* Customer side */}
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                  <div className="bg-slate-50 border border-slate-200 rounded-[6px] p-4">
                     <p className="text-slate-500 text-xs font-extrabold uppercase tracking-widest mb-3 flex items-center gap-1.5">
                       <Icon icon="mdi:account-eye-outline" width={14} />
                       Customer Experience

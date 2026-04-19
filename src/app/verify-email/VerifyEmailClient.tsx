@@ -41,7 +41,7 @@ export default function VerifyEmail() {
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
         {status === 'loading' && (
           <div>
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-[6px] h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
             <p className="text-gray-700 text-lg">Verifying your email...</p>
           </div>
         )}

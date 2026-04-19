@@ -2,7 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
-import { SectionHeading, SubHeading, InfoBox, StepList, CheckList } from "../shared";
+import {
+  SectionHeading,
+  SubHeading,
+  InfoBox,
+  StepList,
+  CheckList,
+} from "../shared";
 
 export function AnalyticsBilling() {
   const router = useRouter();
@@ -13,10 +19,9 @@ export function AnalyticsBilling() {
 
       <SubHeading id="ana-views">AR View Tracking</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        Every time a customer opens your product's AR viewer page (via
-        QR scan or direct link), it is recorded as a{" "}
-        <strong>model view</strong>. Views are tracked per product and
-        per month.
+        Every time a customer opens your product's AR viewer page (via QR scan
+        or direct link), it is recorded as a <strong>model view</strong>. Views
+        are tracked per product and per month.
       </p>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
         The Insights section of your dashboard shows:
@@ -27,7 +32,7 @@ export function AnalyticsBilling() {
           "Monthly view trends",
           "Active vs. inactive product count",
           "Total models generated over your account lifetime",
-          "Scans remaining in your current billing period",
+          "Scans remaining in your plan",
         ]}
       />
 
@@ -48,7 +53,7 @@ export function AnalyticsBilling() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex gap-3 p-4 bg-[#007cae]/5 rounded-xl border border-[#007cae]/15"
+            className="flex gap-3 p-4 bg-[#007cae]/5 rounded-[6px] border border-[#007cae]/15"
           >
             <Icon
               icon="mdi:receipt-text-outline"
@@ -68,33 +73,31 @@ export function AnalyticsBilling() {
       </div>
       <InfoBox type="info">
         Billing is calculated monthly. You can view your current billing
-        details, total views, and estimated charges from the Insights
-        section of the dashboard.
+        details, total views, and estimated charges from the Insights section of
+        the dashboard.
       </InfoBox>
 
-      <SubHeading id="ana-plans">
-        Changing Your Subscription Plan
-      </SubHeading>
+      <SubHeading id="ana-plans">Changing Your Subscription Plan</SubHeading>
       <StepList
         steps={[
           {
-            title: "Go to Pricing",
-            desc: "Navigate to the Pricing page from the main navigation.",
+            title: "Go to Payment & Subscription",
+            desc: "Navigate to the Payment & Subscription page from the main navigation.",
           },
           {
-            title: "Select a New Plan",
-            desc: 'Click "Get Started" on the plan you want. If logged in, the change applies immediately.',
+            title: "Go to Upgrade/Change Plan",
+            desc: "Click on the Upgrade/Change Plan button.",
           },
           {
-            title: "Confirm",
-            desc: "For Custom plans, set your required monthly product limit (minimum 81). The plan activates immediately.",
+            title: "Upgrade or Downgrade",
+            desc: "You can upgrade or downgrade your plan by selecting the desired plan and clicking on the Upgrade/Change Plan button.",
           },
         ]}
       />
       <InfoBox type="warning">
-        <strong>Downgrading</strong> to a plan with fewer allowed scans
-        is blocked if you have more products than the new plan allows.
-        Delete products first to enable the downgrade.
+        <strong>Downgrading</strong> to a plan with fewer allowed scans is
+        blocked if you have more products than the new plan allows. Delete
+        products first to enable the downgrade.
       </InfoBox>
     </section>
   );

@@ -102,10 +102,10 @@ export default function Footer() {
           </div>
 
           <a
-            href="#"
+            href="https://apps.apple.com/pk/app/snaptap-admin/id6759855355"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-700 transition"
+            className="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2.5 rounded-[6px] text-sm font-semibold hover:bg-slate-700 transition"
           >
             <FaApple className="text-base" />
             <div className="flex flex-col items-start leading-none">

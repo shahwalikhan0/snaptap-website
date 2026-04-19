@@ -53,9 +53,9 @@ const ForgotPasswordPage = () => {
 
       {/* LEFT — decorative */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
         <div className="z-10 text-center max-w-sm">
-          <div className="flex items-center justify-center w-28 h-28 rounded-full bg-[#007cae]/10 mx-auto mb-8">
+          <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
             <Icon icon="mdi:email-lock-outline" className="text-[#007cae]" width={56} />
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
@@ -72,7 +72,7 @@ const ForgotPasswordPage = () => {
         <div className="w-full max-w-[400px]">
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
               <Icon icon="mdi:email-lock-outline" className="text-[#007cae]" width={32} />
             </div>
             <Title level={2} className="!mb-2 !text-slate-900 font-bold">
@@ -96,7 +96,7 @@ const ForgotPasswordPage = () => {
                 prefix={<MailOutlined className="text-slate-400 mr-2" />}
                 placeholder="you@example.com"
                 onChange={() => emailError && setEmailError("")}
-                className={`h-12 rounded-xl border-slate-200 hover:border-[#007cae]/50 focus:border-[#007cae] ${
+                className={`h-12 rounded-[6px] border-slate-200 hover:border-[#007cae]/50 focus:border-[#007cae] ${
                   emailError ? "!border-red-400" : ""
                 }`}
               />
@@ -113,7 +113,7 @@ const ForgotPasswordPage = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
               >
                 Send Reset Code
               </Button>

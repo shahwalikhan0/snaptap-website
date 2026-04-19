@@ -44,7 +44,7 @@ export default function ContactPage() {
           {/* Page Header */}
           <div className="text-center mb-16">
             <div className="flex items-center gap-3 justify-center mb-4">
-              <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center">
                 <Icon
                   icon="mdi:email-fast-outline"
                   className="text-[#007cae]"
@@ -69,8 +69,8 @@ export default function ContactPage() {
             {/* Contact Info Cards */}
             <div className="md:col-span-1 space-y-6">
               {/* Email */}
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:email-outline"
                     className="text-[#007cae]"
@@ -87,8 +87,8 @@ export default function ContactPage() {
               </div>
 
               {/* Phone - Pakistan */}
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:phone-outline"
                     className="text-[#007cae]"
@@ -107,8 +107,8 @@ export default function ContactPage() {
               </div>
 
               {/* Phone - USA */}
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:phone-outline"
                     className="text-[#007cae]"
@@ -127,8 +127,8 @@ export default function ContactPage() {
               </div>
 
               {/* Social */}
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:instagram"
                     className="text-[#007cae]"
@@ -149,14 +149,14 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div className="md:col-span-2">
-              <div className="bg-white rounded-2xl p-5 sm:p-8 border border-slate-100 shadow-lg">
+              <div className="bg-white rounded-[6px] p-5 sm:p-8 border border-slate-100 shadow-lg">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">
                   Send us a Message
                 </h2>
 
                 {submitted ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 rounded-[6px] bg-green-100 flex items-center justify-center mx-auto mb-4">
                       <Icon
                         icon="mdi:check-circle"
                         className="text-green-500"
@@ -203,7 +203,7 @@ export default function ContactPage() {
                           value={formData.name}
                           onChange={handleChange}
                           placeholder="John Doe"
-                          className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm"
+                          className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm"
                         />
                       </div>
                       <div>
@@ -221,7 +221,7 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="john@example.com"
-                          className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm"
+                          className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm"
                         />
                       </div>
                     </div>
@@ -238,7 +238,7 @@ export default function ContactPage() {
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm bg-white"
+                        className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm bg-white"
                       >
                         <option value="">Select a topic</option>
                         <option value="General Inquiry">General Inquiry</option>
@@ -270,13 +270,13 @@ export default function ContactPage() {
                         value={formData.message}
                         onChange={handleChange}
                         placeholder="Tell us how we can help..."
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm resize-none"
+                        className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm resize-none"
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full bg-[#007cae] text-white font-semibold py-3.5 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                      className="w-full bg-[#007cae] text-white font-semibold py-3.5 rounded-[6px] hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                       Send Message
                     </button>

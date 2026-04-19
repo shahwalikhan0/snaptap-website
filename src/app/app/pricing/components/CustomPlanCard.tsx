@@ -31,11 +31,11 @@ export function CustomPlanCard({
         whileHover={{ y: -4 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="relative flex flex-col bg-white text-slate-800 rounded-2xl shadow-md px-5 sm:px-7 py-6 sm:py-8 border border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg transition-all h-full"
+        className="relative flex flex-col bg-white text-slate-800 rounded-[6px] shadow-md px-5 sm:px-7 py-6 sm:py-8 border border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg transition-all h-full"
       >
         {/* Icon + Name */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center">
+          <div className="w-11 h-11 rounded-[6px] bg-slate-100 flex items-center justify-center">
             <FaCogs size={22} className="text-[#007cae]" />
           </div>
           <h3 className="text-xl font-black text-slate-900">Custom</h3>
@@ -55,7 +55,7 @@ export function CustomPlanCard({
         </div>
 
         {/* Slider */}
-        <div className="my-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+        <div className="my-5 bg-slate-50 p-4 rounded-[6px] border border-slate-100">
           <div className="flex justify-between items-center mb-3">
             <span className="text-sm font-semibold text-slate-600">
               Inventory Size
@@ -91,7 +91,7 @@ export function CustomPlanCard({
         <ul className="space-y-3 mb-8 flex-grow text-left">
           {featuresMap[3].map((feature: string, i: number) => (
             <li key={i} className="flex items-start gap-2.5">
-              <div className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
+              <div className="mt-0.5 shrink-0 w-5 h-5 rounded-[6px] bg-green-100 flex items-center justify-center">
                 <CheckOutlined className="text-green-600 text-[10px]" />
               </div>
               <span className="text-slate-600 text-sm">{feature}</span>
@@ -111,7 +111,7 @@ export function CustomPlanCard({
               features: [],
             })
           }
-          className="h-12 font-bold rounded-xl !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
+          className="h-12 font-bold rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
         >
           {isLoggedIn && Brand?.subscribed_package_id === 4
             ? "✓ Current Plan"

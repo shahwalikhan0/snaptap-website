@@ -8,8 +8,8 @@ export function InventoryDashboard() {
     <section id="inventory" className="mb-16 scroll-mt-28">
       <SectionHeading>Inventory & Dashboard</SectionHeading>
       <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-        The SnapTap web dashboard is your control center for managing
-        your AR product catalog.
+        The SnapTap web dashboard is your control center for managing your AR
+        product catalog.
       </p>
 
       <SubHeading id="inv-manage">Managing Products</SubHeading>
@@ -42,7 +42,7 @@ export function InventoryDashboard() {
         ].map((card, i) => (
           <div
             key={i}
-            className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50"
+            className="flex gap-3 p-4 rounded-[6px] border border-slate-100 bg-slate-50"
           >
             <Icon
               icon={card.icon}
@@ -61,9 +61,9 @@ export function InventoryDashboard() {
         ))}
       </div>
       <InfoBox type="warning">
-        Your plan has a <strong>maximum product limit</strong> equal to
-        your scan quota. If you hit the limit, you cannot add new
-        products until you delete existing ones or upgrade your plan.
+        Your plan has a <strong>maximum product limit</strong> equal to your
+        scan quota. If you hit the limit, you cannot add new products until you
+        delete existing ones or upgrade your plan.
       </InfoBox>
 
       <SubHeading id="inv-embed">
@@ -77,7 +77,7 @@ export function InventoryDashboard() {
         </code>{" "}
         tag.
       </p>
-      <div className="bg-slate-900 rounded-xl p-5 font-mono text-xs text-slate-300 overflow-x-auto mb-4">
+      <div className="bg-slate-900 rounded-[6px] p-5 font-mono text-xs text-slate-300 overflow-x-auto mb-4">
         <span className="text-slate-500">{`<!-- Copy this into your product page -->`}</span>
         {"\n"}
         <span className="text-[#007cae]">&lt;iframe</span>
@@ -107,16 +107,14 @@ export function InventoryDashboard() {
         <span className="text-[#007cae]">&gt;&lt;/iframe&gt;</span>
       </div>
       <InfoBox type="tip">
-        Replace <strong>YOUR_PRODUCT_ID</strong> with the numeric ID
-        shown on your product detail page in the dashboard.
+        Replace <strong>YOUR_PRODUCT_ID</strong> with the numeric ID shown on
+        your product detail page. Contact support for any assistance.
       </InfoBox>
 
-      <SubHeading id="inv-qr">
-        Using QR Codes In The Real World
-      </SubHeading>
+      <SubHeading id="inv-qr">Using QR Codes In The Real World</SubHeading>
       <CheckList
         items={[
-          "Download the QR code PNG from the product detail page in your dashboard",
+          "Download the QR code PNG from the product detail page",
           "Print at 300 DPI minimum — at least 3×3 cm on physical materials for reliable scanning",
           'Add a short label like "Scan to View in 3D" or "See it in Your Space" next to the code',
           "Test by scanning with both an iPhone and Android before mass printing",

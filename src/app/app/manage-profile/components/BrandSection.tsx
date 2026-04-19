@@ -48,7 +48,7 @@ export function BrandSection({
           <Input
             size="large"
             prefix={<GlobalOutlined className="text-slate-300" />}
-            className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+            className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
             placeholder="https://..."
           />
         </Form.Item>
@@ -61,7 +61,7 @@ export function BrandSection({
         >
           <Select
             size="large"
-            className="[&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+            className="[&_.ant-select-selector]:!rounded-[6px] [&_.ant-select-selector]:!h-12 flex items-center border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
           >
             {CATEGORIES.map((cat) => (
               <Option key={cat} value={cat}>
@@ -81,7 +81,7 @@ export function BrandSection({
             <Input
               size="large"
               prefix={<PhoneOutlined className="text-slate-300" />}
-              className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
             />
           </Form.Item>
           <Form.Item
@@ -91,7 +91,7 @@ export function BrandSection({
             <Input
               size="large"
               prefix={<EnvironmentOutlined className="text-slate-300" />}
-              className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               placeholder="City, Country"
             />
           </Form.Item>
@@ -103,7 +103,7 @@ export function BrandSection({
         size="large"
         loading={brandLoading}
         disabled={!isBrandModified}
-        className="h-12 px-10 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white disabled:!bg-slate-300 disabled:!text-slate-500"
+        className="h-12 px-10 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white disabled:!bg-slate-300 disabled:!text-slate-500"
         onClick={handleBrandUpdate}
       >
         Update Brand Profile

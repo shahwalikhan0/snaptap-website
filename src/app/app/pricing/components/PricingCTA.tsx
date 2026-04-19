@@ -20,15 +20,15 @@ export function PricingCTA() {
           </p>
           <button
             onClick={() => router.push("/app/sign-up")}
-            className="bg-[#007cae] text-white font-semibold px-10 py-4 rounded-full hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="bg-[#007cae] text-white font-semibold px-10 py-4 rounded-[6px] hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             Get Started as Seller
           </button>
         </div>
 
         {/* Right: Enterprise card */}
-        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-md">
-          <div className="w-12 h-12 rounded-xl bg-[#007cae]/10 flex items-center justify-center mb-5">
+        <div className="bg-white rounded-[6px] p-6 sm:p-8 border border-slate-200 shadow-md">
+          <div className="w-12 h-12 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-5">
             <Icon
               icon="mdi:office-building-outline"
               className="text-[#007cae]"
@@ -44,7 +44,7 @@ export function PricingCTA() {
           </p>
           <button
             onClick={() => router.push("/navigations/contact")}
-            className="inline-flex items-center gap-2 border border-[#007cae] text-[#007cae] font-semibold px-8 py-3 rounded-full hover:bg-[#007cae] hover:text-white transition-all"
+            className="inline-flex items-center gap-2 border border-[#007cae] text-[#007cae] font-semibold px-8 py-3 rounded-[6px] hover:bg-[#007cae] hover:text-white transition-all"
           >
             Contact Our Team
             <Icon icon="mdi:arrow-right" width={18} />

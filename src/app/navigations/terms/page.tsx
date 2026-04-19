@@ -14,7 +14,7 @@ export default function TermsOfService() {
                     {/* Page Header */}
                     <div className="mb-12">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center">
                                 <Icon icon="mdi:file-document-outline" className="text-[#007cae]" width={24} />
                             </div>
                             <span className="text-sm font-semibold text-[#007cae] uppercase tracking-wider">Legal</span>

@@ -22,7 +22,7 @@ export function ProductDetailCard({
 }: ProductDetailCardProps) {
   return (
     <Card
-      className="rounded-xl shadow-md"
+      className="rounded-[6px] shadow-md"
       title={
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <span className="text-lg sm:text-xl font-semibold text-[#007cae]">
@@ -33,7 +33,7 @@ export function ProductDetailCard({
             <Button
               type="default"
               onClick={onViewQR}
-              className="rounded-xl border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
+              className="rounded-[6px] border-slate-200 hover:!border-[#007cae] hover:!text-[#007cae]"
             >
               View QR
             </Button>
@@ -71,7 +71,7 @@ export function ProductDetailCard({
               <Button
                 type="text"
                 icon={<MoreOutlined className="text-xl text-slate-600" />}
-                className="rounded-xl flex items-center justify-center hover:bg-slate-100"
+                className="rounded-[6px] flex items-center justify-center hover:bg-slate-100"
               />
             </Dropdown>
           </div>
@@ -79,7 +79,7 @@ export function ProductDetailCard({
       }
     >
       {/* Image */}
-      <div className="relative w-full h-[200px] sm:h-[280px] bg-gray-100 rounded-xl mb-6 flex items-center justify-center overflow-hidden">
+      <div className="relative w-full h-[200px] sm:h-[280px] bg-gray-100 rounded-[6px] mb-6 flex items-center justify-center overflow-hidden">
         <img
           src={product?.image_url}
           alt={product?.name}
@@ -98,11 +98,11 @@ export function ProductDetailCard({
           <span className="text-lg font-semibold">
             Rs. {product?.price}
           </span>
-          <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
+          <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-[6px]">
             {product?.category}
           </span>
           <span
-            className={`px-3 py-1 rounded-full ${
+            className={`px-3 py-1 rounded-[6px] ${
               product?.is_active
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-700"

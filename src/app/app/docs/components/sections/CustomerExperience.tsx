@@ -8,9 +8,9 @@ export function CustomerExperience() {
     <section id="customer" className="mb-16 scroll-mt-28">
       <SectionHeading>Customer Experience</SectionHeading>
       <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-        From a customer's perspective, SnapTap is completely invisible —
-        they just point their camera at a code and the product appears
-        in their world.
+        From a customer's perspective, SnapTap is completely invisible — they
+        just point their camera at a code and the product appears in their
+        world.
       </p>
 
       <div className="space-y-4">
@@ -32,30 +32,26 @@ export function CustomerExperience() {
           },
           {
             icon: "mdi:star-outline",
-            title: "Rate and Review",
+            title: "Rate and Review (coming soon)",
             desc: "Logged-in customers can leave a 1–5 star rating and a written review on any product they've experienced. Ratings are visible on the product listing and sent as a notification to the seller.",
           },
           {
             icon: "mdi:heart-outline",
-            title: "Save Favorites",
+            title: "Save Favorites (coming soon)",
             desc: "Logged-in customers can save products to their favorites list to revisit or compare later.",
           },
           {
             icon: "mdi:chat-outline",
-            title: "Contact the Seller",
+            title: "Contact the Seller (coming soon)",
             desc: "From any product listing on the SnapTap marketplace, customers can contact the seller directly. No middleman, no e-commerce checkout required — just direct communication.",
           },
         ].map((item, i) => (
           <div
             key={i}
-            className="flex gap-4 p-4 sm:p-5 rounded-2xl border border-slate-100 bg-slate-50 hover:border-[#007cae]/20 hover:bg-white transition-all"
+            className="flex gap-4 p-4 sm:p-5 rounded-[6px] border border-slate-100 bg-slate-50 hover:border-[#007cae]/20 hover:bg-white transition-all"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center shrink-0">
-              <Icon
-                icon={item.icon}
-                className="text-[#007cae]"
-                width={20}
-              />
+            <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center shrink-0">
+              <Icon icon={item.icon} className="text-[#007cae]" width={20} />
             </div>
             <div>
               <p className="font-bold text-slate-800 text-sm mb-1">

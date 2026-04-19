@@ -166,7 +166,7 @@ export default function InsightsPage() {
         >
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00A8DE] to-[#005a8c] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+              <div className="w-12 h-12 rounded-[6px] bg-gradient-to-br from-[#00A8DE] to-[#005a8c] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
                 <Icon icon="solar:pie-chart-3-bold-duotone" width={26} />
               </div>
               <h2 className="text-4xl sm:text-5xl font-black text-slate-800 tracking-tight">
@@ -178,7 +178,7 @@ export default function InsightsPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
+          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-[6px] shadow-sm border border-slate-100">
             <Icon
               icon="solar:shield-check-bold-duotone"
               width={20}

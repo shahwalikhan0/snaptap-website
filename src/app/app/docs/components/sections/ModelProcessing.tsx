@@ -12,25 +12,23 @@ export function ModelProcessing() {
         automatically. Here's exactly what happens behind the scenes.
       </p>
 
-      <SubHeading id="proc-pipeline">
-        The Processing Pipeline
-      </SubHeading>
+      <SubHeading id="proc-pipeline">The Processing Pipeline</SubHeading>
       <div className="space-y-0 mb-6">
         {[
           {
             icon: "mdi:upload",
             label: "Upload Received",
-            desc: 'The server receives your model file and product image. A product record is created in the database immediately — the model URL is set to "processing" while work continues in the background.',
+            desc: 'The server receives your 3D model and product details. A product record is created in the database immediately — the model URL is set to "processing" while work continues in the background.',
           },
           {
             icon: "mdi:image-plus",
             label: "Product Image Stored",
-            desc: "Your product thumbnail is uploaded to SnapTap's cloud storage (DigitalOcean Spaces) and linked to the product.",
+            desc: "Your product thumbnail is uploaded to SnapTap's secured S3 cloud storage and linked to the product.",
           },
           {
             icon: "mdi:swap-horizontal",
             label: "Model Conversion",
-            desc: "The model file is converted to web-standard format by SnapTap's conversion service. GLB works on all devices and web browsers; the original model file is retained for iOS Quick Look AR. This is the longest step and typically takes 1–5 minutes.",
+            desc: "The model file is converted to a global accepted format by SnapTap's conversion service. Platforms that do not accept global format, will have an accepted format for their platform. This is the longest step and typically takes 1–5 minutes.",
           },
           {
             icon: "mdi:qrcode-plus",
@@ -40,17 +38,17 @@ export function ModelProcessing() {
           {
             icon: "mdi:database-check",
             label: "Product Finalized",
-            desc: "The product record is updated with the final model URL and QR code URL. Your scan quota is decremented by 1 and your active product count is updated.",
+            desc: "The product record is updated with the final model URL and QR code URL. Your scan quota is decremented by 1 and your active/in-active product count is updated.",
           },
           {
             icon: "mdi:bell-check",
             label: "You're Notified",
-            desc: 'A notification appears in your dashboard: "Your product has been successfully processed and is now live!"',
+            desc: 'A notification appears in your app: "Your product is converted successfully and is live"',
           },
         ].map((step, i, arr) => (
           <div key={i} className="flex gap-4">
             <div className="flex flex-col items-center">
-              <div className="w-9 h-9 rounded-full bg-[#007cae] text-white flex items-center justify-center shrink-0 z-10">
+              <div className="w-9 h-9 rounded-[6px] bg-[#007cae] text-white flex items-center justify-center shrink-0 z-10">
                 <Icon icon={step.icon} width={17} />
               </div>
               {i < arr.length - 1 && (
@@ -69,33 +67,33 @@ export function ModelProcessing() {
         ))}
       </div>
       <InfoBox type="warning">
-        If conversion fails for any reason (rare network issue,
-        unsupported model), the product is automatically{" "}
-        <strong>rolled back and deleted</strong> from your catalog. You
-        will receive a failure notification with guidance to retry.
+        If conversion fails for any reason (rare network issue, unsupported
+        model), the product is automatically{" "}
+        <strong>rolled back and deleted</strong> from your catalog. You will
+        receive a failure notification.
       </InfoBox>
 
       <SubHeading id="proc-notifications">Notifications</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        SnapTap sends in-app notifications to your dashboard for key
-        events. You'll see them in the notification bell in the top bar.
+        SnapTap sends in-app notifications for key events. You'll see them in
+        the notification bell in the navbar.
       </p>
       <CheckList
         items={[
-          "🎉 Product Ready — when your product finishes processing successfully",
-          "❌ Model Processing Failed — with the reason and a prompt to retry",
-          "⭐ New Customer Rating — when a customer rates one of your products",
-          "💬 New Customer Feedback — when a customer leaves a written review",
+          "Product Ready — when your product finishes processing successfully",
+          "Model Processing Failed — when your product fails to process",
+          "New Customer Rating — when a customer rates one of your products",
+          "New Customer Feedback — when a customer leaves a written review",
         ]}
       />
 
       <SubHeading id="proc-qr">QR Code Generation</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        Each product gets a unique QR code that links to its AR viewer
-        page. The QR code is created automatically as part of the
-        processing pipeline — you don't need to do anything.
+        Each product gets a unique QR code that links to its AR viewer page. The
+        QR code is created automatically as part of the processing pipeline —
+        you don't need to do anything.
       </p>
-      <div className="bg-slate-50 rounded-xl border border-slate-200 p-5 my-4 font-mono text-xs text-slate-600 break-all">
+      <div className="bg-slate-50 rounded-[6px] border border-slate-200 p-5 my-4 font-mono text-xs text-slate-600 break-all">
         QR Code URL format:{" "}
         <span className="text-[#007cae] font-bold">
           https://api.snaptap.pk/model/name/&#123;productId&#125;

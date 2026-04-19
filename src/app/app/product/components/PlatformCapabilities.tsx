@@ -37,8 +37,7 @@ export function PlatformCapabilities() {
           </h2>
           <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
             SnapTap handles the entire AR pipeline — scanning, processing,
-            hosting, delivery, analytics, and billing — so you can focus on
-            your products.
+            hosting and analytics — so you can focus on your products.
           </p>
         </div>
 
@@ -50,9 +49,9 @@ export function PlatformCapabilities() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
-              className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
+              className="bg-white/5 backdrop-blur-sm p-6 rounded-[6px] border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
             >
-              <div className="w-11 h-11 rounded-xl bg-[#007cae]/20 flex items-center justify-center mb-4 group-hover:bg-[#007cae]/30 transition-all">
+              <div className="w-11 h-11 rounded-[6px] bg-[#007cae]/20 flex items-center justify-center mb-4 group-hover:bg-[#007cae]/30 transition-all">
                 <Icon icon={cap.icon} className="text-[#007cae]" width={22} />
               </div>
               <h3 className="text-base font-bold text-white mb-2">

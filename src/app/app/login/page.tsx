@@ -119,7 +119,7 @@ const LoginPage = () => {
         <div className="w-full max-w-[400px]">
           {/* Mobile Logo / Branding */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
               <Icon
                 icon="mdi:shield-key-outline"
                 className="text-[#007cae]"
@@ -158,7 +158,7 @@ const LoginPage = () => {
               <Input
                 prefix={<UserOutlined className="text-slate-400 mr-2" />}
                 placeholder="Enter your username"
-                className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -174,7 +174,7 @@ const LoginPage = () => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
                 placeholder="••••••••"
-                className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -194,7 +194,7 @@ const LoginPage = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
               >
                 Sign In
               </Button>

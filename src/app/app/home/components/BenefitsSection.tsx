@@ -40,16 +40,16 @@ export function BenefitsSection() {
           </h2>
           <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
             Whether you&apos;re a business listing products or a customer
-            discovering them — SnapTap delivers a premium experience tailored
-            to you.
+            discovering them — SnapTap delivers a premium experience tailored to
+            you.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Seller Column */}
-          <div className="rounded-2xl border border-[#007cae]/30 bg-[#007cae]/5 p-6 sm:p-8 hover:border-[#007cae]/60 transition-all">
+          <div className="rounded-[6px] border border-[#007cae]/30 bg-[#007cae]/5 p-6 sm:p-8 hover:border-[#007cae]/60 transition-all">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-[#007cae]/20 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-[6px] bg-[#007cae]/20 flex items-center justify-center shrink-0">
                 <Icon
                   icon="mdi:store-outline"
                   className="text-[#007cae]"
@@ -89,7 +89,7 @@ export function BenefitsSection() {
                 },
                 {
                   icon: "mdi:rocket-launch-outline",
-                  text: "Publish products to the SnapTap marketplace and reach customers who are actively exploring AR experiences.",
+                  text: "Publish products to the SnapTap marketplace and reach customers who are actively exploring AR experiences. (coming soon)",
                 },
               ].map((item, idx) => (
                 <li key={idx} className="flex items-start gap-3 group">
@@ -109,7 +109,7 @@ export function BenefitsSection() {
             <div className="mt-8 pt-6 border-t border-white/10">
               <button
                 onClick={() => router.push("/app/sign-up")}
-                className="w-full sm:w-auto bg-[#007cae] hover:bg-[#006080] text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg shadow-[#007cae]/20 hover:shadow-[#007cae]/40 hover:-translate-y-0.5 transform text-sm"
+                className="w-full sm:w-auto bg-[#007cae] hover:bg-[#006080] text-white font-bold py-3 px-8 rounded-[6px] transition-all shadow-lg shadow-[#007cae]/20 hover:shadow-[#007cae]/40 hover:-translate-y-0.5 transform text-sm"
               >
                 Start as a Seller
               </button>
@@ -117,9 +117,9 @@ export function BenefitsSection() {
           </div>
 
           {/* Customer / Viewer Column */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8 hover:border-white/20 transition-all">
+          <div className="rounded-[6px] border border-white/10 bg-white/5 p-6 sm:p-8 hover:border-white/20 transition-all">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-[6px] bg-white/10 flex items-center justify-center shrink-0">
                 <Icon
                   icon="mdi:account-eye-outline"
                   className="text-slate-300"
@@ -155,11 +155,11 @@ export function BenefitsSection() {
                 },
                 {
                   icon: "mdi:store-search-outline",
-                  text: "Browse the SnapTap marketplace to discover AR-enabled products from multiple sellers in one place.",
+                  text: "Browse the SnapTap marketplace to discover AR-enabled products from multiple sellers in one place. (coming soon)",
                 },
                 {
                   icon: "mdi:chat-outline",
-                  text: "Contact sellers directly from a product listing — no middlemen, no friction, just direct communication.",
+                  text: "Contact sellers directly from a product listing — no middlemen, no friction, just direct communication. (coming soon)",
                 },
               ].map((item, idx) => (
                 <li key={idx} className="flex items-start gap-3 group">
@@ -179,7 +179,7 @@ export function BenefitsSection() {
             <div className="mt-8 pt-6 border-t border-white/10">
               <button
                 onClick={() => router.push("/app/docs")}
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full transition-all border border-white/20 hover:border-white/40 hover:-translate-y-0.5 transform text-sm"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-[6px] transition-all border border-white/20 hover:border-white/40 hover:-translate-y-0.5 transform text-sm"
               >
                 Explore as a Customer
               </button>

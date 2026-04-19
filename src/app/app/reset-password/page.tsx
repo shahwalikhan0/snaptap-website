@@ -91,9 +91,9 @@ const VerifyOtpStep = ({
     <>
       {/* LEFT — decorative */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
         <div className="z-10 text-center max-w-sm">
-          <div className="flex items-center justify-center w-28 h-28 rounded-full bg-[#007cae]/10 mx-auto mb-8">
+          <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
             <Icon
               icon="mdi:shield-check-outline"
               className="text-[#007cae]"
@@ -115,18 +115,18 @@ const VerifyOtpStep = ({
         <div className="w-full max-w-[400px]">
           {/* Step indicator */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-[#007cae] text-white text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-[#007cae] text-white text-xs font-bold">
               1
             </div>
             <div className="h-px flex-1 bg-slate-200" />
-            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-200 text-slate-400 text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-slate-200 text-slate-400 text-xs font-bold">
               2
             </div>
           </div>
 
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
               <Icon
                 icon="mdi:shield-check-outline"
                 className="text-[#007cae]"
@@ -162,7 +162,7 @@ const VerifyOtpStep = ({
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                  className="w-12 h-14 text-center text-xl font-bold border-2 rounded-xl border-slate-200 focus:border-[#007cae] focus:outline-none transition-colors text-slate-900"
+                  className="w-12 h-14 text-center text-xl font-bold border-2 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:outline-none transition-colors text-slate-900"
                   style={{ caretColor: "#007cae" }}
                 />
               ))}
@@ -177,7 +177,7 @@ const VerifyOtpStep = ({
             loading={loading}
             block
             onClick={handleVerify}
-            className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+            className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
           >
             Verify Code
           </Button>
@@ -237,9 +237,9 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
     <>
       {/* LEFT — decorative */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
         <div className="z-10 text-center max-w-sm">
-          <div className="flex items-center justify-center w-28 h-28 rounded-full bg-[#007cae]/10 mx-auto mb-8">
+          <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
             <Icon icon="mdi:lock-reset" className="text-[#007cae]" width={56} />
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
@@ -256,18 +256,18 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
         <div className="w-full max-w-[400px]">
           {/* Step indicator */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500 text-white text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-green-500 text-white text-xs font-bold">
               ✓
             </div>
             <div className="h-px flex-1 bg-[#007cae]" />
-            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-[#007cae] text-white text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-[#007cae] text-white text-xs font-bold">
               2
             </div>
           </div>
 
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
               <Icon
                 icon="mdi:lock-reset"
                 className="text-[#007cae]"
@@ -303,7 +303,7 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
                 placeholder="••••••••"
-                className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -330,7 +330,7 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
                 placeholder="••••••••"
-                className="h-12 rounded-xl border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
               />
             </Form.Item>
 
@@ -340,7 +340,7 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
               >
                 Reset Password
               </Button>

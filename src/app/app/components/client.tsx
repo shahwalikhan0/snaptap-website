@@ -86,7 +86,7 @@ const Clients = () => {
               >
                 <Card
                   hoverable
-                  className="h-full bg-white border border-slate-100 shadow-sm rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                  className="h-full bg-white border border-slate-100 shadow-sm rounded-[6px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
                   styles={{ body: { padding: '24px' } }}
                   cover={
                     <div className="bg-slate-50 border-b border-slate-100 rounded-t-xl flex justify-center items-center h-[160px] p-4 relative">

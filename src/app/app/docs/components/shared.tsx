@@ -32,7 +32,7 @@ export function SubHeading({
       id={id}
       className="text-lg sm:text-xl font-bold text-[#007cae] mb-3 mt-10 scroll-mt-28 flex items-center gap-2"
     >
-      <span className="w-1 h-5 bg-[#007cae] rounded-full inline-block" />
+      <span className="w-1 h-5 bg-[#007cae] rounded-[6px] inline-block" />
       {children}
     </h3>
   );
@@ -71,7 +71,7 @@ export function InfoBox({
 
   return (
     <div
-      className={`${styles.bg} border rounded-xl p-4 flex gap-3 my-4 text-sm`}
+      className={`${styles.bg} border rounded-[6px] p-4 flex gap-3 my-4 text-sm`}
     >
       <Icon
         icon={styles.icon}
@@ -91,7 +91,7 @@ export function StepList({ steps }: { steps: { title: string; desc: string }[] }
     <ol className="space-y-4 my-4">
       {steps.map((s, i) => (
         <li key={i} className="flex gap-4">
-          <span className="w-7 h-7 rounded-full bg-[#007cae] text-white text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5">
+          <span className="w-7 h-7 rounded-[6px] bg-[#007cae] text-white text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5">
             {i + 1}
           </span>
           <div>
@@ -128,7 +128,7 @@ export function Divider() {
 export function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-slate-200 rounded-xl overflow-hidden">
+    <div className="border border-slate-200 rounded-[6px] overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
         className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors"

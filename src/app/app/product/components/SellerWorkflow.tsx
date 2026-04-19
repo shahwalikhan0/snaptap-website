@@ -33,10 +33,10 @@ export function SellerWorkflow() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="relative z-10 bg-white rounded-2xl p-5 sm:p-6 border border-slate-100 shadow-sm hover:shadow-md hover:border-[#007cae]/20 transition-all"
+                className="relative z-10 bg-white rounded-[6px] p-5 sm:p-6 border border-slate-100 shadow-sm hover:shadow-md hover:border-[#007cae]/20 transition-all"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#007cae]/10 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center shrink-0">
                     <Icon
                       icon={step.icon}
                       className="text-[#007cae]"

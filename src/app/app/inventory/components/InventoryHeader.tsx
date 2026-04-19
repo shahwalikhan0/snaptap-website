@@ -36,7 +36,7 @@ export function InventoryHeader({
             allowClear
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="[&_.ant-input]:!rounded-xl [&_.ant-input-group-addon]:!bg-white [&_.ant-input-search-button]:!border-none [&_.ant-input:focus]:!border-[#007cae] [&_.ant-input:hover]:!border-[#007cae]/50"
+            className="[&_.ant-input]:!rounded-[6px] [&_.ant-input-group-addon]:!bg-white [&_.ant-input-search-button]:!border-none [&_.ant-input:focus]:!border-[#007cae] [&_.ant-input:hover]:!border-[#007cae]/50"
             size="large"
           />
         </div>
@@ -48,7 +48,7 @@ export function InventoryHeader({
           ]}
           value={statusFilter}
           onChange={(val) => setStatusFilter(val as any)}
-          className="p-1 rounded-xl bg-slate-200/50"
+          className="p-1 rounded-[6px] bg-slate-200/50"
           size="large"
         />
       </div>

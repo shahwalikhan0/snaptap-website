@@ -44,7 +44,7 @@ export function CapabilitiesSection() {
             {
               icon: "mdi:cube-scan",
               title: "Simple 3D Scanning",
-              desc: "No specialized equipment needed. Use any iPhone Pro or Pro Max with iOS 18+ to capture high-quality 3D product models in minutes using the built-in LiDAR sensor.",
+              desc: "No specialized equipment needed. Use iPhone Pro or Pro Max with iOS 18+ to capture high-quality 3D product models in minutes using the built-in LiDAR sensor.",
             },
             {
               icon: "mdi:augmented-reality",
@@ -74,9 +74,9 @@ export function CapabilitiesSection() {
           ].map((feature, idx) => (
             <div
               key={idx}
-              className="bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
+              className="bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-[6px] border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#007cae]/20 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/30 transition-all">
+              <div className="w-12 h-12 rounded-[6px] bg-[#007cae]/20 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/30 transition-all">
                 <Icon
                   icon={feature.icon}
                   className="text-[#007cae]"

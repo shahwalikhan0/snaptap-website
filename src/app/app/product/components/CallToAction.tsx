@@ -32,13 +32,13 @@ export function CallToAction() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => router.push("/app/sign-up")}
-            className="bg-[#007cae] text-white font-bold py-4 px-10 rounded-full hover:bg-[#006080] transition-all shadow-xl shadow-[#007cae]/20 hover:shadow-[#007cae]/40 transform hover:-translate-y-1"
+            className="bg-[#007cae] text-white font-bold py-4 px-10 rounded-[6px] hover:bg-[#006080] transition-all shadow-xl shadow-[#007cae]/20 hover:shadow-[#007cae]/40 transform hover:-translate-y-1"
           >
             Become a Seller
           </button>
           <button
             onClick={() => router.push("/navigations/contact")}
-            className="bg-white/10 border border-white/20 text-white font-bold py-4 px-10 rounded-full hover:bg-white/15 transition-all"
+            className="bg-white/10 border border-white/20 text-white font-bold py-4 px-10 rounded-[6px] hover:bg-white/15 transition-all"
           >
             Contact Sales
           </button>

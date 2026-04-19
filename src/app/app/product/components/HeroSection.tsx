@@ -37,7 +37,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <span className="inline-flex items-center gap-2 bg-[#007cae]/20 text-[#007cae] text-sm font-bold px-4 py-2 rounded-full mb-6 border border-[#007cae]/30">
+          <span className="inline-flex items-center gap-2 bg-[#007cae]/20 text-[#007cae] text-sm font-bold px-4 py-2 rounded-[6px] mb-6 border border-[#007cae]/30">
             <Icon icon="mdi:augmented-reality" width={16} />
             Product Overview
           </span>
@@ -55,13 +55,13 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => router.push("/app/sign-up")}
-              className="bg-[#007cae] text-white font-bold px-8 py-3.5 rounded-full hover:bg-[#006080] transition-all shadow-lg shadow-[#007cae]/25 hover:shadow-[#007cae]/40 transform hover:-translate-y-0.5"
+              className="bg-[#007cae] text-white font-bold px-8 py-3.5 rounded-[6px] hover:bg-[#006080] transition-all shadow-lg shadow-[#007cae]/25 hover:shadow-[#007cae]/40 transform hover:-translate-y-0.5"
             >
               Start as a Seller
             </button>
             <button
               onClick={() => router.push("/app/pricing")}
-              className="border border-white/20 text-white font-semibold px-8 py-3.5 rounded-full hover:bg-white/10 transition-all"
+              className="border border-white/20 text-white font-semibold px-8 py-3.5 rounded-[6px] hover:bg-white/10 transition-all"
             >
               View Pricing Plans
             </button>
@@ -79,7 +79,7 @@ export function HeroSection() {
         ].map((stat, i) => (
           <div
             key={i}
-            className="bg-white/5 border border-white/10 rounded-2xl px-4 py-5 text-center"
+            className="bg-white/5 border border-white/10 rounded-[6px] px-4 py-5 text-center"
           >
             <p className="text-[#007cae] text-xl sm:text-2xl font-extrabold mb-1">
               {stat.value}

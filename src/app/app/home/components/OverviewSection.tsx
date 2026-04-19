@@ -20,8 +20,8 @@ export function OverviewSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Card 1: Marketplace */}
-          <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
+          <div className="group bg-white rounded-[6px] p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="h-48 mb-6 rounded-[6px] overflow-hidden bg-slate-100 relative">
               <Image
                 src="/assets/marketplace.jpg"
                 alt="Marketplace"
@@ -52,7 +52,7 @@ export function OverviewSection() {
                   className="text-[#007cae] mt-1 shrink-0"
                   width={18}
                 />
-                <span>Publish listings inside SnapTap marketplace</span>
+                <span>Publish listings using SnapTap</span>
               </li>
               <li className="flex items-start gap-2">
                 <Icon
@@ -68,14 +68,14 @@ export function OverviewSection() {
                   className="text-[#007cae] mt-1 shrink-0"
                   width={18}
                 />
-                <span>Direct customer-to-seller contact</span>
+                <span>Direct customer-to-seller contact (coming soon)</span>
               </li>
             </ul>
           </div>
 
           {/* Card 2: Restaurant Menu */}
-          <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
+          <div className="group bg-white rounded-[6px] p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="h-48 mb-6 rounded-[6px] overflow-hidden bg-slate-100 relative">
               <Image
                 src="/assets/dining_2.webp"
                 alt="Restaurant Menu"
@@ -130,8 +130,8 @@ export function OverviewSection() {
           </div>
 
           {/* Card 3: Business Product */}
-          <div className="group bg-white rounded-2xl p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="h-48 mb-6 rounded-xl overflow-hidden bg-slate-100 relative">
+          <div className="group bg-white rounded-[6px] p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="h-48 mb-6 rounded-[6px] overflow-hidden bg-slate-100 relative">
               <Image
                 src="/assets/scan_view_3.jpg"
                 alt="Business Product"

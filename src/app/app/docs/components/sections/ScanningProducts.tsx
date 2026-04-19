@@ -1,16 +1,21 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { SectionHeading, SubHeading, InfoBox, StepList, CheckList } from "../shared";
+import {
+  SectionHeading,
+  SubHeading,
+  InfoBox,
+  StepList,
+  CheckList,
+} from "../shared";
 
 export function ScanningProducts() {
   return (
     <section id="scanning" className="mb-16 scroll-mt-28">
       <SectionHeading>Scanning Products</SectionHeading>
       <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-        The quality of your final AR product is determined by how you
-        scan it. Follow these guidelines to get accurate, photorealistic
-        3D models.
+        The quality of your final AR product is determined by how you scan it.
+        Follow these guidelines to get accurate, photorealistic 3D models.
       </p>
 
       <SubHeading id="scan-requirements">
@@ -38,22 +43,17 @@ export function ScanningProducts() {
             iconColor: "text-red-400",
             items: [
               "Standard iPhone models (no LiDAR)",
+              "iPhone 11 series and older",
               "Any Android device",
               "iPad (scanning not supported in app)",
-              "iOS 16 or older",
+              "iOS 17 or older",
             ],
           },
         ].map((box, i) => (
-          <div key={i} className={`${box.color} border rounded-xl p-4`}>
+          <div key={i} className={`${box.color} border rounded-[6px] p-4`}>
             <div className="flex items-center gap-2 mb-3">
-              <Icon
-                icon={box.icon}
-                className={box.iconColor}
-                width={18}
-              />
-              <p className="font-bold text-slate-800 text-sm">
-                {box.title}
-              </p>
+              <Icon icon={box.icon} className={box.iconColor} width={18} />
+              <p className="font-bold text-slate-800 text-sm">{box.title}</p>
             </div>
             <ul className="space-y-1">
               {box.items.map((item, j) => (
@@ -66,9 +66,7 @@ export function ScanningProducts() {
         ))}
       </div>
 
-      <SubHeading id="scan-tips">
-        Scanning Tips for Best Results
-      </SubHeading>
+      <SubHeading id="scan-tips">Scanning Tips for Best Results</SubHeading>
       <div className="space-y-4 mb-4">
         {[
           {
@@ -99,14 +97,10 @@ export function ScanningProducts() {
         ].map((tip, i) => (
           <div
             key={i}
-            className="flex gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100"
+            className="flex gap-4 p-4 bg-slate-50 rounded-[6px] border border-slate-100"
           >
             <div className="w-9 h-9 rounded-lg bg-[#007cae]/10 flex items-center justify-center shrink-0">
-              <Icon
-                icon={tip.icon}
-                className="text-[#007cae]"
-                width={18}
-              />
+              <Icon icon={tip.icon} className="text-[#007cae]" width={18} />
             </div>
             <div>
               <p className="font-bold text-slate-800 text-sm mb-1">
@@ -122,22 +116,22 @@ export function ScanningProducts() {
 
       <SubHeading id="scan-upload">Uploading to SnapTap</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        Once you finish scanning in the iOS app, you'll upload the model
-        along with a product image and details.
+        Once you finish scanning in the iOS app, you'll upload the model along
+        with a product image and details.
       </p>
       <StepList
         steps={[
           {
-            title: "Finish Scan in the iOS App",
-            desc: "The SnapTap app captures the LiDAR data and generates a model file on your device.",
-          },
-          {
-            title: "Enter Product Details",
+            title: "Enter Details",
             desc: "Add the product name, description, price, and category. Upload a product thumbnail image (used in listings and your dashboard).",
           },
           {
             title: "Choose Visibility",
             desc: "Set the product as Active (visible to customers) or Inactive (draft, not yet visible). You can toggle this anytime from the dashboard.",
+          },
+          {
+            title: "Scan Product",
+            desc: "The SnapTap app captures the LiDAR data and generates a 3D model.",
           },
           {
             title: "Submit",
@@ -146,19 +140,16 @@ export function ScanningProducts() {
         ]}
       />
       <InfoBox type="info">
-        Uploading uses one scan from your monthly quota. If your quota
-        reaches zero, uploads are blocked until your plan renews or you
-        upgrade.
+        Uploading uses one scan from your monthly quota. If your quota reaches
+        zero, uploads are blocked until upgrade or free up space by deleting old
+        products.
       </InfoBox>
 
-      <SubHeading id="scan-area-mode">
-        Area Mode Functionality (New)
-      </SubHeading>
+      <SubHeading id="scan-area-mode">Area Mode Functionality (New)</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        SnapTap now supports <strong>Area Mode</strong>, designed
-        specifically for scanning rooms, portions of rooms, and large
-        objects (like furniture or outdoor setups) that don't fit into a
-        standard object scan.
+        SnapTap now supports <strong>Area Mode</strong>, designed specifically
+        for scanning rooms, portions of rooms, and large objects (like furniture
+        or outdoor setups) that don't fit into a standard object scan.
       </p>
       <CheckList
         items={[
@@ -169,9 +160,9 @@ export function ScanningProducts() {
         ]}
       />
       <InfoBox type="tip">
-        When using Area Mode, ensure smooth movements and capture
-        overlapping areas when resuming after a pause. The same lighting
-        recommendations apply!
+        When using Area Mode, ensure smooth movements and capture overlapping
+        areas when resuming after a pause. The same lighting recommendations
+        apply!
       </InfoBox>
     </section>
   );

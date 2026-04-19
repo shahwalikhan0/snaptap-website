@@ -124,7 +124,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
           <Card
             key={p.id}
             className={`
-              rounded-3xl shadow-sm hover:shadow-md transition-all border-slate-100 overflow-hidden
+              rounded-[6px] shadow-sm hover:shadow-md transition-all border-slate-100 overflow-hidden
               ${Brand.subscribed_package_id === p.id ? "ring-2 ring-[#007cae] border-transparent" : ""}
             `}
           >
@@ -132,7 +132,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-slate-800">{p.name}</h3>
                 {Brand.subscribed_package_id === p.id && (
-                  <Tag color="cyan" className="rounded-full px-3 py-0.5 font-bold uppercase text-[10px] tracking-widest border-none bg-cyan-50 text-cyan-600">Current</Tag>
+                  <Tag color="cyan" className="rounded-[6px] px-3 py-0.5 font-bold uppercase text-[10px] tracking-widest border-none bg-cyan-50 text-cyan-600">Current</Tag>
                 )}
               </div>
               <div className="flex items-baseline gap-1 mb-2">
@@ -159,7 +159,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 block
                 size="large"
                 loading={loadingPlanId === p.id}
-                className="h-12 rounded-xl !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
+                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
                 onClick={() => handleUpdatePlan(p.id, p.name)}
               >
                 Upgrade to {p.name}
@@ -169,7 +169,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 danger
                 block
                 size="large"
-                className="h-12 rounded-xl font-bold hover:bg-red-50"
+                className="h-12 rounded-[6px] font-bold hover:bg-red-50"
                 onClick={() => setIsCancelModalVisible(true)}
               >
                 Cancel Subscription
@@ -181,7 +181,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
         {/* Custom Plan Selection Card */}
         <Card
           className={`
-            rounded-3xl shadow-sm hover:shadow-md transition-all border-slate-100 
+            rounded-[6px] shadow-sm hover:shadow-md transition-all border-slate-100 
             ${Brand.subscribed_package_id === 4 ? "ring-2 ring-[#007cae] border-transparent" : "bg-slate-50/50"}
           `}
         >
@@ -192,7 +192,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               <span className="text-slate-400 font-medium">/ month</span>
             </div>
 
-            <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 mb-6">
+            <div className="bg-white p-4 sm:p-6 rounded-[6px] border border-slate-200 mb-6">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Number of Products</span>
                 <InputNumber
@@ -223,7 +223,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
             size="large"
             disabled={Brand.subscribed_package_id === 4}
             loading={loadingPlanId === 4}
-            className={`h-12 rounded-xl font-bold !text-white ${Brand.subscribed_package_id !== 4 ? "!bg-[#007cae] hover:!bg-[#006080] border-none" : ""}`}
+            className={`h-12 rounded-[6px] font-bold !text-white ${Brand.subscribed_package_id !== 4 ? "!bg-[#007cae] hover:!bg-[#006080] border-none" : ""}`}
             onClick={() => handleUpdatePlan(4, "Custom", customScans)}
           >
             {Brand.subscribed_package_id === 4 ? "Currently Active" : "Submit Custom Selection"}
@@ -240,7 +240,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
         }}
         footer={null}
         centered
-        className="[&_.ant-modal-content]:!rounded-3xl"
+        className="[&_.ant-modal-content]:!rounded-[6px]"
       >
         <div className="p-2">
           <p className="text-slate-600 mb-6 leading-relaxed">
@@ -254,7 +254,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 size="large"
                 value={cancelPassword}
                 onChange={(e) => setCancelPassword(e.target.value)}
-                className="h-12 rounded-xl border-slate-200 focus:border-red-500 hover:border-red-500/50"
+                className="h-12 rounded-[6px] border-slate-200 focus:border-red-500 hover:border-red-500/50"
                 placeholder="Your password"
               />
             </Form.Item>
@@ -266,7 +266,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               loading={cancelling}
               onClick={handleCancelPlan}
               disabled={!cancelPassword}
-              className="mt-2 h-12 rounded-xl font-bold"
+              className="mt-2 h-12 rounded-[6px] font-bold"
             >
               Understand & Cancel Subscription
             </Button>

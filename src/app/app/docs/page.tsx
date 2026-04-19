@@ -72,7 +72,7 @@ export default function DocsPage() {
           />
 
           {/* ── Main Content ──────────────────────────────────────────────── */}
-          <main className="flex-1 min-w-0 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10 lg:p-14">
+          <main className="flex-1 min-w-0 bg-white rounded-[6px] shadow-sm border border-slate-200 p-6 sm:p-10 lg:p-14">
             <Introduction />
             <Divider />
             <GettingStarted />

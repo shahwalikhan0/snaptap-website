@@ -54,9 +54,9 @@ export function CustomerExperience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="text-center p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#007cae]/20 transition-all bg-slate-50"
+              className="text-center p-6 rounded-[6px] border border-slate-100 shadow-sm hover:shadow-md hover:border-[#007cae]/20 transition-all bg-slate-50"
             >
-              <div className="w-14 h-14 rounded-2xl bg-[#007cae]/10 flex items-center justify-center mx-auto mb-4">
+              <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mx-auto mb-4">
                 <Icon
                   icon={item.icon}
                   className="text-[#007cae]"
