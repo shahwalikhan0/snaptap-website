@@ -27,6 +27,9 @@ export default function Footer() {
         <div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">SnapTap</h2>
           <p className="text-sm text-slate-500 mb-3 max-w-xs leading-relaxed">
+            You scan, we process — your customers experience.
+          </p>
+          <p className="text-sm text-slate-500 mb-3 max-w-xs leading-relaxed">
             Helping businesses bring physical products to life through immersive
             augmented reality experiences.
           </p>
