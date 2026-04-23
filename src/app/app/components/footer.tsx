@@ -43,8 +43,10 @@ export default function Footer() {
               </span>
             </a>
             <p className="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
-              Transforming physical retail through immersive AR experiences. 
-              <span className="text-slate-200 block mt-1 font-medium">You scan, we process — your customers experience.</span>
+              Transforming physical retail through immersive AR experiences.
+              <span className="text-slate-200 block mt-1 font-medium">
+                You scan, we process — your customers experience.
+              </span>
             </p>
             <div className="flex items-center gap-3 text-lg mt-2">
               <a
@@ -72,27 +74,90 @@ export default function Footer() {
 
           {/* Navigation Columns */}
           <div className="lg:col-span-2 flex flex-col gap-4">
-            <h3 className="text-[11px] font-bold text-white uppercase tracking-widest">Product</h3>
+            <h3 className="text-[11px] font-bold text-white uppercase tracking-widest">
+              Product
+            </h3>
             <ul className="flex flex-col gap-2.5 text-xs font-medium">
-              <li><a href="/app/product" className="hover:text-snaptap-blue transition-colors">Platform</a></li>
-              <li><a href="/app/inventory" className="hover:text-snaptap-blue transition-colors">Dashboard</a></li>
-              <li><a href="/app/pricing" className="hover:text-snaptap-blue transition-colors">Pricing</a></li>
-              <li><a href="/app/docs" className="hover:text-snaptap-blue transition-colors">Documentation</a></li>
+              <li>
+                <a
+                  href="/app/product"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Platform
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/app/inventory"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Dashboard
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/app/pricing"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/app/docs"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Documentation
+                </a>
+              </li>
             </ul>
           </div>
 
           <div className="lg:col-span-2 flex flex-col gap-4">
-            <h3 className="text-[11px] font-bold text-white uppercase tracking-widest">Company</h3>
+            <h3 className="text-[11px] font-bold text-white uppercase tracking-widest">
+              Company
+            </h3>
             <ul className="flex flex-col gap-2.5 text-xs font-medium">
-              <li><a href="/navigations/contact" className="hover:text-snaptap-blue transition-colors">Contact Us</a></li>
-              <li><a href="/navigations/privacy" className="hover:text-snaptap-blue transition-colors">Privacy Policy</a></li>
-              <li><a href="/navigations/terms" className="hover:text-snaptap-blue transition-colors">Terms of Service</a></li>
+              <li>
+                <a
+                  href="/app/solara"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/navigations/contact"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/navigations/privacy"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/navigations/terms"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Terms of Service
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Call to Action */}
           <div className="lg:col-span-4 flex flex-col gap-4">
-            <h3 className="text-[11px] font-bold text-white uppercase tracking-widest">Get Started</h3>
+            <h3 className="text-[11px] font-bold text-white uppercase tracking-widest">
+              Get Started
+            </h3>
             <div className="bg-gradient-to-br from-white/10 to-white/5 border border-white/10 p-5 rounded-[6px] backdrop-blur-md shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-[#00A8DE]/0 via-[#00A8DE]/10 to-[#00A8DE]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               <p className="text-xs text-slate-300 mb-4 font-medium italic relative z-10">
@@ -111,11 +176,12 @@ export default function Footer() {
                   href="/app/sign-up"
                   className="flex items-center justify-center gap-2 text-[#00A8DE] text-sm font-bold px-3 py-1.5 hover:text-white transition-colors group/link"
                 >
-                  Seller Registration <ArrowRightOutlined className="text-xs group-hover/link:translate-x-1 transition-transform" />
+                  Seller Registration{" "}
+                  <ArrowRightOutlined className="text-xs group-hover/link:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-2 mt-1">
               <span className="w-1.5 h-1.5 rounded-full bg-[#007cae] flex-shrink-0" />
               <p className="text-[11px] text-slate-400 flex-1">
@@ -131,10 +197,12 @@ export default function Footer() {
             © {currentYear} SNAPTAP TECHNOLOGIES. ALL RIGHTS RESERVED.
           </p>
           <div className="flex items-center gap-6">
-             <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Systems Active</span>
-             </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                Systems Active
+              </span>
+            </div>
           </div>
         </div>
       </motion.div>

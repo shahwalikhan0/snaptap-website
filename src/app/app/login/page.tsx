@@ -174,23 +174,23 @@ const LoginPage = () => {
                 rules={[
                   { required: true, message: "Password is required" },
                 ]}
-                className="!mb-6"
+                className="!mb-1"
               >
                 <Input.Password
                   prefix={<LockOutlined className="text-[#888888] mr-2" />}
                   placeholder="••••••••••••"
                   className="h-13 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
                 />
-                <div className="flex justify-end mt-2">
-                  <button
-                    type="button"
-                    onClick={() => router.push("/app/forgot-password")}
-                    className="text-[11px] font-bold text-[#007cae] hover:text-[#006080] transition-colors uppercase tracking-wider underline-offset-4 hover:underline"
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
               </Form.Item>
+              <div className="flex justify-end mb-6">
+                <button
+                  type="button"
+                  onClick={() => router.push("/app/forgot-password")}
+                  className="text-[11px] font-bold text-[#007cae] hover:text-[#006080] transition-colors uppercase tracking-wider underline-offset-4 hover:underline"
+                >
+                  Forgot Password?
+                </button>
+              </div>
 
               <Form.Item className="!mb-6">
                 <Button
