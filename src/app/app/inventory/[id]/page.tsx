@@ -32,7 +32,9 @@ export default function ProductDetailsPage() {
 
     if (!isLoggedIn) {
       toast.error("Please log in to access the Product Details.");
-      router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
+      router.push(
+        `/app/login?redirect=${encodeURIComponent(window.location.pathname)}`,
+      );
       return;
     }
     const fetchProduct = async () => {
@@ -40,10 +42,7 @@ export default function ProductDetailsPage() {
         const res = await api.get(`/product/detail-for-brand/${id}`);
 
         const row = res.data?.data;
-        if (
-          !row ||
-          Number(row.brand_id) !== Number(Admin?.id)
-        ) {
+        if (!row || Number(row.brand_id) !== Number(Admin?.id)) {
           alert("Product not found.");
           router.push("/app/inventory");
           return;
@@ -141,7 +140,7 @@ export default function ProductDetailsPage() {
     }
 
     try {
-      const response = await fetch(product.qr_code_url);
+      const response = await fetch(product?.qr_code_url);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -179,41 +178,41 @@ export default function ProductDetailsPage() {
   return (
     <div className="w-full px-3 sm:px-6 md:px-10 lg:px-20 py-10 sm:py-16 bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFEFF] min-h-screen">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
-      
+
       <div className="max-w-5xl mx-auto" style={{ marginTop: "5vh" }}>
-        <DeleteConfirmModal 
-          visible={showDeleteConfirm} 
-          onCancel={() => setShowDeleteConfirm(false)} 
+        <DeleteConfirmModal
+          visible={showDeleteConfirm}
+          onCancel={() => setShowDeleteConfirm(false)}
           onConfirm={() => {
             setShowDeleteConfirm(false);
             handleDelete();
-          }} 
-          deleting={deleting} 
+          }}
+          deleting={deleting}
         />
 
-        <ProductDetailCard 
-          product={product} 
-          onEdit={() => setEditing(true)} 
-          onViewQR={() => setShowQRModal(true)} 
-          onCopyUrl={handleCopyUrl} 
-          onDelete={confirmDelete} 
-          deleting={deleting} 
+        <ProductDetailCard
+          product={product}
+          onEdit={() => setEditing(true)}
+          onViewQR={() => setShowQRModal(true)}
+          onCopyUrl={handleCopyUrl}
+          onDelete={confirmDelete}
+          deleting={deleting}
         />
 
-        <EditProductModal 
-          visible={editing} 
-          onCancel={() => setEditing(false)} 
-          onUpdate={handleUpdate} 
-          updating={updating} 
-          form={form} 
+        <EditProductModal
+          visible={editing}
+          onCancel={() => setEditing(false)}
+          onUpdate={handleUpdate}
+          updating={updating}
+          form={form}
         />
 
-        <QRCodeModal 
-          visible={showQRModal} 
-          onCancel={() => setShowQRModal(false)} 
-          onDownload={handleDownloadQR} 
-          productName={product?.name || "Product"} 
-          qrCodeUrl={product?.qr_code_url} 
+        <QRCodeModal
+          visible={showQRModal}
+          onCancel={() => setShowQRModal(false)}
+          onDownload={handleDownloadQR}
+          productName={product?.name || "Product"}
+          qrCodeUrl={product?.qr_code_url}
         />
       </div>
     </div>

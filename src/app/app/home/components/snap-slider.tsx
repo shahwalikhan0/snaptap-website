@@ -73,7 +73,7 @@ export const SnapSlider = () => {
         setTimeout(() => {
           setActive(idx);
           setAnimating(false);
-        }, 350);
+        }, 250);
         prevActive.current = idx;
       }
     };
@@ -91,7 +91,7 @@ export const SnapSlider = () => {
      */
     <div
       ref={wrapperRef}
-      style={{ height: `${slides.length * 180}vh`, width: "100vw" }}
+      style={{ height: `${slides.length * 120}vh`, width: "100vw" }}
       className="relative"
     >
       {/* Sticky inner — stays pinned while the wrapper is in view */}
@@ -136,12 +136,12 @@ export const SnapSlider = () => {
             {/* Left: Text */}
             <div
               style={{
-                transition: "opacity 0.35s ease, transform 0.35s ease",
+                transition: "opacity 0.25s ease, transform 0.25s ease",
                 opacity: animating ? 0 : 1,
                 transform: animating
                   ? direction === "down"
-                    ? "translateY(24px)"
-                    : "translateY(-24px)"
+                    ? "translateY(16px)"
+                    : "translateY(-16px)"
                   : "translateY(0)",
               }}
             >
@@ -200,12 +200,12 @@ export const SnapSlider = () => {
             {/* Right: Image */}
             <div
               style={{
-                transition: "opacity 0.35s ease, transform 0.35s ease",
+                transition: "opacity 0.25s ease, transform 0.25s ease",
                 opacity: animating ? 0 : 1,
                 transform: animating
                   ? direction === "down"
-                    ? "translateY(-24px)"
-                    : "translateY(24px)"
+                    ? "translateY(-16px)"
+                    : "translateY(16px)"
                   : "translateY(0)",
               }}
               className="relative"

@@ -6,9 +6,9 @@ export function HowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      className="py-12 sm:py-16 px-4 sm:px-6 md:px-12 bg-slate-50"
+      className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-24 bg-slate-50"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             How SnapTap Works
@@ -75,28 +75,30 @@ export function HowItWorksSection() {
             ))}
           </div>
         </div>
-      </div>
-      <div className="mt-12 sm:mt-16 w-full bg-gradient-to-r from-slate-50 to-slate-100 rounded-[6px] border border-slate-200 shadow-sm p-6 sm:p-10 mb-16 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex-1 md:pr-8 text-center md:text-left">
-          <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center justify-center md:justify-start gap-3 mb-4">
-            <Icon
-              icon="mdi:line-scan"
-              className="text-[#007cae] w-8 h-8 md:w-10 md:h-10"
+
+        {/* Try it yourself card - Now inside the max-w-6xl container */}
+        <div className="mt-20 w-full bg-gradient-to-r from-slate-50 to-slate-200 rounded-[6px] border border-slate-200 shadow-sm p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex-1 md:pr-8 text-center md:text-left">
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center justify-center md:justify-start gap-3 mb-4">
+              <Icon
+                icon="mdi:line-scan"
+                className="text-[#007cae] w-8 h-8 md:w-10 md:h-10"
+              />
+              Try it yourself!
+            </h3>
+            <p className="text-lg text-slate-600">
+              Curious how our AR technology looks in action? Just open your
+              phone's camera, scan the QR code, and experience a fully interactive
+              3D model right in your own space—no app required!
+            </p>
+          </div>
+          <div className="flex-shrink-0 bg-white p-4 rounded-[6px] shadow-lg border border-slate-100 transform hover:scale-105 transition-transform duration-300">
+            <img
+              src="/assets/qr-code.png"
+              alt="Scan to try AR"
+              className="w-48 h-48 sm:w-56 sm:h-56 object-contain"
             />
-            Try it yourself!
-          </h3>
-          <p className="text-lg text-slate-600">
-            Curious how our AR technology looks in action? Just open your
-            phone's camera, scan the QR code, and experience a fully interactive
-            3D model right in your own space—no app required!
-          </p>
-        </div>
-        <div className="flex-shrink-0 bg-white p-4 rounded-[6px] shadow-lg border border-slate-100 transform hover:scale-105 transition-transform duration-300">
-          <img
-            src="/assets/qr-code.png"
-            alt="Scan to try AR"
-            className="w-48 h-48 sm:w-56 sm:h-56 object-contain"
-          />
+          </div>
         </div>
       </div>
     </section>
