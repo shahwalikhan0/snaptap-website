@@ -67,7 +67,21 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
 
   /* Custom Plan State */
-  const [customScans, setCustomScans] = useState(81);
+  const [customScans, setCustomScans] = useState(() => {
+    const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
+    const minScans = Math.max(81, totalProducts);
+    return Brand?.subscribed_package_id === 4 && Brand?.total_scans ? Math.max(minScans, Brand.total_scans) : minScans;
+  });
+
+  React.useEffect(() => {
+    const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
+    const minScans = Math.max(81, totalProducts);
+    if (Brand?.subscribed_package_id === 4 && Brand?.total_scans) {
+      setCustomScans(Math.max(minScans, Brand.total_scans));
+    } else {
+      setCustomScans(minScans);
+    }
+  }, [Brand?.subscribed_package_id, Brand?.total_scans, Brand?.active_products, Brand?.in_active_products]);
   const BASE_CUSTOM_PRICE = 6000;
   const customPrice = BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
 
@@ -194,18 +208,26 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               ))}
             </div>
 
-            {Brand.subscribed_package_id !== p.id ? (
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loadingPlanId === p.id}
-                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white"
-                onClick={() => handleUpdatePlan(p.id, p.name)}
-              >
-                Upgrade to {p.name}
-              </Button>
-            ) : (
+            {Brand.subscribed_package_id !== p.id ? (() => {
+              const totalProducts = (Brand.active_products || 0) + (Brand.in_active_products || 0);
+              const planLimit = p.id === 1 ? 20 : p.id === 2 ? 50 : p.id === 3 ? 80 : 0;
+              const isDowngradeBlocked = totalProducts > planLimit;
+              const isDowngrade = (Brand.subscribed_package_id || 0) > p.id || Brand.subscribed_package_id === 4;
+              
+              return (
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  disabled={isDowngradeBlocked}
+                  loading={loadingPlanId === p.id}
+                  className={`h-12 rounded-[6px] font-bold border-none !text-white ${isDowngradeBlocked ? "!bg-slate-300" : "!bg-[#007cae] hover:!bg-[#006080]"}`}
+                  onClick={() => handleUpdatePlan(p.id, p.name)}
+                >
+                  {isDowngradeBlocked ? `Delete ${totalProducts - planLimit} product(s) to downgrade` : isDowngrade ? `Downgrade to ${p.name}` : `Upgrade to ${p.name}`}
+                </Button>
+              );
+            })() : (
               <Button
                 danger
                 block
@@ -233,28 +255,38 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               <span className="text-slate-400 font-medium">/ month</span>
             </div>
 
-            <div className="bg-white p-4 sm:p-6 rounded-[6px] border border-slate-200 mb-6">
+          <div className="bg-white p-4 sm:p-6 rounded-[6px] border border-slate-200 mb-6">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Number of Products</span>
-                <InputNumber
-                  min={81}
-                  disabled={Brand.subscribed_package_id === 4}
-                  max={1000}
-                  value={customScans}
-                  onChange={(v) => setCustomScans(v || 81)}
-                  className="rounded-lg border-slate-200 w-20"
-                />
+                {(() => {
+                  const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
+                  const minScans = Math.max(81, totalProducts);
+                  return (
+                    <InputNumber
+                      min={minScans}
+                      max={1000}
+                      value={customScans}
+                      onChange={(v) => setCustomScans(v || minScans)}
+                      className="rounded-lg border-slate-200 w-20"
+                    />
+                  );
+                })()}
               </div>
-              <Slider
-                min={81}
-                max={500}
-                value={customScans}
-                onChange={setCustomScans}
-                disabled={Brand.subscribed_package_id === 4}
-                className="mb-0"
-                trackStyle={{ backgroundColor: "#007cae" }}
-                handleStyle={{ borderColor: "#007cae", backgroundColor: "#007cae" }}
-              />
+              {(() => {
+                const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
+                const minScans = Math.max(81, totalProducts);
+                return (
+                  <Slider
+                    min={minScans}
+                    max={500}
+                    value={customScans}
+                    onChange={setCustomScans}
+                    className="mb-0"
+                    trackStyle={{ backgroundColor: "#007cae" }}
+                    handleStyle={{ borderColor: "#007cae", backgroundColor: "#007cae" }}
+                  />
+                );
+              })()}
             </div>
           </div>
 
@@ -267,17 +299,39 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
             ))}
           </div>
 
-          <Button
-            type="primary"
-            block
-            size="large"
-            disabled={Brand.subscribed_package_id === 4}
-            loading={loadingPlanId === 4}
-            className={`h-12 rounded-[6px] font-bold !text-white ${Brand.subscribed_package_id !== 4 ? "!bg-[#007cae] hover:!bg-[#006080] border-none" : ""}`}
-            onClick={() => handleUpdatePlan(4, "Custom", customScans)}
-          >
-            {Brand.subscribed_package_id === 4 ? "Currently Active" : "Submit Custom Selection"}
-          </Button>
+          {Brand.subscribed_package_id !== 4 ? (
+            <Button
+              type="primary"
+              block
+              size="large"
+              loading={loadingPlanId === 4}
+              className="h-12 rounded-[6px] font-bold !text-white !bg-[#007cae] hover:!bg-[#006080] border-none"
+              onClick={() => handleUpdatePlan(4, "Custom", customScans)}
+            >
+              Submit Custom Selection
+            </Button>
+          ) : (
+            <div className="flex gap-3">
+              <Button
+                type="primary"
+                size="large"
+                className="flex-1 h-12 rounded-[6px] font-bold !text-white !bg-[#007cae] hover:!bg-[#006080] border-none"
+                loading={loadingPlanId === 4}
+                disabled={customScans === Brand.total_scans}
+                onClick={() => handleUpdatePlan(4, "Custom", customScans)}
+              >
+                Update Plan
+              </Button>
+              <Button
+                danger
+                size="large"
+                className="flex-1 h-12 rounded-[6px] font-bold hover:bg-red-50"
+                onClick={() => setIsCancelModalVisible(true)}
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
         </Card>
       </div>
 

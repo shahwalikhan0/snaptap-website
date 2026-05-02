@@ -18,8 +18,44 @@ export default function InventoryPage() {
 
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive">("all");
+
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [search]);
+
+  const fetchProducts = async (pageNum: number, currentSearch: string, currentStatus: string) => {
+    try {
+      if (pageNum === 1) setLoading(true);
+      else setLoadingMore(true);
+
+      const res = await api.get(`/product/brand-id?page=${pageNum}&limit=12&search=${encodeURIComponent(currentSearch)}&status=${currentStatus}`);
+      const newProducts = res.data?.data || res.data || [];
+      const hasMoreData = res.data?.hasMore ?? (newProducts.length === 12);
+      
+      setProducts(prev => pageNum === 1 ? newProducts : [...prev, ...newProducts]);
+      setHasMore(hasMoreData);
+    } catch (err: any) {
+      console.error("Failed to load products:", err);
+      if (err.code === 'ERR_NETWORK') {
+        toast.error("Server unreachable. Check your connection.");
+      } else {
+        toast.error("Failed to load products. Try again.");
+      }
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -27,25 +63,33 @@ export default function InventoryPage() {
       router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
+    setPage(1);
+    fetchProducts(1, debouncedSearch, statusFilter);
+  }, [Admin?.id, isLoggedIn, router, debouncedSearch, statusFilter]);
 
-    const fetchProducts = async () => {
-      try {
-        const res = await api.get("/product/brand-id");
-        setProducts(res.data?.data || res.data || []);
-      } catch (err: any) {
-        console.error("Failed to load products:", err);
-        if (err.code === 'ERR_NETWORK') {
-          toast.error("Server unreachable. Check your connection.");
-        } else {
-          toast.error("Failed to load products. Try again.");
+  useEffect(() => {
+    if (page > 1) {
+      fetchProducts(page, debouncedSearch, statusFilter);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading && !loadingMore) {
+          setPage((prev) => prev + 1);
         }
-      } finally {
-        setLoading(false);
-      }
+      },
+      { threshold: 0.1 }
+    );
+    
+    const target = document.querySelector("#inventory-load-more");
+    if (target) observer.observe(target);
+    
+    return () => {
+      if (target) observer.unobserve(target);
     };
-
-    fetchProducts();
-  }, [Admin?.id, isLoggedIn, router]);
+  }, [hasMore, loading, loadingMore]);
 
   const stats = useMemo(() => {
     return {
@@ -54,24 +98,6 @@ export default function InventoryPage() {
       inactive: products.filter(p => !p.is_active).length
     };
   }, [products]);
-
-  const filteredProducts = useMemo(() => {
-    if (!products) return [];
-    return products.filter((product) => {
-      const matchesSearch =
-        product?.name.toLowerCase().includes(search.toLowerCase()) ||
-        product?.category.toLowerCase().includes(search.toLowerCase());
-
-      const matchesStatus =
-        statusFilter === "all"
-          ? true
-          : statusFilter === "active"
-            ? product?.is_active
-            : !product?.is_active;
-
-      return matchesSearch && matchesStatus;
-    });
-  }, [products, search, statusFilter]);
 
   if (loading) {
     return (
@@ -97,17 +123,28 @@ export default function InventoryPage() {
           statusFilter={statusFilter} 
           setStatusFilter={setStatusFilter}
           stats={stats}
+          Admin={Admin}
         />
 
         {/* Content Section */}
-        {filteredProducts.length === 0 ? (
+        {products.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid gap-4 sm:gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product?.id} product={product} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-4 sm:gap-6">
+              {products.map((product) => (
+                <ProductCard key={product?.id} product={product} />
+              ))}
+            </div>
+            
+            {/* Infinite Scroll Trigger */}
+            <div id="inventory-load-more" className="h-10 mt-6 flex items-center justify-center">
+              {loadingMore && <Spin size="small" />}
+              {!hasMore && products.length > 0 && (
+                <p className="text-xs text-slate-400 font-medium">End of inventory.</p>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>

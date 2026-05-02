@@ -53,9 +53,31 @@ const LoginPage = () => {
     }
   };
 
-  const handleLogin = async () => {
+  const fetchBillingGateStatus = async (brandId: number, token: string) => {
     try {
-      const values = await form.validateFields();
+      if (!brandId || !token) return { requires_action: false, message: null };
+
+      const response = await axios.get(
+        `${BASE_URL}/billing/brand/${brandId}/status`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        },
+      );
+
+      const payload = response.data?.data;
+      return {
+        requires_action: Boolean(payload?.requires_action),
+        message: payload?.message ?? null,
+      };
+    } catch (error) {
+      // Fail open on website login: allow the user in even if billing status cannot be fetched.
+      return { requires_action: false, message: null };
+    }
+  };
+
+  const handleLogin = async (values: any) => {
+    try {
       const { username, password } = values;
       setLoading(true);
 
@@ -68,7 +90,7 @@ const LoginPage = () => {
       const { brand, accessToken, error } = response.data;
 
       if (error) {
-        toast.error(error?.response?.data?.error || "Login failed");
+        toast.error(error || "Login failed");
         return;
       }
 
@@ -81,6 +103,16 @@ const LoginPage = () => {
         if (brand.account_status === "deactivated" || brand.account_status === "pending_deletion") {
           router.replace("/app/reactivate");
         } else {
+          const gate = await fetchBillingGateStatus(brand.id, accessToken);
+          if (gate.requires_action) {
+            toast.error(
+              gate.message ||
+                "Your subscription requires attention. Please update your plan or billing details.",
+            );
+            router.replace("/app/subscription-page");
+            return;
+          }
+
           const searchParams = new URLSearchParams(window.location.search);
           const redirectUrl = searchParams.get("redirect");
           router.replace(redirectUrl || "/app/inventory");
@@ -93,7 +125,7 @@ const LoginPage = () => {
         toast.error("Server unreachable. Check your connection.");
       } else if (err.response?.data?.error) {
         toast.error(err.response.data.error);
-      } else if (err.name !== "ValidationError") {
+      } else {
         toast.error("Login failed. Please try again.");
       }
     } finally {

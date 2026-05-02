@@ -18,7 +18,8 @@ export function InventoryHeader({
   setSearch,
   statusFilter,
   setStatusFilter,
-}: InventoryHeaderProps) {
+  Admin,
+}: InventoryHeaderProps & { Admin: any }) {
   return (
     <div className="flex flex-col gap-4 mb-10">
       {/* Title Section */}
@@ -35,9 +36,21 @@ export function InventoryHeader({
           </h1>
         </div>
 
-        <div className="hidden lg:flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-[6px] border border-slate-100 mb-1">
-           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-           Cloud Synced
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href={`/app/showcase/${Admin?.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-white text-snaptap-blue-dark border border-slate-200 hover:border-snaptap-blue hover:text-snaptap-blue px-4 py-2 rounded-[6px] font-bold text-sm transition-all shadow-sm"
+          >
+            <Icon icon="mdi:qrcode" width={18} />
+            Product Showcase
+            <Icon icon="mdi:open-in-new" width={14} className="opacity-50" />
+          </a>
+          <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-[6px] border border-slate-100 mb-1">
+             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+             Cloud Synced
+          </div>
         </div>
       </div>
 

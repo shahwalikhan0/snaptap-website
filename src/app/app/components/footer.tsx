@@ -64,7 +64,8 @@ export default function Footer() {
                 <MailOutlined />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/snaptappk"
+                target="_blank"
                 className="w-8 h-8 rounded-[6px] bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#007cae] hover:border-[#007cae] hover:text-white transition-all duration-300 hover:-translate-y-1"
               >
                 <LinkedinOutlined />

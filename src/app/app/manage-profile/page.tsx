@@ -291,6 +291,21 @@ const ManageProfilePage = () => {
             />
             Edit Brand Info
           </button>
+
+          <a
+            href={`/app/showcase/${Admin?.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-[6px] font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-500 hover:bg-slate-100"
+          >
+            <Icon
+              icon="mdi:qrcode"
+              width={22}
+              className="text-slate-400"
+            />
+            Product Showcase
+            <Icon icon="mdi:open-in-new" width={14} className="text-slate-300 ml-auto" />
+          </a>
         </aside>
 
         {/* Content Area */}

@@ -242,7 +242,7 @@ const SignUpPage: React.FC = () => {
                   </span>
                 }
                 rules={[
-                  { required: true, message: "Required" },
+                  { required: true, message: "Password is required" },
                   { min: 6, message: "Min 6 chars" },
                 ]}
                 className="sm:col-span-1"
