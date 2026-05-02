@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Form, Input, Button, Typography } from "antd";
@@ -21,12 +21,13 @@ const { Title, Text } = Typography;
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+  const isLoggingIn = useRef(false);
   const [form] = Form.useForm();
   const { isLoggedIn, setToken, setBrand, setAdmin } = useAdmin();
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !isLoggingIn.current) {
       const searchParams = new URLSearchParams(window.location.search);
       const redirectUrl = searchParams.get("redirect");
       router.replace(redirectUrl || "/");
@@ -78,6 +79,7 @@ const LoginPage = () => {
 
   const handleLogin = async (values: any) => {
     try {
+      isLoggingIn.current = true;
       const { username, password } = values;
       setLoading(true);
 
@@ -100,7 +102,10 @@ const LoginPage = () => {
         toast.success(`Welcome back, ${brand.name || brand.username}!`);
         fetchBrand(brand.id, accessToken);
 
-        if (brand.account_status === "deactivated" || brand.account_status === "pending_deletion") {
+        if (
+          brand.account_status === "deactivated" ||
+          brand.account_status === "pending_deletion"
+        ) {
           router.replace("/app/reactivate");
         } else {
           const gate = await fetchBillingGateStatus(brand.id, accessToken);
@@ -150,7 +155,7 @@ const LoginPage = () => {
       <div className="flex-1 flex items-start justify-center p-6 md:p-12 pt-16 md:pt-24 relative overflow-hidden">
         {/* Subtle background decorative element for mobile/tablet */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#007cae]/5 rounded-full blur-3xl -mr-32 -mt-32 md:hidden" />
-        
+
         <div className="w-full max-w-[440px] z-10">
           <div className="bg-white p-8 md:p-10 rounded-[12px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
             {/* Mobile Logo / Branding */}
@@ -162,7 +167,10 @@ const LoginPage = () => {
                   width={34}
                 />
               </div>
-              <Title level={2} className="!mb-2 !text-[#2e2e2e] !font-black !text-3xl tracking-tight">
+              <Title
+                level={2}
+                className="!mb-2 !text-[#2e2e2e] !font-black !text-3xl tracking-tight"
+              >
                 Business Login
               </Title>
               <Text className="text-[#888888] font-medium">
@@ -181,15 +189,15 @@ const LoginPage = () => {
                 name="username"
                 label={
                   <div className="flex items-center justify-between w-full">
-                    <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">Username</span>
+                    <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">
+                      Username
+                    </span>
                     <span className="text-[10px] text-[#888888] font-bold uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                       Identity
                     </span>
                   </div>
                 }
-                rules={[
-                  { required: true, message: "Username is required" },
-                ]}
+                rules={[{ required: true, message: "Username is required" }]}
               >
                 <Input
                   prefix={<UserOutlined className="text-[#888888] mr-2" />}
@@ -201,11 +209,11 @@ const LoginPage = () => {
               <Form.Item
                 name="password"
                 label={
-                  <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">Password</span>
+                  <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">
+                    Password
+                  </span>
                 }
-                rules={[
-                  { required: true, message: "Password is required" },
-                ]}
+                rules={[{ required: true, message: "Password is required" }]}
                 className="!mb-1"
               >
                 <Input.Password
@@ -233,7 +241,10 @@ const LoginPage = () => {
                   className="h-13 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-black text-base shadow-xl shadow-[#007cae]/25 transition-all active:scale-[0.98] !text-white flex items-center justify-center gap-2 group"
                 >
                   Sign In to Dashboard
-                  <Icon icon="mdi:arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                  <Icon
+                    icon="mdi:arrow-right"
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
                 </Button>
               </Form.Item>
             </Form>
@@ -250,7 +261,7 @@ const LoginPage = () => {
               </p>
             </div>
           </div>
-          
+
           {/* Bottom Footer Info */}
           <div className="mt-8 text-center flex items-center justify-center gap-4 text-xs font-bold text-[#888888] uppercase tracking-widest">
             <span>Privacy</span>

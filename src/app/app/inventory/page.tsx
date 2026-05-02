@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import api from "@/app/utils/api";
 import { Spin } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
@@ -57,12 +57,17 @@ export default function InventoryPage() {
     }
   };
 
+  const hasMounted = useRef(false);
+
   useEffect(() => {
     if (!isLoggedIn) {
-      toast.error("Please log in to access your inventory.");
+      if (!hasMounted.current) {
+        toast.error("Please log in to access your inventory.");
+      }
       router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
+    hasMounted.current = true;
     setPage(1);
     fetchProducts(1, debouncedSearch, statusFilter);
   }, [Admin?.id, isLoggedIn, router, debouncedSearch, statusFilter]);

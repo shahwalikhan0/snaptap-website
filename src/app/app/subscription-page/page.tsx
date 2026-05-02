@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import SubscriptionComponent from "./subscription-component";
 import MyPlan from "./my-plan";
@@ -22,16 +22,20 @@ export default function SubscriptionPage() {
   const [selectedPage, setSelectedPage] = useState("my-plan");
   const [plan, setPlan] = useState<PlanType[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
     const fetchPackage = async () => {
       if (!isInitialized) return;
 
       if (!isLoggedIn) {
-        toast.error("Please log in to manage your subscription.");
+        if (!hasMounted.current) {
+          toast.error("Please log in to manage your subscription.");
+        }
         router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
         return;
       }
+      hasMounted.current = true;
       try {
         setLoading(true);
         const response = await axios.get(`${BASE_URL}/package`);

@@ -47,10 +47,6 @@ export function InventoryHeader({
             Product Showcase
             <Icon icon="mdi:open-in-new" width={14} className="opacity-50" />
           </a>
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-[6px] border border-slate-100 mb-1">
-             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-             Cloud Synced
-          </div>
         </div>
       </div>
 
@@ -67,22 +63,24 @@ export function InventoryHeader({
             size="large"
           />
         </div>
-        
+
         <div className="flex items-center gap-4 shrink-0 w-full md:w-auto">
-            <div className="flex flex-col gap-1.5 w-full md:w-auto">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em] ml-1">Status Filter</span>
-                <Segmented
-                  options={[
-                    { label: "All Items", value: "all" },
-                    { label: "Active", value: "active" },
-                    { label: "Inactive", value: "inactive" },
-                  ]}
-                  value={statusFilter}
-                  onChange={(val) => setStatusFilter(val as any)}
-                  className="p-1 rounded-[6px] bg-slate-100 font-bold text-xs"
-                  size="large"
-                />
-            </div>
+          <div className="flex flex-col gap-1.5 w-full md:w-auto">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em] ml-1">
+              Status Filter
+            </span>
+            <Segmented
+              options={[
+                { label: "All Items", value: "all" },
+                { label: "Active", value: "active" },
+                { label: "Inactive", value: "inactive" },
+              ]}
+              value={statusFilter}
+              onChange={(val) => setStatusFilter(val as any)}
+              className="p-1 rounded-[6px] bg-slate-100 font-bold text-xs"
+              size="large"
+            />
+          </div>
         </div>
       </div>
     </div>
