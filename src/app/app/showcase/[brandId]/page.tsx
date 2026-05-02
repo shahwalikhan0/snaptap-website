@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
+import { Modal } from "antd";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -29,6 +30,7 @@ export default function ShowcasePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedQR, setSelectedQR] = useState<string | null>(null);
 
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
 
@@ -231,16 +233,15 @@ export default function ShowcasePage() {
                     <div className="pt-3 border-t border-slate-100 mt-auto space-y-3">
                       <div className="flex items-center gap-3">
                         {product.qr_code_url ? (
-                          <div className="shrink-0 relative group/qr cursor-pointer">
-                            <img
-                              src={product?.qr_code_url}
-                              alt="QR"
-                              className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-slate-200 p-0.5"
-                            />
+                          <button
+                            onClick={() => setSelectedQR(product.qr_code_url)}
+                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-slate-200 bg-white hover:border-snaptap-blue hover:text-snaptap-blue flex items-center justify-center shrink-0 transition-colors group/qr relative"
+                          >
+                            <Icon icon="mdi:qrcode-scan" width={20} className="text-slate-500 group-hover/qr:text-snaptap-blue transition-colors" />
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-slate-800 text-white text-[10px] font-medium rounded opacity-0 group-hover/qr:opacity-100 transition-opacity pointer-events-none">
-                              Scan to View AR
+                              View QR
                             </div>
-                          </div>
+                          </button>
                         ) : (
                           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0">
                             <Icon
@@ -343,6 +344,30 @@ export default function ShowcasePage() {
           </div>
         </div>
       </footer>
+
+      {/* QR Code Modal */}
+      <Modal
+        open={!!selectedQR}
+        onCancel={() => setSelectedQR(null)}
+        footer={null}
+        centered
+        width={300}
+        className="[&_.ant-modal-content]:!rounded-[12px] [&_.ant-modal-content]:!p-8"
+      >
+        <div className="flex flex-col items-center text-center mt-4">
+          <div className="bg-slate-50 p-4 rounded-[12px] shadow-sm border border-slate-100 mb-6">
+            <img
+              src={selectedQR || ""}
+              alt="Scan to View AR"
+              className="w-48 h-48 object-contain mix-blend-multiply"
+            />
+          </div>
+          <h3 className="text-lg font-black text-slate-900 mb-2">Scan to View AR</h3>
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em]">
+            Use your phone's camera
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }
