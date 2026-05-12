@@ -5,7 +5,8 @@ import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const SITE_URL = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(/\/$/, "");
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
 
 type ShowcaseProduct = {
   id: number;
@@ -39,7 +40,10 @@ export default function ShowcasePage() {
   const handleGenerateBrandQR = async () => {
     try {
       setIsGeneratingBrandQR(true);
-      const url = `${BASE_URL}/app/showcase/${brandId}`;
+      const base =
+        SITE_URL ||
+        (typeof window !== "undefined" ? window.location.origin : "");
+      const url = `${base}/app/showcase/${brandId}`;
       const { generateBrandQRCode } =
         await import("@/app/utils/generateQRCode");
       const dataUrl = await generateBrandQRCode(url);
@@ -60,11 +64,19 @@ export default function ShowcasePage() {
 
   const fetchProducts = (pageNum: number, search: string) => {
     if (!brandId) return;
+    if (!API_URL) {
+      setError(
+        "Missing API configuration (NEXT_PUBLIC_API_URL). Ask the administrator to set it to your backend URL.",
+      );
+      setLoading(false);
+      setLoadingMore(false);
+      return;
+    }
     if (pageNum === 1) setLoading(true);
     else setLoadingMore(true);
 
     fetch(
-      `${BASE_URL}/product/showcase/${brandId}?page=${pageNum}&limit=10&search=${encodeURIComponent(search)}`,
+      `${API_URL}/product/showcase/${brandId}?page=${pageNum}&limit=10&search=${encodeURIComponent(search)}`,
     )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load products");
