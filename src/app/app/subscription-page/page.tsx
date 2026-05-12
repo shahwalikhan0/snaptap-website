@@ -14,7 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function SubscriptionPage() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function SubscriptionPage() {
       const alertMsg = params.get("alert");
       if (alertMsg) {
         setTimeout(() => toast.error(alertMsg), 300);
-        window.history.replaceState({}, '', window.location.pathname);
+        window.history.replaceState({}, "", window.location.pathname);
       }
     }
   }, []);
@@ -43,7 +43,9 @@ export default function SubscriptionPage() {
         if (!hasMounted.current) {
           toast.error("Please log in to manage your subscription.");
         }
-        router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
+        router.push(
+          `/app/login?redirect=${encodeURIComponent(window.location.pathname)}`,
+        );
         return;
       }
       hasMounted.current = true;
@@ -81,7 +83,9 @@ export default function SubscriptionPage() {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center bg-white gap-4">
         <Spin size="large" />
-        <p className="text-slate-400 font-medium animate-pulse">Loading Subscription Data...</p>
+        <p className="text-slate-400 font-medium animate-pulse">
+          Loading Subscription Data...
+        </p>
       </div>
     );
   }
@@ -93,7 +97,6 @@ export default function SubscriptionPage() {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
-
         {/* Left Nav — Sidebar style */}
         <aside className="w-full lg:w-[320px] lg:border-r border-slate-100 bg-slate-50/30 flex flex-col">
           <SubscriptionComponent
@@ -110,7 +113,6 @@ export default function SubscriptionPage() {
             </MotionContainer>
           </div>
         </main>
-
       </div>
     </div>
   );

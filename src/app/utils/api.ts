@@ -3,7 +3,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Create axios instance with base configuration
 const api = axios.create({
@@ -38,7 +38,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor - handle 401 and refresh token
@@ -63,11 +63,15 @@ api.interceptors.response.use(
       if (adminRaw) {
         try {
           const admin = JSON.parse(adminRaw);
-          admin.account_status = error.response.data.accountStatus || "deactivated";
+          admin.account_status =
+            error.response.data.accountStatus || "deactivated";
           Cookies.set("admin", JSON.stringify(admin), { expires: 7 });
         } catch {}
       }
-      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/app/reactivate")) {
+      if (
+        typeof window !== "undefined" &&
+        !window.location.pathname.startsWith("/app/reactivate")
+      ) {
         window.location.href = "/app/reactivate";
       }
       return Promise.reject(error);
@@ -94,7 +98,7 @@ api.interceptors.response.use(
         const response = await axios.post(
           `${BASE_URL}/brand/refresh-token`,
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         const { accessToken } = response.data;
@@ -123,7 +127,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

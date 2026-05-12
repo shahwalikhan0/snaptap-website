@@ -16,7 +16,7 @@ const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
 });
 import { AuthVisual } from "../components/auth/AuthVisual";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 const LoginPage = () => {
@@ -110,8 +110,12 @@ const LoginPage = () => {
         } else {
           const gate = await fetchBillingGateStatus(brand.id, accessToken);
           if (gate.requires_action) {
-            const msg = gate.message || "Your subscription requires attention. Please update your plan or billing details.";
-            router.replace(`/app/subscription-page?alert=${encodeURIComponent(msg)}`);
+            const msg =
+              gate.message ||
+              "Your subscription requires attention. Please update your plan or billing details.";
+            router.replace(
+              `/app/subscription-page?alert=${encodeURIComponent(msg)}`,
+            );
             return;
           }
 

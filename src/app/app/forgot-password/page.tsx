@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 const ForgotPasswordPage = () => {
@@ -31,13 +31,18 @@ const ForgotPasswordPage = () => {
       toast.success("Reset code sent! Check your email.", { autoClose: 4000 });
 
       // Keep loading=true so button stays disabled during redirect
-      router.push(`/app/reset-password?email=${encodeURIComponent(values.email)}`);
+      router.push(
+        `/app/reset-password?email=${encodeURIComponent(values.email)}`,
+      );
     } catch (err: any) {
       if (err.code === "ERR_NETWORK") {
         toast.error("Server unreachable. Check your connection.");
       } else if (err.response?.status === 404) {
         // Email not found — show inline error on the field
-        setEmailError(err.response.data.error || "No account found with that email address.");
+        setEmailError(
+          err.response.data.error ||
+            "No account found with that email address.",
+        );
       } else if (err.response?.data?.error) {
         toast.error(err.response.data.error);
       } else if (err.name !== "ValidationError") {
@@ -56,13 +61,18 @@ const ForgotPasswordPage = () => {
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
         <div className="z-10 text-center max-w-sm">
           <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
-            <Icon icon="mdi:email-lock-outline" className="text-[#007cae]" width={56} />
+            <Icon
+              icon="mdi:email-lock-outline"
+              className="text-[#007cae]"
+              width={56}
+            />
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
             Forgot your password?
           </h1>
           <p className="text-slate-600 text-lg">
-            No worries — enter your email and we&apos;ll send you a 6-digit reset code.
+            No worries — enter your email and we&apos;ll send you a 6-digit
+            reset code.
           </p>
         </div>
       </div>
@@ -73,7 +83,11 @@ const ForgotPasswordPage = () => {
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
             <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
-              <Icon icon="mdi:email-lock-outline" className="text-[#007cae]" width={32} />
+              <Icon
+                icon="mdi:email-lock-outline"
+                className="text-[#007cae]"
+                width={32}
+              />
             </div>
             <Title level={2} className="!mb-2 !text-slate-900 font-bold">
               Reset Password
@@ -83,10 +97,19 @@ const ForgotPasswordPage = () => {
             </Text>
           </div>
 
-          <Form form={form} layout="vertical" onFinish={handleSubmit} requiredMark={false}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleSubmit}
+            requiredMark={false}
+          >
             <Form.Item
               name="email"
-              label={<span className="font-semibold text-slate-700">Email Address</span>}
+              label={
+                <span className="font-semibold text-slate-700">
+                  Email Address
+                </span>
+              }
               rules={[
                 { required: true, message: "Please enter your email." },
                 { type: "email", message: "Please enter a valid email." },

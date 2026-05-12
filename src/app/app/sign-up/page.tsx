@@ -27,7 +27,7 @@ const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
 });
 import { AuthVisual } from "../components/auth/AuthVisual";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 const SignUpPage: React.FC = () => {

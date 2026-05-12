@@ -12,13 +12,14 @@ import { PlanCard } from "./components/PlanCard";
 import { CustomPlanCard } from "./components/CustomPlanCard";
 
 const { Title } = Typography;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function PricingComponent() {
   /* Custom Plan State */
   const [customScans, setCustomScans] = useState(81);
   const BASE_CUSTOM_PRICE = 6000;
-  const customPrice = BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
+  const customPrice =
+    BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
 
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);

@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const { Title, Paragraph } = Typography;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ReactivatePage() {
   const { Admin, setAdmin, token, logout } = useAdmin();
@@ -27,13 +27,15 @@ export default function ReactivatePage() {
   const handleAction = async () => {
     setLoading(true);
     try {
-      const endpoint = isPendingDeletion ? "/brand/cancel-deletion" : "/brand/reactivate";
+      const endpoint = isPendingDeletion
+        ? "/brand/cancel-deletion"
+        : "/brand/reactivate";
       const res = await axios.put(
         `${BASE_URL}${endpoint}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
-      
+
       if (res.data.success) {
         toast.success(res.data.message || "Account restored successfully!");
         if (Admin) {
@@ -55,13 +57,15 @@ export default function ReactivatePage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 items-center justify-center p-6 w-full">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
-      
+
       <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-[6px] shadow-xl text-center">
         <Result
           status={isPendingDeletion ? "warning" : "error"}
           title={
             <span className="text-2xl font-black text-slate-800">
-              {isPendingDeletion ? "Account Pending Deletion" : "Account Deactivated"}
+              {isPendingDeletion
+                ? "Account Pending Deletion"
+                : "Account Deactivated"}
             </span>
           }
           subTitle={
@@ -80,11 +84,18 @@ export default function ReactivatePage() {
               className="w-full mt-6 h-14 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-lg shadow-lg shadow-[#007cae]/20 transition-all"
               key="restore"
             >
-              {isPendingDeletion ? "Cancel Deletion & Restore" : "Reactivate Account"}
+              {isPendingDeletion
+                ? "Cancel Deletion & Restore"
+                : "Reactivate Account"}
             </Button>,
             <div key="logout-link" className="mt-6">
-               <button onClick={logout} className="text-slate-500 hover:text-red-500 font-semibold transition-colors">Log out instead</button>
-            </div>
+              <button
+                onClick={logout}
+                className="text-slate-500 hover:text-red-500 font-semibold transition-colors"
+              >
+                Log out instead
+              </button>
+            </div>,
           ]}
         />
       </div>

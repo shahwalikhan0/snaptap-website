@@ -40,7 +40,8 @@ export default function ShowcasePage() {
     try {
       setIsGeneratingBrandQR(true);
       const url = `${BASE_URL}/app/showcase/${brandId}`;
-      const { generateBrandQRCode } = await import("@/app/utils/generateQRCode");
+      const { generateBrandQRCode } =
+        await import("@/app/utils/generateQRCode");
       const dataUrl = await generateBrandQRCode(url);
       setBrandQRDataUrl(dataUrl);
     } catch (error) {
@@ -62,7 +63,9 @@ export default function ShowcasePage() {
     if (pageNum === 1) setLoading(true);
     else setLoadingMore(true);
 
-    fetch(`${BASE_URL}/product/showcase/${brandId}?page=${pageNum}&limit=10&search=${encodeURIComponent(search)}`)
+    fetch(
+      `${BASE_URL}/product/showcase/${brandId}?page=${pageNum}&limit=10&search=${encodeURIComponent(search)}`,
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load products");
         return res.json();
@@ -96,12 +99,7 @@ export default function ShowcasePage() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          hasMore &&
-          !loading &&
-          !loadingMore
-        ) {
+        if (entries[0].isIntersecting && hasMore && !loading && !loadingMore) {
           setPage((prev) => prev + 1);
         }
       },
@@ -168,7 +166,11 @@ export default function ShowcasePage() {
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <div className="relative w-full sm:w-72">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Icon icon="mdi:magnify" className="text-slate-400" width={20} />
+                <Icon
+                  icon="mdi:magnify"
+                  className="text-slate-400"
+                  width={20}
+                />
               </div>
               <input
                 type="text"
@@ -269,7 +271,11 @@ export default function ShowcasePage() {
                             onClick={() => setSelectedQR(product.qr_code_url)}
                             className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-slate-200 bg-white hover:border-snaptap-blue hover:text-snaptap-blue flex items-center justify-center shrink-0 transition-colors group/qr relative"
                           >
-                            <Icon icon="mdi:qrcode-scan" width={20} className="text-slate-500 group-hover/qr:text-snaptap-blue transition-colors" />
+                            <Icon
+                              icon="mdi:qrcode-scan"
+                              width={20}
+                              className="text-slate-500 group-hover/qr:text-snaptap-blue transition-colors"
+                            />
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-slate-800 text-white text-[10px] font-medium rounded opacity-0 group-hover/qr:opacity-100 transition-opacity pointer-events-none">
                               View QR
                             </div>
@@ -394,7 +400,9 @@ export default function ShowcasePage() {
               className="w-48 h-48 object-contain mix-blend-multiply"
             />
           </div>
-          <h3 className="text-lg font-black text-slate-900 mb-2">Scan to View AR</h3>
+          <h3 className="text-lg font-black text-slate-900 mb-2">
+            Scan to View AR
+          </h3>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em]">
             Use your phone's camera
           </p>
@@ -420,7 +428,9 @@ export default function ShowcasePage() {
               />
             )}
           </div>
-          <h3 className="text-lg font-black text-slate-900 mb-2">Share Showcase</h3>
+          <h3 className="text-lg font-black text-slate-900 mb-2">
+            Share Showcase
+          </h3>
           <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em] mb-6">
             Scan to view all products
           </p>
