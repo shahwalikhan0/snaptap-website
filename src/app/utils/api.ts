@@ -54,6 +54,25 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // If server says account is deactivated, update local state and redirect
+    if (
+      error.response?.status === 403 &&
+      error.response?.data?.accountDeactivated
+    ) {
+      const adminRaw = Cookies.get("admin");
+      if (adminRaw) {
+        try {
+          const admin = JSON.parse(adminRaw);
+          admin.account_status = error.response.data.accountStatus || "deactivated";
+          Cookies.set("admin", JSON.stringify(admin), { expires: 7 });
+        } catch {}
+      }
+      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/app/reactivate")) {
+        window.location.href = "/app/reactivate";
+      }
+      return Promise.reject(error);
+    }
+
     // If 401 and we haven't already tried to refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {

@@ -12,7 +12,7 @@ const { Title, Paragraph } = Typography;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function ReactivatePage() {
-  const { Admin, setAdmin, token } = useAdmin();
+  const { Admin, setAdmin, token, logout } = useAdmin();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -83,7 +83,7 @@ export default function ReactivatePage() {
               {isPendingDeletion ? "Cancel Deletion & Restore" : "Reactivate Account"}
             </Button>,
             <div key="logout-link" className="mt-6">
-               <button onClick={() => { localStorage.clear(); window.location.href = '/app/login'; }} className="text-slate-500 hover:text-red-500 font-semibold transition-colors">Log out instead</button>
+               <button onClick={logout} className="text-slate-500 hover:text-red-500 font-semibold transition-colors">Log out instead</button>
             </div>
           ]}
         />
