@@ -31,8 +31,24 @@ export default function ShowcasePage() {
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedQR, setSelectedQR] = useState<string | null>(null);
+  const [isGeneratingBrandQR, setIsGeneratingBrandQR] = useState(false);
+  const [brandQRDataUrl, setBrandQRDataUrl] = useState<string | null>(null);
 
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
+
+  const handleGenerateBrandQR = async () => {
+    try {
+      setIsGeneratingBrandQR(true);
+      const url = `${BASE_URL}/app/showcase/${brandId}`;
+      const { generateBrandQRCode } = await import("@/app/utils/generateQRCode");
+      const dataUrl = await generateBrandQRCode(url);
+      setBrandQRDataUrl(dataUrl);
+    } catch (error) {
+      console.error("Failed to generate brand QR:", error);
+    } finally {
+      setIsGeneratingBrandQR(false);
+    }
+  };
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -46,7 +62,7 @@ export default function ShowcasePage() {
     if (pageNum === 1) setLoading(true);
     else setLoadingMore(true);
 
-    fetch(`${BASE_URL}/product/showcase/${brandId}?page=${pageNum}&limit=12&search=${encodeURIComponent(search)}`)
+    fetch(`${BASE_URL}/product/showcase/${brandId}?page=${pageNum}&limit=10&search=${encodeURIComponent(search)}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load products");
         return res.json();
@@ -57,7 +73,7 @@ export default function ShowcasePage() {
         setProducts((prev) =>
           pageNum === 1 ? newProducts : [...prev, ...newProducts],
         );
-        setHasMore(data.hasMore ?? newProducts.length === 12);
+        setHasMore(data.hasMore ?? newProducts.length === 10);
       })
       .catch((err) => setError(err.message))
       .finally(() => {
@@ -149,17 +165,33 @@ export default function ShowcasePage() {
               </p>
             </div>
           </div>
-          <div className="relative w-full sm:w-72">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Icon icon="mdi:magnify" className="text-slate-400" width={20} />
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <div className="relative w-full sm:w-72">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Icon icon="mdi:magnify" className="text-slate-400" width={20} />
+              </div>
+              <input
+                type="text"
+                className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-snaptap-blue/20 focus:border-snaptap-blue sm:text-sm transition-all"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            <input
-              type="text"
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-snaptap-blue/20 focus:border-snaptap-blue sm:text-sm transition-all"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <button
+              onClick={handleGenerateBrandQR}
+              disabled={isGeneratingBrandQR}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-snaptap-blue-dark hover:bg-snaptap-blue text-white font-bold text-sm rounded-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+            >
+              {isGeneratingBrandQR ? (
+                <Icon icon="mdi:loading" className="animate-spin" width={20} />
+              ) : (
+                <Icon icon="mdi:qrcode-scan" width={20} />
+              )}
+              <span className="whitespace-nowrap">
+                {isGeneratingBrandQR ? "Generating..." : "Share Showcase"}
+              </span>
+            </button>
           </div>
         </div>
       </header>
@@ -366,6 +398,40 @@ export default function ShowcasePage() {
           <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em]">
             Use your phone's camera
           </p>
+        </div>
+      </Modal>
+
+      {/* Brand QR Modal */}
+      <Modal
+        open={!!brandQRDataUrl}
+        onCancel={() => setBrandQRDataUrl(null)}
+        footer={null}
+        centered
+        width={340}
+        className="[&_.ant-modal-content]:!rounded-[16px] [&_.ant-modal-content]:!p-6 sm:[&_.ant-modal-content]:!p-8"
+      >
+        <div className="flex flex-col items-center text-center mt-2">
+          <div className="bg-white p-2 rounded-[16px] shadow-sm border border-slate-100 mb-6 w-full max-w-[240px] aspect-square flex items-center justify-center">
+            {brandQRDataUrl && (
+              <img
+                src={brandQRDataUrl}
+                alt={`${brandName} QR Code`}
+                className="w-full h-full object-contain"
+              />
+            )}
+          </div>
+          <h3 className="text-lg font-black text-slate-900 mb-2">Share Showcase</h3>
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em] mb-6">
+            Scan to view all products
+          </p>
+          <a
+            href={brandQRDataUrl || "#"}
+            download={`${brandName || "Brand"}_Showcase_QR.png`}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-snaptap-blue hover:bg-snaptap-blue-dark text-white font-bold text-sm rounded-xl transition-colors"
+          >
+            <Icon icon="mdi:download" width={20} />
+            Download QR Code
+          </a>
         </div>
       </Modal>
     </div>

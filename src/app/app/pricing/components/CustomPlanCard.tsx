@@ -42,7 +42,15 @@ export function CustomPlanCard({
         </div>
 
         {/* Price */}
-        <div className="mb-2">
+        <div className="mb-2 flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-bold text-slate-400 line-through">
+              Rs. {customPrice * 2}
+            </span>
+            <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
+              50% Off
+            </span>
+          </div>
           <div className="flex items-end gap-1">
             <span className="text-3xl sm:text-4xl font-black text-slate-900">
               Rs. {customPrice}

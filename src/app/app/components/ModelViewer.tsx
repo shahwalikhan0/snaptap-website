@@ -4,7 +4,7 @@ import React from "react";
 
 const ModelViewer = () => {
   return (
-    <div className="relative w-full h-[470px] sm:h-[500px] mt-10 md:mt-0">
+    <div className="relative w-full h-full">
       {/* @ts-expect-error google model viewer not supported*/}
       <model-viewer
         src="/assets/models/shoe-model.glb"

@@ -38,9 +38,9 @@ export default function InventoryPage() {
       if (pageNum === 1) setLoading(true);
       else setLoadingMore(true);
 
-      const res = await api.get(`/product/brand-id?page=${pageNum}&limit=12&search=${encodeURIComponent(currentSearch)}&status=${currentStatus}`);
+      const res = await api.get(`/product/brand-id?page=${pageNum}&limit=10&search=${encodeURIComponent(currentSearch)}&status=${currentStatus}`);
       const newProducts = res.data?.data || res.data || [];
-      const hasMoreData = res.data?.hasMore ?? (newProducts.length === 12);
+      const hasMoreData = res.data?.hasMore ?? (newProducts.length === 10);
       
       setProducts(prev => pageNum === 1 ? newProducts : [...prev, ...newProducts]);
       setHasMore(hasMoreData);

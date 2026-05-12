@@ -25,6 +25,17 @@ export default function SubscriptionPage() {
   const hasMounted = useRef(false);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const alertMsg = params.get("alert");
+      if (alertMsg) {
+        setTimeout(() => toast.error(alertMsg), 300);
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchPackage = async () => {
       if (!isInitialized) return;
 

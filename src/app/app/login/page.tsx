@@ -110,11 +110,8 @@ const LoginPage = () => {
         } else {
           const gate = await fetchBillingGateStatus(brand.id, accessToken);
           if (gate.requires_action) {
-            toast.error(
-              gate.message ||
-                "Your subscription requires attention. Please update your plan or billing details.",
-            );
-            router.replace("/app/subscription-page");
+            const msg = gate.message || "Your subscription requires attention. Please update your plan or billing details.";
+            router.replace(`/app/subscription-page?alert=${encodeURIComponent(msg)}`);
             return;
           }
 
