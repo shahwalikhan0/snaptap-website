@@ -1,3 +1,5 @@
+"use client";
+
 import { easeOut, motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import dayjs from "dayjs";

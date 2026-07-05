@@ -4,15 +4,14 @@ import { useState, useEffect } from "react";
 import { Row, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import api from "@/app/utils/api";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { toast } from "react-toastify";
-import { Plan } from "./constants/data";
+import { PlanType } from "../types/plan";
 import { PlanCard } from "./components/PlanCard";
 import { CustomPlanCard } from "./components/CustomPlanCard";
+import { fetchPlans, updatePlanDetail } from "./services/pricingApi";
 
 const { Title } = Typography;
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function PricingComponent() {
   /* Custom Plan State */
@@ -21,44 +20,42 @@ export default function PricingComponent() {
   const customPrice =
     BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
 
-  const [plans, setPlans] = useState<Plan[]>([]);
+  const [plans, setPlans] = useState<PlanType[]>([]);
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
   const router = useRouter();
   const { isLoggedIn, setBrand, Brand } = useAdmin();
 
   useEffect(() => {
-    const fetchPlans = async () => {
+    const loadPlans = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/package`);
-        if (res.data) {
-          // Filter for IDs 1, 2, 3 just in case, though server handles it
-          const filtered = res.data.filter((p: Plan) =>
-            [1, 2, 3].includes(p.id),
-          );
-          setPlans(filtered);
-        }
-      } catch (error: any) {
-        console.error("Failed to fetch plans", error);
+        const filtered = await fetchPlans();
+        setPlans(filtered);
+      } catch (err: unknown) {
+        console.error("Failed to fetch plans", err);
 
         // Check for network/server errors
-        if (
-          error.code === "ERR_NETWORK" ||
-          error.message?.includes("Network Error")
-        ) {
-          toast.error(
-            "Server is not accessible. Please check your connection and try again.",
-          );
-        } else if (!error.response) {
-          toast.error("Cannot reach the server. Please try again later.");
+        if (axios.isAxiosError(err)) {
+          if (
+            err.code === "ERR_NETWORK" ||
+            err.message?.includes("Network Error")
+          ) {
+            toast.error(
+              "Server is not accessible. Please check your connection and try again.",
+            );
+          } else if (!err.response) {
+            toast.error("Cannot reach the server. Please try again later.");
+          } else {
+            toast.error("Failed to fetch pricing plans. Please try again.");
+          }
         } else {
           toast.error("Failed to fetch pricing plans. Please try again.");
         }
       }
     };
-    fetchPlans();
+    loadPlans();
   }, []);
 
-  const handleSelectPlan = async (plan: Plan) => {
+  const handleSelectPlan = async (plan: PlanType) => {
     if (!isLoggedIn) {
       localStorage.setItem("selectedPlanId", plan.id.toString());
       if (plan.id === 4) {
@@ -70,14 +67,16 @@ export default function PricingComponent() {
 
     setLoadingPlanId(plan.id);
     try {
-      const payload: any = { subscribed_package_id: plan.id };
+      const payload: { subscribed_package_id: number; total_scans?: number } = {
+        subscribed_package_id: plan.id,
+      };
 
       // If Custom Plan (ID 4)
       if (plan.id === 4) {
         payload.total_scans = customScans;
       }
 
-      const response = await api.put("/brand/update-detail", payload);
+      const response = await updatePlanDetail(payload);
 
       if (response.data?.data) {
         toast.success(`Successfully subscribed to ${plan.name}`);
@@ -87,10 +86,10 @@ export default function PricingComponent() {
       } else {
         toast.error("Failed to update plan");
       }
-    } catch (error: any) {
-      console.error("Plan update error:", error);
-      if (axios.isAxiosError(error) && error.response) {
-        toast.error(error.response.data?.error || "Failed to update plan");
+    } catch (err: unknown) {
+      console.error("Plan update error:", err);
+      if (axios.isAxiosError(err) && err.response) {
+        toast.error(err.response.data?.error || "Failed to update plan");
       } else {
         toast.error("Failed to update plan");
       }

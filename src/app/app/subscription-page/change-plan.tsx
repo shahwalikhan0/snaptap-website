@@ -5,50 +5,14 @@ import { Card, Button, Slider, InputNumber, Tag, Modal, Input, Form } from "antd
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
 import api from "@/app/utils/api";
+import { ENDPOINTS } from "@/app/utils/endpoints";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
+import { featuresMap } from "../pricing/constants/data";
 
-type Package = {
-  id: number;
-  name: string;
-  monthly_price: number;
-};
-
-const features = {
-  1: [
-    "Up to 20 products in inventory",
-    "3D model generation",
-    "QR code for each product",
-    "Direct share links for each product",
-    "Web-embeddable AR viewer",
-    "Rs 1.20 per model view",
-    "Inventory dashboard",
-    "Product Analytics",
-    "Email support",
-  ],
-  2: [
-    "Up to 50 products in inventory",
-    "3D model generation",
-    "QR code for each product",
-    "Direct share links for each product",
-    "Web-embeddable AR viewer",
-    "Rs 1.00 per model view",
-    "Inventory management",
-    "Product Analytics",
-    "Email support",
-  ],
-  3: [
-    "Up to 80 products in inventory",
-    "3D model generation",
-    "QR code for each product",
-    "Direct share links for each product",
-    "Web-embeddable AR viewer",
-    "Inventory management",
-    "Product Analytics",
-    "Rs 0.80 per model view",
-    "Email support",
-  ],
+const features: Record<number, string[]> = {
+  ...featuresMap,
   4: [
     "Over 80+ products inventory",
     "3D model generation",
@@ -97,13 +61,15 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   ) => {
     setLoadingPlanId(planId);
     try {
-      const payload: any = { subscribed_package_id: planId };
+      const payload: { subscribed_package_id: number; total_scans?: number } = {
+        subscribed_package_id: planId,
+      };
       if (planId === 4 && customLimit) {
         payload.total_scans = customLimit;
       }
 
       const response = await api.put(
-        "/brand/update-detail",
+        ENDPOINTS.BRAND_UPDATE_DETAIL,
         payload
       );
 
@@ -115,9 +81,10 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       } else {
         toast.error("Failed to update plan");
       }
-    } catch (error: any) {
-      console.error("Plan update error:", error);
-      toast.error(error?.response?.data?.error || "Failed to update plan");
+    } catch (err: unknown) {
+      console.error("Plan update error:", err);
+      const axiosErr = err as { response?: { data?: { error?: string } } };
+      toast.error(axiosErr?.response?.data?.error || "Failed to update plan");
     } finally {
       setLoadingPlanId(null);
     }
@@ -132,7 +99,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     setCancelling(true);
     try {
       const response = await api.put(
-        "/brand/cancel-plan",
+        ENDPOINTS.BRAND_CANCEL_PLAN,
         { password: cancelPassword }
       );
       if (response.data?.data) {
@@ -151,10 +118,11 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
         setIsCancelModalVisible(false);
         setCancelPassword("");
       }
-    } catch (error: any) {
-      console.error("Plan update error:", error);
-      toast.error(error?.response?.data?.error || "Failed to unsubscribe from plan");
-      if (error?.response?.data?.requiresPayment) {
+    } catch (err: unknown) {
+      console.error("Plan cancel error:", err);
+      const axiosErr = err as { response?: { data?: { error?: string; requiresPayment?: boolean } } };
+      toast.error(axiosErr?.response?.data?.error || "Failed to unsubscribe from plan");
+      if (axiosErr?.response?.data?.requiresPayment) {
         setIsCancelModalVisible(false);
         setCancelPassword("");
       }

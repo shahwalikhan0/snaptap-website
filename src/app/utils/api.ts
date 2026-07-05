@@ -2,13 +2,19 @@
 
 import axios from "axios";
 import Cookies from "js-cookie";
+import { ENDPOINTS } from "./endpoints";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// Create axios instance with base configuration
+// Unauthenticated instance — for signup, login, forgot-password, etc.
+export const publicApi = axios.create({
+  baseURL: BASE_URL,
+});
+
+// Authenticated instance — attaches token via interceptor
 const api = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, // Required for httpOnly cookies
+  withCredentials: true,
 });
 
 // Flag to prevent multiple refresh attempts
@@ -95,8 +101,8 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await axios.post(
-          `${BASE_URL}/brand/refresh-token`,
+        const response = await publicApi.post(
+          ENDPOINTS.BRAND_REFRESH_TOKEN,
           {},
           { withCredentials: true },
         );

@@ -2,11 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import api from "@/app/utils/api";
 import { Form, Spin } from "antd";
+import axios from "axios";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import {
+  fetchProductDetail,
+  updateProduct,
+  deleteProduct,
+} from "../services/inventoryApi";
+import type { Product } from "../types";
 
 import { ProductDetailCard } from "./components/ProductDetailCard";
 import { EditProductModal } from "./components/EditProductModal";
@@ -18,7 +25,7 @@ export default function ProductDetailsPage() {
   const router = useRouter();
   const { isLoggedIn, Admin, isInitialized } = useAdmin();
 
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -39,7 +46,7 @@ export default function ProductDetailsPage() {
     }
     const fetchProduct = async () => {
       try {
-        const res = await api.get(`/product/detail-for-brand/${id}`);
+        const res = await fetchProductDetail(id as string);
 
         const row = res.data?.data;
         if (!row || Number(row.brand_id) !== Number(Admin?.id)) {
@@ -55,22 +62,26 @@ export default function ProductDetailsPage() {
           description: row.description,
           is_active: row.is_active,
         });
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to load product", err);
 
         // Check for network/server errors
-        if (
-          err.code === "ERR_NETWORK" ||
-          err.message?.includes("Network Error")
-        ) {
-          toast.error(
-            "Server is not accessible. Please check your connection and try again.",
-          );
-        } else if (!err.response) {
-          toast.error("Cannot reach the server. Please try again later.");
-        } else if (err.response?.status === 404) {
-          toast.error("Product not found.");
-          router.push("/app/inventory");
+        if (axios.isAxiosError(err)) {
+          if (
+            err.code === "ERR_NETWORK" ||
+            err.message?.includes("Network Error")
+          ) {
+            toast.error(
+              "Server is not accessible. Please check your connection and try again.",
+            );
+          } else if (!err.response) {
+            toast.error("Cannot reach the server. Please try again later.");
+          } else if (err.response?.status === 404) {
+            toast.error("Product not found.");
+            router.push("/app/inventory");
+          } else {
+            toast.error("Failed to load product details. Please try again.");
+          }
         } else {
           toast.error("Failed to load product details. Please try again.");
         }
@@ -82,17 +93,24 @@ export default function ProductDetailsPage() {
     fetchProduct();
   }, [id, isInitialized, isLoggedIn, Admin, router, form]);
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: Record<string, unknown>) => {
     setUpdating(true);
     try {
       const formData = new FormData();
 
-      Object.entries(values).forEach(([key, value]: any) => {
-        if (value !== undefined) formData.append(key, value);
+      Object.entries(values).forEach(([key, value]) => {
+        if (value !== undefined) formData.append(key, value as string | Blob);
       });
 
-      if (values.image && values.image.file) {
-        formData.append("image", values.image.file);
+      if (
+        values.image &&
+        typeof values.image === "object" &&
+        (values.image as Record<string, unknown>).file
+      ) {
+        formData.append(
+          "image",
+          (values.image as Record<string, unknown>).file as Blob,
+        );
       }
 
       if (Number(Admin?.id) !== Number(product?.brand_id)) {
@@ -100,7 +118,7 @@ export default function ProductDetailsPage() {
         return;
       }
 
-      const response = await api.put(`/product/update/${id}`, formData);
+      const response = await updateProduct(id as string, formData);
 
       if (response.data?.data) {
         setProduct(response.data.data);
@@ -120,7 +138,7 @@ export default function ProductDetailsPage() {
         alert("You are not authorized to delete this product.");
         return;
       }
-      await api.delete(`/product/${id}`);
+      await deleteProduct(id as string);
       router.push("/app/inventory");
     } catch {
       //   message.error("Delete failed");

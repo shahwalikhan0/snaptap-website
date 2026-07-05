@@ -51,4 +51,38 @@ export interface BillingRecord {
   is_paid: boolean;
   paid_at: string | null;
   due_date: string;
+  is_estimate?: boolean;
+}
+
+export interface ViewTrendItem {
+  month: string;
+  views: number;
+  sortKey: string;
+}
+
+export interface ViewTrendRawItem {
+  month: string;
+  views: number;
+  year_num: number;
+  month_num: number;
+}
+
+export interface TopProduct {
+  id: number;
+  name: string;
+  _count?: {
+    model_views: number;
+  };
+}
+
+export interface ProductDistribution {
+  name: string;
+  value: number;
+}
+
+export interface TooltipPayloadEntry {
+  name: string;
+  value: number;
+  stroke?: string;
+  fill?: string;
 }

@@ -24,7 +24,3 @@ export type BrandDataType = {
   is_estimate?: boolean;
 };
 
-export type BrandContextType = {
-  Brand: BrandDataType | null;
-  setBrand: (brand: BrandDataType | null) => void;
-};

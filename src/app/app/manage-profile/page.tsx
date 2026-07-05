@@ -1,32 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Upload, Modal, Select } from "antd";
-import {
-  UploadOutlined,
-  UserOutlined,
-  MailOutlined,
-  GlobalOutlined,
-  PhoneOutlined,
-  EnvironmentOutlined,
-} from "@ant-design/icons";
-import { motion, AnimatePresence } from "framer-motion";
+import { Form, Input, Button, Upload, Modal } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RcFile } from "antd/es/upload";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
-import api from "@/app/utils/api";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { ProfileSection } from "./components/ProfileSection";
 import { BrandSection } from "./components/BrandSection";
-
-const { Option } = Select;
+import {
+  fetchBrandDetail,
+  updateProfile,
+  updateBrandDetail,
+  deactivateAccount,
+  deleteAccount,
+  getApiErrorMessage,
+} from "./services/profileApi";
+import { AdminDataType } from "@/app/app/types/admin-data";
+import { BrandDataType } from "@/app/app/types/brand-data";
 
 const ManageProfilePage = () => {
   const router = useRouter();
-  const { isLoggedIn, Admin, Brand, token, logout, setAdmin, setBrand } = useAdmin();
+  const { isLoggedIn, Admin, Brand, token, logout, setAdmin, setBrand, isInitialized } = useAdmin();
   const [form] = Form.useForm<ProfileFormValues>();
   const [passwordForm] = Form.useForm();
   const [brandForm] = Form.useForm<BrandDetailFormValues>();
@@ -48,6 +48,7 @@ const ManageProfilePage = () => {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (!isInitialized) return;
     if (!isLoggedIn) {
       toast.error("Please log in to manage your profile.");
       router.push(`/app/login?redirect=${encodeURIComponent(window.location.pathname)}`);
@@ -76,10 +77,9 @@ const ManageProfilePage = () => {
       // If brand data is missing, fetch from API
       const fetchBrandData = async () => {
         try {
-          const res = await api.get("/brand/detail");
+          const data = await fetchBrandDetail();
 
-          if (res.data) {
-            const data = res.data;
+          if (data) {
             const locationParts = (data.location || "")
               .split(",")
               .map((p: string) => p.trim());
@@ -102,7 +102,7 @@ const ManageProfilePage = () => {
 
       fetchBrandData();
     }
-  }, [Admin, Brand, form, brandForm, isLoggedIn, router]);
+  }, [Admin, Brand, form, brandForm, isLoggedIn, isInitialized, router]);
 
   const handleImageUpload = (file: RcFile) => {
     const isImage = file.type.startsWith("image/");
@@ -142,15 +142,15 @@ const ManageProfilePage = () => {
         oldPassword: oldPassword || null,
       };
 
-      const response = await api.put("/brand/update", payload);
+      const responseData = await updateProfile(payload);
 
-      if (response.data?.error) {
-        toast.error(response.data.error);
+      if (responseData?.error) {
+        toast.error(responseData.error);
         return;
       }
 
-      if (response.data?.data) {
-        setAdmin({ ...Admin, ...response.data.data } as any);
+      if (responseData?.data) {
+        setAdmin({ ...Admin, ...responseData.data } as AdminDataType);
         setIsProfileModified(false);
       }
 
@@ -175,15 +175,15 @@ const ManageProfilePage = () => {
         subscribed_package_id: brandValues.subscribed_package_id,
       };
 
-      const response = await api.put("/brand/update-detail", payload);
+      const responseData = await updateBrandDetail(payload);
 
-      if (response.data?.error) {
-        toast.error(response.data.error);
+      if (responseData?.error) {
+        toast.error(responseData.error);
         return;
       }
 
-      if (response.data?.data) {
-        setBrand({ ...Brand, ...response.data.data } as any);
+      if (responseData?.data) {
+        setBrand({ ...Brand, ...responseData.data } as BrandDataType);
         setIsBrandModified(false);
       }
 
@@ -198,19 +198,19 @@ const ManageProfilePage = () => {
   const handleDeactivateAccount = async () => {
     setDeactivating(true);
     try {
-      const response = await api.put("/brand/deactivate");
-      if (response.data?.success) {
-        toast.success(response.data.message);
-        if (response.data.warning) {
-          toast.info(response.data.warning, { autoClose: 10000 });
+      const responseData = await deactivateAccount();
+      if (responseData?.success) {
+        toast.success(responseData.message);
+        if (responseData.warning) {
+          toast.info(responseData.warning, { autoClose: 10000 });
         }
         setIsDeactivateModalVisible(false);
         // Logout via Context to clean up all storage and redirect
         setTimeout(() => logout(), 3000);
       }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error?.response?.data?.error || "Failed to deactivate account.");
+    } catch (err: unknown) {
+      console.error(err);
+      toast.error(getApiErrorMessage(err, "Failed to deactivate account."));
     } finally {
       setDeactivating(false);
     }
@@ -223,17 +223,15 @@ const ManageProfilePage = () => {
     }
     setDeleting(true);
     try {
-      const response = await api.delete("/brand/delete", {
-        data: { password: deletePassword },
-      });
-      if (response.data?.success) {
-        toast.success(response.data.message, { autoClose: 10000 });
+      const responseData = await deleteAccount({ password: deletePassword });
+      if (responseData?.success) {
+        toast.success(responseData.message, { autoClose: 10000 });
         setIsDeleteModalVisible(false);
         setTimeout(() => logout(), 4000);
       }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error?.response?.data?.error || "Failed to delete account.");
+    } catch (err: unknown) {
+      console.error(err);
+      toast.error(getApiErrorMessage(err, "Failed to delete account."));
     } finally {
       setDeleting(false);
     }

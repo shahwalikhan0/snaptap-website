@@ -8,7 +8,7 @@ interface QRCodeModalProps {
   onCancel: () => void;
   onDownload: () => void;
   productName: string;
-  qrCodeUrl: string | undefined;
+  qrCodeUrl: string | null | undefined;
 }
 
 export function QRCodeModal({

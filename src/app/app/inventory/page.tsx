@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState, useRef } from "react";
-import api from "@/app/utils/api";
 import { Spin } from "antd";
+import axios from "axios";
+
+import { fetchProducts as fetchProductsApi } from "./services/inventoryApi";
+import type { Product } from "./types";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,9 +17,9 @@ import { ProductCard } from "./components/ProductCard";
 
 export default function InventoryPage() {
   const router = useRouter();
-  const { isLoggedIn, Admin } = useAdmin();
+  const { isLoggedIn, Admin, isInitialized } = useAdmin();
 
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -38,15 +41,15 @@ export default function InventoryPage() {
       if (pageNum === 1) setLoading(true);
       else setLoadingMore(true);
 
-      const res = await api.get(`/product/brand-id?page=${pageNum}&limit=10&search=${encodeURIComponent(currentSearch)}&status=${currentStatus}`);
-      const newProducts = res.data?.data || res.data || [];
+      const res = await fetchProductsApi(pageNum, 10, currentSearch, currentStatus);
+      const newProducts: Product[] = res.data?.data || res.data || [];
       const hasMoreData = res.data?.hasMore ?? (newProducts.length === 10);
-      
+
       setProducts(prev => pageNum === 1 ? newProducts : [...prev, ...newProducts]);
       setHasMore(hasMoreData);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load products:", err);
-      if (err.code === 'ERR_NETWORK') {
+      if (axios.isAxiosError(err) && err.code === 'ERR_NETWORK') {
         toast.error("Server unreachable. Check your connection.");
       } else {
         toast.error("Failed to load products. Try again.");
@@ -60,6 +63,7 @@ export default function InventoryPage() {
   const hasMounted = useRef(false);
 
   useEffect(() => {
+    if (!isInitialized) return;
     if (!isLoggedIn) {
       if (!hasMounted.current) {
         toast.error("Please log in to access your inventory.");
@@ -70,7 +74,7 @@ export default function InventoryPage() {
     hasMounted.current = true;
     setPage(1);
     fetchProducts(1, debouncedSearch, statusFilter);
-  }, [Admin?.id, isLoggedIn, router, debouncedSearch, statusFilter]);
+  }, [Admin?.id, isLoggedIn, isInitialized, router, debouncedSearch, statusFilter]);
 
   useEffect(() => {
     if (page > 1) {

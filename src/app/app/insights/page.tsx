@@ -3,10 +3,15 @@
 import { useEffect, useState } from "react";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { easeOut, motion } from "framer-motion";
-import { AdminData, BrandData, BillingRecord } from "./types";
+import { AdminData, BrandData, BillingRecord, ViewTrendItem, TopProduct } from "./types";
 import { useRouter } from "next/navigation";
-import api from "@/app/utils/api";
 import { Icon } from "@iconify/react";
+import {
+  fetchBrandDetail,
+  fetchBillingCurrent,
+  fetchTopViewedProducts,
+  fetchViewTrend,
+} from "./services/insightsApi";
 
 import { BrandProfileCard } from "./components/BrandProfileCard";
 import { StatsCards } from "./components/StatsCards";
@@ -15,15 +20,16 @@ import { SkeletonLoader } from "./components/Skeletons";
 
 export default function InsightsPage() {
   const router = useRouter();
-  const { isLoggedIn, Admin } = useAdmin();
+  const { isLoggedIn, Admin, isInitialized } = useAdmin();
   const [localAdmin, setLocalAdmin] = useState<AdminData | null>(null);
   const [localBrand, setLocalBrand] = useState<BrandData | null>(null);
   const [billingInfo, setBillingInfo] = useState<BillingRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [modelData, setModelData] = useState<any[]>([]);
-  const [topProducts, setTopProducts] = useState<any[]>([]);
+  const [modelData, setModelData] = useState<ViewTrendItem[]>([]);
+  const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
 
   useEffect(() => {
+    if (!isInitialized) return;
     const fetchData = async () => {
       if (!isLoggedIn) {
         setIsLoading(false);
@@ -35,70 +41,67 @@ export default function InsightsPage() {
 
       try {
         if (Admin) {
-          setLocalAdmin(Admin as any);
+          setLocalAdmin(Admin as AdminData);
         }
 
         // Fetch brand details
-        const brandRes = await api.get("/brand/detail");
-        const brandData = brandRes.data;
+        const brandData = await fetchBrandDetail();
         setLocalBrand(brandData);
 
         // Try to fetch current billing info if Admin ID exists
         if (Admin?.id) {
           try {
-            const billingRes = await api.get(
-              `/billing/brand/${Admin.id}/current`,
-            );
-            if (billingRes.data) {
-              setBillingInfo(billingRes.data);
+            const billingData = await fetchBillingCurrent(Admin.id);
+            if (billingData) {
+              setBillingInfo(billingData);
               // Override the brand's totalBilling with actual current month amount if they differ
               if (brandData) {
-                brandData.is_estimate = billingRes.data.is_estimate;
-                brandData.totalBilling = billingRes.data.total_amount;
+                brandData.is_estimate = billingData.is_estimate;
+                brandData.totalBilling = billingData.total_amount;
                 // Force sync month/year to reflect the live data returned
-                if (billingRes.data.month) {
-                  const m = new Date(billingRes.data.month);
+                if (billingData.month) {
+                  const m = new Date(billingData.month);
                   brandData.month = m.getMonth() + 1; // 1-indexed for display
                   brandData.year = m.getFullYear();
                 }
               }
             }
-          } catch (err) {
+          } catch (err: unknown) {
             console.error("Failed to fetch billing info", err);
           }
         }
 
         // Fetch product analytics
         try {
-          const [topRes, trendRes] = await Promise.all([
-            api.get(`/product/brand-analytics/top-viewed`),
-            api.get(`/product/brand-analytics/view-trend`),
+          const [topData, trendData] = await Promise.all([
+            fetchTopViewedProducts(),
+            fetchViewTrend(),
           ]);
 
-          if (topRes.data) {
-            setTopProducts(topRes.data);
+          if (topData) {
+            setTopProducts(topData);
           }
 
-          if (trendRes.data && trendRes.data.length > 0) {
-            const formattedTrend = trendRes.data.map((item: any) => ({
+          if (trendData && trendData.length > 0) {
+            const formattedTrend: ViewTrendItem[] = trendData.map((item) => ({
               month: item.month,
               views: item.views,
               sortKey: `${item.year_num}-${String(item.month_num).padStart(2, "0")}`,
             }));
             // Make sure they are sorted ascending by date
-            formattedTrend.sort((a: any, b: any) =>
+            formattedTrend.sort((a, b) =>
               a.sortKey.localeCompare(b.sortKey),
             );
             setModelData(formattedTrend);
           } else {
             // Fallback if no real views yet
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-            setModelData(months.map((m) => ({ month: m, views: 0 })));
+            setModelData(months.map((m) => ({ month: m, views: 0, sortKey: "" })));
           }
-        } catch (err) {
+        } catch (err: unknown) {
           console.error("Failed to fetch product analytics", err);
         }
-      } catch (err) {
+      } catch (err: unknown) {
         console.error("Failed to fetch insights data:", err);
       } finally {
         setIsLoading(false);
@@ -106,7 +109,7 @@ export default function InsightsPage() {
     };
 
     fetchData();
-  }, [Admin, isLoggedIn, router]);
+  }, [Admin, isLoggedIn, isInitialized, router]);
 
   const admin = localAdmin;
   const brand = localBrand;

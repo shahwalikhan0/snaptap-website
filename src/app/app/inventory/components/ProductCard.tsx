@@ -5,8 +5,10 @@ import { Button, Tag } from "antd";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 
+import type { Product } from "../types";
+
 interface ProductCardProps {
-  product: any;
+  product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -24,7 +26,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Product Visual */}
         <div className="relative w-full sm:w-20 h-32 sm:h-20 rounded-[6px] bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 p-2 overflow-hidden group/img">
           <img
-            src={product?.image_url}
+            src={product?.image_url ?? undefined}
             alt={product?.name}
             className="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-500 ease-out z-10"
           />

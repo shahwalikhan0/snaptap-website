@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, Button, Dropdown, Tag } from "antd";
 import {
   EditOutlined,
@@ -10,8 +12,10 @@ import {
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 
+import type { Product } from "../../types";
+
 interface ProductDetailCardProps {
-  product: any;
+  product: Product | null;
   onEdit: () => void;
   onViewQR: () => void;
   onCopyUrl: () => void;
@@ -47,7 +51,7 @@ export function ProductDetailCard({
           {/* Visual Column */}
           <div className="lg:w-[45%] bg-slate-50 p-6 sm:p-10 flex items-center justify-center relative group min-h-[350px]">
             <img
-              src={product?.image_url}
+              src={product?.image_url ?? undefined}
               alt={product?.name}
               className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out z-10"
             />
@@ -167,7 +171,7 @@ export function ProductDetailCard({
             icon="solar:calendar-bold-duotone"
             className="text-snaptap-blue-dark"
           />
-          Created: {new Date(product?.created_at).toLocaleDateString()}
+          Created: {product?.created_at ? new Date(product.created_at).toLocaleDateString() : "N/A"}
         </div>
         {product?.model_url && (
           <>

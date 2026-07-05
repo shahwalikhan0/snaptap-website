@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Form, Input, Button, Typography, Upload, Select } from "antd";
+import { createBrandAccount } from "./services/signupApi";
 import {
   UserOutlined,
   LockOutlined,
@@ -27,7 +28,6 @@ const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
 });
 import { AuthVisual } from "../components/auth/AuthVisual";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 const SignUpPage: React.FC = () => {
@@ -68,28 +68,20 @@ const SignUpPage: React.FC = () => {
       if (values.category) formData.append("category", values.category);
       if (image) formData.append("image", image);
 
-      const response = await axios.post(`${BASE_URL}/brand/create`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const responseData = await createBrandAccount(formData);
 
       if (storedPlanId) localStorage.removeItem("selectedPlanId");
       if (storedPlanScans) localStorage.removeItem("selectedPlanScans");
 
-      toast.success("Account created successfully!");
-      setTimeout(() => router.push("/app/login"), 2000);
-
       // Check if email verification is required
-      if (response.data.requiresVerification) {
+      if (responseData.requiresVerification) {
         toast.success(
-          response.data.message ||
+          responseData.message ||
             "Account created! Please check your email to verify your account.",
           {
             autoClose: 8000, // Keep visible longer
           },
         );
-        setLoading(false);
         // Don't redirect - let user read message and check email
       } else {
         toast.success("Signup successful! Redirecting to login...");
@@ -97,12 +89,16 @@ const SignUpPage: React.FC = () => {
           router.push("/app/login");
         }, 2000);
       }
-    } catch (err: any) {
-      if (err.code === "ERR_NETWORK") {
-        toast.error("Server connection failed.");
-      } else if (err.response?.data?.error) {
-        toast.error(err.response.data.error);
-      } else if (err.name !== "ValidationError") {
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server connection failed.");
+        } else if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else {
+          toast.error("Signup failed. Please try again.");
+        }
+      } else if (err instanceof Error && err.name !== "ValidationError") {
         toast.error("Signup failed. Please try again.");
       }
     } finally {

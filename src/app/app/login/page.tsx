@@ -10,13 +10,18 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { Icon } from "@iconify/react";
+import {
+  loginBrand,
+  fetchBrandDetail,
+  fetchBillingGateStatus,
+} from "./services/loginApi";
+import type { LoginPayload } from "./services/loginApi";
 
 const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
   ssr: false,
 });
 import { AuthVisual } from "../components/auth/AuthVisual";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 const LoginPage = () => {
@@ -34,62 +39,28 @@ const LoginPage = () => {
     }
   }, [isLoggedIn, router]);
 
-  const fetchBrand = async (id: number, token: string | null) => {
+  const loadBrandDetail = async (id: number, authToken: string | null) => {
     try {
-      if (!id) return;
-      if (!token) return;
+      if (!id || !authToken) return;
 
-      const response = await axios.get(`${BASE_URL}/brand/detail`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = response.data;
+      const data = await fetchBrandDetail(authToken);
       if (data?.id) {
         setBrand(data);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching brand:", error);
     }
   };
 
-  const fetchBillingGateStatus = async (brandId: number, token: string) => {
-    try {
-      if (!brandId || !token) return { requires_action: false, message: null };
-
-      const response = await axios.get(
-        `${BASE_URL}/billing/brand/${brandId}/status`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        },
-      );
-
-      const payload = response.data?.data;
-      return {
-        requires_action: Boolean(payload?.requires_action),
-        message: payload?.message ?? null,
-      };
-    } catch (error) {
-      // Fail open on website login: allow the user in even if billing status cannot be fetched.
-      return { requires_action: false, message: null };
-    }
-  };
-
-  const handleLogin = async (values: any) => {
+  const handleLogin = async (values: LoginPayload) => {
     try {
       isLoggingIn.current = true;
       const { username, password } = values;
       setLoading(true);
 
-      const response = await axios.post(
-        `${BASE_URL}/brand/login`,
-        { username, password },
-        { withCredentials: true },
-      );
+      const responseData = await loginBrand({ username, password });
 
-      const { brand, accessToken, error } = response.data;
+      const { brand, accessToken, error } = responseData;
 
       if (error) {
         toast.error(error || "Login failed");
@@ -100,7 +71,7 @@ const LoginPage = () => {
         setAdmin(brand);
         setToken(accessToken);
         toast.success(`Welcome back, ${brand.name || brand.username}!`);
-        fetchBrand(brand.id, accessToken);
+        loadBrandDetail(brand.id, accessToken);
 
         if (
           brand.account_status === "deactivated" ||
@@ -126,11 +97,15 @@ const LoginPage = () => {
       } else {
         toast.error("Invalid username or password.");
       }
-    } catch (err: any) {
-      if (err.code === "ERR_NETWORK") {
-        toast.error("Server unreachable. Check your connection.");
-      } else if (err.response?.data?.error) {
-        toast.error(err.response.data.error);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server unreachable. Check your connection.");
+        } else if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else {
+          toast.error("Login failed. Please try again.");
+        }
       } else {
         toast.error("Login failed. Please try again.");
       }

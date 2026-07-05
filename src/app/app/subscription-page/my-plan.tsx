@@ -6,19 +6,26 @@ import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
 import api from "@/app/utils/api";
+import { ENDPOINTS } from "@/app/utils/endpoints";
+
+interface BillingEstimate {
+  is_estimate?: boolean;
+  total_amount: number;
+  month: string;
+}
 
 export default function MyPlan() {
   const { Brand, setBrand } = useAdmin();
-  const [currentEst, setCurrentEst] = useState<any>(null);
+  const [currentEst, setCurrentEst] = useState<BillingEstimate | null>(null);
 
   useEffect(() => {
     if (Brand?.brand_id) {
        api
-         .get(`/billing/brand/${Brand.brand_id}/current`)
-         .then((res: any) => {
+         .get(ENDPOINTS.BILLING_CURRENT(Brand.brand_id))
+         .then((res) => {
              setCurrentEst(res.data);
          })
-         .catch((err: any) => console.log("Failed to load current billing estimate", err));
+         .catch((err: unknown) => console.log("Failed to load current billing estimate", err));
     }
   }, [Brand?.brand_id]);
 

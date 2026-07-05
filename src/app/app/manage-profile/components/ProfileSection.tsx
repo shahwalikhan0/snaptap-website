@@ -3,11 +3,12 @@ import { UserOutlined, MailOutlined, UploadOutlined } from "@ant-design/icons";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { ProfileFormValues } from "../types";
+import { AdminDataType } from "@/app/app/types/admin-data";
 
 interface ProfileSectionProps {
   form: FormInstance<ProfileFormValues>;
   passwordForm: FormInstance;
-  Admin: any;
+  Admin: AdminDataType;
   imageUrl: string | null;
   profileLoading: boolean;
   setIsModalVisible: (val: boolean) => void;

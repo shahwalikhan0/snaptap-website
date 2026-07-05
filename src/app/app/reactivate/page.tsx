@@ -7,9 +7,12 @@ import { Button, Typography, Result } from "antd";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import {
+  reactivateAccount,
+  cancelDeletion,
+} from "./services/reactivateApi";
 
 const { Title, Paragraph } = Typography;
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ReactivatePage() {
   const { Admin, setAdmin, token, logout } = useAdmin();
@@ -27,17 +30,15 @@ export default function ReactivatePage() {
   const handleAction = async () => {
     setLoading(true);
     try {
-      const endpoint = isPendingDeletion
-        ? "/brand/cancel-deletion"
-        : "/brand/reactivate";
-      const res = await axios.put(
-        `${BASE_URL}${endpoint}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      if (!token) {
+        toast.error("No authentication token found.");
+        return;
+      }
+      const apiCall = isPendingDeletion ? cancelDeletion : reactivateAccount;
+      const data = await apiCall(token);
 
-      if (res.data.success) {
-        toast.success(res.data.message || "Account restored successfully!");
+      if (data.success) {
+        toast.success(data.message || "Account restored successfully!");
         if (Admin) {
           setAdmin({ ...Admin, account_status: "active" });
         }
@@ -45,8 +46,11 @@ export default function ReactivatePage() {
           router.replace("/app/inventory");
         }, 1500);
       }
-    } catch (err: any) {
-      toast.error(err.response?.data?.error || "Failed to process request.");
+    } catch (err: unknown) {
+      const message = axios.isAxiosError(err)
+        ? err.response?.data?.error || "Failed to process request."
+        : "Failed to process request.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }

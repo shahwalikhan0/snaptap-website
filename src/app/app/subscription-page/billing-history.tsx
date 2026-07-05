@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { toast } from "react-toastify";
 import api from "@/app/utils/api";
+import { ENDPOINTS } from "@/app/utils/endpoints";
 import { Icon } from "@iconify/react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -38,8 +39,8 @@ export default function BillingHistory() {
     setLoading(true);
     try {
       const [historyRes, currentRes] = await Promise.all([
-        api.get(`/billing/brand/${brandId}/history`),
-        api.get(`/billing/brand/${brandId}/current`),
+        api.get(ENDPOINTS.BILLING_HISTORY(brandId)),
+        api.get(ENDPOINTS.BILLING_CURRENT(brandId)),
       ]);
 
       setHistory(historyRes.data || []);
@@ -72,7 +73,7 @@ export default function BillingHistory() {
     doc.text("Billed To:", 20, 45);
     doc.setFontSize(10);
     doc.setTextColor(100);
-    doc.text(`Brand: ${(Brand as any).brand_name || "SnapTap User"}`, 20, 52);
+    doc.text(`Brand: ${Brand.brand_name || "SnapTap User"}`, 20, 52);
     doc.text(`Account ID: ${Brand.brand_id}`, 20, 58);
     
     // Invoice Details
@@ -101,7 +102,7 @@ export default function BillingHistory() {
     });
     
     // Footer
-    const finalY = (doc as any).lastAutoTable.finalY || 130;
+    const finalY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY || 130;
     doc.setFontSize(10);
     doc.setTextColor(150);
     doc.text("Thank you for using SnapTap!", 20, finalY + 20);
@@ -147,7 +148,7 @@ export default function BillingHistory() {
     {
       title: "Status",
       key: "status",
-      render: (_: any, record: BillingRecord) => (
+      render: (_: unknown, record: BillingRecord) => (
         record.is_paid ? (
           <Tag color="success" className="rounded-[6px] px-3 m-0 border-none font-bold">Paid</Tag>
         ) : (
@@ -162,7 +163,7 @@ export default function BillingHistory() {
     {
       title: "Action",
       key: "action",
-      render: (_: any, record: BillingRecord) => (
+      render: (_: unknown, record: BillingRecord) => (
         <Button 
            type="link" 
            className="text-[#007cae] flex items-center gap-1 font-semibold hover:bg-slate-50 rounded-lg px-2"

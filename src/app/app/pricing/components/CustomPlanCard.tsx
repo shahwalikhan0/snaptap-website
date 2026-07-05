@@ -3,15 +3,17 @@ import { CheckOutlined } from "@ant-design/icons";
 import { FaCogs } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { featuresMap } from "../constants/data";
+import { BrandDataType } from "@/app/app/types/brand-data";
+import { PlanType } from "../../types/plan";
 
 interface CustomPlanCardProps {
   customScans: number;
   customPrice: number;
   loadingPlanId: number | null;
   isLoggedIn: boolean;
-  Brand: any;
+  Brand: BrandDataType | null;
   onScansChange: (val: number | null) => void;
-  onSelectPlan: (plan: any) => void;
+  onSelectPlan: (plan: PlanType) => void;
 }
 
 export function CustomPlanCard({
@@ -116,7 +118,9 @@ export function CustomPlanCard({
               id: 4,
               name: "Custom",
               monthly_price: customPrice,
-              features: [],
+              yearly_price: customPrice * 12,
+              description: "Custom plan",
+              scans: customScans,
             })
           }
           className="h-12 font-bold rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"

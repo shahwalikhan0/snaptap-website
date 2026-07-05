@@ -17,7 +17,7 @@ import { CATEGORIES } from "@/app/constants/categories";
 interface EditProductModalProps {
   visible: boolean;
   onCancel: () => void;
-  onUpdate: (values: any) => void;
+  onUpdate: (values: Record<string, unknown>) => void;
   updating: boolean;
   form: FormInstance;
 }

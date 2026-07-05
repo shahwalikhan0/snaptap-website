@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
+import { publicApi } from "@/app/utils/api";
+import { ENDPOINTS } from "@/app/utils/endpoints";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(/\/$/, "");
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
 
 type ShowcaseProduct = {
   id: number;
@@ -64,33 +65,27 @@ export default function ShowcasePage() {
 
   const fetchProducts = (pageNum: number, search: string) => {
     if (!brandId) return;
-    if (!API_URL) {
-      setError(
-        "Missing API configuration (NEXT_PUBLIC_API_URL). Ask the administrator to set it to your backend URL.",
-      );
-      setLoading(false);
-      setLoadingMore(false);
-      return;
-    }
     if (pageNum === 1) setLoading(true);
     else setLoadingMore(true);
 
-    fetch(
-      `${API_URL}/product/showcase/${brandId}?page=${pageNum}&limit=10&search=${encodeURIComponent(search)}`,
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load products");
-        return res.json();
+    publicApi
+      .get(ENDPOINTS.PRODUCT_SHOWCASE(brandId as string), {
+        params: { page: pageNum, limit: 10, search },
       })
-      .then((data) => {
+      .then((res) => {
+        const data = res.data;
         setBrandName(data.brand_name || "");
-        const newProducts = data.products || [];
+        const newProducts: ShowcaseProduct[] = data.products || [];
         setProducts((prev) =>
           pageNum === 1 ? newProducts : [...prev, ...newProducts],
         );
         setHasMore(data.hasMore ?? newProducts.length === 10);
       })
-      .catch((err) => setError(err.message))
+      .catch((err: unknown) => {
+        const message =
+          err instanceof Error ? err.message : "Failed to load products";
+        setError(message);
+      })
       .finally(() => {
         setLoading(false);
         setLoadingMore(false);

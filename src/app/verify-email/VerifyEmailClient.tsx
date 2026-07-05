@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { verifyEmailToken } from './services/verifyEmailApi';
 
 export default function VerifyEmail() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -16,18 +17,16 @@ export default function VerifyEmail() {
       return;
     }
 
-    // Verify email
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/brand/verify-email/${token}`)
-      .then(res => res.json())
+    verifyEmailToken(token)
       .then(data => {
         if (data.success) {
           setStatus('success');
-          setMessage(data.message);
+          setMessage(data.message || '');
           // Redirect to login after 3 seconds
           setTimeout(() => router.push('/app/login'), 3000);
         } else {
           setStatus('error');
-          setMessage(data.error);
+          setMessage(data.error || 'Verification failed.');
         }
       })
       .catch(() => {

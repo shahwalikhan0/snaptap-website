@@ -1,19 +1,20 @@
 import { Col, Button } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
-import { Plan, getIcon, featuresMap } from "../constants/data";
+import { getIcon, featuresMap } from "../constants/data";
+import { PlanType } from "../../types/plan";
 
 interface BrandPartial {
   subscribed_package_id?: number | null;
 }
 
 interface PlanCardProps {
-  plan: Plan;
+  plan: PlanType;
   index: number;
   loadingPlanId: number | null;
   isLoggedIn: boolean;
   Brand: BrandPartial | null;
-  onSelectPlan: (plan: Plan) => void;
+  onSelectPlan: (plan: PlanType) => void;
 }
 
 export function PlanCard({

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import SubscriptionComponent from "./subscription-component";
 import MyPlan from "./my-plan";
 import ChangePlan from "./change-plan";
@@ -12,9 +11,7 @@ import { Spin } from "antd";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Icon } from "@iconify/react";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { fetchAllPlans } from "../pricing/services/pricingApi";
 
 export default function SubscriptionPage() {
   const router = useRouter();
@@ -51,12 +48,10 @@ export default function SubscriptionPage() {
       hasMounted.current = true;
       try {
         setLoading(true);
-        const response = await axios.get(`${BASE_URL}/package`);
-        if (Array.isArray(response.data)) {
-          setPlan(response.data);
-        }
-      } catch (error: any) {
-        console.error("Error fetching Package:", error);
+        const plans = await fetchAllPlans();
+        setPlan(plans);
+      } catch (err: unknown) {
+        console.error("Error fetching Package:", err);
         toast.error("Failed to load subscription plans.");
       } finally {
         setLoading(false);

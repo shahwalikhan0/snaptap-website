@@ -8,8 +8,11 @@ import { LockOutlined } from "@ant-design/icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
+import {
+  verifyOtp,
+  resetPassword,
+} from "./services/resetPasswordApi";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 // ─── Step 1: OTP Verification ────────────────────────────────────────────────
@@ -68,17 +71,18 @@ const VerifyOtpStep = ({
 
     setLoading(true);
     try {
-      await axios.post(`${BASE_URL}/brand/verify-otp`, {
-        email,
-        otp: otpValue,
-      });
+      await verifyOtp(email, otpValue);
       toast.success("Code verified! Now set your new password.");
       onVerified();
-    } catch (err: any) {
-      if (err.code === "ERR_NETWORK") {
-        toast.error("Server unreachable. Check your connection.");
-      } else if (err.response?.data?.error) {
-        toast.error(err.response.data.error);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server unreachable. Check your connection.");
+        } else if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else {
+          toast.error("Verification failed. Please try again.");
+        }
       } else {
         toast.error("Verification failed. Please try again.");
       }
@@ -210,22 +214,22 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
       const values = await form.validateFields();
       setLoading(true);
 
-      await axios.post(`${BASE_URL}/brand/reset-password`, {
-        email,
-        otp: otp.join(""),
-        newPassword: values.newPassword,
-      });
+      await resetPassword(email, otp.join(""), values.newPassword);
 
       toast.success("Password reset successful! Redirecting to login...", {
         autoClose: 3000,
       });
       setTimeout(() => router.push("/app/login"), 2500);
-    } catch (err: any) {
-      if (err.code === "ERR_NETWORK") {
-        toast.error("Server unreachable. Check your connection.");
-      } else if (err.response?.data?.error) {
-        toast.error(err.response.data.error);
-      } else if (err.name !== "ValidationError") {
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server unreachable. Check your connection.");
+        } else if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else {
+          toast.error("Something went wrong. Please try again.");
+        }
+      } else if (err instanceof Error && err.name !== "ValidationError") {
         toast.error("Something went wrong. Please try again.");
       }
     } finally {

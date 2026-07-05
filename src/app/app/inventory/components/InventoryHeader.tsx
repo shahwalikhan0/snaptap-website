@@ -3,6 +3,8 @@
 import { Input, Segmented } from "antd";
 import { Icon } from "@iconify/react";
 
+import type { AdminDataType } from "@/app/app/types/admin-data";
+
 const { Search } = Input;
 
 interface InventoryHeaderProps {
@@ -11,6 +13,7 @@ interface InventoryHeaderProps {
   statusFilter: "all" | "active" | "inactive";
   setStatusFilter: (val: "all" | "active" | "inactive") => void;
   stats: { total: number; active: number; inactive: number };
+  Admin: AdminDataType | null;
 }
 
 export function InventoryHeader({
@@ -19,7 +22,7 @@ export function InventoryHeader({
   statusFilter,
   setStatusFilter,
   Admin,
-}: InventoryHeaderProps & { Admin: any }) {
+}: InventoryHeaderProps) {
   return (
     <div className="flex flex-col gap-4 mb-10">
       {/* Title Section */}
@@ -76,7 +79,7 @@ export function InventoryHeader({
                 { label: "Inactive", value: "inactive" },
               ]}
               value={statusFilter}
-              onChange={(val) => setStatusFilter(val as any)}
+              onChange={(val) => setStatusFilter(val as "all" | "active" | "inactive")}
               className="p-1 rounded-[6px] bg-slate-100 font-bold text-xs"
               size="large"
             />

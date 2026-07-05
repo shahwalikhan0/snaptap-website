@@ -1,3 +1,5 @@
+"use client";
+
 import { easeOut, motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import {
@@ -13,12 +15,13 @@ import {
   Cell,
   Legend,
 } from "recharts";
+import { ViewTrendItem, TopProduct, ProductDistribution, TooltipPayloadEntry } from "../types";
 
 interface ChartsSectionProps {
-  modelData: any[];
-  productData: any[];
+  modelData: ViewTrendItem[];
+  productData: ProductDistribution[];
   colors: string[];
-  topProducts?: any[];
+  topProducts?: TopProduct[];
 }
 
 export function ChartsSection({
@@ -27,7 +30,7 @@ export function ChartsSection({
   colors,
   topProducts = [],
 }: ChartsSectionProps) {
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadEntry[]; label?: string }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white/90 backdrop-blur-md p-4 rounded-[6px] shadow-lg border border-slate-100">

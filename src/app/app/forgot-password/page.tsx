@@ -8,8 +8,8 @@ import { MailOutlined } from "@ant-design/icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
+import { sendForgotPasswordEmail } from "./services/forgotPasswordApi";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const { Title, Text } = Typography;
 
 const ForgotPasswordPage = () => {
@@ -24,9 +24,7 @@ const ForgotPasswordPage = () => {
       const values = await form.validateFields();
       setLoading(true);
 
-      await axios.post(`${BASE_URL}/brand/forgot-password`, {
-        email: values.email,
-      });
+      await sendForgotPasswordEmail(values.email);
 
       toast.success("Reset code sent! Check your email.", { autoClose: 4000 });
 
@@ -34,18 +32,21 @@ const ForgotPasswordPage = () => {
       router.push(
         `/app/reset-password?email=${encodeURIComponent(values.email)}`,
       );
-    } catch (err: any) {
-      if (err.code === "ERR_NETWORK") {
-        toast.error("Server unreachable. Check your connection.");
-      } else if (err.response?.status === 404) {
-        // Email not found — show inline error on the field
-        setEmailError(
-          err.response.data.error ||
-            "No account found with that email address.",
-        );
-      } else if (err.response?.data?.error) {
-        toast.error(err.response.data.error);
-      } else if (err.name !== "ValidationError") {
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server unreachable. Check your connection.");
+        } else if (err.response?.status === 404) {
+          setEmailError(
+            err.response.data.error ||
+              "No account found with that email address.",
+          );
+        } else if (err.response?.data?.error) {
+          toast.error(err.response.data.error);
+        } else {
+          toast.error("Something went wrong. Please try again.");
+        }
+      } else if (err instanceof Error && err.name !== "ValidationError") {
         toast.error("Something went wrong. Please try again.");
       }
       setLoading(false);
