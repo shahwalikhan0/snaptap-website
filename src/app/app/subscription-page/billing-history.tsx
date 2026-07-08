@@ -10,64 +10,76 @@ import { ENDPOINTS } from "@/app/utils/endpoints";
 import { Icon } from "@iconify/react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { fetchInvoices, InvoiceRecord } from "./services/paymentApi";
 
-interface BillingRecord {
-  id: string;
+interface BillingEstimate {
   month: string;
   total_views: number;
   hits_amount: number;
   subscribed_package_amount: number;
   total_amount: number;
-  is_paid: boolean;
-  paid_at: string | null;
-  due_date: string;
+  is_estimate?: boolean;
 }
+
+const STATUS_TAG: Record<
+  InvoiceRecord["status"],
+  { color: string; label: string; hint: string }
+> = {
+  paid: { color: "success", label: "Paid", hint: "Charged successfully" },
+  pending: { color: "processing", label: "Pending", hint: "Charge in progress" },
+  failed: {
+    color: "warning",
+    label: "Retrying",
+    hint: "Charge failed — we will retry automatically",
+  },
+  delinquent: {
+    color: "error",
+    label: "Overdue",
+    hint: "Payment could not be collected — update your card",
+  },
+  void: { color: "default", label: "Void", hint: "Cancelled invoice" },
+};
 
 export default function BillingHistory() {
   const { Brand } = useAdmin();
-  const [history, setHistory] = useState<BillingRecord[]>([]);
-  const [currentUsage, setCurrentUsage] = useState<BillingRecord | null>(null);
+  const [invoices, setInvoices] = useState<InvoiceRecord[]>([]);
+  const [currentUsage, setCurrentUsage] = useState<BillingEstimate | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (Brand?.brand_id) {
-      fetchBillingData(Brand.brand_id);
-    }
+    if (!Brand?.brand_id) return;
+    const load = async (brandId: number) => {
+      setLoading(true);
+      try {
+        const [invoiceData, currentRes] = await Promise.all([
+          fetchInvoices(brandId),
+          api.get(ENDPOINTS.BILLING_CURRENT(brandId)),
+        ]);
+        setInvoices(invoiceData);
+        setCurrentUsage(currentRes.data || null);
+      } catch (error) {
+        console.error("Error fetching billing data:", error);
+        toast.error("Failed to load billing history.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load(Brand.brand_id);
   }, [Brand?.brand_id]);
 
-  const fetchBillingData = async (brandId: number) => {
-    setLoading(true);
-    try {
-      const [historyRes, currentRes] = await Promise.all([
-        api.get(ENDPOINTS.BILLING_HISTORY(brandId)),
-        api.get(ENDPOINTS.BILLING_CURRENT(brandId)),
-      ]);
-
-      setHistory(historyRes.data || []);
-      setCurrentUsage(currentRes.data || null);
-    } catch (error) {
-      console.error("Error fetching billing data:", error);
-      toast.error("Failed to load billing history.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const generateInvoicePDF = (record: BillingRecord) => {
+  const generateInvoicePDF = (record: InvoiceRecord) => {
     if (!Brand) return;
     const doc = new jsPDF();
     const invoiceNumber = `INV-${dayjs(record.month).format("YYYYMM")}-${Brand.brand_id}`;
-    
-    // Header
+
     doc.setFontSize(22);
     doc.setTextColor(0, 124, 174);
     doc.text("SnapTap", 20, 20);
-    
+
     doc.setFontSize(10);
     doc.setTextColor(100);
     doc.text("Invoice / Receipt", 20, 28);
-    
-    // Brand / Billed To
+
     doc.setFontSize(12);
     doc.setTextColor(0);
     doc.text("Billed To:", 20, 45);
@@ -75,42 +87,51 @@ export default function BillingHistory() {
     doc.setTextColor(100);
     doc.text(`Brand: ${Brand.brand_name || "SnapTap User"}`, 20, 52);
     doc.text(`Account ID: ${Brand.brand_id}`, 20, 58);
-    
-    // Invoice Details
+
     doc.setTextColor(0);
     doc.text("Invoice Details:", 120, 45);
     doc.setTextColor(100);
     doc.text(`Invoice No: ${invoiceNumber}`, 120, 52);
     doc.text(`Month: ${dayjs(record.month).format("MMMM YYYY")}`, 120, 58);
-    if (record.due_date) {
-      doc.text(`Due Date: ${dayjs(record.due_date).format("MMM D, YYYY")}`, 120, 64);
+    doc.text(`Status: ${STATUS_TAG[record.status].label}`, 120, 64);
+    if (record.paid_at) {
+      doc.text(`Paid: ${dayjs(record.paid_at).format("MMM D, YYYY")}`, 120, 70);
     }
-    doc.text(`Status: ${record.is_paid ? 'Paid' : 'Unpaid'}`, 120, record.due_date ? 70 : 64);
 
-    // Table
     autoTable(doc, {
       startY: 85,
-      head: [['Description', 'Amount']],
+      head: [["Description", "Amount"]],
       body: [
-        ['Base Plan Subscription', `Rs. ${Number(record.subscribed_package_amount).toLocaleString()}`],
-        [`Generated Model Views (${Number(record.total_views).toLocaleString()})`, `Rs. ${Number(record.hits_amount).toLocaleString()}`],
+        [
+          "Base Plan Subscription",
+          `Rs. ${Number(record.base_amount).toLocaleString()}`,
+        ],
+        [
+          `Generated Model Views (${Number(record.total_views).toLocaleString()})`,
+          `Rs. ${Number(record.usage_amount).toLocaleString()}`,
+        ],
       ],
-      foot: [['Total', `Rs. ${Number(record.total_amount).toLocaleString()}`]],
-      theme: 'grid',
-      headStyles: { fillColor: [0, 124, 174] }, // #007cae
+      foot: [["Total", `Rs. ${Number(record.total_amount).toLocaleString()}`]],
+      theme: "grid",
+      headStyles: { fillColor: [0, 124, 174] },
       footStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
     });
-    
-    // Footer
-    const finalY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY || 130;
+
+    const finalY =
+      (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable
+        .finalY || 130;
     doc.setFontSize(10);
     doc.setTextColor(150);
     doc.text("Thank you for using SnapTap!", 20, finalY + 20);
-    if (!record.is_paid) {
+    if (record.status === "failed" || record.status === "delinquent") {
       doc.setTextColor(200, 0, 0);
-      doc.text("Please complete payment before the due date.", 20, finalY + 26);
+      doc.text(
+        "Payment could not be collected. Please update your card on the website.",
+        20,
+        finalY + 26,
+      );
     }
-    
+
     doc.save(`${invoiceNumber}.pdf`);
   };
 
@@ -119,61 +140,79 @@ export default function BillingHistory() {
       title: "Invoice Month",
       dataIndex: "month",
       key: "month",
-      render: (text: string) => <span className="font-semibold">{dayjs(text).format("MMMM YYYY")}</span>,
+      render: (text: string) => (
+        <span className="font-semibold">{dayjs(text).format("MMMM YYYY")}</span>
+      ),
     },
     {
-      title: "Generated Views",
+      title: "Views",
       dataIndex: "total_views",
       key: "total_views",
       render: (views: number) => views.toLocaleString(),
     },
     {
       title: "Base Plan",
-      dataIndex: "subscribed_package_amount",
-      key: "subscribed_package_amount",
-      render: (amount: number) => `Rs. ${amount.toLocaleString()}`,
+      dataIndex: "base_amount",
+      key: "base_amount",
+      render: (amount: string) => `Rs. ${Number(amount).toLocaleString()}`,
     },
     {
-      title: "Total Amount",
+      title: "Usage",
+      dataIndex: "usage_amount",
+      key: "usage_amount",
+      render: (amount: string) => `Rs. ${Number(amount).toLocaleString()}`,
+    },
+    {
+      title: "Total",
       dataIndex: "total_amount",
       key: "total_amount",
-      render: (amount: number) => <span className="font-black text-slate-800">Rs. {amount.toLocaleString()}</span>,
-    },
-    {
-      title: "Due Date",
-      dataIndex: "due_date",
-      key: "due_date",
-      render: (date: string) => <span className="whitespace-nowrap">{dayjs(date).format("MMM D, YYYY")}</span>,
+      render: (amount: string) => (
+        <span className="font-black text-slate-800">
+          Rs. {Number(amount).toLocaleString()}
+        </span>
+      ),
     },
     {
       title: "Status",
       key: "status",
-      render: (_: unknown, record: BillingRecord) => (
-        record.is_paid ? (
-          <Tag color="success" className="rounded-[6px] px-3 m-0 border-none font-bold">Paid</Tag>
-        ) : (
-          <Tooltip title={dayjs().isAfter(dayjs(record.due_date)) ? "Overdue" : "Pending Payment"}>
-            <Tag color={dayjs().isAfter(dayjs(record.due_date)) ? "error" : "warning"} className="rounded-[6px] px-3 m-0 border-none font-bold">
-              Unpaid
+      render: (_: unknown, record: InvoiceRecord) => {
+        const tag = STATUS_TAG[record.status] || STATUS_TAG.pending;
+        return (
+          <Tooltip title={tag.hint}>
+            <Tag
+              color={tag.color}
+              className="rounded-[6px] px-3 m-0 border-none font-bold"
+            >
+              {tag.label}
             </Tag>
           </Tooltip>
-        )
+        );
+      },
+    },
+    {
+      title: "Paid On",
+      dataIndex: "paid_at",
+      key: "paid_at",
+      render: (date: string | null) => (
+        <span className="whitespace-nowrap">
+          {date ? dayjs(date).format("MMM D, YYYY") : "—"}
+        </span>
       ),
     },
     {
       title: "Action",
       key: "action",
-      render: (_: unknown, record: BillingRecord) => (
-        <Button 
-           type="link" 
-           className="text-[#007cae] flex items-center gap-1 font-semibold hover:bg-slate-50 rounded-lg px-2"
-           onClick={() => generateInvoicePDF(record)}
+      render: (_: unknown, record: InvoiceRecord) => (
+        <Button
+          type="link"
+          className="text-[#007cae] flex items-center gap-1 font-semibold hover:bg-slate-50 rounded-lg px-2"
+          onClick={() => generateInvoicePDF(record)}
         >
           <Icon icon="mdi:download" width={18} />
           PDF
         </Button>
-      )
-    }
+      ),
+    },
   ];
 
   if (!Brand) return null;
@@ -181,36 +220,49 @@ export default function BillingHistory() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Billing History</h1>
-        <p className="text-slate-500">View your current usage and past invoice history.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+          Billing History
+        </h1>
+        <p className="text-slate-500">
+          Invoices are charged automatically to your saved card on the 1st of
+          each month.
+        </p>
       </div>
 
       {currentUsage && (
         <div className="bg-slate-50 rounded-[6px] border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Icon icon="mdi:chart-timeline-variant-shimmer" className="text-[#007cae]" width={20} />
-              <h3 className="font-bold text-slate-700 uppercase tracking-wider text-xs">Current Month Estimate</h3>
+              <Icon
+                icon="mdi:chart-timeline-variant-shimmer"
+                className="text-[#007cae]"
+                width={20}
+              />
+              <h3 className="font-bold text-slate-700 uppercase tracking-wider text-xs">
+                Current Month Estimate
+              </h3>
             </div>
-            <p className="text-sm text-slate-500">Usage tracked for {dayjs(currentUsage.month).format("MMMM YYYY")}</p>
+            <p className="text-sm text-slate-500">
+              Usage tracked for {dayjs(currentUsage.month).format("MMMM YYYY")} —
+              billed on the 1st
+            </p>
           </div>
           <div className="flex gap-8">
             <div>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">Total Views</p>
-              <p className="text-2xl font-black text-slate-800">{currentUsage.total_views.toLocaleString()}</p>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">
+                Total Views
+              </p>
+              <p className="text-2xl font-black text-slate-800">
+                {currentUsage.total_views.toLocaleString()}
+              </p>
             </div>
             <div>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">Total Amount</p>
-              <p className="text-2xl font-black text-[#007cae]">Rs. {currentUsage.total_amount.toLocaleString()}</p>
-            </div>
-            <div className="flex flex-col justify-center">
-               <Button 
-                onClick={() => generateInvoicePDF(currentUsage)}
-                type="default" 
-                className="rounded-[6px] flex items-center gap-1 font-semibold text-slate-600 bg-white shadow-sm border-slate-200"
-               >
-                 <Icon icon="mdi:file-pdf-box" width={20} className="text-red-500"/> Download PDF
-               </Button>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">
+                Estimated Amount
+              </p>
+              <p className="text-2xl font-black text-[#007cae]">
+                Rs. {currentUsage.total_amount.toLocaleString()}
+              </p>
             </div>
           </div>
         </div>
@@ -218,7 +270,7 @@ export default function BillingHistory() {
 
       <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm overflow-hidden">
         <Table
-          dataSource={history}
+          dataSource={invoices}
           columns={columns}
           rowKey="id"
           loading={loading}

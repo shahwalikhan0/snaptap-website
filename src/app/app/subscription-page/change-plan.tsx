@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
 import { featuresMap } from "../pricing/constants/data";
+import { fetchPaymentMethod } from "./services/paymentApi";
 
 const features: Record<number, string[]> = {
   ...featuresMap,
@@ -29,6 +30,13 @@ const features: Record<number, string[]> = {
 export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   const { Brand, setBrand } = useAdmin();
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
+  const [hasCard, setHasCard] = useState<boolean | null>(null);
+
+  React.useEffect(() => {
+    fetchPaymentMethod()
+      .then((method) => setHasCard(method?.status === "active"))
+      .catch(() => setHasCard(null)); // unknown — don't block plan changes
+  }, []);
 
   /* Custom Plan State */
   const [customScans, setCustomScans] = useState(() => {
@@ -59,6 +67,13 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
     planName: string,
     customLimit?: number,
   ) => {
+    if (hasCard === false) {
+      toast.warn(
+        "Add a payment method first (My Plan → Add Payment Method) so your monthly invoice can be charged automatically.",
+        { autoClose: 6000 },
+      );
+      return;
+    }
     setLoadingPlanId(planId);
     try {
       const payload: { subscribed_package_id: number; total_scans?: number } = {

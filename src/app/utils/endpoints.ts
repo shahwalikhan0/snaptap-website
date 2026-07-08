@@ -20,7 +20,12 @@ export const ENDPOINTS = {
   // ── Billing ──
   BILLING_STATUS: (brandId: number) => `/billing/brand/${brandId}/status`,
   BILLING_CURRENT: (brandId: number) => `/billing/brand/${brandId}/current`,
-  BILLING_HISTORY: (brandId: number) => `/billing/brand/${brandId}/history`,
+  BILLING_INVOICES: (brandId: number) => `/billing/brand/${brandId}/invoices`,
+
+  // ── Payment (Safepay) ──
+  PAYMENT_SETUP_SESSION: "/payment/setup-session",
+  PAYMENT_SETUP_COMPLETE: "/payment/setup-complete",
+  PAYMENT_METHOD: "/payment/method",
 
   // ── Product ──
   PRODUCT_LIST: "/product/brand-id",

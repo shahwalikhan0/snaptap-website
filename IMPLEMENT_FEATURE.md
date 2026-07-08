@@ -67,7 +67,7 @@ All features in the codebase now follow this structure:
 | inventory/[id] | (shared) | (shared) | Yes | Yes |
 | insights | `insightsApi.ts` | `types.ts` | Yes | Yes |
 | pricing | `pricingApi.ts` | (shared `PlanType`) | Yes | Yes |
-| subscription-page | — | `types.ts` | Yes | — |
+| subscription-page | `paymentApi.ts` | `types.ts` | Yes | Yes |
 | manage-profile | `profileApi.ts` | `types.ts` | Yes | Yes |
 | showcase | — | — | Yes | — |
 | home | — | — | Yes | Yes |

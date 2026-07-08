@@ -77,10 +77,20 @@ export function BrandSection({
             label={
               <span className="font-bold text-slate-700">Contact Number</span>
             }
+            rules={[
+              { required: true, message: "Phone number is required" },
+              {
+                validator: (_, value) =>
+                  !value || /^\+?\d{10,14}$/.test(String(value).replace(/[\s-]/g, ""))
+                    ? Promise.resolve()
+                    : Promise.reject("Invalid phone number"),
+              },
+            ]}
           >
             <Input
               size="large"
               prefix={<PhoneOutlined className="text-slate-300" />}
+              placeholder="03XX-XXXXXXX"
               className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
             />
           </Form.Item>

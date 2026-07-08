@@ -82,8 +82,14 @@ const LoginPage = () => {
           const gate = await fetchBillingGateStatus(brand.id, accessToken);
           if (gate.requires_action) {
             const msg =
-              gate.message ||
-              "Your subscription requires attention. Please update your plan or billing details.";
+              gate.reason === "no_payment_method"
+                ? "Add a payment method so your monthly invoice can be charged automatically."
+                : gate.reason === "delinquent"
+                  ? "We could not collect your last payment and your products are paused. Please update your card."
+                  : gate.reason === "past_due"
+                    ? "Your last payment failed. We'll retry automatically, or you can update your card now."
+                    : gate.message ||
+                      "Your subscription requires attention. Please update your plan or billing details.";
             router.replace(
               `/app/subscription-page?alert=${encodeURIComponent(msg)}`,
             );

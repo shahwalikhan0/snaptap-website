@@ -15,6 +15,7 @@ export interface LoginResponse {
 
 export interface BillingGateStatus {
   requires_action: boolean;
+  reason: string | null;
   message: string | null;
 }
 
@@ -52,9 +53,10 @@ export async function fetchBillingGateStatus(
     const payload = response.data?.data;
     return {
       requires_action: Boolean(payload?.requires_action),
+      reason: payload?.reason ?? null,
       message: payload?.message ?? null,
     };
   } catch {
-    return { requires_action: false, message: null };
+    return { requires_action: false, reason: null, message: null };
   }
 }

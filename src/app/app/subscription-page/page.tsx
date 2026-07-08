@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchAllPlans } from "../pricing/services/pricingApi";
+import { completeSetupSession } from "./services/paymentApi";
 
 export default function SubscriptionPage() {
   const router = useRouter();
@@ -31,6 +32,33 @@ export default function SubscriptionPage() {
       }
     }
   }, []);
+
+  // Safepay card-setup return: /app/subscription-page?setup=success
+  // (the server confirms the card against Safepay's wallet — no params needed)
+  useEffect(() => {
+    if (typeof window === "undefined" || !isInitialized || !isLoggedIn) return;
+    const params = new URLSearchParams(window.location.search);
+    const setup = params.get("setup");
+    if (!setup) return;
+
+    window.history.replaceState({}, "", window.location.pathname);
+
+    if (setup === "cancelled") {
+      toast.info("Card setup was cancelled.");
+      return;
+    }
+
+    if (setup === "success") {
+      completeSetupSession()
+        .then(() => {
+          toast.success("Payment method saved! Your invoices will now be charged automatically.");
+        })
+        .catch((err: unknown) => {
+          console.error("Card setup completion failed:", err);
+          toast.error("We could not confirm your card with Safepay. Please try again.");
+        });
+    }
+  }, [isInitialized, isLoggedIn]);
 
   useEffect(() => {
     const fetchPackage = async () => {

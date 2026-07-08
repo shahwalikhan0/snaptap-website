@@ -7,6 +7,7 @@ import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
 import api from "@/app/utils/api";
 import { ENDPOINTS } from "@/app/utils/endpoints";
+import { PaymentMethodCard } from "./components/PaymentMethodCard";
 
 interface BillingEstimate {
   is_estimate?: boolean;
@@ -14,9 +15,31 @@ interface BillingEstimate {
   month: string;
 }
 
+interface BillingGate {
+  requires_action: boolean;
+  reason: string | null;
+  message: string | null;
+}
+
+const GATE_BANNERS: Record<string, { title: string; body: string }> = {
+  no_payment_method: {
+    title: "Add a payment method",
+    body: "Your plan is active but no card is on file. Add one below so your monthly invoice can be charged automatically.",
+  },
+  past_due: {
+    title: "Payment failed — we'll retry automatically",
+    body: "Your last charge didn't go through. We'll retry in a couple of days, or you can update your card below now.",
+  },
+  delinquent: {
+    title: "Subscription suspended",
+    body: "We couldn't collect payment after several attempts, so your products are temporarily unavailable. Update your card below to restore service.",
+  },
+};
+
 export default function MyPlan() {
   const { Brand, setBrand } = useAdmin();
   const [currentEst, setCurrentEst] = useState<BillingEstimate | null>(null);
+  const [gate, setGate] = useState<BillingGate | null>(null);
 
   useEffect(() => {
     if (Brand?.brand_id) {
@@ -26,6 +49,10 @@ export default function MyPlan() {
              setCurrentEst(res.data);
          })
          .catch((err: unknown) => console.log("Failed to load current billing estimate", err));
+       api
+         .get(ENDPOINTS.BILLING_STATUS(Brand.brand_id))
+         .then((res) => setGate(res.data?.data ?? null))
+         .catch((err: unknown) => console.log("Failed to load billing status", err));
     }
   }, [Brand?.brand_id]);
 
@@ -42,12 +69,27 @@ export default function MyPlan() {
     ? Math.round(((Brand.total_scans - Brand.scans_remaining) / Brand.total_scans) * 100)
     : 0;
 
+  const banner =
+    gate?.requires_action && gate.reason ? GATE_BANNERS[gate.reason] : null;
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Current Subscription</h1>
         <p className="text-slate-500">Overview of your active plan and usage metrics.</p>
       </div>
+
+      {banner && (
+        <div className="bg-amber-50 border border-amber-200 rounded-[6px] p-5 flex items-start gap-4">
+          <Icon icon="mdi:alert-circle-outline" width={24} className="text-amber-500 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold text-amber-800">{banner.title}</p>
+            <p className="text-sm text-amber-700">{banner.body}</p>
+          </div>
+        </div>
+      )}
+
+      <PaymentMethodCard />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Main Plan Card */}
