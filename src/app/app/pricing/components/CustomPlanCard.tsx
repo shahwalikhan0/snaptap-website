@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { featuresMap } from "../constants/data";
 import { BrandDataType } from "@/app/app/types/brand-data";
 import { PlanType } from "../../types/plan";
+import { formatPrice } from "@/app/utils/currency";
 
 interface CustomPlanCardProps {
   customScans: number;
@@ -47,7 +48,7 @@ export function CustomPlanCard({
         <div className="mb-2 flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="text-sm font-bold text-slate-400 line-through">
-              Rs. {customPrice * 2}
+              {formatPrice(customPrice * 2)}
             </span>
             <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
               50% Off
@@ -55,7 +56,7 @@ export function CustomPlanCard({
           </div>
           <div className="flex items-end gap-1">
             <span className="text-3xl sm:text-4xl font-black text-slate-900">
-              Rs. {customPrice}
+              {formatPrice(customPrice)}
             </span>
             <span className="text-slate-400 font-medium pb-1">/mo</span>
           </div>

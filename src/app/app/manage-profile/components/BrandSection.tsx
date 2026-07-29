@@ -3,6 +3,7 @@ import { GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/
 import { motion } from "framer-motion";
 import { BrandDetailFormValues } from "../types";
 import { CATEGORIES } from "@/app/constants/categories";
+import { COUNTRIES } from "@/app/constants/countries";
 
 const { Option } = Select;
 
@@ -90,9 +91,33 @@ export function BrandSection({
             <Input
               size="large"
               prefix={<PhoneOutlined className="text-slate-300" />}
-              placeholder="03XX-XXXXXXX"
+              placeholder="+1 234 567 8900"
               className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
             />
+          </Form.Item>
+          <Form.Item
+            name="country"
+            label={<span className="font-bold text-slate-700">Country</span>}
+            rules={[{ required: true, message: "Country is required" }]}
+            extra={
+              <span className="text-xs text-slate-400">
+                Used for billing and regional pricing.
+              </span>
+            }
+          >
+            <Select
+              size="large"
+              showSearch
+              optionFilterProp="children"
+              placeholder="Select your country"
+              className="h-12 [&_.ant-select-selector]:!h-12 [&_.ant-select-selector]:!rounded-[6px] [&_.ant-select-selector]:!border-slate-200 [&_.ant-select-selection-item]:!leading-[46px]"
+            >
+              {COUNTRIES.map((c) => (
+                <Option key={c.code} value={c.code}>
+                  {c.name}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             name="location"

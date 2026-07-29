@@ -11,6 +11,8 @@ import { Icon } from "@iconify/react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { fetchInvoices, InvoiceRecord } from "./services/paymentApi";
+import { PaymentMethodCard } from "./components/PaymentMethodCard";
+import { formatCurrency } from "@/app/utils/currency";
 
 interface BillingEstimate {
   month: string;
@@ -102,16 +104,13 @@ export default function BillingHistory() {
       startY: 85,
       head: [["Description", "Amount"]],
       body: [
-        [
-          "Base Plan Subscription",
-          `Rs. ${Number(record.base_amount).toLocaleString()}`,
-        ],
+        ["Base Plan Subscription", formatCurrency(record.base_amount)],
         [
           `Generated Model Views (${Number(record.total_views).toLocaleString()})`,
-          `Rs. ${Number(record.usage_amount).toLocaleString()}`,
+          formatCurrency(record.usage_amount),
         ],
       ],
-      foot: [["Total", `Rs. ${Number(record.total_amount).toLocaleString()}`]],
+      foot: [["Total", formatCurrency(record.total_amount)]],
       theme: "grid",
       headStyles: { fillColor: [0, 124, 174] },
       footStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
@@ -154,13 +153,13 @@ export default function BillingHistory() {
       title: "Base Plan",
       dataIndex: "base_amount",
       key: "base_amount",
-      render: (amount: string) => `Rs. ${Number(amount).toLocaleString()}`,
+      render: (amount: string) => formatCurrency(amount),
     },
     {
       title: "Usage",
       dataIndex: "usage_amount",
       key: "usage_amount",
-      render: (amount: string) => `Rs. ${Number(amount).toLocaleString()}`,
+      render: (amount: string) => formatCurrency(amount),
     },
     {
       title: "Total",
@@ -168,7 +167,7 @@ export default function BillingHistory() {
       key: "total_amount",
       render: (amount: string) => (
         <span className="font-black text-slate-800">
-          Rs. {Number(amount).toLocaleString()}
+          {formatCurrency(amount)}
         </span>
       ),
     },
@@ -221,13 +220,15 @@ export default function BillingHistory() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
-          Billing History
+          Billing &amp; Payments
         </h1>
         <p className="text-slate-500">
           Invoices are charged automatically to your saved card on the 1st of
           each month.
         </p>
       </div>
+
+      <PaymentMethodCard />
 
       {currentUsage && (
         <div className="bg-slate-50 rounded-[6px] border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
@@ -261,7 +262,7 @@ export default function BillingHistory() {
                 Estimated Amount
               </p>
               <p className="text-2xl font-black text-[#007cae]">
-                Rs. {currentUsage.total_amount.toLocaleString()}
+                {formatCurrency(currentUsage.total_amount)}
               </p>
             </div>
           </div>

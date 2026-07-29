@@ -159,7 +159,7 @@ export default function InsightsPage() {
       : "mdi:tag-outline";
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pt-28 pb-16 px-6 sm:px-10">
+    <div className="min-h-screen bg-slate-100 pt-28 pb-16 px-6 sm:px-10">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6"
@@ -181,7 +181,7 @@ export default function InsightsPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-[6px] shadow-sm border border-slate-100">
+          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-[6px] shadow-sm border border-slate-200">
             <Icon
               icon="solar:shield-check-bold-duotone"
               width={20}

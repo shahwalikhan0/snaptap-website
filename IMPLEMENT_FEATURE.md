@@ -131,6 +131,22 @@ catch (err: unknown) {
 - **Never import raw `axios`** in service files. Use `api` or `publicApi` — they already have `baseURL` configured.
 - **Service functions return `response.data`**, not the full axios response. The page component handles UI concerns (toast, redirect).
 
+### Money & Currency Rules
+
+SnapTap bills in **USD worldwide**. Regional discounts are applied server-side, so an amount arriving from the API is already the brand's final price — the UI formats, it never converts.
+
+- **Never write a currency symbol into JSX or a template string.** No `` `Rs. ${x}` ``, no `` `$${x}` ``. Import from `src/app/utils/currency.ts`:
+  - `formatCurrency(amount)` → `$1,234.56` — invoices, totals, billed amounts.
+  - `formatPrice(amount)` → `$19` / `$19.50` — plan headline prices (drops trailing `.00`).
+  - `formatRate(amount)` → `$0.015` — per-model-view rates, which are sub-cent.
+- **Never re-implement a pricing formula on the client.** The custom-plan price comes from `GET /package/quote` (`fetchCustomPlanQuote`). A client-side copy silently drifts from what the server actually charges — this exact bug existed in three places before it was consolidated.
+- **Render rates from live plan data** (`plan.per_view_rate`), not from a hardcoded feature-list string, for the same reason.
+
+### URLs & Domain Rules
+
+- **Never hardcode a public URL.** Import `SITE_URL`, `API_URL`, `SUPPORT_EMAIL`, or `absoluteUrl()` from `src/app/utils/site.ts`. These feed canonical tags, OG metadata, the sitemap, and robots.txt; a stray literal breaks SEO silently after a domain change.
+- `src/proxy.ts` 308-redirects the retired `snaptap.pk` hosts to `gosnaptap.com`. It's a fallback behind the infra-level redirect — add new legacy hosts there, not new redirect logic elsewhere.
+
 ### Readability & Structure
 
 - **Named Exports:** Prefer `export const MyComponent = ...` for sub-components. Use `default export` only for `page.tsx` files (required by App Router).

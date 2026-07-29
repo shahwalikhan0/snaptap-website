@@ -33,7 +33,7 @@ export function ModelProcessing() {
           {
             icon: "mdi:qrcode-plus",
             label: "QR Code Generated",
-            desc: "A unique QR code is generated and uploaded. It links directly to the SnapTap AR viewer page for this product (e.g. api.snaptap.pk/model/name/{productId}).",
+            desc: "A unique QR code is generated and uploaded. It links directly to the SnapTap AR viewer page for this product (e.g. api.gosnaptap.com/model/name/{productId}).",
           },
           {
             icon: "mdi:database-check",
@@ -96,7 +96,7 @@ export function ModelProcessing() {
       <div className="bg-slate-50 rounded-[6px] border border-slate-200 p-5 my-4 font-mono text-xs text-slate-600 break-all">
         QR Code URL format:{" "}
         <span className="text-[#007cae] font-bold">
-          https://api.snaptap.pk/model/name/&#123;productId&#125;
+          https://api.gosnaptap.com/model/name/&#123;productId&#125;
         </span>
       </div>
       <CheckList

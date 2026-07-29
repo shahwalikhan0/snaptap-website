@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "../../app/components/navbar";
 import Footer from "../../app/components/footer";
 import { Icon } from "@iconify/react";
+import { SUPPORT_EMAIL } from "@/app/utils/site";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ export default function ContactPage() {
     const mailtoBody = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`,
     );
-    window.location.href = `mailto:admin@snaptap.pk?subject=${mailtoSubject}&body=${mailtoBody}`;
+    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${mailtoSubject}&body=${mailtoBody}`;
     setSubmitted(true);
   };
 
@@ -79,10 +80,10 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-bold text-slate-900 mb-1">Email</h3>
                 <a
-                  href="mailto:admin@snaptap.pk"
+                  href={`mailto:${SUPPORT_EMAIL}`}
                   className="text-[#007cae] hover:underline text-sm"
                 >
-                  admin@snaptap.pk
+                  {SUPPORT_EMAIL}
                 </a>
               </div>
 
@@ -171,10 +172,10 @@ export default function ContactPage() {
                       pre-filled. If it didn&apos;t open, please email us
                       directly at{" "}
                       <a
-                        href="mailto:admin@snaptap.pk"
+                        href={`mailto:${SUPPORT_EMAIL}`}
                         className="text-[#007cae] font-semibold hover:underline"
                       >
-                        admin@snaptap.pk
+                        {SUPPORT_EMAIL}
                       </a>
                       .
                     </p>

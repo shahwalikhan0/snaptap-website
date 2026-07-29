@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { FaApple } from "react-icons/fa";
 import Image from "next/image";
+import { SUPPORT_EMAIL } from "@/app/utils/site";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -58,7 +59,7 @@ export default function Footer() {
                 <InstagramOutlined />
               </a>
               <a
-                href="mailto:admin@snaptap.pk"
+                href={`mailto:${SUPPORT_EMAIL}`}
                 className="w-8 h-8 rounded-[6px] bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#007cae] hover:border-[#007cae] hover:text-white transition-all duration-300 hover:-translate-y-1"
               >
                 <MailOutlined />

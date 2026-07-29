@@ -7,7 +7,7 @@ import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
 import api from "@/app/utils/api";
 import { ENDPOINTS } from "@/app/utils/endpoints";
-import { PaymentMethodCard } from "./components/PaymentMethodCard";
+import { formatCurrency } from "@/app/utils/currency";
 
 interface BillingEstimate {
   is_estimate?: boolean;
@@ -24,19 +24,23 @@ interface BillingGate {
 const GATE_BANNERS: Record<string, { title: string; body: string }> = {
   no_payment_method: {
     title: "Add a payment method",
-    body: "Your plan is active but no card is on file. Add one below so your monthly invoice can be charged automatically.",
+    body: "Your plan is active but no card is on file, so your monthly invoice cannot be charged automatically.",
   },
   past_due: {
     title: "Payment failed — we'll retry automatically",
-    body: "Your last charge didn't go through. We'll retry in a couple of days, or you can update your card below now.",
+    body: "Your last charge didn't go through. We'll retry in a couple of days, or you can update your card now.",
   },
   delinquent: {
     title: "Subscription suspended",
-    body: "We couldn't collect payment after several attempts, so your products are temporarily unavailable. Update your card below to restore service.",
+    body: "We couldn't collect payment after several attempts, so your products are temporarily unavailable. Update your card to restore service.",
   },
 };
 
-export default function MyPlan() {
+interface MyPlanProps {
+  onNavigate?: (page: string) => void;
+}
+
+export default function MyPlan({ onNavigate }: MyPlanProps) {
   const { Brand, setBrand } = useAdmin();
   const [currentEst, setCurrentEst] = useState<BillingEstimate | null>(null);
   const [gate, setGate] = useState<BillingGate | null>(null);
@@ -80,16 +84,20 @@ export default function MyPlan() {
       </div>
 
       {banner && (
-        <div className="bg-amber-50 border border-amber-200 rounded-[6px] p-5 flex items-start gap-4">
-          <Icon icon="mdi:alert-circle-outline" width={24} className="text-amber-500 shrink-0 mt-0.5" />
-          <div>
+        <div className="bg-amber-50 border border-amber-200 rounded-[6px] p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+          <Icon icon="mdi:alert-circle-outline" width={24} className="text-amber-500 shrink-0" />
+          <div className="flex-1">
             <p className="font-bold text-amber-800">{banner.title}</p>
             <p className="text-sm text-amber-700">{banner.body}</p>
           </div>
+          <button
+            onClick={() => onNavigate?.("billing-history")}
+            className="shrink-0 px-4 py-2.5 rounded-[6px] bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm transition-colors"
+          >
+            Manage Payment
+          </button>
         </div>
       )}
-
-      <PaymentMethodCard />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Main Plan Card */}
@@ -105,7 +113,7 @@ export default function MyPlan() {
                 <p className="text-white/70 text-sm font-semibold uppercase tracking-wider">
                   {currentEst?.is_estimate ? "Current Month Estimate" : "Current Monthly Billing"}
                 </p>
-                <p className="text-2xl sm:text-3xl font-bold">Rs. {currentEst?.total_amount ?? Brand.totalBilling ?? 0}</p>
+                <p className="text-2xl sm:text-3xl font-bold">{formatCurrency(currentEst?.total_amount ?? Brand.totalBilling ?? 0)}</p>
               </div>
             </div>
           </div>

@@ -9,16 +9,19 @@ import { toast } from "react-toastify";
 import { PlanType } from "../types/plan";
 import { PlanCard } from "./components/PlanCard";
 import { CustomPlanCard } from "./components/CustomPlanCard";
-import { fetchPlans, updatePlanDetail } from "./services/pricingApi";
+import {
+  fetchPlans,
+  updatePlanDetail,
+  fetchCustomPlanQuote,
+} from "./services/pricingApi";
 
 const { Title } = Typography;
 
 export default function PricingComponent() {
-  /* Custom Plan State */
+  /* Custom Plan State — the price is quoted by the server so the formula and
+     the brand's regional rate live in exactly one place. */
   const [customScans, setCustomScans] = useState(81);
-  const BASE_CUSTOM_PRICE = 6000;
-  const customPrice =
-    BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
+  const [customPrice, setCustomPrice] = useState(0);
 
   const [plans, setPlans] = useState<PlanType[]>([]);
   const [loadingPlanId, setLoadingPlanId] = useState<number | null>(null);
@@ -54,6 +57,19 @@ export default function PricingComponent() {
     };
     loadPlans();
   }, []);
+
+  // Re-quote the custom plan whenever the scan slider moves (debounced so
+  // dragging doesn't fire a request per pixel).
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchCustomPlanQuote(customScans)
+        .then((quote) => setCustomPrice(quote.amount))
+        .catch((err: unknown) =>
+          console.error("Failed to fetch custom plan quote", err),
+        );
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [customScans]);
 
   const handleSelectPlan = async (plan: PlanType) => {
     if (!isLoggedIn) {

@@ -1,11 +1,9 @@
 "use client";
 
-import { Input, Segmented } from "antd";
 import { Icon } from "@iconify/react";
+import clsx from "clsx";
 
 import type { AdminDataType } from "@/app/app/types/admin-data";
-
-const { Search } = Input;
 
 interface InventoryHeaderProps {
   search: string;
@@ -16,15 +14,28 @@ interface InventoryHeaderProps {
   Admin: AdminDataType | null;
 }
 
+const STATUS_TABS: {
+  value: "all" | "active" | "inactive";
+  label: string;
+}[] = [
+  { value: "all", label: "All Items" },
+  { value: "active", label: "Active" },
+  { value: "inactive", label: "Inactive" },
+];
+
 export function InventoryHeader({
   search,
   setSearch,
   statusFilter,
   setStatusFilter,
+  stats,
   Admin,
 }: InventoryHeaderProps) {
+  const countFor = (value: "all" | "active" | "inactive") =>
+    value === "all" ? stats.total : stats[value];
+
   return (
-    <div className="flex flex-col gap-4 mb-10">
+    <div className="flex flex-col gap-6 mb-10">
       {/* Title Section */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-slate-100 pb-4">
         <div>
@@ -39,51 +50,82 @@ export function InventoryHeader({
           </h1>
         </div>
 
-        <div className="hidden lg:flex items-center gap-3">
+        {/* Primary action: the public catalog customers actually see —
+            visible on every breakpoint */}
+        <div className="flex items-center gap-3">
           <a
             href={`/app/showcase/${Admin?.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white text-snaptap-blue-dark border border-slate-200 hover:border-snaptap-blue hover:text-snaptap-blue px-4 py-2 rounded-[6px] font-bold text-sm transition-all shadow-sm"
+            className="flex items-center gap-2 bg-snaptap-blue-dark hover:bg-[#006080] text-white px-5 py-2.5 rounded-[6px] font-bold text-sm transition-all shadow-lg shadow-snaptap-blue-dark/20 w-full sm:w-auto justify-center"
           >
-            <Icon icon="mdi:qrcode" width={18} />
-            Product Showcase
-            <Icon icon="mdi:open-in-new" width={14} className="opacity-50" />
+            <Icon icon="solar:eye-bold-duotone" width={18} />
+            View Public Showcase
+            <Icon icon="mdi:open-in-new" width={14} className="opacity-70" />
           </a>
         </div>
       </div>
 
-      {/* Control Bar: Search & Filters */}
-      <div className="flex flex-col md:flex-row items-end justify-between gap-4 md:gap-10">
-        <div className="relative w-full flex-1">
-          <Search
-            placeholder="Search products by name or category..."
-            allowClear
-            variant="borderless"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="!p-0 border-b-2 border-slate-200 focus-within:border-snaptap-blue-dark transition-all duration-300 [&_.ant-input]:!text-lg [&_.ant-input]:!font-bold [&_.ant-input]:!py-3 [&_.ant-input]:text-slate-900 [&_.ant-input::placeholder]:text-slate-300 [&_.ant-input-suffix_svg]:text-slate-300"
-            size="large"
-          />
+      {/* Control Bar: status tabs (left) + search (right) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div
+          role="tablist"
+          aria-label="Filter products by status"
+          className="flex items-center gap-1 bg-slate-100 p-1 rounded-[6px] w-full md:w-auto"
+        >
+          {STATUS_TABS.map((tab) => {
+            const isActive = statusFilter === tab.value;
+            return (
+              <button
+                key={tab.value}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setStatusFilter(tab.value)}
+                className={clsx(
+                  "flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-[6px] text-sm font-bold transition-all",
+                  isActive
+                    ? "bg-white text-snaptap-blue-dark shadow-sm"
+                    : "text-slate-500 hover:text-slate-700",
+                )}
+              >
+                {tab.label}
+                <span
+                  className={clsx(
+                    "min-w-[22px] px-1.5 py-0.5 rounded-[6px] text-[11px] font-black leading-none",
+                    isActive
+                      ? "bg-snaptap-blue-dark/10 text-snaptap-blue-dark"
+                      : "bg-slate-200 text-slate-500",
+                  )}
+                >
+                  {countFor(tab.value)}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="flex items-center gap-4 shrink-0 w-full md:w-auto">
-          <div className="flex flex-col gap-1.5 w-full md:w-auto">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em] ml-1">
-              Status Filter
-            </span>
-            <Segmented
-              options={[
-                { label: "All Items", value: "all" },
-                { label: "Active", value: "active" },
-                { label: "Inactive", value: "inactive" },
-              ]}
-              value={statusFilter}
-              onChange={(val) => setStatusFilter(val as "all" | "active" | "inactive")}
-              className="p-1 rounded-[6px] bg-slate-100 font-bold text-xs"
-              size="large"
-            />
-          </div>
+        <div className="relative w-full md:w-80">
+          <Icon
+            icon="solar:magnifer-line-duotone"
+            width={18}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+          />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name or category..."
+            className="w-full pl-10 pr-9 py-2.5 rounded-[6px] border border-slate-200 bg-white text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-snaptap-blue-dark focus:ring-2 focus:ring-snaptap-blue-dark/10 transition-all"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              aria-label="Clear search"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-[6px] text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+              <Icon icon="lucide:x" width={14} />
+            </button>
+          )}
         </div>
       </div>
     </div>

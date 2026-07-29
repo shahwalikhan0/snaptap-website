@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 
 import type { Product } from "../types";
+import { formatPrice } from "@/app/utils/currency";
 
 interface ProductCardProps {
   product: Product;
@@ -64,7 +65,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
             <div className="text-xl font-black text-slate-900 sm:text-right">
                 <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-tighter sm:leading-none">Price</span>
-                Rs. {Number(product?.price).toLocaleString()}
+                {formatPrice(product?.price)}
             </div>
           </div>
           

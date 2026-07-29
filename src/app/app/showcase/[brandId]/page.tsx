@@ -381,7 +381,7 @@ export default function ShowcasePage() {
               <Icon icon="mdi:linkedin" width={20} />
             </a>
             <a
-              href="https://snaptap.pk"
+              href="https://gosnaptap.com"
               className="ml-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-2"
             >
               Visit Website <Icon icon="mdi:arrow-right" />

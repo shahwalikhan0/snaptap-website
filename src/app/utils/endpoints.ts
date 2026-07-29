@@ -38,4 +38,6 @@ export const ENDPOINTS = {
 
   // ── Packages ──
   PACKAGE_LIST: "/package",
+  // Server-computed custom-plan price (single source of truth for the formula)
+  PACKAGE_QUOTE: "/package/quote",
 } as const;

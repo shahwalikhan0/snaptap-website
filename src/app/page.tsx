@@ -1,6 +1,7 @@
 "use client";
 
 import { MainScreen } from "./app/home/components/main-screen";
+import { SITE_URL, absoluteUrl } from "./utils/site";
 
 export default function Home() {
   return (
@@ -14,8 +15,8 @@ export default function Home() {
             "@type": "Organization",
             "name": "SnapTap",
             "alternateName": "Snaptap",
-            "url": "https://snaptap.pk",
-            "logo": "https://snaptap.pk/assets/icon.png",
+            "url": SITE_URL,
+            "logo": absoluteUrl("/assets/icon.png"),
             "sameAs": ["https://www.instagram.com/snaptappk/"],
             "description": "SnapTap provides immersive 3D and Augmented Reality e-commerce solutions."
           }),
@@ -29,7 +30,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "SnapTap",
-            "url": "https://snaptap.pk",
+            "url": SITE_URL,
             "description": "Create and view 3D Augmented Reality product models for your business using SnapTap.",
             "inLanguage": "en"
           }),
@@ -48,7 +49,7 @@ export default function Home() {
             "offers": {
               "@type": "Offer",
               "price": "0",
-              "priceCurrency": "PKR",
+              "priceCurrency": "USD",
             },
           }),
         }}

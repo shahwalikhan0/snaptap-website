@@ -3,6 +3,7 @@ import { CheckOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { getIcon, featuresMap } from "../constants/data";
 import { PlanType } from "../../types/plan";
+import { formatPrice, formatRate } from "@/app/utils/currency";
 
 interface BrandPartial {
   subscribed_package_id?: number | null;
@@ -62,7 +63,7 @@ export function PlanCard({
         <div className="mb-6 flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="text-sm font-bold text-slate-400 line-through">
-              Rs. {plan.monthly_price * 2}
+              {formatPrice(plan.monthly_price * 2)}
             </span>
             <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
               50% Off
@@ -70,7 +71,7 @@ export function PlanCard({
           </div>
           <div className="flex items-end gap-1">
             <span className="text-3xl sm:text-4xl font-black text-slate-900">
-              Rs. {plan.monthly_price}
+              {formatPrice(plan.monthly_price)}
             </span>
             <span className="text-slate-400 font-medium pb-1">/mo</span>
           </div>
@@ -81,6 +82,16 @@ export function PlanCard({
 
         {/* Features */}
         <ul className="space-y-3 mb-8 flex-grow text-left">
+          {plan.per_view_rate != null && (
+            <li className="flex items-start gap-2.5">
+              <div className="mt-0.5 shrink-0 w-5 h-5 rounded-[6px] bg-green-100 flex items-center justify-center">
+                <CheckOutlined className="text-green-600 text-[10px]" />
+              </div>
+              <span className="text-slate-600 text-sm">
+                {formatRate(plan.per_view_rate)} per model view
+              </span>
+            </li>
+          )}
           {featuresMap[plan.id]?.map((feature: string, i: number) => (
             <li key={i} className="flex items-start gap-2.5">
               <div className="mt-0.5 shrink-0 w-5 h-5 rounded-[6px] bg-green-100 flex items-center justify-center">

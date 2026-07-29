@@ -21,6 +21,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { CATEGORIES } from "@/app/constants/categories";
+import { COUNTRIES } from "@/app/constants/countries";
 import { Icon } from "@iconify/react";
 
 const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
@@ -62,6 +63,7 @@ const SignUpPage: React.FC = () => {
         formData.append("total_scans", storedPlanScans);
       }
 
+      if (values.country) formData.append("country", values.country);
       if (values.location) formData.append("location", values.location);
       if (values.website_url)
         formData.append("website_url", values.website_url);
@@ -248,6 +250,30 @@ const SignUpPage: React.FC = () => {
                   placeholder="••••••••••••"
                   className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
                 />
+              </Form.Item>
+
+              <Form.Item
+                name="country"
+                label={
+                  <span className="font-bold text-[#2e2e2e] text-xs uppercase tracking-widest">
+                    Country
+                  </span>
+                }
+                rules={[{ required: true, message: "Required" }]}
+                className="sm:col-span-1"
+              >
+                <Select
+                  showSearch
+                  placeholder="Select your country"
+                  optionFilterProp="children"
+                  className="h-12 [&_.ant-select-selector]:!h-12 [&_.ant-select-selector]:!rounded-[6px] [&_.ant-select-selector]:!border-slate-200 [&_.ant-select-selection-item]:!leading-[46px]"
+                >
+                  {COUNTRIES.map((c) => (
+                    <Select.Option key={c.code} value={c.code}>
+                      {c.name}
+                    </Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
 
               <Form.Item

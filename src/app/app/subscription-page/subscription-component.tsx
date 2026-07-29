@@ -12,17 +12,17 @@ export default function SubscriptionComponent({ selectedPage, onSelect }: Props)
   const menuItems = [
     {
       id: "my-plan",
-      label: "Current Subscription",
+      label: "My Plan",
       icon: "mdi:file-certificate-outline",
     },
     {
       id: "change-plan",
-      label: "Upgrade / Change Plan",
+      label: "Change Plan",
       icon: "mdi:rocket-launch-outline",
     },
     {
       id: "billing-history",
-      label: "Billing History",
+      label: "Billing & Payments",
       icon: "mdi:receipt-text-outline",
     },
   ];

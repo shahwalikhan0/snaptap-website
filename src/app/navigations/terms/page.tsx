@@ -3,6 +3,7 @@
 import Navbar from "../../app/components/navbar";
 import Footer from "../../app/components/footer";
 import { Icon } from "@iconify/react";
+import { SUPPORT_EMAIL } from "@/app/utils/site";
 
 export default function TermsOfService() {
     return (
@@ -118,9 +119,9 @@ export default function TermsOfService() {
                             <p className="text-slate-600 leading-relaxed">
                                 If you have any questions about these Terms of Service, please contact us at:
                             </p>
-                            <a href="mailto:admin@snaptap.pk" className="inline-flex items-center gap-2 text-[#007cae] font-semibold mt-3 hover:underline transition">
+                            <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex items-center gap-2 text-[#007cae] font-semibold mt-3 hover:underline transition">
                                 <Icon icon="mdi:email-outline" width={20} />
-                                admin@snaptap.pk
+                                {SUPPORT_EMAIL}
                             </a>
                         </section>
                     </div>

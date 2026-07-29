@@ -14,4 +14,6 @@ export type PlanType = {
   yearly_price: number;
   description: string;
   scans: number;
+  /** USD per model view. Decimal from the API, so it may arrive as a string. */
+  per_view_rate?: number | string;
 };

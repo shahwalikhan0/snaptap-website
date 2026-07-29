@@ -3,7 +3,9 @@
 import { easeOut, motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 import { AdminData, BrandData } from "../types";
+import { formatCurrency } from "@/app/utils/currency";
 
 interface BrandProfileCardProps {
   admin: AdminData;
@@ -16,6 +18,7 @@ export function BrandProfileCard({
   brand,
   categoryIcon,
 }: BrandProfileCardProps) {
+  const router = useRouter();
   return (
     <motion.div
       className="grid grid-cols-1 lg:grid-cols-3 gap-6"
@@ -58,8 +61,8 @@ export function BrandProfileCard({
         </div>
       </div>
 
-      <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-[6px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 lg:col-span-2 relative overflow-hidden flex flex-col justify-between">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#e0f7ff] to-transparent opacity-50 rounded-bl-full pointer-events-none" />
+      <div className="bg-white border border-slate-200 rounded-[6px] shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-8 lg:col-span-2 relative overflow-hidden flex flex-col justify-between">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#e0f7ff] to-transparent opacity-40 rounded-bl-full pointer-events-none" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
           {/* Plan Info */}
@@ -157,13 +160,13 @@ export function BrandProfileCard({
               Current Balance
             </p>
             <p className="text-3xl font-black text-[#00A8DE] tracking-tight">
-              <span className="text-lg font-bold text-slate-400 mr-1">PKR</span>
-              {brand.totalBilling.toLocaleString()}
+              <span className="text-lg font-bold text-slate-400 mr-1">USD</span>
+              {formatCurrency(brand.totalBilling).replace("$", "")}
             </p>
           </div>
 
           <button
-            onClick={() => (window.location.href = "/app/subscription-page")}
+            onClick={() => router.push("/app/subscription-page")}
             className="flex items-center gap-2 text-sm font-bold text-[#00A8DE] hover:text-[#007cae] transition-colors rounded-[6px] hover:bg-[#00A8DE]/5 px-4 py-2"
           >
             Manage Billing <Icon icon="solar:arrow-right-line-duotone" />

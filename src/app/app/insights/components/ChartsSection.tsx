@@ -55,7 +55,7 @@ export function ChartsSection({
       transition={{ delay: 0.3, duration: 0.5, ease: easeOut }}
     >
       {/* Model Generation Trend */}
-      <div className="bg-white rounded-[6px] shadow-sm border border-slate-100 p-6 lg:col-span-2 relative overflow-hidden group">
+      <div className="bg-white rounded-[6px] border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-2 relative overflow-hidden group">
         {/* Decorative Background */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 opacity-50 rounded-bl-full pointer-events-none group-hover:scale-105 transition-transform duration-700" />
 
@@ -125,7 +125,7 @@ export function ChartsSection({
       </div>
 
       {/* Product Distribution Pie Chart */}
-      <div className="bg-white rounded-[6px] shadow-sm border border-slate-100 p-6 lg:col-span-1 border-t-4 border-t-emerald-400 flex flex-col">
+      <div className="bg-white rounded-[6px] border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-1 border-t-4 border-t-emerald-400 flex flex-col">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-[6px] bg-emerald-50 flex items-center justify-center text-emerald-500">
             <Icon icon="solar:pie-chart-2-bold-duotone" width={22} />
@@ -193,7 +193,7 @@ export function ChartsSection({
 
       {/* Top 10 Products Ranking */}
       {topProducts && topProducts.length > 0 && (
-        <div className="bg-white rounded-[6px] shadow-sm border border-slate-100 p-6 lg:col-span-3 border-t-4 border-t-purple-400 relative overflow-hidden group">
+        <div className="bg-white rounded-[6px] border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-3 border-t-4 border-t-purple-400 relative overflow-hidden group">
           <div className="flex items-center gap-3 mb-6 relative z-10">
             <div className="w-10 h-10 rounded-[6px] bg-purple-50 flex items-center justify-center text-purple-500">
               <Icon icon="solar:fire-bold-duotone" width={24} />

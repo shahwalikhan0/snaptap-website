@@ -13,6 +13,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 import type { Product } from "../../types";
+import { formatPrice } from "@/app/utils/currency";
 
 interface ProductDetailCardProps {
   product: Product | null;
@@ -124,7 +125,7 @@ export function ProductDetailCard({
                   Pricing
                 </span>
                 <span className="text-3xl font-black text-slate-900 leading-none">
-                  Rs. {Number(product?.price).toLocaleString()}
+                  {formatPrice(product?.price)}
                 </span>
               </div>
 

@@ -30,7 +30,7 @@ export function ScanningProducts() {
             iconColor: "text-green-600",
             items: [
               "Any iPhone Pro / Pro Max with iOS 18 or later",
-              "iPhone 15 Pro / Pro Max",
+              "iPhone 15 and onwards (Pro / Pro Max)",
               "iPhone 14 Pro / Pro Max",
               "iPhone 13 Pro / Pro Max",
               "iPhone 12 Pro / Pro Max",

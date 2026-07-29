@@ -8,6 +8,9 @@ export interface Plan {
   description?: string;
 }
 
+// The per-model-view rate is deliberately NOT listed here — it comes from the
+// plan's live `per_view_rate` (already regionally adjusted by the API) and is
+// rendered by PlanCard, so the price shown can never drift from the price billed.
 export const featuresMap: Record<number, string[]> = {
   1: [
     "Up to 20 products in inventory",
@@ -15,7 +18,6 @@ export const featuresMap: Record<number, string[]> = {
     "QR code for each product",
     "Direct share links for each product",
     "Web-embeddable AR viewer",
-    "Rs 1.20 per model view",
     "Inventory dashboard",
     "Product Analytics",
     "Email support",
@@ -26,7 +28,6 @@ export const featuresMap: Record<number, string[]> = {
     "QR code for each product",
     "Direct share links for each product",
     "Web-embeddable AR viewer",
-    "Rs 1.00 per model view",
     "Inventory management",
     "Product Analytics",
     "Email support",
@@ -39,7 +40,6 @@ export const featuresMap: Record<number, string[]> = {
     "Web-embeddable AR viewer",
     "Inventory management",
     "Product Analytics",
-    "Rs 0.80 per model view",
     "Email support",
   ],
 };

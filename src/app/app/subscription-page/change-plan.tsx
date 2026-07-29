@@ -11,7 +11,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
 import { featuresMap } from "../pricing/constants/data";
 import { fetchPaymentMethod } from "./services/paymentApi";
+import { fetchCustomPlanQuote } from "../pricing/services/pricingApi";
+import { formatPrice, formatRate } from "@/app/utils/currency";
 
+// Per-view rates come from each plan's live `per_view_rate` (see below), never
+// from a hardcoded string, so displayed pricing can't drift from billing.
 const features: Record<number, string[]> = {
   ...featuresMap,
   4: [
@@ -22,7 +26,6 @@ const features: Record<number, string[]> = {
     "Web-embeddable AR viewer",
     "Inventory management",
     "Product Analytics",
-    "Rs 0.80 per model view",
     "Email support",
   ],
 };
@@ -54,8 +57,19 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       setCustomScans(minScans);
     }
   }, [Brand?.subscribed_package_id, Brand?.total_scans, Brand?.active_products, Brand?.in_active_products]);
-  const BASE_CUSTOM_PRICE = 6000;
-  const customPrice = BASE_CUSTOM_PRICE + (customScans > 109 ? (customScans - 109) * 55 : 0);
+  // Quoted by the server (single source of truth for the formula + the
+  // brand's regional rate), debounced while the slider is dragged.
+  const [customPrice, setCustomPrice] = useState(0);
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchCustomPlanQuote(customScans)
+        .then((quote) => setCustomPrice(quote.amount))
+        .catch((err: unknown) =>
+          console.error("Failed to fetch custom plan quote", err),
+        );
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [customScans]);
 
   /* Cancel Plan State */
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
@@ -69,7 +83,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   ) => {
     if (hasCard === false) {
       toast.warn(
-        "Add a payment method first (My Plan → Add Payment Method) so your monthly invoice can be charged automatically.",
+        "Add a payment method first (Billing & Payments tab) so your monthly invoice can be charged automatically.",
         { autoClose: 6000 },
       );
       return;
@@ -174,7 +188,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
                 )}
               </div>
               <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-3xl font-black text-slate-900">Rs. {p.monthly_price}</span>
+                <span className="text-3xl font-black text-slate-900">{formatPrice(p.monthly_price)}</span>
                 <span className="text-slate-400 font-medium whitespace-nowrap">/ month</span>
               </div>
               <p className="text-sm text-slate-500 leading-relaxed min-h-[40px]">
@@ -183,6 +197,12 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
             </div>
 
             <div className="space-y-3 mb-8">
+              {p.per_view_rate != null && (
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <Icon icon="mdi:check-circle" className="text-green-500" width={18} />
+                  {formatRate(p.per_view_rate)} per model view
+                </div>
+              )}
               {(features[p.id as keyof typeof features] || []).map((feature, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm text-slate-600">
                   <Icon icon="mdi:check-circle" className="text-green-500" width={18} />
@@ -234,7 +254,7 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
           <div className="mb-6">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Custom Enterprise</h3>
             <div className="flex items-baseline gap-1 mb-6">
-              <span className="text-3xl font-black text-[#007cae]">Rs. {customPrice}</span>
+              <span className="text-3xl font-black text-[#007cae]">{formatPrice(customPrice)}</span>
               <span className="text-slate-400 font-medium">/ month</span>
             </div>
 

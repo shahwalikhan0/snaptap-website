@@ -44,7 +44,7 @@ export function StatsCards({
       {/* Scans Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-white rounded-[6px] p-6 shadow-sm border border-slate-100 flex flex-col justify-between group hover:shadow-md transition-shadow relative overflow-hidden"
+        className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110">
           <Icon icon="mdi:barcode-scan" width={100} />
@@ -86,7 +86,7 @@ export function StatsCards({
       {/* Products Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-white rounded-[6px] p-6 shadow-sm border border-slate-100 flex flex-col justify-between group hover:shadow-md transition-shadow relative overflow-hidden"
+        className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110">
           <Icon icon="mdi:package-variant-closed" width={100} />
@@ -146,7 +146,7 @@ export function StatsCards({
       {/* Models Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-[6px] p-6 shadow-md border border-white/10 flex flex-col justify-between group hover:shadow-lg transition-shadow relative overflow-hidden"
+        className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-[6px] p-6 shadow-[0_2px_6px_rgba(124,58,237,0.2),0_16px_32px_-16px_rgba(124,58,237,0.45)] flex flex-col justify-between group hover:shadow-[0_4px_10px_rgba(124,58,237,0.25),0_20px_40px_-16px_rgba(124,58,237,0.55)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none transition-transform group-hover:scale-110">
           <Icon icon="mdi:cube-outline" width={100} className="text-white" />

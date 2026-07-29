@@ -18,17 +18,14 @@ const Navbar = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
-  const { isLoggedIn, Admin, setAdmin } = useAdmin();
+  const { isLoggedIn, Admin, logout } = useAdmin();
 
+  // Billing/subscription intentionally lives ONLY in the account dropdown —
+  // the top bar is reserved for the day-to-day workspaces.
   const visibleNavItems = isLoggedIn
     ? [
-        // { name: "Home", path: "/" },
         { name: "Inventory", path: "/app/inventory" },
         { name: "Insights", path: "/app/insights" },
-        {
-          name: "Payment & Subscription",
-          path: "/app/subscription-page",
-        },
         { name: "Docs", path: "/app/docs" },
       ]
     : [
@@ -50,7 +47,7 @@ const Navbar = () => {
   };
 
   const confirmLogout = () => {
-    setAdmin(null);
+    logout(); // clears admin, brand, AND token cookies
     setShowLogoutConfirm(false);
     router.push("/app/login");
   };
@@ -214,7 +211,7 @@ const Navbar = () => {
                         path: "/app/manage-profile",
                       },
                       {
-                        name: "Subscription",
+                        name: "Billing & Subscription",
                         icon: "solar:card-2-bold-duotone",
                         path: "/app/subscription-page",
                       },
@@ -295,6 +292,49 @@ const Navbar = () => {
                   />
                 </button>
               ))}
+              {isLoggedIn && (
+                <div className="mt-2 pt-2 border-t border-slate-100 flex flex-col gap-2">
+                  <p className="px-5 pt-2 text-[11px] font-bold text-snaptap-gray-light uppercase tracking-wider">
+                    Account
+                  </p>
+                  {[
+                    {
+                      name: "Manage Profile",
+                      icon: "solar:settings-bold-duotone",
+                      path: "/app/manage-profile",
+                    },
+                    {
+                      name: "Billing & Subscription",
+                      icon: "solar:card-2-bold-duotone",
+                      path: "/app/subscription-page",
+                    },
+                  ].map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => handleNav(item.path)}
+                      className={clsx(
+                        "text-left w-full font-bold px-5 py-3.5 rounded-[6px] transition-all flex items-center gap-3",
+                        pathname === item.path
+                          ? "bg-snaptap-blue/10 text-snaptap-blue-dark"
+                          : "hover:bg-slate-50 text-snaptap-gray-dark hover:text-snaptap-blue-dark",
+                      )}
+                    >
+                      <Icon icon={item.icon} width={20} />
+                      {item.name}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="text-left w-full font-bold px-5 py-3.5 rounded-[6px] transition-all flex items-center gap-3 text-red-500 hover:bg-red-50"
+                  >
+                    <Icon icon="solar:logout-3-bold-duotone" width={20} />
+                    Sign Out
+                  </button>
+                </div>
+              )}
               {!isLoggedIn && (
                 <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-3">
                   <button

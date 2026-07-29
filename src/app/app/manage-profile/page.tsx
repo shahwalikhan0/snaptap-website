@@ -70,6 +70,7 @@ const ManageProfilePage = () => {
         website_url: Brand.website_url || "",
         category: Brand.category || "",
         phone: Brand.phone || "",
+        country: Brand.country || undefined,
         location: Brand.location || "",
         subscribed_package_id: Brand.subscribed_package_id,
       });
@@ -88,6 +89,7 @@ const ManageProfilePage = () => {
               website_url: data.website_url || "",
               category: data.category || "",
               phone: data.phone || "",
+              country: data.country || undefined,
               location:
                 locationParts.length >= 2
                   ? `${locationParts[0]}, ${locationParts[1]}`

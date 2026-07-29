@@ -85,7 +85,7 @@ export function InventoryDashboard() {
         <span className="text-green-400">src</span>
         <span className="text-slate-300">=</span>
         <span className="text-amber-300">
-          "https://api.snaptap.pk/model/name/YOUR_PRODUCT_ID"
+          "https://api.gosnaptap.com/model/name/YOUR_PRODUCT_ID"
         </span>
         {"\n  "}
         <span className="text-green-400">width</span>

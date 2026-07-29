@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
+import { SITE_URL } from "./utils/site";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://snaptap.pk";
+  const baseUrl = SITE_URL;
 
   return {
     rules: {

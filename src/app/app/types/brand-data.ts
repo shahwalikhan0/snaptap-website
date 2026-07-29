@@ -11,6 +11,8 @@ export type BrandDataType = {
   active_products: number;
   in_active_products: number;
   phone: string | null;
+  /** ISO 3166-1 alpha-2 — drives Safepay billing + regional pricing */
+  country?: string | null;
   location: string | null;
   website_url: string | null;
   category: string | null;

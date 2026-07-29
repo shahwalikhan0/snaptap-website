@@ -75,7 +75,7 @@ export function EditProductModal({
             name="price"
             label={
               <span className="font-bold text-slate-700 text-xs uppercase tracking-widest">
-                Unit Price (PKR)
+                Unit Price (USD)
               </span>
             }
             rules={[{ required: true }]}

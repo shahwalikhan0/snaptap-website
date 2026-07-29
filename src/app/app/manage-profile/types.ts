@@ -11,6 +11,8 @@ export interface BrandDetailFormValues {
   website_url?: string;
   category?: string;
   phone?: string;
+  /** ISO 3166-1 alpha-2 — drives Safepay billing + regional pricing */
+  country?: string;
   location?: string;
   subscribed_package_id: number | null;
 }

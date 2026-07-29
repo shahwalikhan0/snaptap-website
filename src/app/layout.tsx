@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AdminProvider } from "./hooks/useAdminContext";
+import { SITE_URL, absoluteUrl } from "./utils/site";
 // import "@google/model-viewer";
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   keywords: [
     "snaptap",
     "SnapTap",
-    "snaptap.pk",
+    "gosnaptap",
     "SnapTap AR",
     "3D model generation",
     "Web AR",
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
     "LiDAR scanning",
     "snap tap",
   ],
-  metadataBase: new URL("https://snaptap.pk"),
+  metadataBase: new URL(SITE_URL),
+  // Self-referencing canonical on the new domain. Combined with the 301 from
+  // snaptap.pk this is what tells Google the site moved rather than duplicated.
   alternates: {
     canonical: "/",
   },
@@ -27,16 +30,16 @@ export const metadata: Metadata = {
     title: "SnapTap - 3D & Augmented Reality Product Experiences",
     description:
       "Transform your physical products to immersive AR in minutes with the SnapTap platform.",
-    url: "https://snaptap.pk",
+    url: SITE_URL,
     siteName: "SnapTap",
     images: [
       {
-        url: "https://snaptap.pk/assets/hero-bg.jpg",
+        url: absoluteUrl("/assets/hero-bg.jpg"),
         width: 1200,
         height: 630,
       },
     ],
-    locale: "en_PK",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
@@ -44,7 +47,7 @@ export const metadata: Metadata = {
     title: "SnapTap - 3D & Augmented Reality Product Experiences",
     description:
       "Transform your physical products to immersive AR in minutes with the SnapTap platform.",
-    images: ["https://snaptap.pk/assets/hero-bg.jpg"],
+    images: [absoluteUrl("/assets/hero-bg.jpg")],
   },
 };
 

@@ -38,7 +38,7 @@ Users reach signup via two paths:
 
 ```
 User visits /app/sign-up
-  → Fills form (username, name, email, phone, password, optional fields)
+  → Fills form (username, name, email, phone, password, country, optional fields)
   → POST /brand/create (multipart/form-data)
   → Success: toast + redirect to /app/login after 2s
   → Error: toast with backend error message, stay on page
@@ -53,7 +53,8 @@ User visits /app/sign-up
 | `email`        | Yes      | Valid email format                       |
 | `phone`        | Yes      | Regex: `^\+?(\d{10,14})$`              |
 | `password`     | Yes      | Minimum 6 characters                    |
-| `location`     | No       | HQ location                             |
+| `country`      | Yes      | ISO 3166-1 alpha-2 (searchable `<Select>` from `constants/countries.ts`). Drives the Safepay billing customer and the brand's regional pricing factor. |
+| `location`     | No       | HQ location (free text city/address)    |
 | `website_url`  | No       | Digital hub / website URL               |
 | `category`     | No       | Business sector (from CATEGORIES list)  |
 | `profileImage` | No       | PNG/JPG/JPEG/WEBP, max 5MB             |
@@ -292,6 +293,7 @@ export interface SignUpFormValues {
   email: string;
   phone: string;
   password: string;
+  country?: string;   // ISO alpha-2; required by the form + server
   location?: string;
   website_url?: string;
   category?: string;
@@ -333,6 +335,7 @@ export type BrandDataType = {
   active_products: number;
   in_active_products: number;
   phone: string | null;
+  country: string | null;
   location: string | null;
   website_url: string | null;
   category: string | null;
