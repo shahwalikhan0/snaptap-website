@@ -4,12 +4,12 @@ import { Icon } from "@iconify/react";
 
 export function EmptyState() {
   return (
-    <div className="bg-white rounded-[6px] p-12 sm:p-20 text-center border border-slate-100 shadow-sm relative overflow-hidden">
+    <div className="bg-white rounded-brand p-12 sm:p-20 text-center border border-slate-100 shadow-sm relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-snaptap-blue/20 to-transparent" />
       
-      <div className="w-24 h-24 rounded-[6px] bg-slate-50 flex items-center justify-center mx-auto mb-8 text-slate-200 relative group">
+      <div className="w-24 h-24 rounded-brand bg-slate-50 flex items-center justify-center mx-auto mb-8 text-slate-200 relative group">
         <Icon icon="solar:box-minimalistic-line-duotone" width={56} className="relative z-10 group-hover:scale-110 transition-transform duration-500" />
-        <div className="absolute inset-0 bg-snaptap-blue/5 rounded-[6px] scale-0 group-hover:scale-100 transition-transform duration-500" />
+        <div className="absolute inset-0 bg-snaptap-blue/5 rounded-brand scale-0 group-hover:scale-100 transition-transform duration-500" />
       </div>
       
       <h2 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">Your Inventory is Empty</h2>

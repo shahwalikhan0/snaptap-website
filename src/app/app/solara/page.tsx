@@ -90,7 +90,7 @@ export default function AboutUsPage() {
             </div>
           </div>
 
-          <div className="mt-12 p-8 sm:p-12 bg-white rounded-[6px] border border-slate-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="mt-12 p-8 sm:p-12 bg-white rounded-brand border border-slate-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
               <h3 className="text-xl font-black text-slate-900 mb-2">
                 Official Identity

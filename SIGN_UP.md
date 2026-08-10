@@ -473,6 +473,14 @@ No OAuth secrets, NextAuth config, or third-party auth env vars.
 
 ### Client-side (Ant Design Form)
 
+> **This form intentionally stays on antd**, even though the app has its own
+> `ui/` primitives (see `DESIGN_SYSTEM.md`). `Form.Item` clones its child to
+> inject `value`/`onChange`/`ref` and owns the label and validation message, so
+> swapping in our `Input` would double the label and break the validation wiring
+> below. antd here is themed from the design tokens by `AntdProvider`, so it
+> already matches the brand — don't "modernize" these fields without first
+> adding `forwardRef` to the primitives and re-testing every rule in this table.
+
 - **username:** Required, no spaces allowed, auto-lowercased
 - **name:** Required
 - **email:** Required, valid email format

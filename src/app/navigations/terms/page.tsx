@@ -15,10 +15,10 @@ export default function TermsOfService() {
                     {/* Page Header */}
                     <div className="mb-12">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center">
-                                <Icon icon="mdi:file-document-outline" className="text-[#007cae]" width={24} />
+                            <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center">
+                                <Icon icon="mdi:file-document-outline" className="text-snaptap-blue-dark" width={24} />
                             </div>
-                            <span className="text-sm font-semibold text-[#007cae] uppercase tracking-wider">Legal</span>
+                            <span className="text-sm font-semibold text-snaptap-blue-dark uppercase tracking-wider">Legal</span>
                         </div>
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">Terms of Service</h1>
                         <p className="text-slate-400 text-sm">Last updated: February 20, 2026</p>
@@ -68,19 +68,19 @@ export default function TermsOfService() {
                             </p>
                             <ul className="space-y-3 text-slate-600">
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>Upload content that is unlawful, infringing, harmful, or violates any third-party rights.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>Attempt to reverse-engineer, decompile, or gain unauthorized access to any part of the platform.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>Use automated tools, bots, or scrapers to access or interact with our Services without authorization.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>Interfere with the security, integrity, or performance of our platform.</span>
                                 </li>
                             </ul>
@@ -119,7 +119,7 @@ export default function TermsOfService() {
                             <p className="text-slate-600 leading-relaxed">
                                 If you have any questions about these Terms of Service, please contact us at:
                             </p>
-                            <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex items-center gap-2 text-[#007cae] font-semibold mt-3 hover:underline transition">
+                            <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex items-center gap-2 text-snaptap-blue-dark font-semibold mt-3 hover:underline transition">
                                 <Icon icon="mdi:email-outline" width={20} />
                                 {SUPPORT_EMAIL}
                             </a>

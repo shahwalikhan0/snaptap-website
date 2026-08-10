@@ -28,11 +28,11 @@ export function BenefitsSection() {
         }}
       />
       {/* Top separator glow line */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-[#007cae]/40 to-transparent" />
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-snaptap-blue-dark/40 to-transparent" />
 
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+          <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
             Who Benefits
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4">
@@ -47,17 +47,17 @@ export function BenefitsSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Seller Column */}
-          <div className="rounded-[6px] border border-[#007cae]/30 bg-[#007cae]/5 p-6 sm:p-8 hover:border-[#007cae]/60 transition-all">
+          <div className="rounded-brand border border-snaptap-blue-dark/30 bg-snaptap-blue-dark/5 p-6 sm:p-8 hover:border-snaptap-blue-dark/60 transition-all">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-[6px] bg-[#007cae]/20 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-brand bg-snaptap-blue-dark/20 flex items-center justify-center shrink-0">
                 <Icon
                   icon="mdi:store-outline"
-                  className="text-[#007cae]"
+                  className="text-snaptap-blue-dark"
                   width={26}
                 />
               </div>
               <div>
-                <p className="text-[#007cae] text-xs font-bold uppercase tracking-widest mb-0.5">
+                <p className="text-snaptap-blue-dark text-xs font-bold uppercase tracking-widest mb-0.5">
                   For Sellers
                 </p>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
@@ -93,10 +93,10 @@ export function BenefitsSection() {
                 },
               ].map((item, idx) => (
                 <li key={idx} className="flex items-start gap-3 group">
-                  <div className="w-8 h-8 rounded-lg bg-[#007cae]/20 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#007cae]/30 transition-all">
+                  <div className="w-8 h-8 rounded-lg bg-snaptap-blue-dark/20 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-snaptap-blue-dark/30 transition-all">
                     <Icon
                       icon={item.icon}
-                      className="text-[#007cae]"
+                      className="text-snaptap-blue-dark"
                       width={16}
                     />
                   </div>
@@ -109,7 +109,7 @@ export function BenefitsSection() {
             <div className="mt-8 pt-6 border-t border-white/10">
               <button
                 onClick={() => router.push("/app/sign-up")}
-                className="w-full sm:w-auto bg-[#007cae] hover:bg-[#006080] text-white font-bold py-3 px-8 rounded-[6px] transition-all shadow-lg shadow-[#007cae]/20 hover:shadow-[#007cae]/40 hover:-translate-y-0.5 transform text-sm"
+                className="w-full sm:w-auto bg-snaptap-blue-dark hover:bg-snaptap-blue-deep text-white font-bold py-3 px-8 rounded-brand transition-all shadow-lg shadow-snaptap-blue-dark/20 hover:shadow-snaptap-blue-dark/40 hover:-translate-y-0.5 transform text-sm"
               >
                 Start as a Seller
               </button>
@@ -117,9 +117,9 @@ export function BenefitsSection() {
           </div>
 
           {/* Customer / Viewer Column */}
-          <div className="rounded-[6px] border border-white/10 bg-white/5 p-6 sm:p-8 hover:border-white/20 transition-all">
+          <div className="rounded-brand border border-white/10 bg-white/5 p-6 sm:p-8 hover:border-white/20 transition-all">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-[6px] bg-white/10 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-brand bg-white/10 flex items-center justify-center shrink-0">
                 <Icon
                   icon="mdi:account-eye-outline"
                   className="text-slate-300"
@@ -179,7 +179,7 @@ export function BenefitsSection() {
             <div className="mt-8 pt-6 border-t border-white/10">
               <button
                 onClick={() => router.push("/app/docs")}
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-[6px] transition-all border border-white/20 hover:border-white/40 hover:-translate-y-0.5 transform text-sm"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-brand transition-all border border-white/20 hover:border-white/40 hover:-translate-y-0.5 transform text-sm"
               >
                 Explore as a Customer
               </button>

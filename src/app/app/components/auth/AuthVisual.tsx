@@ -21,9 +21,9 @@ export function AuthVisual({
     >
       {/* Premium Mesh Gradient Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#00A8DE]/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#007cae]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-[#006080]/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-snaptap-blue/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-snaptap-blue-dark/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-snaptap-blue-deep/10 rounded-full blur-[100px]" />
       </div>
 
       <div
@@ -31,7 +31,7 @@ export function AuthVisual({
           isLogin ? "max-w-xl" : "max-w-md"
         } aspect-square relative z-10 mb-8 drop-shadow-2xl transition-transform duration-500 hover:scale-[1.02]`}
       >
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-[6px] border border-white/20 shadow-inner" />
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-brand border border-white/20 shadow-inner" />
         {children}
       </div>
 
@@ -46,8 +46,8 @@ export function AuthVisual({
 
       {/* Decorative Accent */}
       <div className="absolute bottom-8 left-8 flex items-center gap-2 opacity-30">
-        <div className="w-12 h-1 bg-[#007cae] rounded-full" />
-        <div className="w-4 h-1 bg-[#007cae] rounded-full" />
+        <div className="w-12 h-1 bg-snaptap-blue-dark rounded-full" />
+        <div className="w-4 h-1 bg-snaptap-blue-dark rounded-full" />
       </div>
     </div>
   );

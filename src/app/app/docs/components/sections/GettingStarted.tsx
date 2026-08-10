@@ -63,7 +63,7 @@ export function GettingStarted() {
         — Products in Inventory. After choosing a plan, your quota is
         immediately applied.
       </p>
-      <div className="overflow-x-auto rounded-[6px] border border-slate-200 mb-4">
+      <div className="overflow-x-auto rounded-brand border border-slate-200 mb-4">
         <table className="w-full text-sm text-left">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
@@ -88,7 +88,7 @@ export function GettingStarted() {
                 <td className="px-4 py-3 font-semibold text-slate-800">
                   {plan}
                 </td>
-                <td className="px-4 py-3 text-[#007cae] font-bold">{scans}</td>
+                <td className="px-4 py-3 text-snaptap-blue-dark font-bold">{scans}</td>
                 <td className="px-4 py-3 text-slate-500">{best}</td>
               </tr>
             ))}

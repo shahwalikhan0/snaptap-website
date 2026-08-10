@@ -11,7 +11,7 @@ export function Introduction() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <span className="inline-block text-[#007cae] text-xs font-extrabold uppercase tracking-widest mb-3">
+        <span className="inline-block text-snaptap-blue-dark text-xs font-extrabold uppercase tracking-widest mb-3">
           Documentation
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-5 leading-tight">
@@ -39,10 +39,10 @@ export function Introduction() {
           ].map((card, i) => (
             <div
               key={i}
-              className="rounded-[6px] border border-slate-100 p-5 bg-slate-50 flex gap-4"
+              className="rounded-brand border border-slate-100 p-5 bg-slate-50 flex gap-4"
             >
-              <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center shrink-0">
-                <Icon icon={card.icon} className="text-[#007cae]" width={20} />
+              <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center shrink-0">
+                <Icon icon={card.icon} className="text-snaptap-blue-dark" width={20} />
               </div>
               <div>
                 <p className="font-bold text-slate-800 text-sm mb-1">
@@ -68,9 +68,9 @@ export function Introduction() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="rounded-[6px] bg-[#007cae]/5 border border-[#007cae]/15 p-4 text-center"
+              className="rounded-brand bg-snaptap-blue-dark/5 border border-snaptap-blue-dark/15 p-4 text-center"
             >
-              <p className="text-[#007cae] font-extrabold text-base">
+              <p className="text-snaptap-blue-dark font-extrabold text-base">
                 {stat.value}
               </p>
               <p className="text-slate-500 text-xs mt-1">{stat.label}</p>

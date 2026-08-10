@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
+import { Button } from "@/app/app/components/ui";
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -139,10 +140,10 @@ export function PaymentMethodCard() {
   const hasCard = method?.status === "active";
 
   return (
-    <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
+    <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-[6px] bg-emerald-100 flex items-center justify-center text-emerald-600">
+          <div className="w-10 h-10 rounded-brand bg-emerald-100 flex items-center justify-center text-emerald-600">
             <Icon icon="mdi:credit-card-outline" width={22} />
           </div>
           <div>
@@ -156,7 +157,7 @@ export function PaymentMethodCard() {
                 {method?.card_brand || "Card"} •••• {method?.last4 || "····"}
               </p>
             ) : awaitingCard ? (
-              <p className="text-sm font-semibold text-[#007cae] animate-pulse">
+              <p className="text-sm font-semibold text-snaptap-blue-dark animate-pulse">
                 Waiting for card setup in the Safepay tab…
               </p>
             ) : (
@@ -169,23 +170,24 @@ export function PaymentMethodCard() {
 
         <div className="flex gap-2">
           {awaitingCard ? (
-            <Button onClick={stopPolling} className="rounded-[6px] font-semibold">
+            <Button variant="secondary" size="md" onClick={stopPolling}>
               Cancel
             </Button>
           ) : (
             <Button
+              size="md"
               loading={starting}
               onClick={handleAddCard}
-              className="rounded-[6px] font-bold !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none"
             >
               {hasCard ? "Replace Card" : "Add Payment Method"}
             </Button>
           )}
           {hasCard && !awaitingCard && (
             <Button
-              danger
+              variant="secondary"
+              size="md"
               onClick={() => setConfirmRemove(true)}
-              className="rounded-[6px] font-semibold"
+              className="border-red-300 text-red-600 hover:bg-red-50"
             >
               Remove
             </Button>

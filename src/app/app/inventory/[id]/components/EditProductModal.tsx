@@ -43,13 +43,13 @@ export function EditProductModal({
       }
       centered
       width={600}
-      className="[&_.ant-modal-content]:!rounded-[6px] [&_.ant-modal-header]:!mb-6"
+      className="[&_.ant-modal-header]:!mb-6"
       okButtonProps={{
         className:
-          "!bg-snaptap-blue-dark hover:!bg-snaptap-blue-deep border-none font-bold rounded-[6px] h-10 px-6",
+          "font-bold rounded-brand h-10 px-6",
       }}
       cancelButtonProps={{
-        className: "font-bold rounded-[6px] h-10 px-6",
+        className: "font-bold rounded-brand h-10 px-6",
       }}
     >
       <Form
@@ -67,7 +67,7 @@ export function EditProductModal({
           }
           rules={[{ required: true }]}
         >
-          <Input className="h-11 rounded-[6px] border-slate-200 focus:border-snaptap-blue-dark" />
+          <Input className="h-11 rounded-brand border-slate-200 focus:border-snaptap-blue-dark" />
         </Form.Item>
 
         <div className="grid grid-cols-2 gap-4">
@@ -80,7 +80,7 @@ export function EditProductModal({
             }
             rules={[{ required: true }]}
           >
-            <InputNumber className="w-full h-11 flex items-center rounded-[6px] border-slate-200 focus:border-snaptap-blue-dark" />
+            <InputNumber className="w-full h-11 flex items-center rounded-brand border-slate-200 focus:border-snaptap-blue-dark" />
           </Form.Item>
 
           <Form.Item
@@ -96,7 +96,7 @@ export function EditProductModal({
               placeholder="Select a category"
               size="large"
               allowClear
-              className="rounded-[6px]"
+              className="rounded-brand"
             >
               {CATEGORIES.map((category) => (
                 <Select.Option key={category} value={category}>
@@ -117,11 +117,11 @@ export function EditProductModal({
         >
           <Input.TextArea
             rows={4}
-            className="rounded-[6px] border-slate-200 focus:border-snaptap-blue-dark"
+            className="rounded-brand border-slate-200 focus:border-snaptap-blue-dark"
           />
         </Form.Item>
 
-        <div className="flex items-center justify-between p-4 bg-slate-50 rounded-[6px] border border-slate-100">
+        <div className="flex items-center justify-between p-4 bg-slate-50 rounded-brand border border-slate-100">
           <div>
             <p className="font-bold text-slate-800 text-sm">Active</p>
             <p className="text-xs text-slate-500">
@@ -144,7 +144,7 @@ export function EditProductModal({
           <Upload beforeUpload={() => false} maxCount={1} listType="picture">
             <Button
               icon={<UploadOutlined />}
-              className="rounded-[6px] border-dashed border-slate-300 h-11 w-full font-bold"
+              className="rounded-brand border-dashed border-slate-300 h-11 w-full font-bold"
             >
               Choose New Image
             </Button>

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button, Tag } from "antd";
+import { Tag } from "antd";
+import { Button } from "@/app/app/components/ui";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 
@@ -22,10 +23,10 @@ export function ProductCard({ product }: ProductCardProps) {
       whileHover={{ y: -2 }}
       className="group relative"
     >
-      <div className="bg-white rounded-[6px] p-3 sm:px-5 sm:py-3.5 border border-slate-100 shadow-sm group-hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)] transition-all flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+      <div className="bg-white rounded-brand p-3 sm:px-5 sm:py-3.5 border border-slate-100 shadow-sm group-hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)] transition-all flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
         
         {/* Product Visual */}
-        <div className="relative w-full sm:w-20 h-32 sm:h-20 rounded-[6px] bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 p-2 overflow-hidden group/img">
+        <div className="relative w-full sm:w-20 h-32 sm:h-20 rounded-brand bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 p-2 overflow-hidden group/img">
           <img
             src={product?.image_url ?? undefined}
             alt={product?.name}
@@ -77,9 +78,9 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Actions */}
         <div className="w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-none border-slate-50">
           <Button
-            type="primary"
+            size="md"
             onClick={() => router.push(`/app/inventory/${product?.id}`)}
-            className="w-full sm:w-auto h-10 rounded-[6px] !bg-snaptap-blue-dark hover:!bg-snaptap-blue-deep border-none font-bold px-6 shadow-md shadow-snaptap-blue-dark/10 !text-white flex items-center justify-center gap-2 group/btn text-sm"
+            className="w-full sm:w-auto h-10 px-6 text-sm shadow-md shadow-snaptap-blue-dark/10 group/btn"
           >
             Manage
             <Icon icon="solar:arrow-right-up-bold" width={16} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />

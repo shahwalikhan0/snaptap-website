@@ -126,7 +126,7 @@ const SignUpPage: React.FC = () => {
         <div className="w-full max-w-[650px] z-10">
           <div className="bg-white p-8 md:p-12 rounded-[12px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 mb-12">
             <div className="mb-10 text-left">
-              <div className="inline-block px-3 py-1 bg-[#007cae]/10 text-[#007cae] text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4">
+              <div className="inline-block px-3 py-1 bg-snaptap-blue-dark/10 text-snaptap-blue-dark text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4">
                 Partner Registration
               </div>
               <Title
@@ -166,7 +166,7 @@ const SignUpPage: React.FC = () => {
                 <Input
                   prefix={<UserOutlined className="text-[#888888] mr-2" />}
                   placeholder="brand_id"
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -183,7 +183,7 @@ const SignUpPage: React.FC = () => {
                 <Input
                   prefix={<AppstoreOutlined className="text-[#888888] mr-2" />}
                   placeholder="SnapTap Inc."
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -203,7 +203,7 @@ const SignUpPage: React.FC = () => {
                 <Input
                   prefix={<MailOutlined className="text-[#888888] mr-2" />}
                   placeholder="contact@yourbrand.com"
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -228,7 +228,7 @@ const SignUpPage: React.FC = () => {
                 <Input
                   prefix={<PhoneOutlined className="text-[#888888] mr-2" />}
                   placeholder="+1 (555) 000-0000"
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -248,7 +248,7 @@ const SignUpPage: React.FC = () => {
                 <Input.Password
                   prefix={<LockOutlined className="text-[#888888] mr-2" />}
                   placeholder="••••••••••••"
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -266,7 +266,7 @@ const SignUpPage: React.FC = () => {
                   showSearch
                   placeholder="Select your country"
                   optionFilterProp="children"
-                  className="h-12 [&_.ant-select-selector]:!h-12 [&_.ant-select-selector]:!rounded-[6px] [&_.ant-select-selector]:!border-slate-200 [&_.ant-select-selection-item]:!leading-[46px]"
+                  className="h-12 [&_.ant-select-selector]:!h-12 [&_.ant-select-selector]:!rounded-brand [&_.ant-select-selector]:!border-slate-200 [&_.ant-select-selection-item]:!leading-[46px]"
                 >
                   {COUNTRIES.map((c) => (
                     <Select.Option key={c.code} value={c.code}>
@@ -290,7 +290,7 @@ const SignUpPage: React.FC = () => {
                     <EnvironmentOutlined className="text-[#888888] mr-2" />
                   }
                   placeholder="New York, NY"
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -306,7 +306,7 @@ const SignUpPage: React.FC = () => {
                 <Input
                   prefix={<GlobalOutlined className="text-[#888888] mr-2" />}
                   placeholder="www.yourbrand.com"
-                  className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 />
               </Form.Item>
 
@@ -323,7 +323,7 @@ const SignUpPage: React.FC = () => {
                   placeholder="Select industry sector"
                   size="large"
                   allowClear
-                  className="rounded-[6px] border-slate-200 hover:border-[#007cae]/50 transition-all font-medium"
+                  className="rounded-brand border-slate-200 hover:border-snaptap-blue-dark/50 transition-all font-medium"
                 >
                   {CATEGORIES.map((category) => (
                     <Select.Option key={category} value={category}>
@@ -347,7 +347,7 @@ const SignUpPage: React.FC = () => {
                   multiple={false}
                   maxCount={1}
                   accept=".png,.jpg,.jpeg,.webp"
-                  className="!rounded-[12px] !bg-slate-50/50 border-dashed border-2 !border-slate-200 hover:!border-[#007cae]/30 transition-all group"
+                  className="!rounded-[12px] !bg-slate-50/50 border-dashed border-2 !border-slate-200 hover:!border-snaptap-blue-dark/30 transition-all group"
                   beforeUpload={(file) => {
                     setImage(file);
                     return false;
@@ -356,7 +356,7 @@ const SignUpPage: React.FC = () => {
                 >
                   <div className="py-6">
                     <div className="mx-auto w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <InboxOutlined className="text-[#007cae] text-xl" />
+                      <InboxOutlined className="text-snaptap-blue-dark text-xl" />
                     </div>
                     <p className="ant-upload-text text-[#2e2e2e] font-bold text-sm">
                       Upload Brand Asset
@@ -374,7 +374,7 @@ const SignUpPage: React.FC = () => {
                   htmlType="submit"
                   loading={loading}
                   block
-                  className="h-14 rounded-[8px] !bg-[#007cae] hover:!bg-[#006080] border-none font-black text-lg shadow-xl shadow-[#007cae]/25 transition-all active:scale-[0.98] !text-white flex items-center justify-center gap-3 group"
+                  className="h-14 rounded-[8px] font-bold font-black text-lg shadow-xl shadow-snaptap-blue-dark/25 transition-all active:scale-[0.98] !text-white flex items-center justify-center gap-3 group"
                 >
                   Create Partner Account
                   <Icon
@@ -390,7 +390,7 @@ const SignUpPage: React.FC = () => {
                 Already part of the ecosystem?{" "}
                 <button
                   onClick={() => router.push("/app/login")}
-                  className="font-black text-[#007cae] hover:text-[#006080] transition-colors ml-1 underline-offset-4 hover:underline"
+                  className="font-black text-snaptap-blue-dark hover:text-snaptap-blue-deep transition-colors ml-1 underline-offset-4 hover:underline"
                 >
                   Sign In to Dashboard
                 </button>

@@ -20,8 +20,8 @@ export function OverviewSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Card 1: Marketplace */}
-          <div className="group bg-white rounded-[6px] p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="h-48 mb-6 rounded-[6px] overflow-hidden bg-slate-100 relative">
+          <div className="group bg-white rounded-brand p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="h-48 mb-6 rounded-brand overflow-hidden bg-slate-100 relative">
               <Image
                 src="/assets/marketplace.jpg"
                 alt="Marketplace"
@@ -32,7 +32,7 @@ export function OverviewSection() {
             <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
               <Icon
                 icon="mdi:storefront-outline"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={24}
               />
               Marketplace Platform
@@ -41,7 +41,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Businesses scan products → generate AR models</span>
@@ -49,7 +49,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Publish listings using SnapTap</span>
@@ -57,7 +57,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Customers visualize products in their own space</span>
@@ -65,7 +65,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Direct customer-to-seller contact (coming soon)</span>
@@ -74,8 +74,8 @@ export function OverviewSection() {
           </div>
 
           {/* Card 2: Restaurant Menu */}
-          <div className="group bg-white rounded-[6px] p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="h-48 mb-6 rounded-[6px] overflow-hidden bg-slate-100 relative">
+          <div className="group bg-white rounded-brand p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="h-48 mb-6 rounded-brand overflow-hidden bg-slate-100 relative">
               <Image
                 src="/assets/dining_2.webp"
                 alt="Restaurant Menu"
@@ -86,7 +86,7 @@ export function OverviewSection() {
             <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
               <Icon
                 icon="mdi:silverware-fork-knife"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={24}
               />
               Restaurant Menu Virtualization
@@ -95,7 +95,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Convert full menu into 3D AR dishes</span>
@@ -103,7 +103,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Generate QR codes for printed menus</span>
@@ -111,7 +111,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>
@@ -121,7 +121,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Improves engagement and ordering confidence</span>
@@ -130,8 +130,8 @@ export function OverviewSection() {
           </div>
 
           {/* Card 3: Business Product */}
-          <div className="group bg-white rounded-[6px] p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-            <div className="h-48 mb-6 rounded-[6px] overflow-hidden bg-slate-100 relative">
+          <div className="group bg-white rounded-brand p-6 border border-slate-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            <div className="h-48 mb-6 rounded-brand overflow-hidden bg-slate-100 relative">
               <Image
                 src="/assets/scan_view_3.jpg"
                 alt="Business Product"
@@ -142,7 +142,7 @@ export function OverviewSection() {
             <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
               <Icon
                 icon="mdi:briefcase-outline"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={24}
               />
               Business Product Virtualization
@@ -151,7 +151,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Convert product catalogs to AR models</span>
@@ -159,7 +159,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>
@@ -169,7 +169,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>Provide QR codes for in-store and marketing usage</span>
@@ -177,7 +177,7 @@ export function OverviewSection() {
               <li className="flex items-start gap-2">
                 <Icon
                   icon="mdi:check-circle"
-                  className="text-[#007cae] mt-1 shrink-0"
+                  className="text-snaptap-blue-dark mt-1 shrink-0"
                   width={18}
                 />
                 <span>

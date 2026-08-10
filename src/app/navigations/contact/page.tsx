@@ -5,6 +5,24 @@ import Navbar from "../../app/components/navbar";
 import Footer from "../../app/components/footer";
 import { Icon } from "@iconify/react";
 import { SUPPORT_EMAIL } from "@/app/utils/site";
+import {
+  Button,
+  Card,
+  Input,
+  Select,
+  Textarea,
+  type SelectOption,
+} from "@/app/app/components/ui";
+
+const CONTACT_SUBJECTS: SelectOption[] = [
+  { value: "General Inquiry", label: "General Inquiry" },
+  { value: "Technical Support", label: "Technical Support" },
+  { value: "Bug Report", label: "Bug Report / Issue" },
+  { value: "Feature Request", label: "Feature Request" },
+  { value: "Partnership", label: "Partnership" },
+  { value: "Billing", label: "Billing & Subscription" },
+  { value: "Other", label: "Other" },
+];
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -45,14 +63,14 @@ export default function ContactPage() {
           {/* Page Header */}
           <div className="text-center mb-16">
             <div className="flex items-center gap-3 justify-center mb-4">
-              <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center">
                 <Icon
                   icon="mdi:email-fast-outline"
-                  className="text-[#007cae]"
+                  className="text-snaptap-blue-dark"
                   width={24}
                 />
               </div>
-              <span className="text-sm font-semibold text-[#007cae] uppercase tracking-wider">
+              <span className="text-sm font-semibold text-snaptap-blue-dark uppercase tracking-wider">
                 Get in Touch
               </span>
             </div>
@@ -70,29 +88,29 @@ export default function ContactPage() {
             {/* Contact Info Cards */}
             <div className="md:col-span-1 space-y-6">
               {/* Email */}
-              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:email-outline"
-                    className="text-[#007cae]"
+                    className="text-snaptap-blue-dark"
                     width={22}
                   />
                 </div>
                 <h3 className="font-bold text-slate-900 mb-1">Email</h3>
                 <a
                   href={`mailto:${SUPPORT_EMAIL}`}
-                  className="text-[#007cae] hover:underline text-sm"
+                  className="text-snaptap-blue-dark hover:underline text-sm"
                 >
                   {SUPPORT_EMAIL}
                 </a>
               </div>
 
               {/* Phone - Pakistan */}
-              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:phone-outline"
-                    className="text-[#007cae]"
+                    className="text-snaptap-blue-dark"
                     width={22}
                   />
                 </div>
@@ -101,18 +119,18 @@ export default function ContactPage() {
                 </h3>
                 <a
                   href="tel:+923001234567"
-                  className="text-[#007cae] hover:underline text-sm"
+                  className="text-snaptap-blue-dark hover:underline text-sm"
                 >
                   +92 342 44 97829
                 </a>
               </div>
 
               {/* Phone - USA */}
-              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:phone-outline"
-                    className="text-[#007cae]"
+                    className="text-snaptap-blue-dark"
                     width={22}
                   />
                 </div>
@@ -121,43 +139,43 @@ export default function ContactPage() {
                 </h3>
                 <a
                   href="tel:+13029813030"
-                  className="text-[#007cae] hover:underline text-sm"
+                  className="text-snaptap-blue-dark hover:underline text-sm"
                 >
                   +1 (302) 981-3030
                 </a>
               </div>
 
               {/* Social */}
-              <div className="bg-slate-50 rounded-[6px] p-6 border border-slate-100">
-                <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-4">
+              <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-4">
                   <Icon
                     icon="mdi:instagram"
-                    className="text-[#007cae]"
+                    className="text-snaptap-blue-dark"
                     width={22}
                   />
                 </div>
                 <h3 className="font-bold text-slate-900 mb-1">Follow Us</h3>
                 <a
-                  href="https://www.instagram.com/snaptappk/"
+                  href="https://www.instagram.com/gosnaptap/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#007cae] hover:underline text-sm"
+                  className="text-snaptap-blue-dark hover:underline text-sm"
                 >
-                  @snaptappk
+                  @gosnaptap
                 </a>
               </div>
             </div>
 
             {/* Contact Form */}
             <div className="md:col-span-2">
-              <div className="bg-white rounded-[6px] p-5 sm:p-8 border border-slate-100 shadow-lg">
+              <Card variant="raised" padding="none" className="p-5 sm:p-8">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">
                   Send us a Message
                 </h2>
 
                 {submitted ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 rounded-[6px] bg-green-100 flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 rounded-brand bg-green-100 flex items-center justify-center mx-auto mb-4">
                       <Icon
                         icon="mdi:check-circle"
                         className="text-green-500"
@@ -173,7 +191,7 @@ export default function ContactPage() {
                       directly at{" "}
                       <a
                         href={`mailto:${SUPPORT_EMAIL}`}
-                        className="text-[#007cae] font-semibold hover:underline"
+                        className="text-snaptap-blue-dark font-semibold hover:underline"
                       >
                         {SUPPORT_EMAIL}
                       </a>
@@ -181,7 +199,7 @@ export default function ContactPage() {
                     </p>
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="text-[#007cae] font-semibold hover:underline"
+                      className="text-snaptap-blue-dark font-semibold hover:underline"
                     >
                       Send another message
                     </button>
@@ -189,101 +207,51 @@ export default function ContactPage() {
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-semibold text-slate-700 mb-1.5"
-                        >
-                          Your Name
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          required
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="John Doe"
-                          className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="block text-sm font-semibold text-slate-700 mb-1.5"
-                        >
-                          Your Email
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@example.com"
-                          className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="subject"
-                        className="block text-sm font-semibold text-slate-700 mb-1.5"
-                      >
-                        Subject
-                      </label>
-                      <select
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm bg-white"
-                      >
-                        <option value="">Select a topic</option>
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Technical Support">
-                          Technical Support
-                        </option>
-                        <option value="Bug Report">Bug Report / Issue</option>
-                        <option value="Feature Request">Feature Request</option>
-                        <option value="Partnership">Partnership</option>
-                        <option value="Billing">
-                          Billing &amp; Subscription
-                        </option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="message"
-                        className="block text-sm font-semibold text-slate-700 mb-1.5"
-                      >
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
+                      <Input
+                        label="Your Name"
+                        type="text"
+                        name="name"
                         required
-                        rows={5}
-                        value={formData.message}
+                        value={formData.name}
                         onChange={handleChange}
-                        placeholder="Tell us how we can help..."
-                        className="w-full px-4 py-3 rounded-[6px] border border-slate-200 focus:border-[#007cae] focus:ring-2 focus:ring-[#007cae]/20 outline-none transition text-sm resize-none"
+                        placeholder="John Doe"
+                      />
+                      <Input
+                        label="Your Email"
+                        type="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="john@example.com"
                       />
                     </div>
 
-                    <button
-                      type="submit"
-                      className="w-full bg-[#007cae] text-white font-semibold py-3.5 rounded-[6px] hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                    >
+                    <Select
+                      label="Subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      placeholder="Select a topic"
+                      options={CONTACT_SUBJECTS}
+                    />
+
+                    <Textarea
+                      label="Message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tell us how we can help..."
+                    />
+
+                    <Button type="submit" fullWidth>
                       Send Message
-                    </button>
+                    </Button>
                   </form>
                 )}
-              </div>
+              </Card>
             </div>
           </div>
         </div>

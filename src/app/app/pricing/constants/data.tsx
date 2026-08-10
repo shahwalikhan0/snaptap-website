@@ -47,12 +47,12 @@ export const featuresMap: Record<number, string[]> = {
 export const getIcon = (id: number) => {
   switch (id) {
     case 1:
-      return <FaRocket size={28} className="text-[#00A8DE]" />;
+      return <FaRocket size={28} className="text-snaptap-blue" />;
     case 2:
-      return <FaCogs size={28} className="text-[#00A8DE]" />;
+      return <FaCogs size={28} className="text-snaptap-blue" />;
     case 3:
-      return <FaBuilding size={28} className="text-[#00A8DE]" />;
+      return <FaBuilding size={28} className="text-snaptap-blue" />;
     default:
-      return <FaRocket size={28} className="text-[#00A8DE]" />;
+      return <FaRocket size={28} className="text-snaptap-blue" />;
   }
 };

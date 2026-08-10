@@ -30,9 +30,9 @@ export function SubHeading({
   return (
     <h3
       id={id}
-      className="text-lg sm:text-xl font-bold text-[#007cae] mb-3 mt-10 scroll-mt-28 flex items-center gap-2"
+      className="text-lg sm:text-xl font-bold text-snaptap-blue-dark mb-3 mt-10 scroll-mt-28 flex items-center gap-2"
     >
-      <span className="w-1 h-5 bg-[#007cae] rounded-[6px] inline-block" />
+      <span className="w-1 h-5 bg-snaptap-blue-dark rounded-brand inline-block" />
       {children}
     </h3>
   );
@@ -61,17 +61,17 @@ export function InfoBox({
       label: "Note",
     },
     info: {
-      bg: "bg-[#007cae]/5 border-[#007cae]/20",
+      bg: "bg-snaptap-blue-dark/5 border-snaptap-blue-dark/20",
       text: "text-slate-700",
       icon: "mdi:information-outline",
-      iconColor: "text-[#007cae]",
+      iconColor: "text-snaptap-blue-dark",
       label: "Info",
     },
   }[type];
 
   return (
     <div
-      className={`${styles.bg} border rounded-[6px] p-4 flex gap-3 my-4 text-sm`}
+      className={`${styles.bg} border rounded-brand p-4 flex gap-3 my-4 text-sm`}
     >
       <Icon
         icon={styles.icon}
@@ -91,7 +91,7 @@ export function StepList({ steps }: { steps: { title: string; desc: string }[] }
     <ol className="space-y-4 my-4">
       {steps.map((s, i) => (
         <li key={i} className="flex gap-4">
-          <span className="w-7 h-7 rounded-[6px] bg-[#007cae] text-white text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5">
+          <span className="w-7 h-7 rounded-brand bg-snaptap-blue-dark text-white text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5">
             {i + 1}
           </span>
           <div>
@@ -111,7 +111,7 @@ export function CheckList({ items }: { items: string[] }) {
         <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
           <Icon
             icon="mdi:check-circle"
-            className="text-[#007cae] mt-0.5 shrink-0"
+            className="text-snaptap-blue-dark mt-0.5 shrink-0"
             width={16}
           />
           {item}
@@ -128,7 +128,7 @@ export function Divider() {
 export function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-slate-200 rounded-[6px] overflow-hidden">
+    <div className="border border-slate-200 rounded-brand overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
         className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors"
@@ -136,7 +136,7 @@ export function FAQItem({ q, a }: { q: string; a: string }) {
         <span className="font-semibold text-slate-800 text-sm">{q}</span>
         <Icon
           icon={open ? "mdi:chevron-up" : "mdi:chevron-down"}
-          className={`shrink-0 transition-transform ${open ? "text-[#007cae]" : "text-slate-400"}`}
+          className={`shrink-0 transition-transform ${open ? "text-snaptap-blue-dark" : "text-slate-400"}`}
           width={18}
         />
       </button>

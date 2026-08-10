@@ -48,11 +48,11 @@ export function ModelProcessing() {
         ].map((step, i, arr) => (
           <div key={i} className="flex gap-4">
             <div className="flex flex-col items-center">
-              <div className="w-9 h-9 rounded-[6px] bg-[#007cae] text-white flex items-center justify-center shrink-0 z-10">
+              <div className="w-9 h-9 rounded-brand bg-snaptap-blue-dark text-white flex items-center justify-center shrink-0 z-10">
                 <Icon icon={step.icon} width={17} />
               </div>
               {i < arr.length - 1 && (
-                <div className="w-px flex-1 bg-[#007cae]/20 my-1" />
+                <div className="w-px flex-1 bg-snaptap-blue-dark/20 my-1" />
               )}
             </div>
             <div className="pb-6">
@@ -93,9 +93,9 @@ export function ModelProcessing() {
         QR code is created automatically as part of the processing pipeline —
         you don't need to do anything.
       </p>
-      <div className="bg-slate-50 rounded-[6px] border border-slate-200 p-5 my-4 font-mono text-xs text-slate-600 break-all">
+      <div className="bg-slate-50 rounded-brand border border-slate-200 p-5 my-4 font-mono text-xs text-slate-600 break-all">
         QR Code URL format:{" "}
-        <span className="text-[#007cae] font-bold">
+        <span className="text-snaptap-blue-dark font-bold">
           https://api.gosnaptap.com/model/name/&#123;productId&#125;
         </span>
       </div>

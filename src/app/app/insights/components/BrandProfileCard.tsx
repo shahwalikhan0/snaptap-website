@@ -26,18 +26,18 @@ export function BrandProfileCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1, duration: 0.5, ease: easeOut }}
     >
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#00A8DE] to-[#005a8c] rounded-[6px] shadow-[0_8px_30px_rgb(0,168,222,0.3)] p-8 flex flex-col justify-center items-center text-center lg:col-span-1 group">
+      <div className="relative overflow-hidden bg-gradient-to-br from-snaptap-blue to-[#005a8c] rounded-brand shadow-[0_8px_30px_rgb(0,168,222,0.3)] p-8 flex flex-col justify-center items-center text-center lg:col-span-1 group">
         {/* Decorative Background Elements */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-white opacity-10 rounded-[6px] blur-2xl group-hover:scale-150 transition-transform duration-700" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#00d0ff] opacity-20 rounded-[6px] blur-2xl group-hover:scale-150 transition-transform duration-700" />
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-white opacity-10 rounded-brand blur-2xl group-hover:scale-150 transition-transform duration-700" />
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#00d0ff] opacity-20 rounded-brand blur-2xl group-hover:scale-150 transition-transform duration-700" />
 
         <div className="relative z-10">
-          <div className="w-24 h-24 rounded-[6px] border-4 border-white/20 bg-white/10 mx-auto mb-4 flex items-center justify-center p-1 backdrop-blur-md shadow-lg">
+          <div className="w-24 h-24 rounded-brand border-4 border-white/20 bg-white/10 mx-auto mb-4 flex items-center justify-center p-1 backdrop-blur-md shadow-lg">
             {admin.image_url ? (
               <img
                 src={admin.image_url}
                 alt="Profile"
-                className="w-full h-full rounded-[6px] object-cover"
+                className="w-full h-full rounded-brand object-cover"
               />
             ) : (
               <Icon
@@ -52,7 +52,7 @@ export function BrandProfileCard({
           <p className="text-[#a8e6ff] font-medium tracking-wide">
             @{admin.username}
           </p>
-          <div className="mt-5 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-[6px] border border-white/10 w-max mx-auto shadow-inner">
+          <div className="mt-5 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-brand border border-white/10 w-max mx-auto shadow-inner">
             <Icon icon="carbon:email" className="text-white text-sm" />
             <span className="text-white text-sm truncate max-w-[180px]">
               {admin.email}
@@ -61,7 +61,7 @@ export function BrandProfileCard({
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-[6px] shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-8 lg:col-span-2 relative overflow-hidden flex flex-col justify-between">
+      <div className="bg-white border border-slate-200 rounded-brand shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-8 lg:col-span-2 relative overflow-hidden flex flex-col justify-between">
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#e0f7ff] to-transparent opacity-40 rounded-bl-full pointer-events-none" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
@@ -90,7 +90,7 @@ export function BrandProfileCard({
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[6px] bg-[#f0fafe] flex items-center justify-center text-[#00A8DE]">
+              <div className="w-10 h-10 rounded-brand bg-[#f0fafe] flex items-center justify-center text-snaptap-blue">
                 <Icon icon={categoryIcon} width={22} />
               </div>
               <div>
@@ -113,7 +113,7 @@ export function BrandProfileCard({
               <p className="font-semibold text-slate-700 flex items-center gap-2">
                 <Icon
                   icon="solar:calendar-date-bold-duotone"
-                  className="text-[#00A8DE] text-lg"
+                  className="text-snaptap-blue text-lg"
                 />
                 {dayjs()
                   .month(brand.month - 1)
@@ -138,7 +138,7 @@ export function BrandProfileCard({
                   Status
                 </p>
                 <span
-                  className={`inline-flex px-3 py-1 rounded-[6px] text-xs font-bold uppercase tracking-wider ${
+                  className={`inline-flex px-3 py-1 rounded-brand text-xs font-bold uppercase tracking-wider ${
                     brand.is_estimate
                       ? "bg-amber-50 text-amber-600 border border-amber-100"
                       : brand.date_paid
@@ -159,7 +159,7 @@ export function BrandProfileCard({
             <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">
               Current Balance
             </p>
-            <p className="text-3xl font-black text-[#00A8DE] tracking-tight">
+            <p className="text-3xl font-black text-snaptap-blue tracking-tight">
               <span className="text-lg font-bold text-slate-400 mr-1">USD</span>
               {formatCurrency(brand.totalBilling).replace("$", "")}
             </p>
@@ -167,7 +167,7 @@ export function BrandProfileCard({
 
           <button
             onClick={() => router.push("/app/subscription-page")}
-            className="flex items-center gap-2 text-sm font-bold text-[#00A8DE] hover:text-[#007cae] transition-colors rounded-[6px] hover:bg-[#00A8DE]/5 px-4 py-2"
+            className="flex items-center gap-2 text-sm font-bold text-snaptap-blue hover:text-snaptap-blue-dark transition-colors rounded-brand hover:bg-snaptap-blue/5 px-4 py-2"
           >
             Manage Billing <Icon icon="solar:arrow-right-line-duotone" />
           </button>

@@ -26,7 +26,7 @@ export function DocsSidebar({
     <>
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="lg:hidden fixed bottom-6 right-6 z-50 bg-[#007cae] text-white p-3.5 rounded-[6px] shadow-2xl hover:bg-[#006080] transition"
+        className="lg:hidden fixed bottom-6 right-6 z-50 bg-snaptap-blue-dark text-white p-3.5 rounded-brand shadow-2xl hover:bg-snaptap-blue-deep transition"
         aria-label="Open docs navigation"
       >
         <Icon icon={isSidebarOpen ? "mdi:close" : "mdi:menu"} width={22} />
@@ -42,7 +42,7 @@ export function DocsSidebar({
       <aside
         className={`
           fixed lg:sticky top-20 sm:top-24 left-0 h-[calc(100vh-5rem)] overflow-y-auto
-          w-64 bg-white border border-slate-200 rounded-r-2xl lg:rounded-[6px] shadow-lg p-5 z-40
+          w-64 bg-white border border-slate-200 rounded-r-2xl lg:rounded-brand shadow-lg p-5 z-40
           transition-transform duration-300 lg:translate-x-0 shrink-0
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
@@ -50,7 +50,7 @@ export function DocsSidebar({
         <div className="flex items-center gap-2 mb-6">
           <Icon
             icon="mdi:book-open-outline"
-            className="text-[#007cae]"
+            className="text-snaptap-blue-dark"
             width={22}
           />
           <h2 className="text-lg font-extrabold text-slate-900">Docs</h2>
@@ -67,9 +67,9 @@ export function DocsSidebar({
                   w-full text-left px-3 py-2 rounded-lg transition-all flex items-center gap-2.5 text-sm
                   ${
                     isActive(section.id) && activeSection === section.id
-                      ? "bg-[#007cae] text-white font-semibold"
+                      ? "bg-snaptap-blue-dark text-white font-semibold"
                       : isActive(section.id)
-                        ? "bg-[#007cae]/10 text-[#007cae] font-semibold"
+                        ? "bg-snaptap-blue-dark/10 text-snaptap-blue-dark font-semibold"
                         : "text-slate-600 hover:bg-slate-100"
                   }
                 `}
@@ -99,7 +99,7 @@ export function DocsSidebar({
                         w-full text-left px-2 py-1.5 rounded-md text-xs transition-all
                         ${
                           activeSection === child.id
-                            ? "text-[#007cae] font-bold"
+                            ? "text-snaptap-blue-dark font-bold"
                             : "text-slate-500 hover:text-slate-800"
                         }
                       `}

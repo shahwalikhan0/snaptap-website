@@ -21,7 +21,7 @@ export function HowItWorksSection() {
 
         <div className="relative">
           {/* Connector Line for Desktop */}
-          <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-[#007cae]/20 w-4/5 mx-auto -z-0"></div>
+          <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-snaptap-blue-dark/20 w-4/5 mx-auto -z-0"></div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             {[
@@ -54,7 +54,7 @@ export function HowItWorksSection() {
                 key={idx}
                 className="relative z-10 flex flex-col items-center text-center"
               >
-                <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-[6px] bg-white border-4 border-[#007cae]/10 shadow-lg flex items-center justify-center mb-4 sm:mb-6 text-[#007cae] group transition-all hover:border-[#007cae] hover:scale-110">
+                <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-brand bg-white border-4 border-snaptap-blue-dark/10 shadow-lg flex items-center justify-center mb-4 sm:mb-6 text-snaptap-blue-dark group transition-all hover:border-snaptap-blue-dark hover:scale-110">
                   <Icon icon={item.icon} width={28} className="sm:hidden" />
                   <Icon
                     icon={item.icon}
@@ -62,7 +62,7 @@ export function HowItWorksSection() {
                     className="hidden sm:block"
                   />
                 </div>
-                <span className="text-sm font-bold text-[#007cae] tracking-wider uppercase mb-2">
+                <span className="text-sm font-bold text-snaptap-blue-dark tracking-wider uppercase mb-2">
                   {item.step}
                 </span>
                 <h3 className="text-base sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">
@@ -77,12 +77,12 @@ export function HowItWorksSection() {
         </div>
 
         {/* Try it yourself card - Now inside the max-w-6xl container */}
-        <div className="mt-20 w-full bg-gradient-to-r from-slate-50 to-slate-200 rounded-[6px] border border-slate-200 shadow-sm p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="mt-20 w-full bg-gradient-to-r from-slate-50 to-slate-200 rounded-brand border border-slate-200 shadow-sm p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex-1 md:pr-8 text-center md:text-left">
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center justify-center md:justify-start gap-3 mb-4">
               <Icon
                 icon="mdi:line-scan"
-                className="text-[#007cae] w-8 h-8 md:w-10 md:h-10"
+                className="text-snaptap-blue-dark w-8 h-8 md:w-10 md:h-10"
               />
               Try it yourself!
             </h3>
@@ -92,7 +92,7 @@ export function HowItWorksSection() {
               3D model right in your own space—no app required!
             </p>
           </div>
-          <div className="flex-shrink-0 bg-white p-4 rounded-[6px] shadow-lg border border-slate-100 transform hover:scale-105 transition-transform duration-300">
+          <div className="flex-shrink-0 bg-white p-4 rounded-brand shadow-lg border border-slate-100 transform hover:scale-105 transition-transform duration-300">
             <img
               src="/assets/qr-code.png"
               alt="Scan to try AR"

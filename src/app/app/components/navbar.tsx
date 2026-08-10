@@ -8,6 +8,8 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
 import { Modal } from "antd";
+import { SPRING_DEFAULT } from "@/app/utils/motion";
+import { BRAND } from "@/app/utils/tokens";
 
 const Navbar = () => {
   const router = useRouter();
@@ -87,7 +89,7 @@ const Navbar = () => {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className={clsx(
         "fixed z-50 left-2 right-2 sm:left-4 sm:right-4 top-2 sm:top-4 mx-auto transition-all duration-300",
-        "rounded-[6px] backdrop-blur-md border border-white/40 shadow-lg",
+        "rounded-brand backdrop-blur-md border border-white/40 shadow-lg",
         isScrolled
           ? "bg-white/70 py-1.5 sm:py-2"
           : "bg-white/90 py-2.5 sm:py-3",
@@ -121,7 +123,7 @@ const Navbar = () => {
                 key={item.name}
                 onClick={() => handleNav(item.path)}
                 className={clsx(
-                  "relative px-4 py-2 rounded-[6px] text-[15px] font-bold transition-all duration-300 overflow-hidden group",
+                  "relative px-4 py-2 rounded-brand text-[15px] font-bold transition-all duration-300 overflow-hidden group",
                   isActive
                     ? "text-snaptap-blue-dark"
                     : "text-snaptap-gray-dark hover:text-snaptap-blue",
@@ -131,12 +133,12 @@ const Navbar = () => {
                 {isActive && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-snaptap-blue/10 rounded-[6px]"
+                    className="absolute inset-0 bg-snaptap-blue/10 rounded-brand"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
                 {!isActive && (
-                  <div className="absolute inset-0 bg-snaptap-blue/5 rounded-[6px] scale-0 group-hover:scale-100 transition-transform duration-300" />
+                  <div className="absolute inset-0 bg-snaptap-blue/5 rounded-brand scale-0 group-hover:scale-100 transition-transform duration-300" />
                 )}
               </button>
             );
@@ -156,10 +158,10 @@ const Navbar = () => {
                 Login
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.02, backgroundColor: "#006080" }}
+                whileHover={{ scale: 1.02, backgroundColor: BRAND.blueDeep }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleNav("/app/sign-up")}
-                className="bg-snaptap-blue-dark text-white text-[14px] sm:text-[15px] font-bold px-5 sm:px-8 py-2.5 rounded-[6px] shadow-lg shadow-snaptap-blue-dark/20 transition-all"
+                className="bg-snaptap-blue-dark text-white text-[14px] sm:text-[15px] font-bold px-5 sm:px-8 py-2.5 rounded-brand shadow-lg shadow-snaptap-blue-dark/20 transition-all"
               >
                 Join Now
               </motion.button>
@@ -170,9 +172,9 @@ const Navbar = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className="flex items-center gap-2 group px-4 py-2 rounded-[6px] bg-snaptap-blue-dark/5 hover:bg-snaptap-blue-dark/10 transition-all border border-snaptap-blue-dark/10"
+                className="flex items-center gap-2 group px-4 py-2 rounded-brand bg-snaptap-blue-dark/5 hover:bg-snaptap-blue-dark/10 transition-all border border-snaptap-blue-dark/10"
               >
-                <div className="w-8 h-8 rounded-[6px] bg-snaptap-blue-dark flex items-center justify-center text-white shadow-md">
+                <div className="w-8 h-8 rounded-brand bg-snaptap-blue-dark flex items-center justify-center text-white shadow-md">
                   <Icon icon="solar:user-bold-duotone" width={20} />
                 </div>
                 <span className="hidden sm:inline font-bold text-sm text-snaptap-gray-dark group-hover:text-snaptap-blue-dark transition-colors">
@@ -194,7 +196,8 @@ const Navbar = () => {
                     initial={{ opacity: 0, scale: 0.95, y: 10, x: 0 }}
                     animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 10, x: 0 }}
-                    className="absolute right-0 mt-3 w-64 bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-[6px] border border-slate-100 p-2 z-[60] overflow-hidden"
+                    transition={SPRING_DEFAULT}
+                    className="absolute right-0 mt-3 w-64 origin-top-right bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-brand border border-slate-100 p-2 z-[60] overflow-hidden"
                   >
                     <div className="px-4 py-3 border-b border-slate-50 mb-1">
                       <p className="text-[12px] font-bold text-snaptap-gray-light uppercase tracking-wider">
@@ -219,7 +222,7 @@ const Navbar = () => {
                       <button
                         key={item.name}
                         onClick={() => handleNav(item.path)}
-                        className="w-full px-4 py-3 hover:bg-snaptap-blue/5 text-snaptap-gray-dark rounded-[6px] text-left flex items-center gap-3 transition-colors font-semibold group"
+                        className="w-full px-4 py-3 hover:bg-snaptap-blue/5 text-snaptap-gray-dark rounded-brand text-left flex items-center gap-3 transition-colors font-semibold group"
                       >
                         <div className="p-1.5 rounded-lg bg-slate-50 group-hover:bg-snaptap-blue/10 text-snaptap-gray-light group-hover:text-snaptap-blue-dark transition-colors">
                           <Icon icon={item.icon} width={20} />
@@ -230,7 +233,7 @@ const Navbar = () => {
                     <div className="mt-1 pt-1 border-t border-slate-50">
                       <button
                         onClick={handleLogout}
-                        className="w-full px-4 py-3 hover:bg-red-50 text-red-500 rounded-[6px] text-left flex items-center gap-3 transition-colors font-semibold group"
+                        className="w-full px-4 py-3 hover:bg-red-50 text-red-500 rounded-brand text-left flex items-center gap-3 transition-colors font-semibold group"
                       >
                         <div className="p-1.5 rounded-lg bg-red-50 group-hover:bg-red-100 text-red-400 group-hover:text-red-500 transition-colors">
                           <Icon icon="solar:logout-3-bold-duotone" width={20} />
@@ -247,7 +250,7 @@ const Navbar = () => {
           {/* Mobile Toggle */}
           <motion.button
             whileTap={{ scale: 0.9 }}
-            className="md:hidden p-2 rounded-[6px] bg-snaptap-blue-dark/5 text-snaptap-blue-dark"
+            className="md:hidden p-2 rounded-brand bg-snaptap-blue-dark/5 text-snaptap-blue-dark"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >
@@ -278,7 +281,7 @@ const Navbar = () => {
                   key={item.name}
                   onClick={() => handleNav(item.path)}
                   className={clsx(
-                    "text-left w-full font-bold px-5 py-3.5 rounded-[6px] transition-all flex items-center justify-between group",
+                    "text-left w-full font-bold px-5 py-3.5 rounded-brand transition-all flex items-center justify-between group",
                     pathname === item.path
                       ? "bg-snaptap-blue/10 text-snaptap-blue-dark"
                       : "hover:bg-slate-50 text-snaptap-gray-dark hover:text-snaptap-blue-dark",
@@ -313,7 +316,7 @@ const Navbar = () => {
                       key={item.name}
                       onClick={() => handleNav(item.path)}
                       className={clsx(
-                        "text-left w-full font-bold px-5 py-3.5 rounded-[6px] transition-all flex items-center gap-3",
+                        "text-left w-full font-bold px-5 py-3.5 rounded-brand transition-all flex items-center gap-3",
                         pathname === item.path
                           ? "bg-snaptap-blue/10 text-snaptap-blue-dark"
                           : "hover:bg-slate-50 text-snaptap-gray-dark hover:text-snaptap-blue-dark",
@@ -328,7 +331,7 @@ const Navbar = () => {
                       setIsMobileMenuOpen(false);
                       handleLogout();
                     }}
-                    className="text-left w-full font-bold px-5 py-3.5 rounded-[6px] transition-all flex items-center gap-3 text-red-500 hover:bg-red-50"
+                    className="text-left w-full font-bold px-5 py-3.5 rounded-brand transition-all flex items-center gap-3 text-red-500 hover:bg-red-50"
                   >
                     <Icon icon="solar:logout-3-bold-duotone" width={20} />
                     Sign Out
@@ -339,13 +342,13 @@ const Navbar = () => {
                 <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-3">
                   <button
                     onClick={() => handleNav("/app/login")}
-                    className="font-bold px-4 py-3 text-snaptap-blue-dark text-center rounded-[6px] bg-snaptap-blue/10"
+                    className="font-bold px-4 py-3 text-snaptap-blue-dark text-center rounded-brand bg-snaptap-blue/10"
                   >
                     Login
                   </button>
                   <button
                     onClick={() => handleNav("/app/sign-up")}
-                    className="font-bold px-4 py-3 text-white text-center rounded-[6px] bg-snaptap-blue-dark shadow-md"
+                    className="font-bold px-4 py-3 text-white text-center rounded-brand bg-snaptap-blue-dark shadow-md"
                   >
                     Join
                   </button>
@@ -364,10 +367,10 @@ const Navbar = () => {
         centered
         closable={false}
         width={360}
-        className="[&_.ant-modal-content]:!rounded-[6px] [&_.ant-modal-content]:!p-0 overflow-hidden"
+        className="[&_.ant-modal-content]:!p-0 overflow-hidden"
       >
         <div className="p-8 text-center text-slate-800">
-          <div className="w-16 h-16 rounded-[6px] bg-red-50 text-red-500 flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-brand bg-red-50 text-red-500 flex items-center justify-center mx-auto mb-6">
             <Icon icon="majesticons:logout-line" width={32} />
           </div>
           <h3 className="text-xl font-bold mb-2">Confirm Logout</h3>
@@ -378,13 +381,13 @@ const Navbar = () => {
           <div className="flex gap-3">
             <button
               onClick={() => setShowLogoutConfirm(false)}
-              className="flex-1 h-12 rounded-[6px] border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition-all"
+              className="flex-1 h-12 rounded-brand border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition-all"
             >
               Cancel
             </button>
             <button
               onClick={confirmLogout}
-              className="flex-1 h-12 rounded-[6px] bg-red-500 text-white font-bold hover:bg-red-600 shadow-lg shadow-red-200 transition-all active:scale-95"
+              className="flex-1 h-12 rounded-brand bg-red-500 text-white font-bold hover:bg-red-600 shadow-lg shadow-red-200 transition-all active:scale-95"
             >
               Logout
             </button>

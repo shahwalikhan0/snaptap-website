@@ -1,23 +1,72 @@
 @import "tailwindcss";
 
+/*
+ * ─────────────────────────────────────────────────────────────────────────
+ *  DESIGN TOKENS  (Tailwind v4 CSS-first config — there is no
+ *  tailwind.config.js; this @theme block IS the config.)
+ *
+ *  Every value here generates real Tailwind utilities, so `rounded-brand`,
+ *  `shadow-card`, `text-display` etc. work exactly like built-ins and are
+ *  autocompleted by the Tailwind IntelliSense extension.
+ *
+ *  See DESIGN_SYSTEM.md for usage and the migration status of legacy
+ *  hardcoded values.
+ * ─────────────────────────────────────────────────────────────────────────
+ */
 @theme {
-  --color-snaptap-blue: #00A8DE;
+  /* ── Brand color ──────────────────────────────────────────────────────
+     Prefer these over hex literals. `#007cae` appears ~370 times across the
+     codebase predating these tokens — new code must use snaptap-blue-dark. */
+  --color-snaptap-blue: #00a8de;
   --color-snaptap-blue-dark: #007cae;
   --color-snaptap-blue-deep: #006080;
   --color-snaptap-gray-dark: #2e2e2e;
   --color-snaptap-gray-medium: #555555;
   --color-snaptap-gray-light: #888888;
-  --color-snaptap-bg-light: rgb(248, 250, 252); /* slate-50 equivalent but standardized */
+  --color-snaptap-bg-light: rgb(248, 250, 252); /* slate-50, standardized */
+
+  /* ── Radius ───────────────────────────────────────────────────────────
+     6px is the brand radius, used on every surface, button, input and
+     badge. It was written as the arbitrary value `rounded-[6px]` ~310
+     times before this token existed; `rounded-brand` replaces it. */
+  --radius-brand: 6px;
+
+  /* ── Elevation ────────────────────────────────────────────────────────
+     Bigger surfaces read as thicker: card < popover < modal. */
+  --shadow-card: 0 1px 3px rgb(15 23 42 / 0.06),
+    0 16px 32px -24px rgb(15 23 42 / 0.25);
+  --shadow-card-hover: 0 1px 3px rgb(15 23 42 / 0.08),
+    0 24px 40px -24px rgb(15 23 42 / 0.3);
+  --shadow-popover: 0 20px 50px rgb(0 0 0 / 0.15);
+
+  /* ── Typography ───────────────────────────────────────────────────────
+     Tracking is size-specific and leading tightens as size grows (Apple's
+     optical-sizing rule): large display text needs NEGATIVE tracking
+     because letters read too far apart as they scale up, while body text
+     sits near 0. clamp() scales fluidly instead of jumping at breakpoints,
+     and rem units mean a user's browser text-size setting still applies. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --text-display: clamp(2rem, 1.2rem + 4vw, 3.75rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-heading: clamp(1.5rem, 1.1rem + 2vw, 2.5rem);
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.01em;
+
+  --text-title: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.005em;
 }
 
-/* body font */
 body {
   background: white;
   color: var(--foreground);
-  /* font-family: Arial, Helvetica, sans-serif; */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
 }
+
 /* animation for homepage scroll */
 @keyframes scrollAnimation {
   0% {
@@ -45,11 +94,44 @@ body {
   animation: slideDown 0.3s ease-out forwards;
 }
 
-/* @media only screen and (max-width: 600px) {
-  .section-mobile {
-    background-color: rgb(175, 42, 9) !important;
+/*
+ * Reduced motion: the two hand-rolled CSS keyframe animations above aren't
+ * covered by MotionProvider's MotionConfig (that only reaches framer-motion's
+ * motion.* components), so they need their own fallback. A cross-fade
+ * equivalent isn't meaningful for either (a marquee and a one-time reveal),
+ * so both just stop moving and land at their resting state.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll {
+    animation: none;
   }
-   .section-mobile .card {
-    background-color: rgb(175, 42, 9) !important;
+  .animate-slideDown {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
-} */
+}
+
+/*
+ * Translucent surfaces (navbar, footer, dropdowns, cards) use inline
+ * Tailwind arbitrary classes like backdrop-blur-md / bg-white/90 rather than
+ * a shared component, so this is a global catch-all per Apple's rule:
+ * reduced transparency and increased contrast should make materials
+ * frostier/solid, not just disable them outright. Every surface on this
+ * site sits on a white/light background, so a near-solid white fallback is
+ * safe without knowing each component's exact color.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    background-color: rgb(255 255 255 / 0.98) !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    background-color: white !important;
+    border-color: rgb(0 0 0 / 0.4) !important;
+  }
+}

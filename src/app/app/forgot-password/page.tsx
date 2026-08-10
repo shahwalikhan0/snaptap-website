@@ -58,13 +58,13 @@ const ForgotPasswordPage = () => {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       {/* LEFT — decorative */}
-      <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
+      <div className="hidden md:flex flex-1 bg-gradient-to-br from-snaptap-blue-dark/10 via-snaptap-blue-dark/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-snaptap-blue-dark/5 rounded-brand blur-3xl" />
         <div className="z-10 text-center max-w-sm">
-          <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
+          <div className="flex items-center justify-center w-28 h-28 rounded-brand bg-snaptap-blue-dark/10 mx-auto mb-8">
             <Icon
               icon="mdi:email-lock-outline"
-              className="text-[#007cae]"
+              className="text-snaptap-blue-dark"
               width={56}
             />
           </div>
@@ -83,10 +83,10 @@ const ForgotPasswordPage = () => {
         <div className="w-full max-w-[400px]">
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-6">
               <Icon
                 icon="mdi:email-lock-outline"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={32}
               />
             </div>
@@ -120,7 +120,7 @@ const ForgotPasswordPage = () => {
                 prefix={<MailOutlined className="text-slate-400 mr-2" />}
                 placeholder="you@example.com"
                 onChange={() => emailError && setEmailError("")}
-                className={`h-12 rounded-[6px] border-slate-200 hover:border-[#007cae]/50 focus:border-[#007cae] ${
+                className={`h-12 rounded-brand border-slate-200 hover:border-snaptap-blue-dark/50 focus:border-snaptap-blue-dark ${
                   emailError ? "!border-red-400" : ""
                 }`}
               />
@@ -137,7 +137,7 @@ const ForgotPasswordPage = () => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+                className="h-12 rounded-brand font-bold text-base shadow-lg shadow-snaptap-blue-dark/20 transition-all active:scale-95 !text-white"
               >
                 Send Reset Code
               </Button>
@@ -149,7 +149,7 @@ const ForgotPasswordPage = () => {
               Remember your password?{" "}
               <button
                 onClick={() => router.push("/app/login")}
-                className="font-bold text-[#007cae] hover:text-[#006080] transition ml-1 cursor-pointer"
+                className="font-bold text-snaptap-blue-dark hover:text-snaptap-blue-deep transition ml-1 cursor-pointer"
               >
                 Back to Login
               </button>

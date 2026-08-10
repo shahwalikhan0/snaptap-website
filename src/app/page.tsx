@@ -13,12 +13,13 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "SnapTap",
-            "alternateName": "Snaptap",
-            "url": SITE_URL,
-            "logo": absoluteUrl("/assets/icon.png"),
-            "sameAs": ["https://www.instagram.com/snaptappk/"],
-            "description": "SnapTap provides immersive 3D and Augmented Reality e-commerce solutions."
+            name: "SnapTap",
+            alternateName: "Snaptap",
+            url: SITE_URL,
+            logo: absoluteUrl("/assets/icon.png"),
+            sameAs: ["https://www.instagram.com/gosnaptap/"],
+            description:
+              "SnapTap provides immersive 3D and Augmented Reality e-commerce solutions.",
           }),
         }}
       />
@@ -29,10 +30,11 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "SnapTap",
-            "url": SITE_URL,
-            "description": "Create and view 3D Augmented Reality product models for your business using SnapTap.",
-            "inLanguage": "en"
+            name: "SnapTap",
+            url: SITE_URL,
+            description:
+              "Create and view 3D Augmented Reality product models for your business using SnapTap.",
+            inLanguage: "en",
           }),
         }}
       />
@@ -43,13 +45,13 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "SnapTap",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web",
-            "offers": {
+            name: "SnapTap",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
               "@type": "Offer",
-              "price": "0",
-              "priceCurrency": "USD",
+              price: "0",
+              priceCurrency: "USD",
             },
           }),
         }}

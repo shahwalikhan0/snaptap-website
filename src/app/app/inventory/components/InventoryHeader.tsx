@@ -57,7 +57,7 @@ export function InventoryHeader({
             href={`/app/showcase/${Admin?.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-snaptap-blue-dark hover:bg-[#006080] text-white px-5 py-2.5 rounded-[6px] font-bold text-sm transition-all shadow-lg shadow-snaptap-blue-dark/20 w-full sm:w-auto justify-center"
+            className="flex items-center gap-2 bg-snaptap-blue-dark hover:bg-snaptap-blue-deep text-white px-5 py-2.5 rounded-brand font-bold text-sm transition-all shadow-lg shadow-snaptap-blue-dark/20 w-full sm:w-auto justify-center"
           >
             <Icon icon="solar:eye-bold-duotone" width={18} />
             View Public Showcase
@@ -71,7 +71,7 @@ export function InventoryHeader({
         <div
           role="tablist"
           aria-label="Filter products by status"
-          className="flex items-center gap-1 bg-slate-100 p-1 rounded-[6px] w-full md:w-auto"
+          className="flex items-center gap-1 bg-slate-100 p-1 rounded-brand w-full md:w-auto"
         >
           {STATUS_TABS.map((tab) => {
             const isActive = statusFilter === tab.value;
@@ -82,7 +82,7 @@ export function InventoryHeader({
                 aria-selected={isActive}
                 onClick={() => setStatusFilter(tab.value)}
                 className={clsx(
-                  "flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-[6px] text-sm font-bold transition-all",
+                  "flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-brand text-sm font-bold transition-all",
                   isActive
                     ? "bg-white text-snaptap-blue-dark shadow-sm"
                     : "text-slate-500 hover:text-slate-700",
@@ -91,7 +91,7 @@ export function InventoryHeader({
                 {tab.label}
                 <span
                   className={clsx(
-                    "min-w-[22px] px-1.5 py-0.5 rounded-[6px] text-[11px] font-black leading-none",
+                    "min-w-[22px] px-1.5 py-0.5 rounded-brand text-[11px] font-black leading-none",
                     isActive
                       ? "bg-snaptap-blue-dark/10 text-snaptap-blue-dark"
                       : "bg-slate-200 text-slate-500",
@@ -115,13 +115,13 @@ export function InventoryHeader({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name or category..."
-            className="w-full pl-10 pr-9 py-2.5 rounded-[6px] border border-slate-200 bg-white text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-snaptap-blue-dark focus:ring-2 focus:ring-snaptap-blue-dark/10 transition-all"
+            className="w-full pl-10 pr-9 py-2.5 rounded-brand border border-slate-200 bg-white text-sm font-medium text-slate-800 placeholder:text-slate-400 outline-none focus:border-snaptap-blue-dark focus:ring-2 focus:ring-snaptap-blue-dark/10 transition-all"
           />
           {search && (
             <button
               onClick={() => setSearch("")}
               aria-label="Clear search"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-[6px] text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-brand text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <Icon icon="lucide:x" width={14} />
             </button>

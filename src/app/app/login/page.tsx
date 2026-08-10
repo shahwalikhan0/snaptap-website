@@ -136,13 +136,13 @@ const LoginPage = () => {
       {/* RIGHT SIDE - Form */}
       <div className="flex-1 flex items-start justify-center p-6 md:p-12 pt-16 md:pt-24 relative overflow-hidden">
         {/* Subtle background decorative element for mobile/tablet */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#007cae]/5 rounded-full blur-3xl -mr-32 -mt-32 md:hidden" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-snaptap-blue-dark/5 rounded-full blur-3xl -mr-32 -mt-32 md:hidden" />
 
         <div className="w-full max-w-[440px] z-10">
           <div className="bg-white p-8 md:p-10 rounded-[12px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
             {/* Mobile Logo / Branding */}
             <div className="flex flex-col items-center mb-8">
-              <div className="w-16 h-16 rounded-[12px] bg-gradient-to-br from-[#007cae] to-[#00A8DE] flex items-center justify-center mb-6 shadow-lg shadow-[#007cae]/20 group transition-transform duration-500 hover:rotate-6">
+              <div className="w-16 h-16 rounded-[12px] bg-gradient-to-br from-snaptap-blue-dark to-snaptap-blue flex items-center justify-center mb-6 shadow-lg shadow-snaptap-blue-dark/20 group transition-transform duration-500 hover:rotate-6">
                 <Icon
                   icon="mdi:shield-key-outline"
                   className="text-white group-hover:scale-110 transition-transform"
@@ -184,7 +184,7 @@ const LoginPage = () => {
                 <Input
                   prefix={<UserOutlined className="text-[#888888] mr-2" />}
                   placeholder="e.g. snaptap_official"
-                  className="h-13 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
+                  className="h-13 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
                 />
               </Form.Item>
 
@@ -201,14 +201,14 @@ const LoginPage = () => {
                 <Input.Password
                   prefix={<LockOutlined className="text-[#888888] mr-2" />}
                   placeholder="••••••••••••"
-                  className="h-13 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:ring-4 focus:ring-[#007cae]/10 hover:border-[#007cae]/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
+                  className="h-13 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
                 />
               </Form.Item>
               <div className="flex justify-end mb-6">
                 <button
                   type="button"
                   onClick={() => router.push("/app/forgot-password")}
-                  className="text-[11px] font-bold text-[#007cae] hover:text-[#006080] transition-colors uppercase tracking-wider underline-offset-4 hover:underline"
+                  className="text-[11px] font-bold text-snaptap-blue-dark hover:text-snaptap-blue-deep transition-colors uppercase tracking-wider underline-offset-4 hover:underline"
                 >
                   Forgot Password?
                 </button>
@@ -220,7 +220,7 @@ const LoginPage = () => {
                   htmlType="submit"
                   loading={loading}
                   block
-                  className="h-13 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-black text-base shadow-xl shadow-[#007cae]/25 transition-all active:scale-[0.98] !text-white flex items-center justify-center gap-2 group"
+                  className="h-13 rounded-brand font-bold font-black text-base shadow-xl shadow-snaptap-blue-dark/25 transition-all active:scale-[0.98] !text-white flex items-center justify-center gap-2 group"
                 >
                   Sign In to Dashboard
                   <Icon
@@ -236,7 +236,7 @@ const LoginPage = () => {
                 New to the platform?{" "}
                 <button
                   onClick={() => router.push("/app/sign-up")}
-                  className="font-black text-[#007cae] hover:text-[#006080] transition-colors ml-1 decoration-skip-ink hover:underline underline-offset-4"
+                  className="font-black text-snaptap-blue-dark hover:text-snaptap-blue-deep transition-colors ml-1 decoration-skip-ink hover:underline underline-offset-4"
                 >
                   Create Business Account
                 </button>

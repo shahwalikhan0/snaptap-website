@@ -37,9 +37,14 @@ src/app/app/[feature-name]/
 |----------|-------------------|
 | `src/app/app/types/` | Cross-feature types: `AdminDataType`, `BrandDataType`, `PlanType` |
 | `src/app/hooks/` | Cross-feature hooks: `useAdminContext`, `AdminContext` |
-| `src/app/utils/` | Cross-feature utilities: `api.ts` (axios instance), `generateQRCode.ts` |
+| `src/app/utils/` | Cross-feature utilities: `api.ts` (axios instance), `generateQRCode.ts`, `motion.ts` (spring presets) |
+| `src/app/app/components/ui/` | Design-system primitives: `Button`, `Input`, `Textarea`, `Select`, `Card`, `Badge` — see `DESIGN_SYSTEM.md` |
 | `src/app/app/[feature]/types.ts` | Feature-specific types only |
 | `src/app/app/[feature]/services/` | Feature-specific API calls only |
+
+> **Before writing UI, read `DESIGN_SYSTEM.md`.** Use the `ui/` primitives and
+> the `@theme` tokens (`rounded-brand`, `bg-snaptap-blue-dark`, `text-display`)
+> rather than re-deriving a button, a form field, a shadow, or a hex literal.
 
 ### The Index Entry-Point Rule
 
@@ -147,6 +152,20 @@ SnapTap bills in **USD worldwide**. Regional discounts are applied server-side, 
 - **Never hardcode a public URL.** Import `SITE_URL`, `API_URL`, `SUPPORT_EMAIL`, or `absoluteUrl()` from `src/app/utils/site.ts`. These feed canonical tags, OG metadata, the sitemap, and robots.txt; a stray literal breaks SEO silently after a domain change.
 - `src/proxy.ts` 308-redirects the retired `snaptap.pk` hosts to `gosnaptap.com`. It's a fallback behind the infra-level redirect — add new legacy hosts there, not new redirect logic elsewhere.
 
+### UI & Design-System Rules
+
+Full reference: **`DESIGN_SYSTEM.md`**. The short version:
+
+- **Use the `ui/` primitives** (`Button`, `Input`, `Textarea`, `Select`, `Card`, `Badge`) from `@/app/app/components/ui` instead of hand-rolling a `<button>` or a bordered `<div>`. Every field style lives in one place so controls can't drift apart.
+- **Never write a brand hex literal or `rounded-[6px]`.** Use the `@theme` tokens: `bg-snaptap-blue-dark`, `rounded-brand`, `shadow-card`, `text-display`. There are currently **zero** of either left in `src/`; a new one is a regression. For a value that genuinely must be a JS string (recharts `stroke`, antd `Slider` style props, framer-motion values), import `BRAND` from `src/app/utils/tokens.ts`.
+- **antd vs our primitives** — two rules decide it:
+  1. A control inside an antd `<Form.Item>` **stays antd** — `Form.Item` clones its child to inject `value`/`onChange`/`ref` and owns the label and validation message.
+  2. An antd `<Dropdown>`/`<Tooltip>` trigger **stays antd** — it injects a `ref`, and our `Button` is a `motion.button` without `forwardRef`.
+  Everywhere else (standalone CTAs, page actions, modal footers, card actions), use the primitives.
+- **Don't add `!important` overrides to antd.** It's themed from the tokens by `AntdProvider`; `type="primary"` gets you brand color. If a token is wrong, fix the theme, not the instance.
+- **Merge classes with `cn()`** (`src/app/utils/cn.ts`) in any component accepting a `className` — plain `clsx` can't resolve conflicting Tailwind utilities, so the caller's override would win only by accident of stylesheet order.
+- **Motion:** use the `SPRING_DEFAULT` / `SPRING_MOMENTUM` presets from `src/app/utils/motion.ts`. `MotionProvider` already makes all `motion.*` components honour `prefers-reduced-motion`; don't add per-component media queries.
+
 ### Readability & Structure
 
 - **Named Exports:** Prefer `export const MyComponent = ...` for sub-components. Use `default export` only for `page.tsx` files (required by App Router).
@@ -182,5 +201,7 @@ Before outputting any block of code for the requested feature, verify your plan 
 8. Are all components with hooks/interactivity marked `"use client"`?
 9. Are sub-components in `components/` purely presentational (no API calls)?
 10. Is my component layout correctly partitioned between Server data-handling and Client interaction?
+11. Am I using the `ui/` primitives rather than a hand-rolled button/field/card, and `cn()` for any `className` merge?
+12. Are there zero brand hex literals and zero `rounded-[6px]` in my diff (tokens only), and zero new `!important` overrides on antd?
 
 _Proceed to generate the feature code following this structural guideline._

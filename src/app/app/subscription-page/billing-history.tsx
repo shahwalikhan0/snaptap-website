@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table, Tag, Tooltip, Button } from "antd";
+import { Table, Tag, Tooltip } from "antd";
+import { Button } from "@/app/app/components/ui";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { toast } from "react-toastify";
@@ -180,7 +181,7 @@ export default function BillingHistory() {
           <Tooltip title={tag.hint}>
             <Tag
               color={tag.color}
-              className="rounded-[6px] px-3 m-0 border-none font-bold"
+              className="rounded-brand px-3 m-0 border-none font-bold"
             >
               {tag.label}
             </Tag>
@@ -203,8 +204,9 @@ export default function BillingHistory() {
       key: "action",
       render: (_: unknown, record: InvoiceRecord) => (
         <Button
-          type="link"
-          className="text-[#007cae] flex items-center gap-1 font-semibold hover:bg-slate-50 rounded-lg px-2"
+          variant="ghost"
+          size="sm"
+          className="gap-1 px-2 hover:bg-slate-50"
           onClick={() => generateInvoicePDF(record)}
         >
           <Icon icon="mdi:download" width={18} />
@@ -231,12 +233,12 @@ export default function BillingHistory() {
       <PaymentMethodCard />
 
       {currentUsage && (
-        <div className="bg-slate-50 rounded-[6px] border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
+        <div className="bg-slate-50 rounded-brand border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Icon
                 icon="mdi:chart-timeline-variant-shimmer"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={20}
               />
               <h3 className="font-bold text-slate-700 uppercase tracking-wider text-xs">
@@ -261,7 +263,7 @@ export default function BillingHistory() {
               <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">
                 Estimated Amount
               </p>
-              <p className="text-2xl font-black text-[#007cae]">
+              <p className="text-2xl font-black text-snaptap-blue-dark">
                 {formatCurrency(currentUsage.total_amount)}
               </p>
             </div>
@@ -269,7 +271,7 @@ export default function BillingHistory() {
         </div>
       )}
 
-      <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-brand border border-slate-100 shadow-sm overflow-hidden">
         <Table
           dataSource={invoices}
           columns={columns}

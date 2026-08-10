@@ -16,6 +16,7 @@ import {
   Legend,
 } from "recharts";
 import { ViewTrendItem, TopProduct, ProductDistribution, TooltipPayloadEntry } from "../types";
+import { BRAND } from "@/app/utils/tokens";
 
 interface ChartsSectionProps {
   modelData: ViewTrendItem[];
@@ -33,7 +34,7 @@ export function ChartsSection({
   const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadEntry[]; label?: string }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/90 backdrop-blur-md p-4 rounded-[6px] shadow-lg border border-slate-100">
+        <div className="bg-white/90 backdrop-blur-md p-4 rounded-brand shadow-lg border border-slate-100">
           <p className="text-sm font-bold text-slate-800 mb-1">{label}</p>
           <p
             className="text-sm font-semibold"
@@ -55,13 +56,13 @@ export function ChartsSection({
       transition={{ delay: 0.3, duration: 0.5, ease: easeOut }}
     >
       {/* Model Generation Trend */}
-      <div className="bg-white rounded-[6px] border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-2 relative overflow-hidden group">
+      <div className="bg-white rounded-brand border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-2 relative overflow-hidden group">
         {/* Decorative Background */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 opacity-50 rounded-bl-full pointer-events-none group-hover:scale-105 transition-transform duration-700" />
 
         <div className="flex items-center justify-between mb-8 relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-[6px] bg-[#00A8DE]/10 flex items-center justify-center text-[#00A8DE]">
+            <div className="w-10 h-10 rounded-brand bg-snaptap-blue/10 flex items-center justify-center text-snaptap-blue">
               <Icon icon="solar:graph-up-bold-duotone" width={22} />
             </div>
             <div>
@@ -86,8 +87,8 @@ export function ChartsSection({
             >
               <defs>
                 <linearGradient id="colorModels" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00A8DE" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#00A8DE" stopOpacity={0} />
+                  <stop offset="5%" stopColor={BRAND.blue} stopOpacity={0.3} />
+                  <stop offset="95%" stopColor={BRAND.blue} stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -113,11 +114,11 @@ export function ChartsSection({
                 type="monotone"
                 dataKey="views"
                 name="Total Views"
-                stroke="#00A8DE"
+                stroke={BRAND.blue}
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#colorModels)"
-                activeDot={{ r: 6, strokeWidth: 0, fill: "#00A8DE" }}
+                activeDot={{ r: 6, strokeWidth: 0, fill: BRAND.blue }}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -125,9 +126,9 @@ export function ChartsSection({
       </div>
 
       {/* Product Distribution Pie Chart */}
-      <div className="bg-white rounded-[6px] border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-1 border-t-4 border-t-emerald-400 flex flex-col">
+      <div className="bg-white rounded-brand border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-1 border-t-4 border-t-emerald-400 flex flex-col">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-[6px] bg-emerald-50 flex items-center justify-center text-emerald-500">
+          <div className="w-10 h-10 rounded-brand bg-emerald-50 flex items-center justify-center text-emerald-500">
             <Icon icon="solar:pie-chart-2-bold-duotone" width={22} />
           </div>
           <div>
@@ -141,7 +142,7 @@ export function ChartsSection({
         <div className="flex-1 min-h-[250px] w-full flex items-center justify-center">
           {productData.every((d) => d.value === 0) ? (
             <div className="text-center">
-              <div className="w-20 h-20 bg-slate-50 rounded-[6px] flex items-center justify-center mx-auto mb-3">
+              <div className="w-20 h-20 bg-slate-50 rounded-brand flex items-center justify-center mx-auto mb-3">
                 <Icon
                   icon="solar:box-minimalistic-line-duotone"
                   className="text-slate-300 text-3xl"
@@ -193,9 +194,9 @@ export function ChartsSection({
 
       {/* Top 10 Products Ranking */}
       {topProducts && topProducts.length > 0 && (
-        <div className="bg-white rounded-[6px] border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-3 border-t-4 border-t-purple-400 relative overflow-hidden group">
+        <div className="bg-white rounded-brand border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-3 border-t-4 border-t-purple-400 relative overflow-hidden group">
           <div className="flex items-center gap-3 mb-6 relative z-10">
-            <div className="w-10 h-10 rounded-[6px] bg-purple-50 flex items-center justify-center text-purple-500">
+            <div className="w-10 h-10 rounded-brand bg-purple-50 flex items-center justify-center text-purple-500">
               <Icon icon="solar:fire-bold-duotone" width={24} />
             </div>
             <div>
@@ -229,9 +230,9 @@ export function ChartsSection({
                         {currViews}
                       </span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-100 rounded-[6px] overflow-hidden flex">
+                    <div className="h-1.5 w-full bg-slate-100 rounded-brand overflow-hidden flex">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-[6px]"
+                        className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-brand"
                         initial={{ width: 0 }}
                         animate={{ width: `${percent}%` }}
                         transition={{ delay: index * 0.1, duration: 0.8 }}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { BRAND } from "@/app/utils/tokens";
 
 const slides = [
   {
@@ -118,12 +119,12 @@ export const SnapSlider = () => {
         <div className="relative h-full flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10">
           {/* Section Header */}
           <div className="text-center mb-10 sm:mb-14">
-            <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+            <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
               How It Works
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
               Stop Guessing.{" "}
-              <span className="text-[#007cae]">Start Experiencing.</span>
+              <span className="text-snaptap-blue-dark">Start Experiencing.</span>
             </h2>
             <p className="mt-4 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
               Three simple steps that turn any product into an immersive
@@ -145,13 +146,13 @@ export const SnapSlider = () => {
                   : "translateY(0)",
               }}
             >
-              <span className="inline-block bg-[#007cae]/20 text-[#007cae] text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-[6px] mb-4 border border-[#007cae]/30">
+              <span className="inline-block bg-snaptap-blue-dark/20 text-snaptap-blue-dark text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-brand mb-4 border border-snaptap-blue-dark/30">
                 {slide.badge}
               </span>
               <h3 className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-3 leading-none">
                 {slide.word}
               </h3>
-              <p className="text-[#007cae] text-lg sm:text-xl font-semibold mb-4">
+              <p className="text-snaptap-blue-dark text-lg sm:text-xl font-semibold mb-4">
                 {slide.tagline}
               </p>
               <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-lg">
@@ -163,9 +164,9 @@ export const SnapSlider = () => {
                 {slides.map((_, idx) => (
                   <div
                     key={idx}
-                    className={`rounded-[6px] transition-all duration-300 ${
+                    className={`rounded-brand transition-all duration-300 ${
                       idx === active
-                        ? "w-8 h-3 bg-[#007cae] shadow-lg shadow-[#007cae]/40"
+                        ? "w-8 h-3 bg-snaptap-blue-dark shadow-lg shadow-snaptap-blue-dark/40"
                         : "w-3 h-3 bg-white/20"
                     }`}
                   />
@@ -212,10 +213,10 @@ export const SnapSlider = () => {
             >
               {/* Glow ring */}
               <div
-                className="absolute inset-4 rounded-[6px] blur-3xl opacity-30"
-                style={{ background: "#007cae" }}
+                className="absolute inset-4 rounded-brand blur-3xl opacity-30"
+                style={{ background: BRAND.blueDark }}
               />
-              <div className="relative rounded-[6px] overflow-hidden border border-white/10 shadow-2xl aspect-[4/3]">
+              <div className="relative rounded-brand overflow-hidden border border-white/10 shadow-2xl aspect-[4/3]">
                 <Image
                   src={slide.image}
                   alt={slide.alt}

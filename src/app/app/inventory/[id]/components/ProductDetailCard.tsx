@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, Button, Dropdown, Tag } from "antd";
+import { Button as UiButton } from "@/app/app/components/ui";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -36,18 +37,19 @@ export function ProductDetailCard({
     <div className="space-y-6">
       {/* Back Button */}
       <Link href="/app/inventory">
-        <Button
-          type="text"
-          icon={<ArrowLeftOutlined className="text-snaptap-blue-dark" />}
-          className="font-bold text-slate-500 hover:text-snaptap-blue-dark transition-all pl-0 group"
+        <UiButton
+          variant="ghost"
+          size="sm"
+          className="pl-0 font-bold text-slate-500 hover:text-snaptap-blue-dark group"
         >
+          <ArrowLeftOutlined className="text-snaptap-blue-dark" />
           <span className="group-hover:-translate-x-1 transition-transform inline-block underline-offset-4 hover:underline">
             Back to Inventory
           </span>
-        </Button>
+        </UiButton>
       </Link>
 
-      <Card className="rounded-[6px] border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-0 [&_.ant-card-body]:p-0">
+      <Card className="rounded-brand border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-0 [&_.ant-card-body]:p-0">
         <div className="flex flex-col lg:flex-row">
           {/* Visual Column */}
           <div className="lg:w-[45%] bg-slate-50 p-6 sm:p-10 flex items-center justify-center relative group min-h-[350px]">
@@ -115,12 +117,12 @@ export function ProductDetailCard({
                   <Button
                     type="text"
                     icon={<MoreOutlined className="text-2xl text-slate-400" />}
-                    className="h-10 w-10 flex items-center justify-center rounded-[6px] hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100"
+                    className="h-10 w-10 flex items-center justify-center rounded-brand hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100"
                   />
                 </Dropdown>
               </div>
 
-              <div className="flex items-baseline gap-2 mb-8 p-4 bg-slate-50 rounded-[6px] border border-slate-100 w-fit">
+              <div className="flex items-baseline gap-2 mb-8 p-4 bg-slate-50 rounded-brand border border-slate-100 w-fit">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">
                   Pricing
                 </span>
@@ -143,23 +145,21 @@ export function ProductDetailCard({
 
             {/* Actions Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Button
-                type="primary"
-                size="large"
+              <UiButton
                 onClick={onEdit}
-                className="h-12 rounded-[6px] !bg-snaptap-blue-dark hover:!bg-snaptap-blue-deep border-none font-bold shadow-lg shadow-snaptap-blue-dark/10 flex items-center justify-center gap-2 !text-white"
-                icon={<EditOutlined />}
+                className="h-12 shadow-lg shadow-snaptap-blue-dark/10"
               >
+                <EditOutlined />
                 Edit Details
-              </Button>
-              <Button
-                size="large"
+              </UiButton>
+              <UiButton
+                variant="secondary"
                 onClick={onViewQR}
-                className="h-12 rounded-[6px] border-slate-200 text-slate-700 font-bold hover:!border-snaptap-blue-dark hover:!text-snaptap-blue-dark flex items-center justify-center gap-2"
-                icon={<QrcodeOutlined />}
+                className="h-12 hover:border-snaptap-blue-dark hover:text-snaptap-blue-dark"
               >
+                <QrcodeOutlined />
                 View QR
-              </Button>
+              </UiButton>
             </div>
           </div>
         </div>

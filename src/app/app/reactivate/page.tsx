@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAdmin } from "../../hooks/useAdminContext";
-import { Button, Typography, Result } from "antd";
+import { Typography, Result } from "antd";
+import { Button } from "@/app/app/components/ui";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -62,7 +63,7 @@ export default function ReactivatePage() {
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 items-center justify-center p-6 w-full">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
-      <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-[6px] shadow-xl text-center">
+      <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-brand shadow-xl text-center">
         <Result
           status={isPendingDeletion ? "warning" : "error"}
           title={
@@ -81,11 +82,10 @@ export default function ReactivatePage() {
           }
           extra={[
             <Button
-              type="primary"
-              size="large"
               loading={loading}
               onClick={handleAction}
-              className="w-full mt-6 h-14 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-lg shadow-lg shadow-[#007cae]/20 transition-all"
+              fullWidth
+              className="mt-6 h-14 text-lg"
               key="restore"
             >
               {isPendingDeletion

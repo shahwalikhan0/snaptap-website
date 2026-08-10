@@ -50,7 +50,7 @@ export function ScanningProducts() {
             ],
           },
         ].map((box, i) => (
-          <div key={i} className={`${box.color} border rounded-[6px] p-4`}>
+          <div key={i} className={`${box.color} border rounded-brand p-4`}>
             <div className="flex items-center gap-2 mb-3">
               <Icon icon={box.icon} className={box.iconColor} width={18} />
               <p className="font-bold text-slate-800 text-sm">{box.title}</p>
@@ -97,10 +97,10 @@ export function ScanningProducts() {
         ].map((tip, i) => (
           <div
             key={i}
-            className="flex gap-4 p-4 bg-slate-50 rounded-[6px] border border-slate-100"
+            className="flex gap-4 p-4 bg-slate-50 rounded-brand border border-slate-100"
           >
-            <div className="w-9 h-9 rounded-lg bg-[#007cae]/10 flex items-center justify-center shrink-0">
-              <Icon icon={tip.icon} className="text-[#007cae]" width={18} />
+            <div className="w-9 h-9 rounded-lg bg-snaptap-blue-dark/10 flex items-center justify-center shrink-0">
+              <Icon icon={tip.icon} className="text-snaptap-blue-dark" width={18} />
             </div>
             <div>
               <p className="font-bold text-slate-800 text-sm mb-1">

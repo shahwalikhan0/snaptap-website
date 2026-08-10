@@ -44,14 +44,14 @@ export function StatsCards({
       {/* Scans Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+        className="bg-white rounded-brand p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110">
           <Icon icon="mdi:barcode-scan" width={100} />
         </div>
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-[6px] bg-blue-50 text-blue-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-brand bg-blue-50 text-blue-500 flex items-center justify-center">
               <Icon icon="mdi:barcode-scan" width={22} />
             </div>
             <h5 className="font-bold text-slate-700">Scan Usage</h5>
@@ -72,9 +72,9 @@ export function StatsCards({
             </span>
             <span className="text-slate-400">Total Scans</span>
           </div>
-          <div className="h-2 w-full bg-slate-100 rounded-[6px] overflow-hidden">
+          <div className="h-2 w-full bg-slate-100 rounded-brand overflow-hidden">
             <motion.div
-              className={`h-full rounded-[6px] ${scanUsage > 85 ? "bg-red-500" : "bg-gradient-to-r from-blue-400 to-blue-500"}`}
+              className={`h-full rounded-brand ${scanUsage > 85 ? "bg-red-500" : "bg-gradient-to-r from-blue-400 to-blue-500"}`}
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(scanUsage, 100)}%` }}
               transition={{ duration: 1, delay: 0.5 }}
@@ -86,14 +86,14 @@ export function StatsCards({
       {/* Products Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+        className="bg-white rounded-brand p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110">
           <Icon icon="mdi:package-variant-closed" width={100} />
         </div>
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-[6px] bg-emerald-50 text-emerald-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-brand bg-emerald-50 text-emerald-500 flex items-center justify-center">
               <Icon icon="mdi:package-variant-closed" width={22} />
             </div>
             <h5 className="font-bold text-slate-700">Product Portfolio</h5>
@@ -126,7 +126,7 @@ export function StatsCards({
             </span>
             <span className="text-slate-400">Products</span>
           </div>
-          <div className="h-2 w-full flex rounded-[6px] overflow-hidden gap-0.5">
+          <div className="h-2 w-full flex rounded-brand overflow-hidden gap-0.5">
             <motion.div
               className="h-full bg-emerald-400"
               initial={{ flex: 0 }}
@@ -146,14 +146,14 @@ export function StatsCards({
       {/* Models Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-[6px] p-6 shadow-[0_2px_6px_rgba(124,58,237,0.2),0_16px_32px_-16px_rgba(124,58,237,0.45)] flex flex-col justify-between group hover:shadow-[0_4px_10px_rgba(124,58,237,0.25),0_20px_40px_-16px_rgba(124,58,237,0.55)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+        className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-brand p-6 shadow-[0_2px_6px_rgba(124,58,237,0.2),0_16px_32px_-16px_rgba(124,58,237,0.45)] flex flex-col justify-between group hover:shadow-[0_4px_10px_rgba(124,58,237,0.25),0_20px_40px_-16px_rgba(124,58,237,0.55)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none transition-transform group-hover:scale-110">
           <Icon icon="mdi:cube-outline" width={100} className="text-white" />
         </div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-[6px] bg-white/20 text-white flex items-center justify-center backdrop-blur-sm border border-white/20">
+            <div className="w-10 h-10 rounded-brand bg-white/20 text-white flex items-center justify-center backdrop-blur-sm border border-white/20">
               <Icon icon="mdi:cube-outline" width={22} />
             </div>
             <h5 className="font-bold text-white">Models Generated</h5>
@@ -170,7 +170,7 @@ export function StatsCards({
         </div>
 
         <div className="mt-6 relative z-10">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-[6px] p-3 flex items-center gap-3">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-brand p-3 flex items-center gap-3">
             <Icon
               icon="solar:info-circle-line-duotone"
               className="text-violet-200 text-lg flex-shrink-0"

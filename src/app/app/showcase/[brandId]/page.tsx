@@ -158,7 +158,7 @@ export default function ShowcasePage() {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#006080] to-snaptap-blue rounded-xl flex items-center justify-center text-white shadow-sm">
+            <div className="w-10 h-10 bg-gradient-to-br from-snaptap-blue-deep to-snaptap-blue rounded-xl flex items-center justify-center text-white shadow-sm">
               <Icon icon="mdi:store" width={20} />
             </div>
             <div>
@@ -365,7 +365,7 @@ export default function ShowcasePage() {
 
           <div className="flex items-center gap-4">
             <a
-              href="https://www.instagram.com/snaptappk/"
+              href="https://www.instagram.com/gosnaptap/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors p-2"
@@ -373,7 +373,7 @@ export default function ShowcasePage() {
               <Icon icon="mdi:instagram" width={20} />
             </a>
             <a
-              href="https://www.linkedin.com/company/snaptappk"
+              href="https://www.linkedin.com/company/gosnaptap"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors p-2"

@@ -15,10 +15,10 @@ export default function PrivacyPolicy() {
                     {/* Page Header */}
                     <div className="mb-12">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center">
-                                <Icon icon="mdi:shield-lock-outline" className="text-[#007cae]" width={24} />
+                            <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center">
+                                <Icon icon="mdi:shield-lock-outline" className="text-snaptap-blue-dark" width={24} />
                             </div>
-                            <span className="text-sm font-semibold text-[#007cae] uppercase tracking-wider">Legal</span>
+                            <span className="text-sm font-semibold text-snaptap-blue-dark uppercase tracking-wider">Legal</span>
                         </div>
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">Privacy Policy</h1>
                         <p className="text-slate-400 text-sm">Last updated: February 20, 2026</p>
@@ -40,23 +40,23 @@ export default function PrivacyPolicy() {
                             </p>
                             <ul className="space-y-3 text-slate-600">
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Account Information:</strong> Name, email address, business name, and login credentials when you register for an account.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Product Data:</strong> Images, 3D scans, and metadata of products you upload to generate AR models.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Usage &amp; Log Data:</strong> How you interact with our platform, including pages visited, features used, session duration, crash reports, diagnostic logs, and performance data. This log data helps us debug technical issues and improve stability.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Device &amp; Technical Data:</strong> IP address, browser type, operating system version, and device identifiers.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Payment Information:</strong> Billing details and transaction records processed through our secure payment providers.</span>
                                 </li>
                             </ul>
@@ -69,23 +69,23 @@ export default function PrivacyPolicy() {
                             </p>
                             <ul className="space-y-3 text-slate-600">
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>To provide and maintain our 3D scanning, AR model generation, and marketplace services.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>To process your transactions and manage your subscription.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>To improve, personalize, and expand our platform and services.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>To communicate with you about updates, support, and promotional offers.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>To detect, prevent, and address technical issues, app crashes, and security threats via log data.</span>
                                 </li>
                             </ul>
@@ -119,11 +119,11 @@ export default function PrivacyPolicy() {
                             </p>
                             <ul className="space-y-3 text-slate-600">
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Account Deletion:</strong> You can initiate account deletion within the mobile app or via our web portal. Upon request, your account will be scheduled for permanent deletion within 30 days. After this period, all your personal data, 3D models, and usage history will be permanently erased and cannot be recovered.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span><strong>Account Deactivation:</strong> You may also choose to deactivate your account. If deactivated, your data is hidden but retained for up to 6 months, after which it will be permanently deleted if not reactivated.</span>
                                 </li>
                             </ul>
@@ -150,19 +150,19 @@ export default function PrivacyPolicy() {
                             </p>
                             <ul className="space-y-3 text-slate-600">
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>The right to access, update, or delete your personal information.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>The right to object to or restrict the processing of your data.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>The right to data portability.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <Icon icon="mdi:chevron-right" className="text-[#007cae] mt-1 shrink-0" width={18} />
+                                    <Icon icon="mdi:chevron-right" className="text-snaptap-blue-dark mt-1 shrink-0" width={18} />
                                     <span>The right to withdraw consent at any time.</span>
                                 </li>
                             </ul>
@@ -180,7 +180,7 @@ export default function PrivacyPolicy() {
                             <p className="text-slate-600 leading-relaxed">
                                 If you have any questions or concerns about this Privacy Policy, please contact us at:
                             </p>
-                            <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex items-center gap-2 text-[#007cae] font-semibold mt-3 hover:underline transition">
+                            <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex items-center gap-2 text-snaptap-blue-dark font-semibold mt-3 hover:underline transition">
                                 <Icon icon="mdi:email-outline" width={20} />
                                 {SUPPORT_EMAIL}
                             </a>

@@ -42,11 +42,11 @@ export function InventoryDashboard() {
         ].map((card, i) => (
           <div
             key={i}
-            className="flex gap-3 p-4 rounded-[6px] border border-slate-100 bg-slate-50"
+            className="flex gap-3 p-4 rounded-brand border border-slate-100 bg-slate-50"
           >
             <Icon
               icon={card.icon}
-              className="text-[#007cae] shrink-0 mt-0.5"
+              className="text-snaptap-blue-dark shrink-0 mt-0.5"
               width={18}
             />
             <div>
@@ -77,10 +77,10 @@ export function InventoryDashboard() {
         </code>{" "}
         tag.
       </p>
-      <div className="bg-slate-900 rounded-[6px] p-5 font-mono text-xs text-slate-300 overflow-x-auto mb-4">
+      <div className="bg-slate-900 rounded-brand p-5 font-mono text-xs text-slate-300 overflow-x-auto mb-4">
         <span className="text-slate-500">{`<!-- Copy this into your product page -->`}</span>
         {"\n"}
-        <span className="text-[#007cae]">&lt;iframe</span>
+        <span className="text-snaptap-blue-dark">&lt;iframe</span>
         {"\n  "}
         <span className="text-green-400">src</span>
         <span className="text-slate-300">=</span>
@@ -104,7 +104,7 @@ export function InventoryDashboard() {
         <span className="text-slate-300">=</span>
         <span className="text-amber-300">"0"</span>
         {"\n"}
-        <span className="text-[#007cae]">&gt;&lt;/iframe&gt;</span>
+        <span className="text-snaptap-blue-dark">&gt;&lt;/iframe&gt;</span>
       </div>
       <InfoBox type="tip">
         Replace <strong>YOUR_PRODUCT_ID</strong> with the numeric ID shown on

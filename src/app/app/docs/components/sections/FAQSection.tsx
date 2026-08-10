@@ -56,13 +56,13 @@ export function FAQSection() {
         ))}
       </div>
 
-      <div className="mt-10 p-6 bg-[#007cae]/5 border border-[#007cae]/20 rounded-[6px] text-center">
+      <div className="mt-10 p-6 bg-snaptap-blue-dark/5 border border-snaptap-blue-dark/20 rounded-brand text-center">
         <p className="text-slate-600 text-sm mb-4">
           Still have questions? We're happy to help.
         </p>
         <button
           onClick={() => router.push("/navigations/contact")}
-          className="bg-[#007cae] text-white font-bold px-8 py-3 rounded-[6px] hover:bg-[#006080] transition-all text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="bg-snaptap-blue-dark text-white font-bold px-8 py-3 rounded-brand hover:bg-snaptap-blue-deep transition-all text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           Contact Support
         </button>

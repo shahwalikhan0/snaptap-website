@@ -49,9 +49,9 @@ export function ProfileSection({
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 p-4 sm:p-6 bg-slate-50 rounded-[6px] border border-slate-100">
+      <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 p-4 sm:p-6 bg-slate-50 rounded-brand border border-slate-100">
         <div className="relative group">
-          <div className="w-24 h-24 rounded-[6px] overflow-hidden border-4 border-white shadow-lg">
+          <div className="w-24 h-24 rounded-brand overflow-hidden border-4 border-white shadow-lg">
             <img
               src={imageUrl || "/default-profile.png"}
               className="w-full h-full object-cover"
@@ -60,14 +60,14 @@ export function ProfileSection({
           </div>
           <button
             onClick={() => setIsModalVisible(true)}
-            className="absolute -bottom-1 -right-1 !bg-[#007cae] text-white w-8 h-8 rounded-[6px] flex items-center justify-center hover:scale-110 transition shadow-lg ring-2 ring-white"
+            className="absolute -bottom-1 -right-1 bg-snaptap-blue-dark text-white w-8 h-8 rounded-brand flex items-center justify-center hover:scale-110 transition shadow-lg ring-2 ring-white"
           >
             <UploadOutlined />
           </button>
         </div>
         <div className="text-center sm:text-left">
           <h2 className="text-xl font-bold text-slate-900">{Admin?.name}</h2>
-          <p className="text-[#007cae] font-semibold text-sm">
+          <p className="text-snaptap-blue-dark font-semibold text-sm">
             @{Admin?.username}
           </p>
         </div>
@@ -92,7 +92,7 @@ export function ProfileSection({
           <Input
             size="large"
             prefix={<UserOutlined className="text-slate-300" />}
-            className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+            className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
           />
         </Form.Item>
         <Form.Item
@@ -102,7 +102,7 @@ export function ProfileSection({
           <Input
             size="large"
             prefix={<UserOutlined className="text-slate-300" />}
-            className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+            className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
           />
         </Form.Item>
         <Form.Item
@@ -115,7 +115,7 @@ export function ProfileSection({
             size="large"
             disabled
             prefix={<MailOutlined className="text-slate-300" />}
-            className="h-12 rounded-[6px] bg-slate-50"
+            className="h-12 rounded-brand bg-slate-50"
           />
         </Form.Item>
         <Form.Item
@@ -126,7 +126,7 @@ export function ProfileSection({
         >
           <Input.TextArea
             rows={4}
-            className="rounded-[6px] p-4 border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+            className="rounded-brand p-4 border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
             placeholder="Briefly describe your business..."
           />
         </Form.Item>
@@ -154,7 +154,7 @@ export function ProfileSection({
           >
             <Input.Password
               size="large"
-              className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
             />
           </Form.Item>
           <Form.Item
@@ -165,7 +165,7 @@ export function ProfileSection({
           >
             <Input.Password
               size="large"
-              className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
             />
           </Form.Item>
           <Form.Item
@@ -178,7 +178,7 @@ export function ProfileSection({
           >
             <Input.Password
               size="large"
-              className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+              className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
             />
           </Form.Item>
         </Form>
@@ -189,7 +189,7 @@ export function ProfileSection({
         size="large"
         loading={profileLoading}
         disabled={!isProfileModified}
-        className="h-12 px-10 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold !text-white disabled:!bg-slate-300 disabled:!text-slate-500"
+        className="h-12 px-10 rounded-brand font-bold !text-white disabled:!bg-slate-300 disabled:!text-slate-500"
         onClick={handleProfileUpdate}
       >
         Save All Changes
@@ -206,7 +206,7 @@ export function ProfileSection({
         </p>
 
         <div className="space-y-4">
-          <div className="p-5 border border-slate-200 rounded-[6px] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-5 border border-slate-200 rounded-brand bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h4 className="font-bold text-slate-800">Deactivate Account</h4>
               <p className="text-sm text-slate-500 mt-1">
@@ -216,13 +216,13 @@ export function ProfileSection({
             <Button
               size="large"
               onClick={() => setIsDeactivateModalVisible(true)}
-              className="rounded-[6px] font-bold whitespace-nowrap bg-orange-50 text-orange-600 hover:!bg-orange-100 hover:!text-orange-700 border-none px-6"
+              className="rounded-brand font-bold whitespace-nowrap bg-orange-50 text-orange-600 hover:!bg-orange-100 hover:!text-orange-700 border-none px-6"
             >
               Deactivate
             </Button>
           </div>
 
-          <div className="p-5 border border-red-100 rounded-[6px] bg-red-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-5 border border-red-100 rounded-brand bg-red-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h4 className="font-bold text-slate-800">Delete Account</h4>
               <p className="text-sm text-slate-500 mt-1">
@@ -233,7 +233,7 @@ export function ProfileSection({
               danger
               size="large"
               onClick={() => setIsDeleteModalVisible(true)}
-              className="rounded-[6px] font-bold whitespace-nowrap px-6"
+              className="rounded-brand font-bold whitespace-nowrap px-6"
             >
               Delete Account
             </Button>

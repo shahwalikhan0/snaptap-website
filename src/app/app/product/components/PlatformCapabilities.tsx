@@ -29,7 +29,7 @@ export function PlatformCapabilities() {
 
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+          <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
             Platform Capabilities
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4">
@@ -49,10 +49,10 @@ export function PlatformCapabilities() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
-              className="bg-white/5 backdrop-blur-sm p-6 rounded-[6px] border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
+              className="bg-white/5 backdrop-blur-sm p-6 rounded-brand border border-white/10 hover:border-snaptap-blue-dark/40 hover:bg-white/10 transition-all group cursor-default"
             >
-              <div className="w-11 h-11 rounded-[6px] bg-[#007cae]/20 flex items-center justify-center mb-4 group-hover:bg-[#007cae]/30 transition-all">
-                <Icon icon={cap.icon} className="text-[#007cae]" width={22} />
+              <div className="w-11 h-11 rounded-brand bg-snaptap-blue-dark/20 flex items-center justify-center mb-4 group-hover:bg-snaptap-blue-dark/30 transition-all">
+                <Icon icon={cap.icon} className="text-snaptap-blue-dark" width={22} />
               </div>
               <h3 className="text-base font-bold text-white mb-2">
                 {cap.title}

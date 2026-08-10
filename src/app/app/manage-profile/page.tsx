@@ -256,9 +256,9 @@ const ManageProfilePage = () => {
 
           <button
             onClick={() => setActiveSection("profile")}
-            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-[6px] font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
               activeSection === "profile"
-                ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+                ? "bg-white text-snaptap-blue-dark shadow-sm border border-slate-200 ring-1 ring-snaptap-blue-dark/5"
                 : "text-slate-500 hover:bg-slate-100"
             }`}
           >
@@ -267,7 +267,7 @@ const ManageProfilePage = () => {
               width={22}
               className={
                 activeSection === "profile"
-                  ? "text-[#007cae]"
+                  ? "text-snaptap-blue-dark"
                   : "text-slate-400"
               }
             />
@@ -276,9 +276,9 @@ const ManageProfilePage = () => {
 
           <button
             onClick={() => setActiveSection("brand")}
-            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-[6px] font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
+            className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
               activeSection === "brand"
-                ? "bg-white text-[#007cae] shadow-sm border border-slate-200 ring-1 ring-[#007cae]/5"
+                ? "bg-white text-snaptap-blue-dark shadow-sm border border-slate-200 ring-1 ring-snaptap-blue-dark/5"
                 : "text-slate-500 hover:bg-slate-100"
             }`}
           >
@@ -286,7 +286,7 @@ const ManageProfilePage = () => {
               icon="mdi:store-edit-outline"
               width={22}
               className={
-                activeSection === "brand" ? "text-[#007cae]" : "text-slate-400"
+                activeSection === "brand" ? "text-snaptap-blue-dark" : "text-slate-400"
               }
             />
             Edit Brand Info
@@ -296,7 +296,7 @@ const ManageProfilePage = () => {
             href={`/app/showcase/${Admin?.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-[6px] font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-500 hover:bg-slate-100"
+            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-500 hover:bg-slate-100"
           >
             <Icon
               icon="mdi:qrcode"
@@ -344,12 +344,12 @@ const ManageProfilePage = () => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
         centered
-        className="[&_.ant-modal-content]:!rounded-[6px]"
+        
       >
         <div className="p-6 text-center">
           <Upload beforeUpload={handleImageUpload} showUploadList={false} accept="image/*">
-            <div className="w-full py-12 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[6px] cursor-pointer hover:bg-slate-100 transition">
-              <UploadOutlined className="text-3xl text-[#007cae] mb-3" />
+            <div className="w-full py-12 bg-slate-50 border-2 border-dashed border-slate-200 rounded-brand cursor-pointer hover:bg-slate-100 transition">
+              <UploadOutlined className="text-3xl text-snaptap-blue-dark mb-3" />
               <p className="text-slate-600 font-medium">
                 Click here to upload your photo
               </p>
@@ -368,10 +368,10 @@ const ManageProfilePage = () => {
         onCancel={() => setIsDeactivateModalVisible(false)}
         footer={null}
         centered
-        className="[&_.ant-modal-content]:!rounded-[6px]"
+        
       >
         <div className="p-2">
-          <div className="bg-orange-50 border border-orange-100 rounded-[6px] p-4 mb-6">
+          <div className="bg-orange-50 border border-orange-100 rounded-brand p-4 mb-6">
             <h4 className="font-bold text-orange-800 mb-2 flex items-center gap-2">
               <Icon icon="mdi:pause-circle-outline" width={20} />
               What happens when you deactivate?
@@ -390,14 +390,14 @@ const ManageProfilePage = () => {
 
           <div className="flex gap-3">
             <Button
-              className="flex-1 h-12 rounded-[6px] font-bold border-slate-200"
+              className="flex-1 h-12 rounded-brand font-bold border-slate-200"
               onClick={() => setIsDeactivateModalVisible(false)}
             >
               Cancel
             </Button>
             <Button
               type="primary"
-              className="flex-1 h-12 rounded-[6px] font-bold !bg-orange-500 hover:!bg-orange-600 border-none"
+              className="flex-1 h-12 rounded-brand font-bold !bg-orange-500 hover:!bg-orange-600 border-none"
               loading={deactivating}
               onClick={handleDeactivateAccount}
             >
@@ -417,10 +417,10 @@ const ManageProfilePage = () => {
         }}
         footer={null}
         centered
-        className="[&_.ant-modal-content]:!rounded-[6px]"
+        
       >
         <div className="p-2">
-          <div className="bg-red-50 border border-red-100 rounded-[6px] p-4 mb-6">
+          <div className="bg-red-50 border border-red-100 rounded-brand p-4 mb-6">
             <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
               <Icon icon="mdi:delete-alert-outline" width={20} />
               This action represents permanent deletion
@@ -437,14 +437,14 @@ const ManageProfilePage = () => {
                 size="large"
                 value={deletePassword}
                 onChange={(e) => setDeletePassword(e.target.value)}
-                className="h-12 rounded-[6px] border-slate-200 focus:border-red-500 hover:border-red-500/50"
+                className="h-12 rounded-brand border-slate-200 focus:border-red-500 hover:border-red-500/50"
                 placeholder="Your password"
                 autoComplete="new-password"
               />
             </Form.Item>
             <div className="flex gap-3 mt-2">
               <Button
-                className="flex-1 h-12 rounded-[6px] font-bold border-slate-200"
+                className="flex-1 h-12 rounded-brand font-bold border-slate-200"
                 onClick={() => {
                   setIsDeleteModalVisible(false);
                   setDeletePassword("");
@@ -455,7 +455,7 @@ const ManageProfilePage = () => {
               <Button
                 danger
                 type="primary"
-                className="flex-[2] h-12 rounded-[6px] font-bold"
+                className="flex-[2] h-12 rounded-brand font-bold"
                 loading={deleting}
                 disabled={!deletePassword}
                 onClick={handleDeleteAccount}

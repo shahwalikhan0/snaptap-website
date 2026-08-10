@@ -27,7 +27,7 @@ export function CapabilitiesSection() {
 
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+          <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
             Platform Capabilities
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4">
@@ -74,12 +74,12 @@ export function CapabilitiesSection() {
           ].map((feature, idx) => (
             <div
               key={idx}
-              className="bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-[6px] border border-white/10 hover:border-[#007cae]/40 hover:bg-white/10 transition-all group cursor-default"
+              className="bg-white/5 backdrop-blur-sm p-6 sm:p-8 rounded-brand border border-white/10 hover:border-snaptap-blue-dark/40 hover:bg-white/10 transition-all group cursor-default"
             >
-              <div className="w-12 h-12 rounded-[6px] bg-[#007cae]/20 flex items-center justify-center mb-5 group-hover:bg-[#007cae]/30 transition-all">
+              <div className="w-12 h-12 rounded-brand bg-snaptap-blue-dark/20 flex items-center justify-center mb-5 group-hover:bg-snaptap-blue-dark/30 transition-all">
                 <Icon
                   icon={feature.icon}
-                  className="text-[#007cae]"
+                  className="text-snaptap-blue-dark"
                   width={26}
                 />
               </div>

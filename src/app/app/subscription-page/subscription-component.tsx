@@ -38,20 +38,20 @@ export default function SubscriptionComponent({ selectedPage, onSelect }: Props)
           key={item.id}
           onClick={() => onSelect(item.id)}
           className={`
-            flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-[6px] font-semibold transition-all whitespace-nowrap text-sm sm:text-base
+            flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base
             ${selectedPage === item.id
-              ? "bg-white text-[#007cae] shadow-sm border border-slate-100 ring-1 ring-[#007cae]/10"
+              ? "bg-white text-snaptap-blue-dark shadow-sm border border-slate-100 ring-1 ring-snaptap-blue-dark/10"
               : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
             }
           `}
         >
-          <Icon icon={item.icon} width={22} className={selectedPage === item.id ? "text-[#007cae]" : "text-slate-400"} />
+          <Icon icon={item.icon} width={22} className={selectedPage === item.id ? "text-snaptap-blue-dark" : "text-slate-400"} />
           {item.label}
         </button>
       ))}
 
-      <div className="mt-auto p-4 bg-[#007cae]/5 rounded-[6px] border border-[#007cae]/10 border-dashed hidden lg:block">
-        <div className="flex items-center gap-2 text-[#007cae] mb-2 font-bold text-sm">
+      <div className="mt-auto p-4 bg-snaptap-blue-dark/5 rounded-brand border border-snaptap-blue-dark/10 border-dashed hidden lg:block">
+        <div className="flex items-center gap-2 text-snaptap-blue-dark mb-2 font-bold text-sm">
           <Icon icon="mdi:information-outline" width={18} />
           Need Help?
         </div>

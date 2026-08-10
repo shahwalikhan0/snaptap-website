@@ -8,10 +8,8 @@ import { LockOutlined } from "@ant-design/icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
-import {
-  verifyOtp,
-  resetPassword,
-} from "./services/resetPasswordApi";
+import { verifyOtp, resetPassword } from "./services/resetPasswordApi";
+import { BRAND } from "@/app/utils/tokens";
 
 const { Title, Text } = Typography;
 
@@ -94,13 +92,13 @@ const VerifyOtpStep = ({
   return (
     <>
       {/* LEFT — decorative */}
-      <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
+      <div className="hidden md:flex flex-1 bg-gradient-to-br from-snaptap-blue-dark/10 via-snaptap-blue-dark/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-snaptap-blue-dark/5 rounded-brand blur-3xl" />
         <div className="z-10 text-center max-w-sm">
-          <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
+          <div className="flex items-center justify-center w-28 h-28 rounded-brand bg-snaptap-blue-dark/10 mx-auto mb-8">
             <Icon
               icon="mdi:shield-check-outline"
-              className="text-[#007cae]"
+              className="text-snaptap-blue-dark"
               width={56}
             />
           </div>
@@ -119,21 +117,21 @@ const VerifyOtpStep = ({
         <div className="w-full max-w-[400px]">
           {/* Step indicator */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-[#007cae] text-white text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-brand bg-snaptap-blue-dark text-white text-xs font-bold">
               1
             </div>
             <div className="h-px flex-1 bg-slate-200" />
-            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-slate-200 text-slate-400 text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-brand bg-slate-200 text-slate-400 text-xs font-bold">
               2
             </div>
           </div>
 
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-6">
               <Icon
                 icon="mdi:shield-check-outline"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={32}
               />
             </div>
@@ -166,8 +164,8 @@ const VerifyOtpStep = ({
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                  className="w-12 h-14 text-center text-xl font-bold border-2 rounded-[6px] border-slate-200 focus:border-[#007cae] focus:outline-none transition-colors text-slate-900"
-                  style={{ caretColor: "#007cae" }}
+                  className="w-12 h-14 text-center text-xl font-bold border-2 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:outline-none transition-colors text-slate-900"
+                  style={{ caretColor: BRAND.blueDark }}
                 />
               ))}
             </div>
@@ -181,7 +179,7 @@ const VerifyOtpStep = ({
             loading={loading}
             block
             onClick={handleVerify}
-            className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+            className="h-12 rounded-brand font-bold text-base shadow-lg shadow-snaptap-blue-dark/20 transition-all active:scale-95 !text-white"
           >
             Verify Code
           </Button>
@@ -191,7 +189,7 @@ const VerifyOtpStep = ({
               Didn&apos;t receive a code?{" "}
               <button
                 onClick={() => router.push("/app/forgot-password")}
-                className="font-bold text-[#007cae] hover:text-[#006080] transition ml-1"
+                className="font-bold text-snaptap-blue-dark hover:text-snaptap-blue-deep transition ml-1"
               >
                 Resend code
               </button>
@@ -240,11 +238,11 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
   return (
     <>
       {/* LEFT — decorative */}
-      <div className="hidden md:flex flex-1 bg-gradient-to-br from-[#007cae]/10 via-[#007cae]/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#007cae]/5 rounded-[6px] blur-3xl" />
+      <div className="hidden md:flex flex-1 bg-gradient-to-br from-snaptap-blue-dark/10 via-snaptap-blue-dark/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-snaptap-blue-dark/5 rounded-brand blur-3xl" />
         <div className="z-10 text-center max-w-sm">
-          <div className="flex items-center justify-center w-28 h-28 rounded-[6px] bg-[#007cae]/10 mx-auto mb-8">
-            <Icon icon="mdi:lock-reset" className="text-[#007cae]" width={56} />
+          <div className="flex items-center justify-center w-28 h-28 rounded-brand bg-snaptap-blue-dark/10 mx-auto mb-8">
+            <Icon icon="mdi:lock-reset" className="text-snaptap-blue-dark" width={56} />
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
             Set new password
@@ -260,21 +258,21 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
         <div className="w-full max-w-[400px]">
           {/* Step indicator */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-green-500 text-white text-xs font-bold">
+            <div className="flex items-center justify-center w-7 h-7 rounded-brand bg-green-500 text-white text-xs font-bold">
               ✓
             </div>
-            <div className="h-px flex-1 bg-[#007cae]" />
-            <div className="flex items-center justify-center w-7 h-7 rounded-[6px] bg-[#007cae] text-white text-xs font-bold">
+            <div className="h-px flex-1 bg-snaptap-blue-dark" />
+            <div className="flex items-center justify-center w-7 h-7 rounded-brand bg-snaptap-blue-dark text-white text-xs font-bold">
               2
             </div>
           </div>
 
           {/* Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mb-6">
+            <div className="w-14 h-14 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-6">
               <Icon
                 icon="mdi:lock-reset"
-                className="text-[#007cae]"
+                className="text-snaptap-blue-dark"
                 width={32}
               />
             </div>
@@ -307,7 +305,7 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
                 placeholder="••••••••"
-                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
               />
             </Form.Item>
 
@@ -334,7 +332,7 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
               <Input.Password
                 prefix={<LockOutlined className="text-slate-400 mr-2" />}
                 placeholder="••••••••"
-                className="h-12 rounded-[6px] border-slate-200 focus:border-[#007cae] hover:border-[#007cae]/50"
+                className="h-12 rounded-brand border-slate-200 focus:border-snaptap-blue-dark hover:border-snaptap-blue-dark/50"
               />
             </Form.Item>
 
@@ -344,7 +342,7 @@ const NewPasswordStep = ({ email, otp }: { email: string; otp: string[] }) => {
                 htmlType="submit"
                 loading={loading}
                 block
-                className="h-12 rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] border-none font-bold text-base shadow-lg shadow-[#007cae]/20 transition-all active:scale-95 !text-white"
+                className="h-12 rounded-brand font-bold text-base shadow-lg shadow-snaptap-blue-dark/20 transition-all active:scale-95 !text-white"
               >
                 Reset Password
               </Button>

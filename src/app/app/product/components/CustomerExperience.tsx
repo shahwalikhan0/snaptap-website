@@ -8,7 +8,7 @@ export function CustomerExperience() {
     <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+          <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
             For Customers
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
@@ -54,16 +54,16 @@ export function CustomerExperience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="text-center p-6 rounded-[6px] border border-slate-100 shadow-sm hover:shadow-md hover:border-[#007cae]/20 transition-all bg-slate-50"
+              className="text-center p-6 rounded-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-snaptap-blue-dark/20 transition-all bg-slate-50"
             >
-              <div className="w-14 h-14 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center mx-auto mb-4">
+              <div className="w-14 h-14 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mx-auto mb-4">
                 <Icon
                   icon={item.icon}
-                  className="text-[#007cae]"
+                  className="text-snaptap-blue-dark"
                   width={26}
                 />
               </div>
-              <span className="text-xs font-extrabold text-[#007cae] uppercase tracking-widest block mb-2">
+              <span className="text-xs font-extrabold text-snaptap-blue-dark uppercase tracking-widest block mb-2">
                 Step {item.step}
               </span>
               <h3 className="text-base font-bold text-slate-900 mb-2">

@@ -1,4 +1,4 @@
-import { Col, Button, Slider, InputNumber } from "antd";
+import { Col, Slider, InputNumber } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { FaCogs } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -6,6 +6,8 @@ import { featuresMap } from "../constants/data";
 import { BrandDataType } from "@/app/app/types/brand-data";
 import { PlanType } from "../../types/plan";
 import { formatPrice } from "@/app/utils/currency";
+import { Badge, Button } from "@/app/app/components/ui";
+import { BRAND } from "@/app/utils/tokens";
 
 interface CustomPlanCardProps {
   customScans: number;
@@ -34,12 +36,12 @@ export function CustomPlanCard({
         whileHover={{ y: -4 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="relative flex flex-col bg-white text-slate-800 rounded-[6px] shadow-md px-5 sm:px-7 py-6 sm:py-8 border border-slate-200 hover:border-[#007cae]/40 hover:shadow-lg transition-all h-full"
+        className="relative flex flex-col bg-white text-slate-800 rounded-brand shadow-md px-5 sm:px-7 py-6 sm:py-8 border border-slate-200 hover:border-snaptap-blue-dark/40 hover:shadow-lg transition-all h-full"
       >
         {/* Icon + Name */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-11 h-11 rounded-[6px] bg-slate-100 flex items-center justify-center">
-            <FaCogs size={22} className="text-[#007cae]" />
+          <div className="w-11 h-11 rounded-brand bg-slate-100 flex items-center justify-center">
+            <FaCogs size={22} className="text-snaptap-blue-dark" />
           </div>
           <h3 className="text-xl font-black text-slate-900">Custom</h3>
         </div>
@@ -50,9 +52,9 @@ export function CustomPlanCard({
             <span className="text-sm font-bold text-slate-400 line-through">
               {formatPrice(customPrice * 2)}
             </span>
-            <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
+            <Badge tone="success" pill className="text-[10px] uppercase tracking-wider">
               50% Off
-            </span>
+            </Badge>
           </div>
           <div className="flex items-end gap-1">
             <span className="text-3xl sm:text-4xl font-black text-slate-900">
@@ -66,7 +68,7 @@ export function CustomPlanCard({
         </div>
 
         {/* Slider */}
-        <div className="my-5 bg-slate-50 p-4 rounded-[6px] border border-slate-100">
+        <div className="my-5 bg-slate-50 p-4 rounded-brand border border-slate-100">
           <div className="flex justify-between items-center mb-3">
             <span className="text-sm font-semibold text-slate-600">
               Inventory Size
@@ -84,10 +86,10 @@ export function CustomPlanCard({
             max={500}
             value={customScans}
             onChange={(val) => onScansChange(val)}
-            trackStyle={{ backgroundColor: "#007cae" }}
+            trackStyle={{ backgroundColor: BRAND.blueDark }}
             handleStyle={{
-              borderColor: "#007cae",
-              backgroundColor: "#007cae",
+              borderColor: BRAND.blueDark,
+              backgroundColor: BRAND.blueDark,
             }}
           />
           <p className="text-[11px] text-slate-400 text-center mt-1">
@@ -102,7 +104,7 @@ export function CustomPlanCard({
         <ul className="space-y-3 mb-8 flex-grow text-left">
           {featuresMap[3].map((feature: string, i: number) => (
             <li key={i} className="flex items-start gap-2.5">
-              <div className="mt-0.5 shrink-0 w-5 h-5 rounded-[6px] bg-green-100 flex items-center justify-center">
+              <div className="mt-0.5 shrink-0 w-5 h-5 rounded-brand bg-green-100 flex items-center justify-center">
                 <CheckOutlined className="text-green-600 text-[10px]" />
               </div>
               <span className="text-slate-600 text-sm">{feature}</span>
@@ -111,8 +113,7 @@ export function CustomPlanCard({
         </ul>
 
         <Button
-          block
-          size="large"
+          fullWidth
           loading={loadingPlanId === 4}
           onClick={() =>
             onSelectPlan({
@@ -124,7 +125,7 @@ export function CustomPlanCard({
               scans: customScans,
             })
           }
-          className="h-12 font-bold rounded-[6px] !bg-[#007cae] hover:!bg-[#006080] !text-white !border-none shadow-md transition duration-300"
+          className="h-12 font-bold"
         >
           {isLoggedIn && Brand?.subscribed_package_id === 4
             ? "✓ Current Plan"

@@ -48,10 +48,10 @@ export function CustomerExperience() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex gap-4 p-4 sm:p-5 rounded-[6px] border border-slate-100 bg-slate-50 hover:border-[#007cae]/20 hover:bg-white transition-all"
+            className="flex gap-4 p-4 sm:p-5 rounded-brand border border-slate-100 bg-slate-50 hover:border-snaptap-blue-dark/20 hover:bg-white transition-all"
           >
-            <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center shrink-0">
-              <Icon icon={item.icon} className="text-[#007cae]" width={20} />
+            <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center shrink-0">
+              <Icon icon={item.icon} className="text-snaptap-blue-dark" width={20} />
             </div>
             <div>
               <p className="font-bold text-slate-800 text-sm mb-1">

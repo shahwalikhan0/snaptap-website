@@ -53,15 +53,15 @@ export function AnalyticsBilling() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex gap-3 p-4 bg-[#007cae]/5 rounded-[6px] border border-[#007cae]/15"
+            className="flex gap-3 p-4 bg-snaptap-blue-dark/5 rounded-brand border border-snaptap-blue-dark/15"
           >
             <Icon
               icon="mdi:receipt-text-outline"
-              className="text-[#007cae] shrink-0 mt-0.5"
+              className="text-snaptap-blue-dark shrink-0 mt-0.5"
               width={18}
             />
             <div>
-              <p className="font-bold text-[#007cae] text-sm mb-1">
+              <p className="font-bold text-snaptap-blue-dark text-sm mb-1">
                 {item.title}
               </p>
               <p className="text-slate-600 text-xs leading-relaxed">

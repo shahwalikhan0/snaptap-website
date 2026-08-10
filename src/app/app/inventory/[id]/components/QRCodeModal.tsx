@@ -1,6 +1,7 @@
 "use client";
 
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
+import { Button } from "@/app/app/components/ui";
 import { Icon } from "@iconify/react";
 
 interface QRCodeModalProps {
@@ -31,26 +32,28 @@ export function QRCodeModal({
       footer={[
         <Button
           key="close"
+          variant="secondary"
+          size="md"
           onClick={onCancel}
-          className="rounded-[6px] font-bold h-10 px-6"
+          className="h-10 px-6"
         >
           Close
         </Button>,
         qrCodeUrl && (
           <Button
             key="download"
-            type="primary"
+            size="md"
             onClick={onDownload}
-            className="rounded-[6px] !bg-snaptap-blue-dark hover:!bg-snaptap-blue-deep border-none font-bold h-10 px-8"
+            className="h-10 px-8"
           >
             Download QR
           </Button>
         ),
       ]}
-      className="[&_.ant-modal-content]:!rounded-[6px]"
+      
     >
       {qrCodeUrl ? (
-        <div className="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-[6px] border border-slate-100 mt-4">
+        <div className="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-brand border border-slate-100 mt-4">
           <div className="bg-white p-6 rounded-[12px] shadow-sm border border-slate-100 mb-6 group cursor-pointer overflow-hidden relative">
             <img
               src={qrCodeUrl}

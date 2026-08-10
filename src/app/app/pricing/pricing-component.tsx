@@ -115,8 +115,8 @@ export default function PricingComponent() {
   };
 
   return (
-    <div className="text-[#007cae] text-center px-2 sm:px-4 pb-20 max-w-screen-xl mx-auto">
-      <Title level={2} className="!text-[#007cae] !mb-10 font-bold">
+    <div className="text-snaptap-blue-dark text-center px-2 sm:px-4 pb-20 max-w-screen-xl mx-auto">
+      <Title level={2} className="!text-snaptap-blue-dark !mb-10 font-bold">
         Choose the Plan That’s Right for You
       </Title>
 

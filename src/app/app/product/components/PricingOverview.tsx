@@ -9,7 +9,7 @@ export function PricingOverview() {
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50">
       <div className="max-w-4xl mx-auto text-center">
-        <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+        <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
           Pricing at a Glance
         </span>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
@@ -59,21 +59,21 @@ export function PricingOverview() {
           ].map((plan, i) => (
             <div
               key={i}
-              className={`rounded-[6px] p-6 border transition-all ${
+              className={`rounded-brand p-6 border transition-all ${
                 plan.highlight
-                  ? "bg-white border-[#007cae] shadow-xl shadow-[#007cae]/15"
-                  : "bg-white border-slate-200 hover:border-[#007cae]/30 hover:shadow-md"
+                  ? "bg-white border-snaptap-blue-dark shadow-xl shadow-snaptap-blue-dark/15"
+                  : "bg-white border-slate-200 hover:border-snaptap-blue-dark/30 hover:shadow-md"
               }`}
             >
               {plan.highlight && (
-                <span className="inline-block bg-[#007cae] text-white text-xs font-bold px-4 py-1 rounded-[6px] mb-4 uppercase tracking-widest">
+                <span className="inline-block bg-snaptap-blue-dark text-white text-xs font-bold px-4 py-1 rounded-brand mb-4 uppercase tracking-widest">
                   Most Popular
                 </span>
               )}
               <h3 className="text-xl font-extrabold text-slate-900 mb-1">
                 {plan.name}
               </h3>
-              <p className="text-[#007cae] font-bold text-sm mb-4">
+              <p className="text-snaptap-blue-dark font-bold text-sm mb-4">
                 {plan.scans}
               </p>
               <ul className="space-y-2 text-left mb-6">
@@ -81,7 +81,7 @@ export function PricingOverview() {
                   <li key={j} className="flex items-start gap-2">
                     <Icon
                       icon="mdi:check-circle"
-                      className="text-[#007cae] mt-0.5 shrink-0"
+                      className="text-snaptap-blue-dark mt-0.5 shrink-0"
                       width={15}
                     />
                     <span className="text-slate-600 text-sm">{perk}</span>
@@ -98,7 +98,7 @@ export function PricingOverview() {
         </p>
         <button
           onClick={() => router.push("/app/pricing")}
-          className="bg-[#007cae] text-white font-bold px-10 py-3.5 rounded-[6px] hover:bg-[#006080] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="bg-snaptap-blue-dark text-white font-bold px-10 py-3.5 rounded-brand hover:bg-snaptap-blue-deep transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           See Full Pricing Details
         </button>

@@ -108,19 +108,19 @@ export default function SubscriptionPage() {
       <div className="min-h-screen bg-white pt-20 sm:pt-28">
         <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)] animate-pulse">
           <aside className="w-full lg:w-[320px] lg:border-r border-slate-100 bg-slate-50/30 p-6 space-y-3">
-            <div className="h-8 bg-slate-100 rounded-[6px] w-3/4" />
-            <div className="h-12 bg-slate-100 rounded-[6px]" />
-            <div className="h-12 bg-slate-100 rounded-[6px]" />
-            <div className="h-12 bg-slate-100 rounded-[6px]" />
+            <div className="h-8 bg-slate-100 rounded-brand w-3/4" />
+            <div className="h-12 bg-slate-100 rounded-brand" />
+            <div className="h-12 bg-slate-100 rounded-brand" />
+            <div className="h-12 bg-slate-100 rounded-brand" />
           </aside>
           <main className="flex-1 p-4 sm:p-6 md:p-12">
             <div className="max-w-4xl space-y-6">
-              <div className="h-9 bg-slate-100 rounded-[6px] w-1/2" />
-              <div className="h-4 bg-slate-100 rounded-[6px] w-2/3" />
-              <div className="h-48 bg-slate-100 rounded-[6px]" />
+              <div className="h-9 bg-slate-100 rounded-brand w-1/2" />
+              <div className="h-4 bg-slate-100 rounded-brand w-2/3" />
+              <div className="h-48 bg-slate-100 rounded-brand" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="h-32 bg-slate-100 rounded-[6px]" />
-                <div className="h-32 bg-slate-100 rounded-[6px]" />
+                <div className="h-32 bg-slate-100 rounded-brand" />
+                <div className="h-32 bg-slate-100 rounded-brand" />
               </div>
             </div>
           </main>

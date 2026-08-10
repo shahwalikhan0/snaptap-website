@@ -9,7 +9,7 @@ export function SellerWorkflow() {
     <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-slate-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <span className="inline-block text-[#007cae] text-sm font-bold uppercase tracking-widest mb-3">
+          <span className="inline-block text-snaptap-blue-dark text-sm font-bold uppercase tracking-widest mb-3">
             For Sellers
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
@@ -23,7 +23,7 @@ export function SellerWorkflow() {
 
         <div className="relative">
           {/* Connector on desktop */}
-          <div className="hidden lg:block absolute top-10 left-0 right-0 h-px bg-[#007cae]/15 w-[85%] mx-auto" />
+          <div className="hidden lg:block absolute top-10 left-0 right-0 h-px bg-snaptap-blue-dark/15 w-[85%] mx-auto" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {workflowSteps.map((step, idx) => (
@@ -33,17 +33,17 @@ export function SellerWorkflow() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="relative z-10 bg-white rounded-[6px] p-5 sm:p-6 border border-slate-100 shadow-sm hover:shadow-md hover:border-[#007cae]/20 transition-all"
+                className="relative z-10 bg-white rounded-brand p-5 sm:p-6 border border-slate-100 shadow-sm hover:shadow-md hover:border-snaptap-blue-dark/20 transition-all"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-[6px] bg-[#007cae]/10 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center shrink-0">
                     <Icon
                       icon={step.icon}
-                      className="text-[#007cae]"
+                      className="text-snaptap-blue-dark"
                       width={20}
                     />
                   </div>
-                  <span className="text-xs font-extrabold text-[#007cae] uppercase tracking-widest">
+                  <span className="text-xs font-extrabold text-snaptap-blue-dark uppercase tracking-widest">
                     Step {step.step}
                   </span>
                 </div>
