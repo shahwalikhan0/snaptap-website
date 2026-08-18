@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
 import { CATEGORIES } from "@/app/constants/categories";
 import { COUNTRIES } from "@/app/constants/countries";
+import { LEGAL_BUSINESS_NAME } from "@/app/utils/site";
 import { Icon } from "@iconify/react";
 
 const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
@@ -383,6 +384,36 @@ const SignUpPage: React.FC = () => {
                   />
                 </Button>
               </Form.Item>
+
+              {/* Policy consent. Gateway review expects the terms a buyer is
+                  agreeing to be reachable from the point of sign-up, not only
+                  from the footer. */}
+              <Form.Item className="sm:col-span-2 !mb-0">
+                <p className="text-center text-xs text-[#888888] leading-relaxed">
+                  By creating an account you agree to our{" "}
+                  <a
+                    href="/navigations/terms"
+                    className="text-snaptap-blue-dark font-semibold hover:underline"
+                  >
+                    Terms &amp; Conditions
+                  </a>
+                  ,{" "}
+                  <a
+                    href="/navigations/privacy"
+                    className="text-snaptap-blue-dark font-semibold hover:underline"
+                  >
+                    Privacy Policy
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="/navigations/refunds"
+                    className="text-snaptap-blue-dark font-semibold hover:underline"
+                  >
+                    Refund &amp; Cancellation Policy
+                  </a>
+                  .
+                </p>
+              </Form.Item>
             </Form>
 
             <div className="mt-10 text-center pt-10 border-t border-slate-100">
@@ -399,7 +430,8 @@ const SignUpPage: React.FC = () => {
           </div>
 
           <p className="text-center text-[#888888] text-[10px] font-bold uppercase tracking-[0.3em] mb-12">
-            © 2026 SNAPTAP INC. • ALL RIGHTS RESERVED
+            © {new Date().getFullYear()} {LEGAL_BUSINESS_NAME} • ALL RIGHTS
+            RESERVED
           </p>
         </div>
       </div>

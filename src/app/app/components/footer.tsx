@@ -9,10 +9,21 @@ import {
 } from "@ant-design/icons";
 import { FaApple } from "react-icons/fa";
 import Image from "next/image";
-import { SUPPORT_EMAIL } from "@/app/utils/site";
+import { useAdmin } from "@/app/hooks/useAdminContext";
+import {
+  LEGAL_BUSINESS_NAME,
+  REGISTERED_ADDRESS_SHORT,
+  SUPPORT_EMAIL,
+} from "@/app/utils/site";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { isLoggedIn } = useAdmin();
+
+  // The dashboard only exists behind auth — sending a signed-out visitor to
+  // /app/inventory dead-ends on a spinner and an error toast, so point them at
+  // the login screen (which returns them here) instead.
+  const dashboardHref = isLoggedIn ? "/app/inventory" : "/app/login";
 
   return (
     <footer className="w-full bg-[#0a0f18] text-slate-300 overflow-hidden relative">
@@ -90,7 +101,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="/app/inventory"
+                  href={dashboardHref}
                   className="hover:text-snaptap-blue transition-colors"
                 >
                   Dashboard
@@ -149,7 +160,15 @@ export default function Footer() {
                   href="/navigations/terms"
                   className="hover:text-snaptap-blue transition-colors"
                 >
-                  Terms of Service
+                  Terms &amp; Conditions
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/navigations/refunds"
+                  className="hover:text-snaptap-blue transition-colors"
+                >
+                  Refund &amp; Cancellation
                 </a>
               </li>
             </ul>
@@ -184,10 +203,16 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-snaptap-blue-dark flex-shrink-0" />
-              <p className="text-[11px] text-slate-400 flex-1">
-                162, Ali Town, Lahore, 54000
+            {/* Registered identity — payment-gateway review expects the legal
+                entity and its registered address to be visible site-wide, not
+                only on the legal pages. */}
+            <div className="flex items-start gap-2 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-snaptap-blue-dark flex-shrink-0 mt-1.5" />
+              <p className="text-[11px] text-slate-400 flex-1 leading-relaxed">
+                <span className="block font-semibold text-slate-300">
+                  {LEGAL_BUSINESS_NAME}
+                </span>
+                {REGISTERED_ADDRESS_SHORT}
               </p>
             </div>
           </div>
@@ -196,7 +221,8 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs font-medium text-slate-500 tracking-wide">
-            © {currentYear} SNAPTAP TECHNOLOGIES. ALL RIGHTS RESERVED.
+            © {currentYear} {LEGAL_BUSINESS_NAME} — SNAPTAP. ALL RIGHTS
+            RESERVED.
           </p>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">

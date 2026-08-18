@@ -4,7 +4,13 @@ import { useState } from "react";
 import Navbar from "../../app/components/navbar";
 import Footer from "../../app/components/footer";
 import { Icon } from "@iconify/react";
-import { SUPPORT_EMAIL } from "@/app/utils/site";
+import {
+  LEGAL_BUSINESS_NAME,
+  REGISTERED_ADDRESS,
+  SUPPORT_EMAIL,
+  SUPPORT_PHONE_PK,
+  SUPPORT_PHONE_US,
+} from "@/app/utils/site";
 import {
   Button,
   Card,
@@ -118,10 +124,10 @@ export default function ContactPage() {
                   🇵🇰 Phone (Pakistan)
                 </h3>
                 <a
-                  href="tel:+923001234567"
+                  href={`tel:${SUPPORT_PHONE_PK.tel}`}
                   className="text-snaptap-blue-dark hover:underline text-sm"
                 >
-                  +92 342 44 97829
+                  {SUPPORT_PHONE_PK.display}
                 </a>
               </div>
 
@@ -138,11 +144,34 @@ export default function ContactPage() {
                   🇺🇸 Phone (USA)
                 </h3>
                 <a
-                  href="tel:+13029813030"
+                  href={`tel:${SUPPORT_PHONE_US.tel}`}
                   className="text-snaptap-blue-dark hover:underline text-sm"
                 >
-                  +1 (302) 981-3030
+                  {SUPPORT_PHONE_US.display}
                 </a>
+              </div>
+
+              {/* Registered office */}
+              <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+                <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center mb-4">
+                  <Icon
+                    icon="mdi:map-marker-outline"
+                    className="text-snaptap-blue-dark"
+                    width={22}
+                  />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-1">
+                  Registered Office
+                </h3>
+                <p className="text-sm font-semibold text-slate-700">
+                  {LEGAL_BUSINESS_NAME}
+                </p>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  {REGISTERED_ADDRESS}
+                </p>
+                <p className="text-xs text-slate-400 mt-3">
+                  Support hours: Mon–Sat, 10:00–19:00 PKT
+                </p>
               </div>
 
               {/* Social */}

@@ -2,6 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
+import { CURRENCY_CODE } from "@/app/utils/currency";
 
 export function PricingCTA() {
   const router = useRouter();
@@ -24,6 +25,32 @@ export function PricingCTA() {
           >
             Get Started as Seller
           </button>
+
+          {/* Currency and policy disclosure. Prices render as "$19" via
+              Intl.NumberFormat, which is ambiguous on its own — spell the
+              currency out and point at the terms that govern the charge. */}
+          <p className="mt-6 text-sm text-slate-500 leading-relaxed">
+            All plan prices and per-view rates are shown in{" "}
+            <strong className="text-slate-700">
+              US Dollars ({CURRENCY_CODE})
+            </strong>{" "}
+            and are billed monthly. Subscriptions are governed by our{" "}
+            <a
+              href="/navigations/terms"
+              className="text-snaptap-blue-dark font-semibold hover:underline"
+            >
+              Terms &amp; Conditions
+            </a>{" "}
+            and{" "}
+            <a
+              href="/navigations/refunds"
+              className="text-snaptap-blue-dark font-semibold hover:underline"
+            >
+              Refund &amp; Cancellation Policy
+            </a>
+            . You can cancel at any time from your dashboard; fees already
+            charged are non-refundable.
+          </p>
         </div>
 
         {/* Right: Enterprise card */}
