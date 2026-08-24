@@ -27,16 +27,21 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-[#0a0f18] text-slate-300 overflow-hidden relative">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-snaptap-blue-dark/5 rounded-full blur-3xl -translate-y-1/2" />
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-snaptap-blue-dark/5 rounded-full blur-3xl translate-y-1/2" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-1/4 w-96 h-96 bg-snaptap-blue-dark/5 rounded-full blur-3xl -translate-y-1/2"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-1/4 w-64 h-64 bg-snaptap-blue-dark/5 rounded-full blur-3xl translate-y-1/2"
+      />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         viewport={{ once: true }}
-        className="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-8"
+        className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-8"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 mb-10">
           {/* Brand Identity */}
