@@ -12,6 +12,7 @@
 - [Post-Signup: Login](#post-signup-login)
 - [Password Recovery](#password-recovery)
 - [Email Verification](#email-verification)
+- [Resending Codes & Links](#resending-codes--links)
 - [Account Reactivation](#account-reactivation)
 - [Code Structure](#code-structure)
 - [Types & Interfaces](#types--interfaces)
@@ -41,8 +42,30 @@ User visits /app/sign-up
   → Fills form (username, name, email, phone, password, country, optional fields)
   → POST /brand/create (multipart/form-data)
   → Success: toast + redirect to /app/login after 2s
-  → Error: toast with backend error message, stay on page
+  → 409 collision: inline panel or inline field error (see below)
+  → Other error: toast with backend error message, stay on page
 ```
+
+### 409 — something you typed is already taken
+
+`POST /brand/create` answers `409` with flags saying *what* collided. The page
+reads them via `readSignupConflict()` in `services/signupApi.ts` and renders
+`components/SignupConflictNotice.tsx` — never a bare toast, because every one of
+these states has an action attached to it.
+
+| Response flags | What it means | UI |
+|---|---|---|
+| `emailInUse` + `accountVerified: true` | A usable account already owns this email | Panel: "You already have an account", with links to `/app/login` and `/app/forgot-password` |
+| `emailInUse` + `accountVerified: false` + `resent: true` | An **unverified** account existed and **the server already mailed a fresh verification link** | Panel: "We've sent a new verification link to <email>". Starts the 60s cooldown |
+| `emailInUse` + `accountVerified: false` + `resent: false` + `retryAfterSeconds` | Same, but a link went out very recently so nothing new was mailed | Same panel, worded as "already on its way"; resend button gated on `retryAfterSeconds` |
+| `usernameInUse` | Username taken | Inline field error via `form.setFields(...)` + `scrollToField` |
+| `nameInUse` | Brand name taken | Inline field error via `form.setFields(...)` + `scrollToField` |
+
+> **In every `emailInUse` case no account was created by that request** and the
+> details the user just typed were **not** saved. The panel says so explicitly —
+> it also tells the user they can reset the password from their original attempt
+> once the email is verified. Don't soften this: a user who thinks their second
+> signup "went through" will wait for an email that describes different details.
 
 **Form fields:**
 
@@ -112,6 +135,19 @@ User visits /app/login
       normal → redirect to /app/inventory
 ```
 
+### 401 + `requiresVerification`
+
+The `401` body from `POST /brand/login` may carry `requiresVerification: true`
+— the account exists but its email was never confirmed. The email address is
+**deliberately not returned**, so:
+
+- `isVerificationRequiredError(err)` in `services/loginApi.ts` narrows the error.
+- The page renders `components/VerifyEmailNotice.tsx` — a **persistent inline
+  panel**, not a toast, because it carries the resend button.
+- The resend call uses **the username the user typed** as its `identifier`
+  (that's the only handle we have). The panel therefore refers to "the email on
+  the account", never to a concrete address.
+
 ---
 
 ## Password Recovery
@@ -124,9 +160,14 @@ User visits /app/login
 
 /app/reset-password (2-step)
   → Step 1: Enter OTP → POST /brand/verify-otp
+       ↳ "Resend code" re-POSTs /brand/forgot-password with the email already
+         in the URL query — the user never retypes it, and stays on the page
   → Step 2: Enter new password → POST /brand/reset-password
   → Redirect to /app/login
 ```
+
+`POST /brand/forgot-password` may now answer
+`429 { error, cooldown: true, retryAfterSeconds }` with a `Retry-After` header.
 
 ---
 
@@ -140,6 +181,71 @@ User visits /app/login
 ```
 
 **Files:** `src/app/verify-email/page.tsx` (server shell), `src/app/verify-email/VerifyEmailClient.tsx` (client logic)
+
+---
+
+## Resending Codes & Links
+
+Three screens can re-trigger an email: the OTP step of `/app/reset-password`,
+the unverified-login panel on `/app/login`, and the email-collision panel on
+`/app/sign-up`. They all behave the same way and share one hook.
+
+### `POST /brand/resend-verification`
+
+```
+Body: { identifier }        // a username OR an email — the server accepts either
+
+200 { success: true, message: string }
+    → Returned IDENTICALLY whether the account was mailed, does not exist, or
+      is already verified. This is deliberate anti-enumeration.
+      Show `message`. Never infer anything more from a 200.
+
+429 { error, cooldown: true, retryAfterSeconds: number }   + Retry-After header
+    → A link was sent recently. Do NOT claim a new one went out.
+
+400 { error }
+    → Identifier missing.
+```
+
+Service functions: `resendVerificationLink()` in both
+`login/services/loginApi.ts` and `sign-up/services/signupApi.ts`
+(the OTP screen uses `sendForgotPasswordEmail()` in
+`reset-password/services/resetPasswordApi.ts` instead — it resends a *code*,
+not a verification link).
+
+### The shared cooldown — `useResendCooldown`
+
+```typescript
+// src/app/hooks/useResendCooldown.ts
+const { secondsLeft, isCoolingDown, start, reset } = useResendCooldown();
+
+start();          // default 60s window, after a successful resend
+start(seconds);   // server-supplied retryAfterSeconds, after a 429
+```
+
+Ticks once a second and clears its interval on unmount, so no state is written
+after the component goes away. **Use this hook — don't re-roll a `setInterval`
+in a component.**
+
+### Reading a 429 — `readCooldown`
+
+```typescript
+// src/app/utils/resend.ts
+const cooldown = readCooldown(err);   // { isCooldown, retryAfterSeconds, message }
+```
+
+Narrows an `unknown` error to a 429 cooldown body, preferring
+`retryAfterSeconds` from the body and falling back to the `Retry-After` header.
+
+### Rules for every resend button
+
+1. Disable it while `isCoolingDown` and label it `Resend in {secondsLeft}s`.
+2. On a **429**, start the countdown from `retryAfterSeconds` and say a link was
+   sent *recently* — never that a new one just went out.
+3. On the OTP screen, a successful resend **clears the six input boxes and
+   focuses the first one** — the previous code is now dead.
+4. Keep the "start over with a different email" escape hatch to
+   `/app/forgot-password`; the resend button replaced it, it didn't retire it.
 
 ---
 
@@ -166,13 +272,18 @@ src/app/
 │   ├── sign-up/
 │   │   ├── page.tsx              # Signup form (Ant Design Form)
 │   │   ├── types.ts              # SignUpFormValues interface
+│   │   ├── components/
+│   │   │   └── SignupConflictNotice.tsx  # 409 email-collision panel
 │   │   ├── services/
-│   │   │   └── signupApi.ts      # createBrandAccount()
+│   │   │   └── signupApi.ts      # createBrandAccount(), resendVerificationLink(), readSignupConflict()
 │   │   └── index.ts              # Barrel: SignUpPage, SignUpFormValues
 │   ├── login/
 │   │   ├── page.tsx              # Login form
+│   │   ├── components/
+│   │   │   └── VerifyEmailNotice.tsx     # "verify your email" panel + resend
 │   │   ├── services/
-│   │   │   └── loginApi.ts       # loginBrand(), fetchBrandDetail(), fetchBillingGateStatus()
+│   │   │   └── loginApi.ts       # loginBrand(), fetchBrandDetail(), fetchBillingGateStatus(),
+│   │   │                         # resendVerificationLink(), isVerificationRequiredError()
 │   │   └── index.ts              # Barrel: LoginPage, LoginPayload, LoginResponse
 │   ├── pricing/
 │   │   ├── page.tsx
@@ -195,7 +306,7 @@ src/app/
 │   ├── reset-password/
 │   │   ├── page.tsx
 │   │   ├── services/
-│   │   │   └── resetPasswordApi.ts   # verifyOtp(), resetPassword()
+│   │   │   └── resetPasswordApi.ts   # verifyOtp(), resetPassword(), sendForgotPasswordEmail()
 │   │   └── index.ts
 │   ├── reactivate/
 │   │   ├── page.tsx
@@ -215,9 +326,12 @@ src/app/
 │   └── index.ts
 ├── hooks/
 │   ├── useAdminContext.tsx        # AdminProvider (auth context)
+│   ├── useResendCooldown.ts      # Shared 60s resend countdown
 │   └── types.ts                  # AdminContextType, AdminContext
 ├── utils/
-│   └── api.ts                    # Axios client with token refresh interceptor
+│   ├── api.ts                    # Axios client with token refresh interceptor
+│   ├── endpoints.ts              # All API paths
+│   └── resend.ts                 # readCooldown() — narrows a 429 cooldown body
 └── layout.tsx                    # Root layout wrapping AdminProvider
 ```
 
@@ -449,6 +563,7 @@ All calls go to the backend at `NEXT_PUBLIC_API_URL`. No local `/api` routes. Al
 | `POST` | `BRAND_RESET_PASSWORD` | `/brand/reset-password` | Set new password |
 | `POST` | `BRAND_REFRESH_TOKEN` | `/brand/refresh-token` | Refresh access token |
 | `GET`  | `BRAND_VERIFY_EMAIL(token)` | `/brand/verify-email/{token}` | Email verification |
+| `POST` | `BRAND_RESEND_VERIFICATION` | `/brand/resend-verification` | Re-send the verification link (identifier = username **or** email) |
 | `GET`  | `BRAND_DETAIL` | `/brand/detail` | Fetch user/brand details |
 | `GET`  | `BILLING_STATUS(brandId)` | `/billing/brand/{brandId}/status` | Check billing status |
 | `GET`  | `PACKAGE_LIST` | `/package` | Fetch pricing plans |
@@ -490,8 +605,9 @@ No OAuth secrets, NextAuth config, or third-party auth env vars.
 
 ### Server-side
 
-- Duplicate username/email returns error message
+- Duplicate username / brand name / email returns `409` with flags saying which field collided (see [Flow 1](#flow-1-normal-signup))
 - Email verification required (configurable via `requiresVerification` flag in response)
+- Resend endpoints are rate-limited and answer `429` with `retryAfterSeconds`
 
 ---
 
@@ -501,7 +617,10 @@ No OAuth secrets, NextAuth config, or third-party auth env vars.
 |----------|----------------|
 | Validation errors | Ant Design inline field errors |
 | Network failure | Toast: "Server connection failed." |
-| Duplicate username/email | Toast with backend error message |
+| Duplicate username / brand name (409) | Inline Ant Design field error via `form.setFields` + toast |
+| Duplicate email (409) | Persistent inline panel (`SignupConflictNotice`) — never just a toast |
+| Unverified email at login (401) | Persistent inline panel (`VerifyEmailNotice`) with a resend button |
+| Resend refused (429) | Countdown from `retryAfterSeconds`; button disabled, no "sent" claim |
 | Invalid credentials | Toast: "Invalid username or password." |
 | Account deactivated | Redirect to `/app/reactivate` |
 | Billing issue at login | Redirect to `/app/subscription-page` with alert |
@@ -537,7 +656,11 @@ Toast notifications use `react-toastify`.
 
 10. **Billing check happens at login**, not signup. The `fetchBillingGateStatus()` function in `login/services/loginApi.ts` handles this and may trigger a redirect to the subscription page.
 
-11. **Email verification is conditional.** The backend response includes `requiresVerification` — don't assume it's always required.
+11. **Email verification is conditional.** The backend response includes `requiresVerification` — don't assume it's always required. It appears in three places now: on a `POST /brand/create` success, on a `401` from `POST /brand/login`, and inside a `409` collision body.
+
+11b. **`POST /brand/resend-verification` is anti-enumeration by design.** Its `200` body is identical whether the account was mailed, doesn't exist, or is already verified. Show the `message` it returns and stop there — never branch on it, never word the UI as if you know an email was actually sent to a real account.
+
+11c. **Never hand-roll the resend countdown.** Use `useResendCooldown` (`src/app/hooks/useResendCooldown.ts`) and `readCooldown` (`src/app/utils/resend.ts`). Three screens depend on them behaving the same.
 
 12. **Shared types live in `src/app/app/types/`.** Cross-feature types (`AdminDataType`, `BrandDataType`, `PlanType`) are in the shared `types/` directory. Feature-specific types (e.g., `SignUpFormValues`, `LoginPayload`) are colocated within their feature.
 

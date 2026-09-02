@@ -21,3 +21,17 @@ export async function resetPassword(
   });
   return response.data;
 }
+
+/**
+ * Re-request the 6-digit reset code for an email that is already known (the
+ * OTP screen has it in its query string, so the user never retypes it).
+ *
+ * May reject with a `429 { error, cooldown: true, retryAfterSeconds }` —
+ * see `readCooldown()` in `@/app/utils/resend`.
+ */
+export async function sendForgotPasswordEmail(email: string) {
+  const response = await publicApi.post(ENDPOINTS.BRAND_FORGOT_PASSWORD, {
+    email,
+  });
+  return response.data;
+}

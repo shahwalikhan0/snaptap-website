@@ -8,8 +8,14 @@ import { LockOutlined } from "@ant-design/icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@iconify/react";
-import { verifyOtp, resetPassword } from "./services/resetPasswordApi";
+import {
+  verifyOtp,
+  resetPassword,
+  sendForgotPasswordEmail,
+} from "./services/resetPasswordApi";
 import { BRAND } from "@/app/utils/tokens";
+import { useResendCooldown } from "@/app/hooks/useResendCooldown";
+import { readCooldown } from "@/app/utils/resend";
 
 const { Title, Text } = Typography;
 
@@ -26,8 +32,10 @@ const VerifyOtpStep = ({
   onVerified: () => void;
 }) => {
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
+  const { secondsLeft, isCoolingDown, start } = useResendCooldown();
 
   const handleOtpChange = (index: number, value: string) => {
     const digit = value.replace(/\D/g, "").slice(-1);
@@ -86,6 +94,52 @@ const VerifyOtpStep = ({
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  /**
+   * Re-send the reset code to the email already in the URL — the user never
+   * has to retype it. On a 429 we start the countdown from the server's
+   * `retryAfterSeconds` and do NOT claim a code went out.
+   */
+  const handleResend = async () => {
+    if (resending || isCoolingDown) return;
+
+    if (!email) {
+      toast.error("We don't know which email to send to. Please start over.");
+      return;
+    }
+
+    setResending(true);
+    try {
+      await sendForgotPasswordEmail(email);
+      // The previous code is now invalid — clear the boxes and refocus.
+      setOtp(["", "", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
+      start();
+      toast.success("A new code is on its way.");
+    } catch (err: unknown) {
+      const cooldown = readCooldown(err);
+      if (cooldown.isCooldown) {
+        start(cooldown.retryAfterSeconds ?? undefined);
+        toast.info(
+          cooldown.message ||
+            "A code was sent very recently. Check your inbox and spam folder.",
+        );
+      } else if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server unreachable. Check your connection.");
+        } else {
+          toast.error(
+            err.response?.data?.error ||
+              "Could not resend the code. Please try again.",
+          );
+        }
+      } else {
+        toast.error("Could not resend the code. Please try again.");
+      }
+    } finally {
+      setResending(false);
     }
   };
 
@@ -188,10 +242,26 @@ const VerifyOtpStep = ({
             <p className="text-slate-500">
               Didn&apos;t receive a code?{" "}
               <button
-                onClick={() => router.push("/app/forgot-password")}
-                className="font-bold text-snaptap-blue-dark hover:text-snaptap-blue-deep transition ml-1"
+                type="button"
+                onClick={handleResend}
+                disabled={resending || isCoolingDown}
+                className="font-bold text-snaptap-blue-dark hover:text-snaptap-blue-deep transition ml-1 disabled:text-slate-400 disabled:cursor-not-allowed disabled:hover:text-slate-400"
               >
-                Resend code
+                {isCoolingDown
+                  ? `Resend in ${secondsLeft}s`
+                  : resending
+                    ? "Sending…"
+                    : "Resend code"}
+              </button>
+            </p>
+            <p className="text-xs text-slate-400 mt-3">
+              Wrong address?{" "}
+              <button
+                type="button"
+                onClick={() => router.push("/app/forgot-password")}
+                className="font-semibold text-slate-500 hover:text-snaptap-blue-dark transition underline underline-offset-2"
+              >
+                Start over with a different email
               </button>
             </p>
           </div>

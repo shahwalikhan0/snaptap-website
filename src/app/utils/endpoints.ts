@@ -14,6 +14,7 @@ export const ENDPOINTS = {
   BRAND_RESET_PASSWORD: "/brand/reset-password",
   BRAND_REFRESH_TOKEN: "/brand/refresh-token",
   BRAND_VERIFY_EMAIL: (token: string) => `/brand/verify-email/${token}`,
+  BRAND_RESEND_VERIFICATION: "/brand/resend-verification",
 
   BRAND_CANCEL_PLAN: "/brand/cancel-plan",
 

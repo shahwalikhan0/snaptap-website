@@ -14,8 +14,13 @@ import {
   loginBrand,
   fetchBrandDetail,
   fetchBillingGateStatus,
+  resendVerificationLink,
+  isVerificationRequiredError,
 } from "./services/loginApi";
 import type { LoginPayload } from "./services/loginApi";
+import { VerifyEmailNotice } from "./components/VerifyEmailNotice";
+import { useResendCooldown } from "@/app/hooks/useResendCooldown";
+import { readCooldown } from "@/app/utils/resend";
 
 const ModelViewer = dynamic(() => import("../components/ModelViewerWrapper"), {
   ssr: false,
@@ -28,6 +33,17 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const isLoggingIn = useRef(false);
   const [form] = Form.useForm();
+
+  // ── Unverified-email state ────────────────────────────────────────────────
+  // Set when login answers 401 { requiresVerification: true }. The panel is
+  // persistent (not a toast) because the user needs the resend button.
+  const [unverifiedIdentifier, setUnverifiedIdentifier] = useState<
+    string | null
+  >(null);
+  const [resending, setResending] = useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+  const [cooldownMessage, setCooldownMessage] = useState<string | null>(null);
+  const { secondsLeft, isCoolingDown, start, reset } = useResendCooldown();
   const { isLoggedIn, setToken, setBrand, setAdmin } = useAdmin();
   const router = useRouter();
 
@@ -52,10 +68,61 @@ const LoginPage = () => {
     }
   };
 
+  const handleResendVerification = async () => {
+    if (!unverifiedIdentifier || resending || isCoolingDown) return;
+
+    setResending(true);
+    try {
+      const data = await resendVerificationLink(unverifiedIdentifier);
+      // The 200 body is identical whether or not an email actually went out
+      // (anti-enumeration) — show the server's message and infer nothing.
+      setCooldownMessage(null);
+      setResendMessage(
+        data?.message ||
+          "If that account needs verifying, a new link is on its way.",
+      );
+      start();
+      toast.success("A new verification link is on its way.");
+    } catch (err: unknown) {
+      const cooldown = readCooldown(err);
+      if (cooldown.isCooldown) {
+        start(cooldown.retryAfterSeconds ?? undefined);
+        setResendMessage(null);
+        setCooldownMessage(
+          cooldown.message ||
+            "A verification link was sent very recently. Check your inbox and spam folder.",
+        );
+      } else if (axios.isAxiosError(err)) {
+        if (err.code === "ERR_NETWORK") {
+          toast.error("Server unreachable. Check your connection.");
+        } else {
+          toast.error(
+            err.response?.data?.error ||
+              "Could not resend the link. Please try again.",
+          );
+        }
+      } else {
+        toast.error("Could not resend the link. Please try again.");
+      }
+    } finally {
+      setResending(false);
+    }
+  };
+
+  const dismissVerificationNotice = () => {
+    setUnverifiedIdentifier(null);
+    setResendMessage(null);
+    setCooldownMessage(null);
+    reset();
+  };
+
   const handleLogin = async (values: LoginPayload) => {
+    const { username, password } = values;
     try {
       isLoggingIn.current = true;
-      const { username, password } = values;
+      setUnverifiedIdentifier(null);
+      setResendMessage(null);
+      setCooldownMessage(null);
       setLoading(true);
 
       const responseData = await loginBrand({ username, password });
@@ -104,6 +171,15 @@ const LoginPage = () => {
         toast.error("Invalid username or password.");
       }
     } catch (err: unknown) {
+      // 401 + requiresVerification: the account exists but was never verified.
+      // Show the persistent panel instead of a disappearing toast — the user
+      // needs the resend button that lives in it.
+      if (isVerificationRequiredError(err)) {
+        setUnverifiedIdentifier(username);
+        reset();
+        return;
+      }
+
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {
           toast.error("Server unreachable. Check your connection.");
@@ -159,6 +235,19 @@ const LoginPage = () => {
                 Manage your SnapTap ecosystem
               </Text>
             </div>
+
+            {unverifiedIdentifier && (
+              <VerifyEmailNotice
+                identifier={unverifiedIdentifier}
+                sentMessage={resendMessage}
+                cooldownMessage={cooldownMessage}
+                resending={resending}
+                isCoolingDown={isCoolingDown}
+                secondsLeft={secondsLeft}
+                onResend={handleResendVerification}
+                onDismiss={dismissVerificationNotice}
+              />
+            )}
 
             <Form
               form={form}

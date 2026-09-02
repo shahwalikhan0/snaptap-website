@@ -4,7 +4,17 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Form, Input, Button, Typography, Upload, Select } from "antd";
-import { createBrandAccount } from "./services/signupApi";
+import {
+  createBrandAccount,
+  resendVerificationLink,
+  readSignupConflict,
+} from "./services/signupApi";
+import {
+  SignupConflictNotice,
+  type SignupConflictVariant,
+} from "./components/SignupConflictNotice";
+import { useResendCooldown } from "@/app/hooks/useResendCooldown";
+import { readCooldown } from "@/app/utils/resend";
 import {
   UserOutlined,
   LockOutlined,
@@ -38,6 +48,53 @@ const SignUpPage: React.FC = () => {
   const router = useRouter();
   const [image, setImage] = useState<RcFile | null>(null);
 
+  // ── Email-collision state (409 from POST /brand/create) ───────────────────
+  const [conflictVariant, setConflictVariant] =
+    useState<SignupConflictVariant | null>(null);
+  const [conflictEmail, setConflictEmail] = useState("");
+  const [conflictMessage, setConflictMessage] = useState<string | null>(null);
+  const [resending, setResending] = useState(false);
+  const { secondsLeft, isCoolingDown, start, reset } = useResendCooldown();
+
+  const clearConflict = () => {
+    setConflictVariant(null);
+    setConflictEmail("");
+    setConflictMessage(null);
+    reset();
+  };
+
+  const handleResendVerification = async () => {
+    if (!conflictEmail || resending || isCoolingDown) return;
+
+    setResending(true);
+    try {
+      const data = await resendVerificationLink(conflictEmail);
+      setConflictVariant("unverified-resent");
+      // The 200 body is identical whether or not mail went out — just show it.
+      setConflictMessage(data?.message ?? null);
+      start();
+      toast.success("A new verification link is on its way.");
+    } catch (err: unknown) {
+      const cooldown = readCooldown(err);
+      if (cooldown.isCooldown) {
+        start(cooldown.retryAfterSeconds ?? undefined);
+        setConflictVariant("unverified-cooldown");
+        setConflictMessage(cooldown.message);
+      } else if (axios.isAxiosError(err)) {
+        toast.error(
+          err.code === "ERR_NETWORK"
+            ? "Server connection failed."
+            : err.response?.data?.error ||
+                "Could not resend the link. Please try again.",
+        );
+      } else {
+        toast.error("Could not resend the link. Please try again.");
+      }
+    } finally {
+      setResending(false);
+    }
+  };
+
   const validatePhone = (phone: string) =>
     /^\+?(\d{10,14})$/.test(phone.replace(/[\s-]/g, ""));
 
@@ -45,6 +102,7 @@ const SignUpPage: React.FC = () => {
     try {
       await form.validateFields();
       const values = form.getFieldsValue();
+      clearConflict();
       setLoading(true);
 
       const formData = new FormData();
@@ -93,6 +151,62 @@ const SignUpPage: React.FC = () => {
         }, 2000);
       }
     } catch (err: unknown) {
+      // ── 409: something the user typed is already taken ────────────────────
+      const conflict = readSignupConflict(err);
+      if (conflict) {
+        if (conflict.emailInUse) {
+          const email = String(form.getFieldValue("email") ?? "");
+          setConflictEmail(email);
+          setConflictMessage(conflict.error ?? null);
+
+          if (conflict.accountVerified) {
+            // A usable account already exists — point at login / reset.
+            setConflictVariant("existing-verified");
+            reset();
+          } else if (conflict.resent) {
+            // The server already mailed a fresh link for us. Start the
+            // cooldown so the panel's own button can't immediately re-fire.
+            setConflictVariant("unverified-resent");
+            start();
+          } else {
+            // A link went out very recently — gate on the server's window.
+            setConflictVariant("unverified-cooldown");
+            start(conflict.retryAfterSeconds ?? undefined);
+          }
+          return;
+        }
+
+        // Field-level collisions: mark the offending field inline so the user
+        // can see which one to change, not just a toast.
+        const fieldErrors: {
+          name: keyof SignUpFormValues;
+          errors: string[];
+        }[] = [];
+        if (conflict.usernameInUse) {
+          fieldErrors.push({
+            name: "username",
+            errors: ["That username is taken — try another."],
+          });
+        }
+        if (conflict.nameInUse) {
+          fieldErrors.push({
+            name: "name",
+            errors: ["That brand name is taken — try another."],
+          });
+        }
+        if (fieldErrors.length > 0) {
+          form.setFields(fieldErrors);
+          form.scrollToField(fieldErrors[0].name);
+          toast.error(
+            conflict.error || "Some of your details are already in use.",
+          );
+          return;
+        }
+
+        toast.error(conflict.error || "Signup failed. Please try again.");
+        return;
+      }
+
       if (axios.isAxiosError(err)) {
         if (err.code === "ERR_NETWORK") {
           toast.error("Server connection failed.");
@@ -140,6 +254,19 @@ const SignUpPage: React.FC = () => {
                 Enter your professional details to get started with SnapTap.
               </Text>
             </div>
+
+            {conflictVariant && (
+              <SignupConflictNotice
+                variant={conflictVariant}
+                email={conflictEmail}
+                serverMessage={conflictMessage}
+                resending={resending}
+                isCoolingDown={isCoolingDown}
+                secondsLeft={secondsLeft}
+                onResend={handleResendVerification}
+                onDismiss={clearConflict}
+              />
+            )}
 
             <Form
               form={form}
