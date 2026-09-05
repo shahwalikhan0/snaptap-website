@@ -168,7 +168,7 @@ const LoginPage = () => {
           router.replace(redirectUrl || "/app/inventory");
         }
       } else {
-        toast.error("Invalid username or password.");
+        toast.error("Invalid username or email, or password.");
       }
     } catch (err: unknown) {
       // 401 + requiresVerification: the account exists but was never verified.
@@ -261,18 +261,18 @@ const LoginPage = () => {
                 label={
                   <div className="flex items-center justify-between w-full">
                     <span className="font-bold text-[#2e2e2e] text-sm uppercase tracking-wider">
-                      Username
+                      Username or Email
                     </span>
                     <span className="text-[10px] text-[#888888] font-bold uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                       Identity
                     </span>
                   </div>
                 }
-                rules={[{ required: true, message: "Username is required" }]}
+                rules={[{ required: true, message: "Username or email is required" }]}
               >
                 <Input
                   prefix={<UserOutlined className="text-[#888888] mr-2" />}
-                  placeholder="e.g. snaptap_official"
+                  placeholder="snaptap_official or you@company.com"
                   className="h-13 rounded-brand border-slate-200 focus:border-snaptap-blue-dark focus:ring-4 focus:ring-snaptap-blue-dark/10 hover:border-snaptap-blue-dark/50 transition-all font-medium text-[#2e2e2e] placeholder:text-slate-300"
                 />
               </Form.Item>
