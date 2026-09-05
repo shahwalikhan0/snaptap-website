@@ -285,6 +285,10 @@ const SignUpPage: React.FC = () => {
                 rules={[
                   { required: true, message: "Required" },
                   { pattern: /^[^\s]+$/, message: "No spaces" },
+                  // Mirrors the server rule (utils/username.js). Login accepts
+                  // a username OR an email, so a username shaped like an
+                  // address would collide with somebody else's account.
+                  { pattern: /^[^@]*$/, message: 'Cannot contain "@"' },
                 ]}
                 getValueFromEvent={(e) =>
                   e.target.value.replace(/\s/g, "").toLowerCase()

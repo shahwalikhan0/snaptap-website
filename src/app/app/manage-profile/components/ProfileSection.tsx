@@ -87,6 +87,10 @@ export function ProfileSection({
           rules={[
             { required: true, message: "Required" },
             { pattern: /^[^\s]+$/, message: "No spaces" },
+            // Mirrors the server rule (utils/username.js). Login accepts a
+            // username OR an email, so a username shaped like an address would
+            // collide with somebody else's account.
+            { pattern: /^[^@]*$/, message: 'Cannot contain "@"' },
           ]}
         >
           <Input
