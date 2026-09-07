@@ -48,7 +48,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-brand border bg-white",
+        "rounded-brand border bg-surface-card",
         VARIANT_CLASSES[variant],
         PADDING_CLASSES[padding],
         className,

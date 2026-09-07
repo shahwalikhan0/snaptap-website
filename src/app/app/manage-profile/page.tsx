@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { Form, Input, Button, Upload, Modal } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { AnimatePresence } from "framer-motion";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { RcFile } from "antd/es/upload";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { ProfileFormValues, BrandDetailFormValues, SectionKey } from "./types";
@@ -242,12 +241,11 @@ const ManageProfilePage = () => {
   if (!Admin) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50/30 pt-20 sm:pt-28">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+    <div className="min-h-screen bg-surface-page pt-20 sm:pt-28">
 
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-96px)]">
         {/* Navigation Sidebar */}
-        <aside className="w-full lg:w-[320px] bg-slate-50/50 p-3 sm:p-6 flex lg:flex-col gap-2 border-b lg:border-b-0 lg:border-r border-slate-100 overflow-x-auto">
+        <aside className="w-full lg:w-[320px] bg-surface-card p-3 sm:p-6 flex lg:flex-col gap-2 border-b lg:border-b-0 lg:border-r border-slate-100 overflow-x-auto">
           <div className="mb-8">
             <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 hidden lg:block">
               Account Settings
@@ -259,7 +257,7 @@ const ManageProfilePage = () => {
             className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
               activeSection === "profile"
                 ? "bg-white text-snaptap-blue-dark shadow-sm border border-slate-200 ring-1 ring-snaptap-blue-dark/5"
-                : "text-slate-500 hover:bg-slate-100"
+                : "text-slate-500 hover:bg-surface-card-hover"
             }`}
           >
             <Icon
@@ -279,7 +277,7 @@ const ManageProfilePage = () => {
             className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
               activeSection === "brand"
                 ? "bg-white text-snaptap-blue-dark shadow-sm border border-slate-200 ring-1 ring-snaptap-blue-dark/5"
-                : "text-slate-500 hover:bg-slate-100"
+                : "text-slate-500 hover:bg-surface-card-hover"
             }`}
           >
             <Icon
@@ -296,7 +294,7 @@ const ManageProfilePage = () => {
             href={`/app/showcase/${Admin?.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-500 hover:bg-slate-100"
+            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-500 hover:bg-surface-card-hover"
           >
             <Icon
               icon="mdi:qrcode"
@@ -309,7 +307,7 @@ const ManageProfilePage = () => {
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 bg-white p-4 sm:p-6 md:p-12 overflow-y-auto">
+        <main className="flex-1 bg-surface-page p-4 sm:p-6 md:p-12 overflow-y-auto">
           <AnimatePresence mode="wait">
             {activeSection === "profile" ? (
               <ProfileSection
@@ -320,8 +318,6 @@ const ManageProfilePage = () => {
                 profileLoading={profileLoading}
                 setIsModalVisible={setIsModalVisible}
                 handleProfileUpdate={handleProfileUpdate}
-                setIsDeactivateModalVisible={setIsDeactivateModalVisible}
-                setIsDeleteModalVisible={setIsDeleteModalVisible}
                 isProfileModified={isProfileModified}
                 setIsProfileModified={setIsProfileModified}
               />
@@ -332,6 +328,8 @@ const ManageProfilePage = () => {
                 handleBrandUpdate={handleBrandUpdate}
                 isBrandModified={isBrandModified}
                 setIsBrandModified={setIsBrandModified}
+                setIsDeactivateModalVisible={setIsDeactivateModalVisible}
+                setIsDeleteModalVisible={setIsDeleteModalVisible}
               />
             )}
           </AnimatePresence>

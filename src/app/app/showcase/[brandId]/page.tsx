@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
+import { Badge, Button, Input } from "@/app/app/components/ui";
 import { publicApi } from "@/app/utils/api";
 import { ENDPOINTS } from "@/app/utils/endpoints";
 
@@ -123,9 +124,9 @@ export default function ShowcasePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-snaptap-blue border-t-transparent rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-snaptap-blue-dark border-t-transparent rounded-full animate-spin" />
           <p className="text-slate-500 font-medium">Loading showcase…</p>
         </div>
       </div>
@@ -134,7 +135,7 @@ export default function ShowcasePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
+      <div className="min-h-screen bg-surface-page flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-50 flex items-center justify-center">
             <Icon
@@ -153,54 +154,54 @@ export default function ShowcasePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
-      {/* Minimal Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div className="min-h-screen bg-surface-page flex flex-col">
+      {/* Header */}
+      <header className="bg-surface-card border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-snaptap-blue-deep to-snaptap-blue rounded-xl flex items-center justify-center text-white shadow-sm">
+            <div className="w-10 h-10 shrink-0 bg-snaptap-blue-dark rounded-brand flex items-center justify-center text-white">
               <Icon icon="mdi:store" width={20} />
             </div>
-            <div>
-              <h1 className="text-xl font-black text-slate-900 tracking-tight">
+            <div className="min-w-0">
+              <h1 className="text-xl font-bold text-slate-900 truncate">
                 {brandName}
               </h1>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">
-                Product Showcase
-              </p>
+              <p className="text-sm text-slate-500">Product showcase</p>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-            <div className="relative w-full sm:w-72">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Icon
-                  icon="mdi:magnify"
-                  className="text-slate-400"
-                  width={20}
-                />
-              </div>
-              <input
-                type="text"
-                className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-snaptap-blue/20 focus:border-snaptap-blue sm:text-sm transition-all"
-                placeholder="Search products..."
+            <div className="w-full sm:w-72">
+              <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products…"
+                leading={<Icon icon="solar:magnifer-linear" width={17} />}
+                trailing={
+                  searchQuery ? (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      aria-label="Clear search"
+                      className="pointer-events-auto hover:text-slate-600 transition-colors"
+                    >
+                      <Icon icon="lucide:x" width={14} />
+                    </button>
+                  ) : undefined
+                }
               />
             </div>
-            <button
+            <Button
+              size="md"
               onClick={handleGenerateBrandQR}
-              disabled={isGeneratingBrandQR}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-snaptap-blue-dark hover:bg-snaptap-blue text-white font-bold text-sm rounded-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+              loading={isGeneratingBrandQR}
+              className="w-full sm:w-auto"
             >
-              {isGeneratingBrandQR ? (
-                <Icon icon="mdi:loading" className="animate-spin" width={20} />
-              ) : (
-                <Icon icon="mdi:qrcode-scan" width={20} />
+              {!isGeneratingBrandQR && (
+                <Icon icon="mdi:qrcode-scan" width={18} />
               )}
               <span className="whitespace-nowrap">
-                {isGeneratingBrandQR ? "Generating..." : "Share Showcase"}
+                {isGeneratingBrandQR ? "Generating…" : "Share Showcase"}
               </span>
-            </button>
+            </Button>
           </div>
         </div>
       </header>
@@ -209,20 +210,16 @@ export default function ShowcasePage() {
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
         {products.length === 0 ? (
           <div className="text-center py-20">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-slate-100 flex items-center justify-center">
-              <Icon
-                icon="mdi:package-variant"
-                className="text-slate-300"
-                width={48}
-              />
+            <div className="w-14 h-14 mx-auto mb-5 rounded-brand bg-surface-inset border border-slate-100 flex items-center justify-center text-slate-300">
+              <Icon icon="solar:box-minimalistic-linear" width={30} />
             </div>
-            <h2 className="text-xl font-bold text-slate-700 mb-2">
+            <h2 className="text-lg font-bold text-slate-900 mb-2">
               No products found
             </h2>
-            <p className="text-slate-500">
+            <p className="text-sm text-slate-500">
               {searchQuery
                 ? `No matches for "${searchQuery}"`
-                : "This brand hasn't published any products."}
+                : "This brand hasn't published any products yet."}
             </p>
           </div>
         ) : (
@@ -231,88 +228,71 @@ export default function ShowcasePage() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden"
+                  className="group bg-surface-card rounded-brand border border-slate-200 hover:border-slate-300 hover:shadow-card transition-all duration-300 flex flex-col overflow-hidden"
                 >
-                  {/* Image Section */}
-                  <div className="relative aspect-square bg-slate-100 overflow-hidden">
+                  {/* Image */}
+                  <div className="relative aspect-square bg-surface-inset overflow-hidden">
                     {product.image_url ? (
                       <img
                         src={product.image_url}
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                       />
                     ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <Icon
-                          icon="mdi:image-outline"
-                          className="text-slate-300"
-                          width={40}
-                        />
+                      <div className="flex items-center justify-center h-full text-slate-300">
+                        <Icon icon="mdi:image-outline" width={36} />
                       </div>
                     )}
                     {product.category && (
-                      <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-0.5 text-[10px] font-bold text-slate-700 uppercase tracking-wider shadow-sm">
-                        {product.category}
+                      <div className="absolute top-2 left-2">
+                        <Badge tone="neutral" className="bg-white/90 backdrop-blur-sm">
+                          {product.category}
+                        </Badge>
                       </div>
                     )}
                   </div>
 
-                  {/* Details Section */}
+                  {/* Details */}
                   <div className="p-3 sm:p-4 flex flex-col flex-1">
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1 line-clamp-1">
+                    <h3 className="text-sm sm:text-base font-semibold text-slate-900 line-clamp-1">
                       {product.name}
                     </h3>
                     <div className="flex-1">
                       {product.description && (
-                        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">
+                        <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed mt-1">
                           {product.description}
                         </p>
                       )}
                     </div>
 
-                    {/* Action Area */}
-                    <div className="pt-3 border-t border-slate-100 mt-auto space-y-3">
-                      <div className="flex items-center gap-3">
-                        {product.qr_code_url ? (
-                          <button
-                            onClick={() => setSelectedQR(product.qr_code_url)}
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-slate-200 bg-white hover:border-snaptap-blue hover:text-snaptap-blue flex items-center justify-center shrink-0 transition-colors group/qr relative"
-                          >
-                            <Icon
-                              icon="mdi:qrcode-scan"
-                              width={20}
-                              className="text-slate-500 group-hover/qr:text-snaptap-blue transition-colors"
-                            />
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-slate-800 text-white text-[10px] font-medium rounded opacity-0 group-hover/qr:opacity-100 transition-opacity pointer-events-none">
-                              View QR
-                            </div>
-                          </button>
-                        ) : (
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0">
-                            <Icon
-                              icon="mdi:qrcode-remove"
-                              className="text-slate-300"
-                            />
-                          </div>
-                        )}
+                    {/* Actions */}
+                    <div className="flex items-center gap-2 pt-3 mt-3 border-t border-slate-100">
+                      {product.model_url ? (
+                        <a
+                          href={product.model_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-1.5 h-10 bg-snaptap-blue-dark hover:bg-snaptap-blue-deep text-white font-semibold text-sm rounded-brand transition-colors"
+                        >
+                          <Icon icon="mdi:cube-scan" width={16} />
+                          View in AR
+                        </a>
+                      ) : (
+                        <div className="flex-1 h-10 flex items-center justify-center bg-surface-inset border border-slate-200 text-slate-400 font-semibold text-sm rounded-brand">
+                          Processing
+                        </div>
+                      )}
 
-                        {product.model_url ? (
-                          <a
-                            href={product.model_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1.5 py-2 sm:py-2.5 bg-snaptap-blue-dark hover:bg-snaptap-blue text-white font-bold text-xs sm:text-sm rounded-lg transition-colors"
-                          >
-                            <Icon icon="mdi:cube-scan" width={16} />
-                            <span className="hidden sm:inline">View AR</span>
-                            <span className="sm:hidden">AR</span>
-                          </a>
-                        ) : (
-                          <div className="flex-1 py-2 sm:py-2.5 bg-slate-100 text-slate-400 font-bold text-xs sm:text-sm rounded-lg text-center cursor-not-allowed">
-                            No Model
-                          </div>
-                        )}
-                      </div>
+                      {product.qr_code_url && (
+                        <button
+                          onClick={() => setSelectedQR(product.qr_code_url)}
+                          aria-label={`Show QR code for ${product.name}`}
+                          title="Show QR code"
+                          className="w-10 h-10 shrink-0 rounded-brand border border-slate-200 text-slate-500 hover:border-snaptap-blue-dark hover:text-snaptap-blue-dark flex items-center justify-center transition-colors"
+                        >
+                          <Icon icon="mdi:qrcode-scan" width={18} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -322,20 +302,22 @@ export default function ShowcasePage() {
             {/* Infinite Scroll Trigger */}
             <div
               id="showcase-load-more"
-              className="h-10 mt-8 flex items-center justify-center"
+              className="h-16 mt-8 flex items-center justify-center"
             >
               {loadingMore && (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-snaptap-blue border-t-transparent rounded-full animate-spin" />
-                  <span className="text-xs text-slate-500 font-medium">
-                    Loading more...
-                  </span>
+                <div className="flex items-center gap-2 text-slate-400">
+                  <div className="w-4 h-4 border-2 border-snaptap-blue-dark border-t-transparent rounded-full animate-spin" />
+                  <span className="text-xs font-semibold">Loading more…</span>
                 </div>
               )}
               {!hasMore && products.length > 0 && searchQuery === "" && (
-                <p className="text-xs text-slate-400 font-medium">
-                  You&apos;ve reached the end.
-                </p>
+                <div className="flex items-center gap-2 text-slate-300">
+                  <div className="h-px w-8 bg-slate-200" />
+                  <p className="text-xs font-semibold uppercase tracking-wider">
+                    End of showcase
+                  </p>
+                  <div className="h-px w-8 bg-slate-200" />
+                </div>
               )}
             </div>
           </>
@@ -354,12 +336,10 @@ export default function ShowcasePage() {
               />
             </div>
             <div>
-              <span className="text-lg font-black text-white tracking-tight">
+              <span className="text-lg font-bold text-white tracking-tight">
                 SnapTap
               </span>
-              <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">
-                Experience before you buy
-              </p>
+              <p className="text-xs text-slate-500">Experience before you buy</p>
             </div>
           </div>
 
@@ -382,7 +362,7 @@ export default function ShowcasePage() {
             </a>
             <a
               href="https://gosnaptap.com"
-              className="ml-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-2"
+              className="ml-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-brand transition-colors flex items-center gap-2"
             >
               Visit Website <Icon icon="mdi:arrow-right" />
             </a>
@@ -397,21 +377,19 @@ export default function ShowcasePage() {
         footer={null}
         centered
         width={300}
-        className="[&_.ant-modal-content]:!rounded-[12px] [&_.ant-modal-content]:!p-8"
+        className="[&_.ant-modal-content]:!rounded-brand [&_.ant-modal-content]:!p-8"
       >
         <div className="flex flex-col items-center text-center mt-4">
-          <div className="bg-slate-50 p-4 rounded-[12px] shadow-sm border border-slate-100 mb-6">
+          <div className="bg-slate-50 p-4 rounded-brand shadow-sm border border-slate-100 mb-6">
             <img
               src={selectedQR || ""}
               alt="Scan to View AR"
               className="w-48 h-48 object-contain mix-blend-multiply"
             />
           </div>
-          <h3 className="text-lg font-black text-slate-900 mb-2">
-            Scan to View AR
-          </h3>
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em]">
-            Use your phone's camera
+          <h3 className="text-lg font-bold text-slate-900 mb-1">Scan to view in AR</h3>
+          <p className="text-sm text-slate-500">
+            Point your phone&apos;s camera at the code
           </p>
         </div>
       </Modal>
@@ -423,10 +401,10 @@ export default function ShowcasePage() {
         footer={null}
         centered
         width={340}
-        className="[&_.ant-modal-content]:!rounded-[16px] [&_.ant-modal-content]:!p-6 sm:[&_.ant-modal-content]:!p-8"
+        className="[&_.ant-modal-content]:!rounded-brand [&_.ant-modal-content]:!p-6 sm:[&_.ant-modal-content]:!p-8"
       >
         <div className="flex flex-col items-center text-center mt-2">
-          <div className="bg-white p-2 rounded-[16px] shadow-sm border border-slate-100 mb-6 w-full max-w-[240px] aspect-square flex items-center justify-center">
+          <div className="bg-white p-2 rounded-brand shadow-sm border border-slate-100 mb-6 w-full max-w-[240px] aspect-square flex items-center justify-center">
             {brandQRDataUrl && (
               <img
                 src={brandQRDataUrl}
@@ -435,16 +413,14 @@ export default function ShowcasePage() {
               />
             )}
           </div>
-          <h3 className="text-lg font-black text-slate-900 mb-2">
-            Share Showcase
-          </h3>
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.1em] mb-6">
-            Scan to view all products
+          <h3 className="text-lg font-bold text-slate-900 mb-1">Share showcase</h3>
+          <p className="text-sm text-slate-500 mb-6">
+            Scan to browse every product in this showcase
           </p>
           <a
             href={brandQRDataUrl || "#"}
             download={`${brandName || "Brand"}_Showcase_QR.png`}
-            className="w-full flex items-center justify-center gap-2 py-3 bg-snaptap-blue hover:bg-snaptap-blue-dark text-white font-bold text-sm rounded-xl transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3 bg-snaptap-blue-dark hover:bg-snaptap-blue-deep text-white font-semibold text-sm rounded-brand transition-colors"
           >
             <Icon icon="mdi:download" width={20} />
             Download QR Code

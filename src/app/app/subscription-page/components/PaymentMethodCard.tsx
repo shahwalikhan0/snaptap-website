@@ -140,10 +140,10 @@ export function PaymentMethodCard() {
   const hasCard = method?.status === "active";
 
   return (
-    <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+    <div className="bg-surface-inset rounded-brand p-6 border border-slate-100">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-brand bg-emerald-100 flex items-center justify-center text-emerald-600">
+          <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center text-snaptap-blue-dark">
             <Icon icon="mdi:credit-card-outline" width={22} />
           </div>
           <div>
@@ -153,7 +153,7 @@ export function PaymentMethodCard() {
             {loading ? (
               <p className="text-sm text-slate-400 animate-pulse">Loading…</p>
             ) : hasCard ? (
-              <p className="text-base font-black text-slate-800 capitalize">
+              <p className="text-base font-semibold text-slate-900 capitalize">
                 {method?.card_brand || "Card"} •••• {method?.last4 || "····"}
               </p>
             ) : awaitingCard ? (

@@ -1,14 +1,14 @@
 "use client";
 
-import { Card, Button, Dropdown, Tag } from "antd";
-import { Button as UiButton } from "@/app/app/components/ui";
+import { ReactNode } from "react";
+import { Button, Dropdown } from "antd";
+import { Button as UiButton, Badge, Card } from "@/app/app/components/ui";
 import {
   EditOutlined,
   DeleteOutlined,
   CopyOutlined,
   MoreOutlined,
   QrcodeOutlined,
-  ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
@@ -25,6 +25,27 @@ interface ProductDetailCardProps {
   deleting: boolean;
 }
 
+/** One row of the facts list — label left, value right, hairline divider. */
+function DetailRow({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-3">
+      <dt className="text-sm text-slate-500 shrink-0">{label}</dt>
+      <dd className="text-sm font-semibold text-slate-900 text-right min-w-0 truncate">
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+const formatDate = (value?: string | null) =>
+  value
+    ? new Date(value).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    : "—";
+
 export function ProductDetailCard({
   product,
   onEdit,
@@ -35,155 +56,116 @@ export function ProductDetailCard({
 }: ProductDetailCardProps) {
   return (
     <div className="space-y-6">
-      {/* Back Button */}
-      <Link href="/app/inventory">
-        <UiButton
-          variant="ghost"
-          size="sm"
-          className="pl-0 font-bold text-slate-500 hover:text-snaptap-blue-dark group"
-        >
-          <ArrowLeftOutlined className="text-snaptap-blue-dark" />
-          <span className="group-hover:-translate-x-1 transition-transform inline-block underline-offset-4 hover:underline">
-            Back to Inventory
-          </span>
-        </UiButton>
+      {/* Back */}
+      <Link
+        href="/app/inventory"
+        className="group inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-snaptap-blue-dark transition-colors"
+      >
+        <Icon
+          icon="solar:alt-arrow-left-linear"
+          width={16}
+          className="group-hover:-translate-x-0.5 transition-transform"
+        />
+        Back to Inventory
       </Link>
 
-      <Card className="rounded-brand border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-0 [&_.ant-card-body]:p-0">
+      {/* Page header — title on the left, actions on the right, which is
+          where they're expected. They used to sit at the bottom of the info
+          column with the ⋯ menu floating beside the title. */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-sm text-slate-500 mb-1">{product?.category}</p>
+          <div className="flex items-center gap-3 min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 truncate">
+              {product?.name}
+            </h1>
+            <Badge
+              tone={product?.is_active ? "success" : "neutral"}
+              className="shrink-0"
+            >
+              {product?.is_active ? "Live" : "Inactive"}
+            </Badge>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <UiButton size="md" onClick={onEdit}>
+            <EditOutlined />
+            Edit Details
+          </UiButton>
+          <UiButton variant="secondary" size="md" onClick={onViewQR}>
+            <QrcodeOutlined />
+            View QR
+          </UiButton>
+
+          <Dropdown
+            menu={{
+              items: [
+                {
+                  key: "copy",
+                  label: "Copy Model URL",
+                  icon: <CopyOutlined />,
+                  onClick: onCopyUrl,
+                },
+                { type: "divider" },
+                {
+                  key: "delete",
+                  label: deleting ? "Deleting…" : "Permanently Delete",
+                  icon: <DeleteOutlined />,
+                  onClick: onDelete,
+                  danger: true,
+                  disabled: deleting,
+                },
+              ],
+            }}
+            trigger={["click"]}
+            placement="bottomRight"
+          >
+            {/* stays antd: Dropdown injects a ref into its trigger */}
+            <Button
+              type="text"
+              aria-label="More actions"
+              icon={<MoreOutlined className="text-xl text-slate-400" />}
+              className="h-10 w-10 flex items-center justify-center rounded-brand border border-slate-200 hover:border-slate-300"
+            />
+          </Dropdown>
+        </div>
+      </div>
+
+      <Card variant="elevated" padding="none" className="overflow-hidden">
         <div className="flex flex-col lg:flex-row">
-          {/* Visual Column */}
-          <div className="lg:w-[45%] bg-slate-50 p-6 sm:p-10 flex items-center justify-center relative group min-h-[350px]">
+          {/* Visual */}
+          <div className="lg:w-[45%] bg-surface-inset border-b lg:border-b-0 lg:border-r border-slate-100 p-8 flex items-center justify-center min-h-[300px]">
             <img
               src={product?.image_url ?? undefined}
               alt={product?.name}
-              className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out z-10"
+              className="max-h-[320px] w-full object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-snaptap-blue/5 to-transparent opacity-50" />
-
-            <div className="absolute top-4 left-4 z-20">
-              <Tag
-                className={`rounded-[4px] border-none px-3 py-0.5 font-bold uppercase text-[10px] tracking-widest ${
-                  product?.is_active
-                    ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
-                    : "bg-red-500 text-white shadow-lg shadow-red-500/20"
-                }`}
-              >
-                {product?.is_active ? "Live AR" : "Inactive"}
-              </Tag>
-            </div>
           </div>
 
-          {/* Info Column */}
-          <div className="flex-1 p-6 sm:p-10 flex flex-col justify-between bg-white border-l border-slate-100">
-            <div>
-              <div className="flex justify-between items-start gap-4 mb-6">
-                <div>
-                  <div className="flex items-center gap-2 text-snaptap-blue-dark mb-2">
-                    <Icon icon="solar:tag-bold-duotone" width={20} />
-                    <span className="font-bold uppercase tracking-widest text-xs">
-                      {product?.category}
-                    </span>
-                  </div>
-                  <h1 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
-                    {product?.name}
-                  </h1>
-                </div>
+          {/* Facts + description */}
+          <div className="flex-1 p-6 sm:p-8">
+            <dl className="divide-y divide-slate-100 -mt-3">
+              <DetailRow label="Price" value={formatPrice(product?.price)} />
+              <DetailRow label="Category" value={product?.category || "—"} />
+              <DetailRow
+                label="Status"
+                value={product?.is_active ? "Live" : "Inactive"}
+              />
+              <DetailRow label="Added" value={formatDate(product?.created_at)} />
+            </dl>
 
-                <Dropdown
-                  menu={{
-                    items: [
-                      {
-                        key: "copy",
-                        label: "Copy Model URL",
-                        icon: <CopyOutlined />,
-                        onClick: onCopyUrl,
-                      },
-                      {
-                        type: "divider",
-                      },
-                      {
-                        key: "delete",
-                        label: deleting ? "Deleting..." : "Permanently Delete",
-                        icon: <DeleteOutlined />,
-                        onClick: onDelete,
-                        danger: true,
-                        disabled: deleting,
-                      },
-                    ],
-                  }}
-                  trigger={["click"]}
-                  placement="bottomRight"
-                >
-                  <Button
-                    type="text"
-                    icon={<MoreOutlined className="text-2xl text-slate-400" />}
-                    className="h-10 w-10 flex items-center justify-center rounded-brand hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100"
-                  />
-                </Dropdown>
-              </div>
-
-              <div className="flex items-baseline gap-2 mb-8 p-4 bg-slate-50 rounded-brand border border-slate-100 w-fit">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">
-                  Pricing
-                </span>
-                <span className="text-3xl font-black text-slate-900 leading-none">
-                  {formatPrice(product?.price)}
-                </span>
-              </div>
-
-              <div className="mb-10">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                  <Icon icon="solar:notes-bold-duotone" width={16} />
-                  Product Description
-                </h3>
-                <p className="text-slate-600 leading-relaxed font-medium">
-                  {product?.description ||
-                    "No detailed description available for this catalog entry."}
-                </p>
-              </div>
-            </div>
-
-            {/* Actions Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <UiButton
-                onClick={onEdit}
-                className="h-12 shadow-lg shadow-snaptap-blue-dark/10"
-              >
-                <EditOutlined />
-                Edit Details
-              </UiButton>
-              <UiButton
-                variant="secondary"
-                onClick={onViewQR}
-                className="h-12 hover:border-snaptap-blue-dark hover:text-snaptap-blue-dark"
-              >
-                <QrcodeOutlined />
-                View QR
-              </UiButton>
+            <div className="mt-6 pt-6 border-t border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900 mb-2">
+                Description
+              </h2>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {product?.description || "No description provided."}
+              </p>
             </div>
           </div>
         </div>
       </Card>
-
-      {/* Footer Meta */}
-      <div className="flex flex-wrap items-center gap-6 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest px-2">
-        <div className="flex items-center gap-2">
-          <Icon
-            icon="solar:calendar-bold-duotone"
-            className="text-snaptap-blue-dark"
-          />
-          Created: {product?.created_at ? new Date(product.created_at).toLocaleDateString() : "N/A"}
-        </div>
-        {product?.model_url && (
-          <>
-            <div className="w-1 h-1 rounded-full bg-slate-300" />
-            <div className="flex items-center gap-2 text-snaptap-blue-dark">
-              <Icon icon="solar:globus-bold-duotone" />
-              AR Assets Synced
-            </div>
-          </>
-        )}
-      </div>
     </div>
   );
 }

@@ -167,7 +167,7 @@ export default function BillingHistory() {
       dataIndex: "total_amount",
       key: "total_amount",
       render: (amount: string) => (
-        <span className="font-black text-slate-800">
+        <span className="font-semibold text-slate-900">
           {formatCurrency(amount)}
         </span>
       ),
@@ -206,7 +206,7 @@ export default function BillingHistory() {
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1 px-2 hover:bg-slate-50"
+          className="gap-1 px-2 hover:bg-surface-inset"
           onClick={() => generateInvoicePDF(record)}
         >
           <Icon icon="mdi:download" width={18} />
@@ -219,7 +219,7 @@ export default function BillingHistory() {
   if (!Brand) return null;
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
+    <div className="space-y-8">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
           Billing &amp; Payments
@@ -233,7 +233,7 @@ export default function BillingHistory() {
       <PaymentMethodCard />
 
       {currentUsage && (
-        <div className="bg-slate-50 rounded-brand border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
+        <div className="bg-surface-inset rounded-brand border border-slate-100 p-6 flex flex-col md:flex-row gap-6 md:items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Icon
@@ -241,9 +241,7 @@ export default function BillingHistory() {
                 className="text-snaptap-blue-dark"
                 width={20}
               />
-              <h3 className="font-bold text-slate-700 uppercase tracking-wider text-xs">
-                Current Month Estimate
-              </h3>
+              <h3 className="font-semibold text-slate-900">Current month estimate</h3>
             </div>
             <p className="text-sm text-slate-500">
               Usage tracked for {dayjs(currentUsage.month).format("MMMM YYYY")} —
@@ -252,18 +250,14 @@ export default function BillingHistory() {
           </div>
           <div className="flex gap-8">
             <div>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">
-                Total Views
-              </p>
-              <p className="text-2xl font-black text-slate-800">
+              <p className="text-sm text-slate-500 mb-1">Total views</p>
+              <p className="text-2xl font-bold text-slate-900 tabular-nums">
                 {currentUsage.total_views.toLocaleString()}
               </p>
             </div>
             <div>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">
-                Estimated Amount
-              </p>
-              <p className="text-2xl font-black text-snaptap-blue-dark">
+              <p className="text-sm text-slate-500 mb-1">Estimated amount</p>
+              <p className="text-2xl font-bold text-snaptap-blue-dark tabular-nums">
                 {formatCurrency(currentUsage.total_amount)}
               </p>
             </div>
@@ -271,14 +265,14 @@ export default function BillingHistory() {
         </div>
       )}
 
-      <div className="bg-white rounded-brand border border-slate-100 shadow-sm overflow-hidden">
+      <div className="bg-surface-card rounded-brand border border-slate-100 shadow-sm overflow-hidden">
         <Table
           dataSource={invoices}
           columns={columns}
           rowKey="id"
           loading={loading}
           pagination={false}
-          className="[&_.ant-table-thead>tr>th]:!bg-slate-50 [&_.ant-table-thead>tr>th]:!text-slate-500 [&_.ant-table-thead>tr>th]:!font-bold [&_.ant-table-thead>tr>th]:!border-b-slate-100 [&_.ant-table-tbody>tr>td]:!border-b-slate-50"
+          className="[&_.ant-table-thead>tr>th]:!bg-surface-inset [&_.ant-table-thead>tr>th]:!text-slate-500 [&_.ant-table-thead>tr>th]:!font-bold [&_.ant-table-thead>tr>th]:!border-b-slate-100 [&_.ant-table-tbody>tr>td]:!border-b-slate-50"
         />
       </div>
     </div>

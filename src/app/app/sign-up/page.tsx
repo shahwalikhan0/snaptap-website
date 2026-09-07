@@ -27,8 +27,7 @@ import {
 } from "@ant-design/icons";
 import { RcFile } from "antd/es/upload/interface";
 import { SignUpFormValues } from "./types";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 import { CATEGORIES } from "@/app/constants/categories";
 import { COUNTRIES } from "@/app/constants/countries";
@@ -225,7 +224,6 @@ const SignUpPage: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       {/* LEFT SIDE - Branding */}
       <AuthVisual

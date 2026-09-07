@@ -8,7 +8,7 @@ import { cn } from "@/app/utils/cn";
  */
 export function controlClasses(hasError: boolean, className?: string) {
   return cn(
-    "w-full rounded-brand border bg-white px-4 py-3 text-sm text-slate-800 outline-none transition",
+    "w-full rounded-brand border bg-surface-inset px-4 py-3 text-sm text-slate-800 outline-none transition",
     "placeholder:text-slate-400",
     "disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400",
     hasError

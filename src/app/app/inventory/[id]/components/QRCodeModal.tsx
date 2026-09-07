@@ -24,9 +24,7 @@ export function QRCodeModal({
       open={visible}
       onCancel={onCancel}
       title={
-        <span className="text-xl font-black text-slate-800 tracking-tight">
-          Product Access QR
-        </span>
+        <span className="text-lg font-bold text-slate-900">Product QR Code</span>
       }
       centered
       footer={[
@@ -54,35 +52,33 @@ export function QRCodeModal({
     >
       {qrCodeUrl ? (
         <div className="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-brand border border-slate-100 mt-4">
-          <div className="bg-white p-6 rounded-[12px] shadow-sm border border-slate-100 mb-6 group cursor-pointer overflow-hidden relative">
+          <div className="bg-white p-5 rounded-brand border border-slate-200 mb-5">
             <img
               src={qrCodeUrl}
-              alt={`QR Code for ${productName}`}
-              className="w-48 h-48 sm:w-64 sm:h-64 object-contain relative z-10 group-hover:scale-105 transition-transform duration-500"
+              alt={`QR code for ${productName}`}
+              className="w-48 h-48 sm:w-56 sm:h-56 object-contain"
             />
-            <div className="absolute inset-0 bg-snaptap-blue/5 opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
 
-          <h3 className="text-lg font-black text-slate-900 mb-2">
-            {productName}
-          </h3>
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.2em] text-center max-w-xs leading-loose">
-            Scan this code to launch the{" "}
-            <span className="text-snaptap-blue-dark">Instant AR Viewer</span>{" "}
-            for this specific product.
+          <h3 className="font-semibold text-slate-900 mb-1">{productName}</h3>
+          <p className="text-sm text-slate-500 text-center max-w-xs leading-relaxed">
+            Scan this code to open the AR viewer for this product.
           </p>
         </div>
       ) : (
         <div className="p-12 text-center">
-          <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 bg-slate-50 rounded-brand flex items-center justify-center mx-auto mb-4">
             <Icon
-              icon="solar:qr-code-bold-duotone"
-              className="text-slate-200"
-              width={40}
+              icon="solar:qr-code-linear"
+              className="text-slate-300"
+              width={32}
             />
           </div>
-          <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">
-            QR Code Missing
+          <p className="text-sm font-semibold text-slate-500">
+            No QR code available
+          </p>
+          <p className="text-sm text-slate-400 mt-1">
+            It is generated once the 3D model finishes processing.
           </p>
         </div>
       )}

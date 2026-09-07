@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Form, Input, Button, Typography } from "antd";
 import { MailOutlined } from "@ant-design/icons";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import { sendForgotPasswordEmail } from "./services/forgotPasswordApi";
 
@@ -55,7 +54,6 @@ const ForgotPasswordPage = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       {/* LEFT — decorative */}
       <div className="hidden md:flex flex-1 bg-gradient-to-br from-snaptap-blue-dark/10 via-snaptap-blue-dark/5 to-white flex-col items-center justify-center p-12 relative overflow-hidden">

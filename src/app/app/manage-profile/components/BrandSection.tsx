@@ -1,5 +1,6 @@
 import { Form, Input, Button, FormInstance, Select } from "antd";
 import { GlobalOutlined, PhoneOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { BrandDetailFormValues } from "../types";
 import { CATEGORIES } from "@/app/constants/categories";
@@ -13,6 +14,8 @@ interface BrandSectionProps {
   handleBrandUpdate: () => void;
   isBrandModified: boolean;
   setIsBrandModified: (val: boolean) => void;
+  setIsDeactivateModalVisible: (val: boolean) => void;
+  setIsDeleteModalVisible: (val: boolean) => void;
 }
 
 export function BrandSection({
@@ -21,6 +24,8 @@ export function BrandSection({
   handleBrandUpdate,
   isBrandModified,
   setIsBrandModified,
+  setIsDeactivateModalVisible,
+  setIsDeleteModalVisible,
 }: BrandSectionProps) {
   return (
     <motion.div
@@ -143,6 +148,52 @@ export function BrandSection({
       >
         Update Brand Profile
       </Button>
+
+      <div className="pt-10 border-t border-slate-100 mt-10">
+        <h3 className="text-lg font-bold text-red-600 mb-2 flex items-center gap-2">
+          <Icon icon="mdi:alert-octagon-outline" width={22} />
+          Account Management
+        </h3>
+        <p className="text-slate-500 mb-6 text-sm">
+          Manage the lifecycle of your account. These actions cannot be easily
+          undone.
+        </p>
+
+        <div className="space-y-4">
+          <div className="p-5 border border-slate-200 rounded-brand bg-surface-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h4 className="font-bold text-slate-800">Deactivate Account</h4>
+              <p className="text-sm text-slate-500 mt-1">
+                Take a break. Your products will be hidden from users.
+              </p>
+            </div>
+            <Button
+              size="large"
+              onClick={() => setIsDeactivateModalVisible(true)}
+              className="rounded-brand font-bold whitespace-nowrap bg-orange-50 text-orange-600 hover:!bg-orange-100 hover:!text-orange-700 border-none px-6"
+            >
+              Deactivate
+            </Button>
+          </div>
+
+          <div className="p-5 border border-red-100 rounded-brand bg-red-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h4 className="font-bold text-slate-800">Delete Account</h4>
+              <p className="text-sm text-slate-500 mt-1">
+                Permanently remove your account and all associated data.
+              </p>
+            </div>
+            <Button
+              danger
+              size="large"
+              onClick={() => setIsDeleteModalVisible(true)}
+              className="rounded-brand font-bold whitespace-nowrap px-6"
+            >
+              Delete Account
+            </Button>
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 }

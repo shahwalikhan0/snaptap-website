@@ -25,6 +25,30 @@
   --color-snaptap-gray-light: #888888;
   --color-snaptap-bg-light: rgb(248, 250, 252); /* slate-50, standardized */
 
+  /* ── Surfaces ─────────────────────────────────────────────────────────
+     Semantic surface tokens. Every app panel/page/card references these
+     rather than a literal `bg-white` / `bg-slate-50`, so the whole scheme
+     can be re-themed from here without touching components.
+
+     `page`  = the app background behind everything
+     `card`  = panels/cards/navbar that sit on top of the page
+     `inset` = blocks nested *inside* a card (contrasts against `card`, so
+               it moves in the opposite direction)
+     `line`  = fills that must stay visible ON a card (progress-bar trails,
+               skeleton blocks, sidebar hover tints)
+
+     To try the inverted look again (white page, gray cards):
+         --color-surface-page: #ffffff;
+         --color-surface-card: rgb(241 245 249);
+         --color-surface-card-hover: rgb(226 232 240);
+         --color-surface-inset: #ffffff;
+         --color-surface-line: rgb(203 213 225); */
+  --color-surface-page: rgb(248 250 252); /* slate-50 */
+  --color-surface-card: #ffffff;
+  --color-surface-card-hover: rgb(248 250 252); /* slate-50 */
+  --color-surface-inset: rgb(248 250 252); /* slate-50 */
+  --color-surface-line: rgb(226 232 240); /* slate-200 */
+
   /* ── Radius ───────────────────────────────────────────────────────────
      6px is the brand radius, used on every surface, button, input and
      badge. It was written as the arbitrary value `rounded-[6px]` ~310

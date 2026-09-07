@@ -6,8 +6,7 @@ import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
 import api from "@/app/utils/api";
 import { ENDPOINTS } from "@/app/utils/endpoints";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import { featuresMap } from "../pricing/constants/data";
 import { fetchPaymentMethod } from "./services/paymentApi";
@@ -165,7 +164,6 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
   return (
     <div className="space-y-8">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Change Your Plan</h1>
@@ -185,11 +183,11 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-slate-800">{p.name}</h3>
                 {Brand.subscribed_package_id === p.id && (
-                  <Tag color="cyan" className="rounded-brand px-3 py-0.5 font-bold uppercase text-[10px] tracking-widest border-none bg-cyan-50 text-cyan-600">Current</Tag>
+                  <Tag color="blue" className="rounded-brand px-3 py-0.5 font-bold uppercase text-[10px] tracking-widest border-none bg-cyan-50 text-cyan-600">Current</Tag>
                 )}
               </div>
               <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-3xl font-black text-slate-900">{formatPrice(p.monthly_price)}</span>
+                <span className="text-3xl font-bold text-slate-900">{formatPrice(p.monthly_price)}</span>
                 <span className="text-slate-400 font-medium whitespace-nowrap">/ month</span>
               </div>
               <p className="text-sm text-slate-500 leading-relaxed min-h-[40px]">
@@ -255,13 +253,13 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
           <div className="mb-6">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Custom Enterprise</h3>
             <div className="flex items-baseline gap-1 mb-6">
-              <span className="text-3xl font-black text-snaptap-blue-dark">{formatPrice(customPrice)}</span>
+              <span className="text-3xl font-bold text-snaptap-blue-dark">{formatPrice(customPrice)}</span>
               <span className="text-slate-400 font-medium">/ month</span>
             </div>
 
-          <div className="bg-white p-4 sm:p-6 rounded-brand border border-slate-200 mb-6">
+          <div className="bg-surface-card p-4 sm:p-6 rounded-brand border border-slate-200 mb-6">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Number of Products</span>
+                <span className="text-sm text-slate-500">Number of products</span>
                 {(() => {
                   const totalProducts = (Brand?.active_products || 0) + (Brand?.in_active_products || 0);
                   const minScans = Math.max(81, totalProducts);

@@ -5,8 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Form, Input, Button, Typography } from "antd";
 import { LockOutlined } from "@ant-design/icons";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import {
   verifyOtp,
@@ -433,7 +432,6 @@ const ResetPasswordInner = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
       {step === 1 ? (
         <VerifyOtpStep
           email={email}

@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAdmin } from "../../hooks/useAdminContext";
 import { Typography, Result } from "antd";
 import { Button } from "@/app/app/components/ui";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import axios from "axios";
 import {
   reactivateAccount,
@@ -61,7 +60,6 @@ export default function ReactivatePage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 items-center justify-center p-6 w-full">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-brand shadow-xl text-center">
         <Result

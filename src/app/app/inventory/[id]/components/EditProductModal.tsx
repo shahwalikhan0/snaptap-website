@@ -37,9 +37,7 @@ export function EditProductModal({
       okText="Save Changes"
       confirmLoading={updating}
       title={
-        <span className="text-xl font-black text-slate-800 tracking-tight">
-          Edit Product Catalog
-        </span>
+        <span className="text-lg font-bold text-slate-900">Edit Product</span>
       }
       centered
       width={600}
@@ -61,7 +59,7 @@ export function EditProductModal({
         <Form.Item
           name="name"
           label={
-            <span className="font-bold text-slate-700 text-xs uppercase tracking-widest">
+            <span className="font-semibold text-slate-700">
               Product Display Name
             </span>
           }
@@ -74,7 +72,7 @@ export function EditProductModal({
           <Form.Item
             name="price"
             label={
-              <span className="font-bold text-slate-700 text-xs uppercase tracking-widest">
+              <span className="font-semibold text-slate-700">
                 Unit Price (USD)
               </span>
             }
@@ -86,7 +84,7 @@ export function EditProductModal({
           <Form.Item
             name="category"
             label={
-              <span className="font-bold text-slate-700 text-xs uppercase tracking-widest">
+              <span className="font-semibold text-slate-700">
                 Market Category
               </span>
             }
@@ -110,7 +108,7 @@ export function EditProductModal({
         <Form.Item
           name="description"
           label={
-            <span className="font-bold text-slate-700 text-xs uppercase tracking-widest">
+            <span className="font-semibold text-slate-700">
               Detailed Description
             </span>
           }
@@ -136,7 +134,7 @@ export function EditProductModal({
         <Form.Item
           name="image"
           label={
-            <span className="font-bold text-slate-700 text-xs uppercase tracking-widest">
+            <span className="font-semibold text-slate-700">
               Update Visual Asset
             </span>
           }

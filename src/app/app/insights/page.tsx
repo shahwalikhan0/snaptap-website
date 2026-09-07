@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useAdmin } from "../../hooks/useAdminContext";
-import { easeOut, motion } from "framer-motion";
 import { AdminData, BrandData, BillingRecord, ViewTrendItem, TopProduct } from "./types";
 import { useRouter } from "next/navigation";
-import { Icon } from "@iconify/react";
+import { BRAND } from "@/app/utils/tokens";
 import {
   fetchBrandDetail,
   fetchBillingCurrent,
@@ -137,7 +136,9 @@ export default function InsightsPage() {
     { name: "Inactive", value: brand?.in_active_products || 0 },
   ];
 
-  const COLORS = ["#10b981", "#cbd5e1"]; // Emerald & Slate
+  // Active = brand blue, inactive = muted slate. Was emerald/slate, which
+  // made the donut the only emerald thing on an otherwise blue dashboard.
+  const COLORS = [BRAND.blueDark, "#cbd5e1"];
 
   const categoryIcons: Record<string, string> = {
     Aerospace: "mdi:rocket-launch-outline",
@@ -159,39 +160,16 @@ export default function InsightsPage() {
       : "mdi:tag-outline";
 
   return (
-    <div className="min-h-screen bg-slate-100 pt-28 pb-16 px-6 sm:px-10">
+    <div className="min-h-screen bg-surface-page pt-28 pb-16 px-6 sm:px-10">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: easeOut }}
-        >
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-12 h-12 rounded-brand bg-gradient-to-br from-snaptap-blue to-[#005a8c] flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-                <Icon icon="solar:pie-chart-3-bold-duotone" width={26} />
-              </div>
-              <h2 className="text-4xl sm:text-5xl font-black text-slate-800 tracking-tight">
-                Insights
-              </h2>
-            </div>
-            <p className="text-slate-500 font-medium ml-1">
-              Comprehensive overview of your brand's performance metrics.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-brand shadow-sm border border-slate-200">
-            <Icon
-              icon="solar:shield-check-bold-duotone"
-              width={20}
-              className="text-emerald-500"
-            />
-            <span className="text-sm font-bold text-slate-600">
-              Data up to date
-            </span>
-          </div>
-        </motion.div>
+        <div className="mb-10">
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+            Insights
+          </h1>
+          <p className="text-slate-500 mt-1">
+            Overview of your brand&apos;s performance metrics.
+          </p>
+        </div>
 
         <BrandProfileCard
           admin={admin}

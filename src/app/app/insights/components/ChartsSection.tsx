@@ -1,6 +1,6 @@
 "use client";
 
-import { easeOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import {
   AreaChart,
@@ -15,8 +15,14 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import { ViewTrendItem, TopProduct, ProductDistribution, TooltipPayloadEntry } from "../types";
+import {
+  ViewTrendItem,
+  TopProduct,
+  ProductDistribution,
+  TooltipPayloadEntry,
+} from "../types";
 import { BRAND } from "@/app/utils/tokens";
+import { Card } from "@/app/app/components/ui";
 
 interface ChartsSectionProps {
   modelData: ViewTrendItem[];
@@ -25,21 +31,44 @@ interface ChartsSectionProps {
   topProducts?: TopProduct[];
 }
 
+/** Consistent card header: title + one muted line. No colored icon chip —
+ *  the three cards used blue/emerald/purple ones, which read as three
+ *  unrelated widgets rather than one dashboard. */
+function CardHeading({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <div className="mb-6">
+      <h2 className="font-semibold text-slate-900">{title}</h2>
+      <p className="text-sm text-slate-500 mt-0.5">{subtitle}</p>
+    </div>
+  );
+}
+
 export function ChartsSection({
   modelData,
   productData,
   colors,
   topProducts = [],
 }: ChartsSectionProps) {
-  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadEntry[]; label?: string }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean;
+    payload?: TooltipPayloadEntry[];
+    label?: string;
+  }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/90 backdrop-blur-md p-4 rounded-brand shadow-lg border border-slate-100">
-          <p className="text-sm font-bold text-slate-800 mb-1">{label}</p>
-          <p
-            className="text-sm font-semibold"
-            style={{ color: payload[0].stroke || payload[0].fill }}
-          >
+        <div className="bg-white px-3 py-2 rounded-brand shadow-popover border border-slate-200">
+          <p className="text-xs text-slate-500 mb-0.5">{label}</p>
+          <p className="text-sm font-semibold text-slate-900">
             {payload[0].name}: {payload[0].value}
           </p>
         </div>
@@ -48,38 +77,25 @@ export function ChartsSection({
     return null;
   };
 
+  const maxViews = topProducts.length
+    ? Math.max(...topProducts.map((p) => p._count?.model_views || 0), 1)
+    : 1;
+
   return (
     <motion.div
       className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6"
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3, duration: 0.5, ease: easeOut }}
+      transition={{ delay: 0.15, duration: 0.4 }}
     >
-      {/* Model Generation Trend */}
-      <div className="bg-white rounded-brand border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-2 relative overflow-hidden group">
-        {/* Decorative Background */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 opacity-50 rounded-bl-full pointer-events-none group-hover:scale-105 transition-transform duration-700" />
+      {/* ── Views trend ───────────────────────────────────────────────── */}
+      <Card variant="elevated" className="lg:col-span-2">
+        <CardHeading
+          title="Product Views Trend"
+          subtitle="Monthly views across all your products"
+        />
 
-        <div className="flex items-center justify-between mb-8 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-brand bg-snaptap-blue/10 flex items-center justify-center text-snaptap-blue">
-              <Icon icon="solar:graph-up-bold-duotone" width={22} />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-800 text-lg">
-                Product Views Trend
-              </h4>
-              <p className="text-xs font-semibold text-slate-400">
-                Monthly Engagement History
-              </p>
-            </div>
-          </div>
-          <div className="bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-widest hidden sm:block">
-            Activity Log
-          </div>
-        </div>
-
-        <div className="h-[300px] w-full relative z-10">
+        <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={modelData}
@@ -87,8 +103,16 @@ export function ChartsSection({
             >
               <defs>
                 <linearGradient id="colorModels" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={BRAND.blue} stopOpacity={0.3} />
-                  <stop offset="95%" stopColor={BRAND.blue} stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor={BRAND.blueDark}
+                    stopOpacity={0.25}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor={BRAND.blueDark}
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -100,57 +124,46 @@ export function ChartsSection({
                 dataKey="month"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: 600 }}
+                tick={{ fill: "#94a3b8", fontSize: 12 }}
                 dy={10}
               />
               <YAxis
                 allowDecimals={false}
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: 600 }}
+                tick={{ fill: "#94a3b8", fontSize: 12 }}
               />
               <RechartsTooltip content={<CustomTooltip />} />
               <Area
                 type="monotone"
                 dataKey="views"
-                name="Total Views"
-                stroke={BRAND.blue}
-                strokeWidth={3}
+                name="Views"
+                stroke={BRAND.blueDark}
+                strokeWidth={2.5}
                 fillOpacity={1}
                 fill="url(#colorModels)"
-                activeDot={{ r: 6, strokeWidth: 0, fill: BRAND.blue }}
+                activeDot={{ r: 5, strokeWidth: 0, fill: BRAND.blueDark }}
               />
             </AreaChart>
           </ResponsiveContainer>
         </div>
-      </div>
+      </Card>
 
-      {/* Product Distribution Pie Chart */}
-      <div className="bg-white rounded-brand border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-1 border-t-4 border-t-emerald-400 flex flex-col">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-brand bg-emerald-50 flex items-center justify-center text-emerald-500">
-            <Icon icon="solar:pie-chart-2-bold-duotone" width={22} />
-          </div>
-          <div>
-            <h4 className="font-bold text-slate-800 text-lg">Product Status</h4>
-            <p className="text-xs font-semibold text-slate-400">
-              Distribution Overview
-            </p>
-          </div>
-        </div>
+      {/* ── Product status ────────────────────────────────────────────── */}
+      <Card variant="elevated" className="flex flex-col">
+        <CardHeading title="Product Status" subtitle="Active vs inactive" />
 
         <div className="flex-1 min-h-[250px] w-full flex items-center justify-center">
           {productData.every((d) => d.value === 0) ? (
             <div className="text-center">
-              <div className="w-20 h-20 bg-slate-50 rounded-brand flex items-center justify-center mx-auto mb-3">
-                <Icon
-                  icon="solar:box-minimalistic-line-duotone"
-                  className="text-slate-300 text-3xl"
-                />
+              <div className="w-14 h-14 bg-surface-inset border border-slate-100 rounded-brand flex items-center justify-center mx-auto mb-3 text-slate-300">
+                <Icon icon="solar:box-minimalistic-linear" width={28} />
               </div>
-              <p className="font-bold text-slate-400">No products found</p>
-              <p className="text-xs text-slate-400 mt-1">
-                Start by adding inventory
+              <p className="text-sm font-semibold text-slate-500">
+                No products yet
+              </p>
+              <p className="text-sm text-slate-400 mt-0.5">
+                Add inventory to see this
               </p>
             </div>
           ) : (
@@ -162,16 +175,16 @@ export function ChartsSection({
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={90}
-                  paddingAngle={5}
+                  innerRadius={62}
+                  outerRadius={88}
+                  paddingAngle={3}
                   stroke="none"
                 >
                   {productData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={colors[index % colors.length]}
-                      className="hover:opacity-80 transition-opacity duration-300 outline-none"
+                      className="outline-none"
                     />
                   ))}
                 </Pie>
@@ -181,61 +194,47 @@ export function ChartsSection({
                   height={36}
                   iconType="circle"
                   formatter={(value) => (
-                    <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">
-                      {value}
-                    </span>
+                    <span className="text-sm text-slate-600">{value}</span>
                   )}
                 />
               </PieChart>
             </ResponsiveContainer>
           )}
         </div>
-      </div>
+      </Card>
 
-      {/* Top 10 Products Ranking */}
-      {topProducts && topProducts.length > 0 && (
-        <div className="bg-white rounded-brand border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-6 lg:col-span-3 border-t-4 border-t-purple-400 relative overflow-hidden group">
-          <div className="flex items-center gap-3 mb-6 relative z-10">
-            <div className="w-10 h-10 rounded-brand bg-purple-50 flex items-center justify-center text-purple-500">
-              <Icon icon="solar:fire-bold-duotone" width={24} />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-800 text-lg">
-                Most Viewed (Hot) Products
-              </h4>
-              <p className="text-xs font-semibold text-slate-400">
-                Top performers by total lifetime views
-              </p>
-            </div>
-          </div>
+      {/* ── Most viewed ───────────────────────────────────────────────── */}
+      {topProducts.length > 0 && (
+        <Card variant="elevated" className="lg:col-span-3">
+          <CardHeading
+            title="Most Viewed Products"
+            subtitle="Top performers by total lifetime views"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
             {topProducts.slice(0, 10).map((prod, index) => {
-              const maxViews = Math.max(
-                ...topProducts.map((p) => p._count?.model_views || 1),
-              );
               const currViews = prod._count?.model_views || 0;
-              const percent = maxViews > 0 ? (currViews / maxViews) * 100 : 0;
+              const percent = (currViews / maxViews) * 100;
               return (
-                <div key={prod.id} className="flex items-center gap-4">
-                  <div className="w-6 h-6 flex-shrink-0 flex items-center justify-center bg-slate-100 rounded-md text-xs font-bold text-slate-500">
+                <div key={prod.id} className="flex items-center gap-3">
+                  <span className="w-5 shrink-0 text-sm font-semibold text-slate-400 tabular-nums text-right">
                     {index + 1}
-                  </div>
+                  </span>
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-end mb-1">
-                      <p className="text-sm font-bold text-slate-700 truncate pr-2">
+                    <div className="flex justify-between items-baseline gap-3 mb-1.5">
+                      <p className="text-sm font-medium text-slate-700 truncate">
                         {prod.name}
                       </p>
-                      <span className="text-xs font-black text-purple-600">
-                        {currViews}
+                      <span className="text-sm font-semibold text-slate-900 tabular-nums shrink-0">
+                        {currViews.toLocaleString()}
                       </span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-100 rounded-brand overflow-hidden flex">
+                    <div className="h-1.5 w-full bg-surface-line rounded-full overflow-hidden">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-brand"
+                        className="h-full bg-snaptap-blue-dark rounded-full"
                         initial={{ width: 0 }}
                         animate={{ width: `${percent}%` }}
-                        transition={{ delay: index * 0.1, duration: 0.8 }}
+                        transition={{ delay: index * 0.04, duration: 0.6 }}
                       />
                     </div>
                   </div>
@@ -243,7 +242,7 @@ export function ChartsSection({
               );
             })}
           </div>
-        </div>
+        </Card>
       )}
     </motion.div>
   );

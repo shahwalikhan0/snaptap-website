@@ -6,8 +6,7 @@ import axios from "axios";
 import { Form, Input, Button, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useAdmin } from "../../hooks/useAdminContext";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 import { Icon } from "@iconify/react";
 import {
@@ -198,7 +197,6 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
 
       {/* LEFT SIDE - Branding & 3D Visual */}
       <AuthVisual
@@ -331,15 +329,6 @@ const LoginPage = () => {
                 </button>
               </p>
             </div>
-          </div>
-
-          {/* Bottom Footer Info */}
-          <div className="mt-8 text-center flex items-center justify-center gap-4 text-xs font-bold text-[#888888] uppercase tracking-widest">
-            <span>Privacy</span>
-            <div className="w-1 h-1 bg-slate-300 rounded-full" />
-            <span>Terms</span>
-            <div className="w-1 h-1 bg-slate-300 rounded-full" />
-            <span>Support</span>
           </div>
         </div>
       </div>

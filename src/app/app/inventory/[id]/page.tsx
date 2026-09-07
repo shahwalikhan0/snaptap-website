@@ -5,8 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Form, Spin } from "antd";
 import axios from "axios";
 import { useAdmin } from "@/app/hooks/useAdminContext";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import {
   fetchProductDetail,
@@ -194,10 +193,8 @@ export default function ProductDetailsPage() {
   }
 
   return (
-    <div className="w-full px-3 sm:px-6 md:px-10 lg:px-20 py-10 sm:py-16 bg-gradient-to-br from-[#F0F9FF] via-white to-[#ECFEFF] min-h-screen">
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
-
-      <div className="max-w-5xl mx-auto" style={{ marginTop: "5vh" }}>
+    <div className="w-full px-3 sm:px-6 md:px-10 lg:px-20 pt-24 sm:pt-28 pb-16 bg-surface-page min-h-screen">
+      <div className="max-w-5xl mx-auto">
         <DeleteConfirmModal
           visible={showDeleteConfirm}
           onCancel={() => setShowDeleteConfirm(false)}

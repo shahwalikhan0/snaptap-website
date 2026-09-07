@@ -20,19 +20,35 @@ export function DeleteConfirmModal({
       open={visible}
       onCancel={onCancel}
       onOk={onConfirm}
-      okText="Delete"
+      okText="Delete Product"
       okButtonProps={{ danger: true, loading: deleting }}
-      title="Confirm Deletion"
+      title={
+        <span className="text-lg font-bold text-slate-900">
+          Delete this product?
+        </span>
+      }
+      centered
     >
-      <p>
-        Are you sure you want to delete this product? <br />
-        <b>Warning:</b> This action cannot be undone. It will permanently delete:
-        <ul className="list-disc ml-5 mt-2">
-          <li>Product details and files (Images, 3D Models, QR Code)</li>
-          <li>All associated analytics (Views, Hits, Ratings)</li>
-          <li>Customer feedback and favorites</li>
-        </ul>
+      {/* The <ul> used to sit inside the <p>, which is invalid HTML — the
+          browser closes the <p> early and React can hydrate it differently
+          than it rendered on the server. */}
+      <p className="text-sm text-slate-600 leading-relaxed">
+        This cannot be undone. Deleting it permanently removes:
       </p>
+      <ul className="mt-3 space-y-1.5 text-sm text-slate-600">
+        <li className="flex gap-2">
+          <span className="text-slate-300">&bull;</span>
+          Product details and files (images, 3D model, QR code)
+        </li>
+        <li className="flex gap-2">
+          <span className="text-slate-300">&bull;</span>
+          All analytics for it (views, hits, ratings)
+        </li>
+        <li className="flex gap-2">
+          <span className="text-slate-300">&bull;</span>
+          Customer feedback and favourites
+        </li>
+      </ul>
     </Modal>
   );
 }

@@ -224,19 +224,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-medium text-slate-500 tracking-wide">
+        <div className="pt-6 border-t border-white/5">
+          <p className="text-xs font-medium text-slate-500 tracking-wide text-center sm:text-left">
             © {currentYear} {LEGAL_BUSINESS_NAME} — SNAPTAP. ALL RIGHTS
             RESERVED.
           </p>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Systems Active
-              </span>
-            </div>
-          </div>
         </div>
       </motion.div>
     </footer>

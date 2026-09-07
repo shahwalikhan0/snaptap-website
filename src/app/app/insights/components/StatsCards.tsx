@@ -44,20 +44,17 @@ export function StatsCards({
       {/* Scans Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-white rounded-brand p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+        className="bg-surface-card rounded-brand p-6 border border-slate-200 shadow-card flex flex-col justify-between hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
       >
-        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110">
-          <Icon icon="mdi:barcode-scan" width={100} />
-        </div>
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-brand bg-blue-50 text-blue-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 text-snaptap-blue-dark flex items-center justify-center">
               <Icon icon="mdi:barcode-scan" width={22} />
             </div>
-            <h5 className="font-bold text-slate-700">Scan Usage</h5>
+            <h5 className="font-semibold text-slate-900">Scan Usage</h5>
           </div>
           <div className="flex items-end gap-2 mb-1">
-            <h3 className="text-4xl font-black text-slate-800 tracking-tight">
+            <h3 className="text-4xl font-bold text-slate-900 tracking-tight">
               {brand.scans_remaining}
             </h3>
             <p className="text-sm font-semibold text-slate-400 mb-1">
@@ -66,15 +63,15 @@ export function StatsCards({
           </div>
         </div>
         <div className="mt-6">
-          <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
-            <span className={scanUsage > 85 ? "text-red-500" : "text-blue-500"}>
-              {scanUsage.toFixed(1)}% Used
+          <div className="flex justify-between text-sm mb-2">
+            <span className={scanUsage > 85 ? "font-semibold text-red-600" : "font-semibold text-snaptap-blue-dark"}>
+              {scanUsage.toFixed(1)}% used
             </span>
-            <span className="text-slate-400">Total Scans</span>
+            <span className="text-slate-400">of {brand.total_scans} scans</span>
           </div>
-          <div className="h-2 w-full bg-slate-100 rounded-brand overflow-hidden">
+          <div className="h-2 w-full bg-surface-line rounded-brand overflow-hidden">
             <motion.div
-              className={`h-full rounded-brand ${scanUsage > 85 ? "bg-red-500" : "bg-gradient-to-r from-blue-400 to-blue-500"}`}
+              className={`h-full rounded-brand ${scanUsage > 85 ? "bg-red-500" : "bg-snaptap-blue-dark"}`}
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(scanUsage, 100)}%` }}
               transition={{ duration: 1, delay: 0.5 }}
@@ -86,49 +83,42 @@ export function StatsCards({
       {/* Products Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-white rounded-brand p-6 border border-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] flex flex-col justify-between group hover:shadow-[0_2px_6px_rgba(15,23,42,0.08),0_20px_40px_-24px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+        className="bg-surface-card rounded-brand p-6 border border-slate-200 shadow-card flex flex-col justify-between hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
       >
-        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110">
-          <Icon icon="mdi:package-variant-closed" width={100} />
-        </div>
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-brand bg-emerald-50 text-emerald-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 text-snaptap-blue-dark flex items-center justify-center">
               <Icon icon="mdi:package-variant-closed" width={22} />
             </div>
-            <h5 className="font-bold text-slate-700">Product Portfolio</h5>
+            <h5 className="font-semibold text-slate-900">Product Portfolio</h5>
           </div>
           <div className="flex items-baseline gap-4 mb-1">
             <div>
-              <h3 className="text-4xl font-black text-emerald-500 tracking-tight">
+              <h3 className="text-4xl font-bold text-slate-900 tracking-tight">
                 {brand.active_products}
               </h3>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
-                Active
-              </p>
+              <p className="text-sm text-slate-500 mt-0.5">Active</p>
             </div>
             <div className="w-px h-8 bg-slate-200"></div>
             <div>
-              <h3 className="text-4xl font-black text-slate-300 tracking-tight">
+              <h3 className="text-4xl font-bold text-slate-300 tracking-tight">
                 {brand.in_active_products}
               </h3>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
-                Inactive
-              </p>
+              <p className="text-sm text-slate-500 mt-0.5">Inactive</p>
             </div>
           </div>
         </div>
 
         <div className="mt-6">
-          <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
-            <span className="text-emerald-500">
-              {productUsage.toFixed(1)}% Active Ratio
+          <div className="flex justify-between text-sm mb-2">
+            <span className="font-semibold text-snaptap-blue-dark">
+              {productUsage.toFixed(1)}% active
             </span>
-            <span className="text-slate-400">Products</span>
+            <span className="text-slate-400">of {brand.active_products + brand.in_active_products} products</span>
           </div>
           <div className="h-2 w-full flex rounded-brand overflow-hidden gap-0.5">
             <motion.div
-              className="h-full bg-emerald-400"
+              className="h-full bg-snaptap-blue-dark"
               initial={{ flex: 0 }}
               animate={{ flex: brand.active_products }}
               transition={{ duration: 1, delay: 0.5 }}
@@ -146,36 +136,33 @@ export function StatsCards({
       {/* Models Card */}
       <motion.div
         variants={itemVariants}
-        className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-brand p-6 shadow-[0_2px_6px_rgba(124,58,237,0.2),0_16px_32px_-16px_rgba(124,58,237,0.45)] flex flex-col justify-between group hover:shadow-[0_4px_10px_rgba(124,58,237,0.25),0_20px_40px_-16px_rgba(124,58,237,0.55)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+        className="bg-snaptap-blue-dark rounded-brand p-6 shadow-card flex flex-col justify-between hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
       >
-        <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none transition-transform group-hover:scale-110">
-          <Icon icon="mdi:cube-outline" width={100} className="text-white" />
-        </div>
-        <div className="relative z-10">
+        <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-brand bg-white/20 text-white flex items-center justify-center backdrop-blur-sm border border-white/20">
+            <div className="w-10 h-10 rounded-brand bg-white/15 text-white flex items-center justify-center">
               <Icon icon="mdi:cube-outline" width={22} />
             </div>
-            <h5 className="font-bold text-white">Models Generated</h5>
+            <h5 className="font-semibold text-white">Models Generated</h5>
           </div>
 
-          <div className="mt-8 relative">
-            <h3 className="text-6xl font-black text-white tracking-tight">
+          <div className="mt-8">
+            <h3 className="text-5xl font-bold text-white tracking-tight">
               {brand.total_models_generated}
             </h3>
-            <p className="text-sm font-medium text-violet-200 mt-2">
+            <p className="text-sm font-medium text-white/70 mt-2">
               Lifetime 3D models created
             </p>
           </div>
         </div>
 
-        <div className="mt-6 relative z-10">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-brand p-3 flex items-center gap-3">
+        <div className="mt-6">
+          <div className="bg-white/10 border border-white/10 rounded-brand p-3 flex items-center gap-3">
             <Icon
               icon="solar:info-circle-line-duotone"
-              className="text-violet-200 text-lg flex-shrink-0"
+              className="text-white/70 text-lg flex-shrink-0"
             />
-            <p className="text-xs font-medium text-violet-100">
+            <p className="text-xs font-medium text-white/80">
               This may also includes models that were deleted.
             </p>
           </div>

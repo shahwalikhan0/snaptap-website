@@ -8,8 +8,7 @@ import { fetchProducts as fetchProductsApi } from "./services/inventoryApi";
 import type { Product } from "./types";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { useRouter } from "next/navigation";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import { InventoryHeader } from "./components/InventoryHeader";
 import { EmptyState } from "./components/EmptyState";
@@ -118,14 +117,10 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-12 lg:px-24 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-snaptap-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-snaptap-blue/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
-
-      <div className="max-w-7xl mx-auto relative z-10">
+    <div className="min-h-screen bg-surface-page pt-24 sm:pt-28 pb-20 px-3 sm:px-6 md:px-12 lg:px-24">
+      {/* max-w-5xl, matching the detail page: list rows read badly stretched
+          to 1280px, and the header stays aligned with them at this width. */}
+      <div className="max-w-5xl mx-auto">
         <InventoryHeader 
           search={search} 
           setSearch={setSearch} 
@@ -140,17 +135,28 @@ export default function InventoryPage() {
           <EmptyState />
         ) : (
           <>
-            <div className="grid gap-4 sm:gap-6">
+            <div className="flex flex-col gap-3">
               {products.map((product) => (
                 <ProductCard key={product?.id} product={product} />
               ))}
             </div>
-            
+
             {/* Infinite Scroll Trigger */}
-            <div id="inventory-load-more" className="h-10 mt-6 flex items-center justify-center">
-              {loadingMore && <Spin size="small" />}
+            <div id="inventory-load-more" className="h-16 mt-8 flex items-center justify-center">
+              {loadingMore && (
+                <div className="flex items-center gap-2 text-slate-400">
+                  <Spin size="small" />
+                  <span className="text-xs font-semibold">Loading more…</span>
+                </div>
+              )}
               {!hasMore && products.length > 0 && (
-                <p className="text-xs text-slate-400 font-medium">End of inventory.</p>
+                <div className="flex items-center gap-2 text-slate-300">
+                  <div className="h-px w-8 bg-slate-200" />
+                  <p className="text-xs font-semibold uppercase tracking-wider">
+                    End of inventory
+                  </p>
+                  <div className="h-px w-8 bg-slate-200" />
+                </div>
               )}
             </div>
           </>

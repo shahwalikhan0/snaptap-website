@@ -41,7 +41,7 @@ export default function SubscriptionComponent({ selectedPage, onSelect }: Props)
             flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-brand font-semibold transition-all whitespace-nowrap text-sm sm:text-base
             ${selectedPage === item.id
               ? "bg-white text-snaptap-blue-dark shadow-sm border border-slate-100 ring-1 ring-snaptap-blue-dark/10"
-              : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+              : "text-slate-500 hover:bg-surface-card-hover hover:text-slate-900"
             }
           `}
         >

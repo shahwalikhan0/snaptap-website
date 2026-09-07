@@ -1,6 +1,7 @@
 "use client";
 
 import { InputHTMLAttributes, ReactNode, useId } from "react";
+import { cn } from "@/app/utils/cn";
 import {
   controlClasses,
   labelClasses,
@@ -15,7 +16,9 @@ export interface InputProps
   error?: string;
   /** Helper text under the field. Hidden while an error is showing. */
   hint?: string;
-  /** Small icon rendered inside the field, on the right (e.g. a search glyph). */
+  /** Small icon on the left (e.g. a search glyph). */
+  leading?: ReactNode;
+  /** Small icon on the right (e.g. a clear button). */
   trailing?: ReactNode;
 }
 
@@ -23,6 +26,7 @@ export function Input({
   label,
   error,
   hint,
+  leading,
   trailing,
   className,
   required,
@@ -40,6 +44,11 @@ export function Input({
         </label>
       )}
       <div className="relative">
+        {leading && (
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+            {leading}
+          </span>
+        )}
         <input
           id={id}
           required={required}
@@ -47,7 +56,7 @@ export function Input({
           aria-describedby={describedBy}
           className={controlClasses(
             Boolean(error),
-            trailing ? `pr-10 ${className ?? ""}` : className,
+            cn(leading && "pl-10", trailing && "pr-10", className),
           )}
           {...rest}
         />

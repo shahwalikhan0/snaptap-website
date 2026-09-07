@@ -83,16 +83,13 @@ const Navbar = () => {
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    <nav
       className={clsx(
         "fixed z-50 left-2 right-2 sm:left-4 sm:right-4 top-2 sm:top-4 mx-auto transition-all duration-300",
         "rounded-brand backdrop-blur-md border border-white/40 shadow-lg",
         isScrolled
-          ? "bg-white/70 py-1.5 sm:py-2"
-          : "bg-white/90 py-2.5 sm:py-3",
+          ? "bg-surface-card/70 py-1.5 sm:py-2"
+          : "bg-surface-card/90 py-2.5 sm:py-3",
         "max-w-7xl",
       )}
     >
@@ -366,35 +363,39 @@ const Navbar = () => {
         footer={null}
         centered
         closable={false}
-        width={360}
+        width={440}
         className="[&_.ant-modal-content]:!p-0 overflow-hidden"
       >
-        <div className="p-8 text-center text-slate-800">
-          <div className="w-16 h-16 rounded-brand bg-red-50 text-red-500 flex items-center justify-center mx-auto mb-6">
-            <Icon icon="majesticons:logout-line" width={32} />
+        <div className="p-6 text-slate-800">
+          <div className="flex items-start gap-4">
+            <div className="w-11 h-11 shrink-0 rounded-brand bg-red-50 text-red-500 flex items-center justify-center">
+              <Icon icon="majesticons:logout-line" width={22} />
+            </div>
+            <div>
+              <h3 className="text-base font-bold mb-1">Confirm Logout</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Are you sure you want to end your session? You&apos;ll need to
+                sign in again to access your inventory.
+              </p>
+            </div>
           </div>
-          <h3 className="text-xl font-bold mb-2">Confirm Logout</h3>
-          <p className="text-slate-500 mb-8 leading-relaxed">
-            Are you sure you want to end your session? You&apos;ll need to sign
-            in again to access your inventory.
-          </p>
-          <div className="flex gap-3">
+          <div className="flex justify-end gap-3 mt-6">
             <button
               onClick={() => setShowLogoutConfirm(false)}
-              className="flex-1 h-12 rounded-brand border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition-all"
+              className="h-10 px-5 rounded-brand border border-slate-200 font-bold text-sm text-slate-600 hover:bg-slate-50 transition-all"
             >
               Cancel
             </button>
             <button
               onClick={confirmLogout}
-              className="flex-1 h-12 rounded-brand bg-red-500 text-white font-bold hover:bg-red-600 shadow-lg shadow-red-200 transition-all active:scale-95"
+              className="h-10 px-5 rounded-brand bg-red-500 text-white font-bold text-sm hover:bg-red-600 shadow-lg shadow-red-200 transition-all active:scale-95"
             >
               Logout
             </button>
           </div>
         </div>
       </Modal>
-    </motion.nav>
+    </nav>
   );
 };
 

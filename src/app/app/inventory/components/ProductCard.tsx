@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Tag } from "antd";
-import { Button } from "@/app/app/components/ui";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Icon } from "@iconify/react";
 
+import { Badge } from "@/app/app/components/ui";
 import type { Product } from "../types";
 import { formatPrice } from "@/app/utils/currency";
 
@@ -13,80 +12,78 @@ interface ProductCardProps {
   product: Product;
 }
 
+/**
+ * List row, styled the way Uber/Airbnb do theirs:
+ *   • the whole row is one tap target (a Link) rather than a small button
+ *     tucked on the right — far easier to hit, especially on mobile
+ *   • a chevron carries the "drills in" affordance
+ *   • restrained type: one semibold title, muted single-line meta with `·`
+ *     separators, no uppercase micro-labels
+ *   • hover tints the row instead of lifting/scaling it
+ *
+ * "Manage" is kept as a visual label (not a nested <button>, which would be
+ * an invalid interactive-inside-interactive) so the existing affordance is
+ * still obvious.
+ */
 export function ProductCard({ product }: ProductCardProps) {
-  const router = useRouter();
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2 }}
-      className="group relative"
-    >
-      <div className="bg-white rounded-brand p-3 sm:px-5 sm:py-3.5 border border-slate-100 shadow-sm group-hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)] transition-all flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-        
-        {/* Product Visual */}
-        <div className="relative w-full sm:w-20 h-32 sm:h-20 rounded-brand bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 p-2 overflow-hidden group/img">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+      <Link
+        href={`/app/inventory/${product?.id}`}
+        className="group flex items-center gap-4 sm:gap-5 p-3 sm:p-4 bg-surface-card rounded-brand border border-slate-200 hover:border-slate-300 hover:bg-surface-card-hover transition-colors"
+      >
+        {/* Thumbnail */}
+        <div className="w-16 h-16 sm:w-[72px] sm:h-[72px] shrink-0 rounded-brand bg-surface-inset border border-slate-100 overflow-hidden">
           <img
             src={product?.image_url ?? undefined}
             alt={product?.name}
-            className="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-500 ease-out z-10"
+            className="w-full h-full object-contain p-1.5"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-snaptap-blue/5 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
         </div>
 
-        {/* Product Info */}
-        <div className="flex-1 text-center sm:text-left w-full min-w-0">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-            <div>
-                <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mb-1">
-                    <h3 className="text-lg font-black text-slate-900 group-hover:text-snaptap-blue-dark transition-colors truncate">
-                        {product?.name}
-                    </h3>
-                    <Tag className={`rounded-[4px] border-none px-2 font-bold uppercase text-[9px] tracking-widest ${
-                        product?.is_active 
-                        ? "bg-green-50 text-green-600" 
-                        : "bg-red-50 text-red-600"
-                    }`}>
-                        {product?.is_active ? "Live" : "Inactive"}
-                    </Tag>
-                </div>
-                <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3">
-                   <div className="flex items-center gap-1 text-[11px] font-bold text-slate-400">
-                      <Icon icon="solar:tag-bold-duotone" className="text-snaptap-blue" width={14} />
-                      {product?.category}
-                   </div>
-                   <div className="w-1 h-1 rounded-full bg-slate-200 hidden sm:block" />
-                   <div className="flex items-center gap-1 text-[11px] font-bold text-slate-400">
-                      <Icon icon="solar:calendar-bold-duotone" className="text-snaptap-blue" width={14} />
-                      {new Date(product?.created_at).toLocaleDateString()}
-                   </div>
-                </div>
-            </div>
-
-            <div className="text-xl font-black text-slate-900 sm:text-right">
-                <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-tighter sm:leading-none">Price</span>
-                {formatPrice(product?.price)}
-            </div>
+        {/* Primary content */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="font-semibold text-slate-900 truncate">
+              {product?.name}
+            </h3>
+            <Badge
+              tone={product?.is_active ? "success" : "neutral"}
+              className="shrink-0"
+            >
+              {product?.is_active ? "Live" : "Inactive"}
+            </Badge>
           </div>
-          
-          <p className="text-slate-400 text-xs line-clamp-1 mb-0 font-medium italic">
-            {product?.description || "No description provided."}
+
+          <p className="text-sm text-slate-500 mt-0.5 truncate">
+            {product?.category}
+            {product?.created_at && (
+              <> · Added {new Date(product.created_at).toLocaleDateString()}</>
+            )}
           </p>
+
+          {product?.description && (
+            <p className="hidden sm:block text-sm text-slate-400 truncate mt-0.5">
+              {product.description}
+            </p>
+          )}
         </div>
 
-        {/* Actions */}
-        <div className="w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-none border-slate-50">
-          <Button
-            size="md"
-            onClick={() => router.push(`/app/inventory/${product?.id}`)}
-            className="w-full sm:w-auto h-10 px-6 text-sm shadow-md shadow-snaptap-blue-dark/10 group/btn"
-          >
+        {/* Price + drill-in */}
+        <div className="shrink-0 flex items-center gap-3 sm:gap-5">
+          <span className="font-semibold text-slate-900">
+            {formatPrice(product?.price)}
+          </span>
+          <span className="hidden md:inline text-sm font-semibold text-slate-400 group-hover:text-snaptap-blue-dark transition-colors">
             Manage
-            <Icon icon="solar:arrow-right-up-bold" width={16} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-          </Button>
+          </span>
+          <Icon
+            icon="solar:alt-arrow-right-linear"
+            width={18}
+            className="text-slate-300 group-hover:text-snaptap-blue-dark group-hover:translate-x-0.5 transition-all"
+          />
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 }

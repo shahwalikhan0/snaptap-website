@@ -27,6 +27,15 @@ export const BRAND = {
   grayLight: "#888888",
 } as const;
 
+/**
+ * Neutrals for JS-only consumers (antd `Progress` trailColor, recharts grid
+ * lines). Mirrors the `--color-surface-*` tokens in globals.css.
+ */
+export const SURFACE = {
+  line: "#e2e8f0", // slate-200 — progress trails, chart gridlines
+  muted: "#94a3b8", // slate-400 — axis labels
+} as const;
+
 /** Brand corner radius, in px. `rounded-brand` is the CSS equivalent. */
 export const RADIUS_BRAND = 6;
 

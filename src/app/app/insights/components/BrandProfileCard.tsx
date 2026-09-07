@@ -1,11 +1,11 @@
 "use client";
 
-import { easeOut, motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { AdminData, BrandData } from "../types";
 import { formatCurrency } from "@/app/utils/currency";
+import { Badge } from "@/app/app/components/ui";
 
 interface BrandProfileCardProps {
   admin: AdminData;
@@ -20,84 +20,60 @@ export function BrandProfileCard({
 }: BrandProfileCardProps) {
   const router = useRouter();
   return (
-    <motion.div
-      className="grid grid-cols-1 lg:grid-cols-3 gap-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1, duration: 0.5, ease: easeOut }}
-    >
-      <div className="relative overflow-hidden bg-gradient-to-br from-snaptap-blue to-[#005a8c] rounded-brand shadow-[0_8px_30px_rgb(0,168,222,0.3)] p-8 flex flex-col justify-center items-center text-center lg:col-span-1 group">
-        {/* Decorative Background Elements */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-white opacity-10 rounded-brand blur-2xl group-hover:scale-150 transition-transform duration-700" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#00d0ff] opacity-20 rounded-brand blur-2xl group-hover:scale-150 transition-transform duration-700" />
-
-        <div className="relative z-10">
-          <div className="w-24 h-24 rounded-brand border-4 border-white/20 bg-white/10 mx-auto mb-4 flex items-center justify-center p-1 backdrop-blur-md shadow-lg">
-            {admin.image_url ? (
-              <img
-                src={admin.image_url}
-                alt="Profile"
-                className="w-full h-full rounded-brand object-cover"
-              />
-            ) : (
-              <Icon
-                icon="solar:user-circle-bold-duotone"
-                className="text-white text-6xl"
-              />
-            )}
-          </div>
-          <h4 className="text-3xl font-bold text-white mb-1 tracking-tight">
-            {admin.name}
-          </h4>
-          <p className="text-[#a8e6ff] font-medium tracking-wide">
-            @{admin.username}
-          </p>
-          <div className="mt-5 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-brand border border-white/10 w-max mx-auto shadow-inner">
-            <Icon icon="carbon:email" className="text-white text-sm" />
-            <span className="text-white text-sm truncate max-w-[180px]">
-              {admin.email}
-            </span>
-          </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="bg-snaptap-blue-dark rounded-brand p-8 flex flex-col justify-center items-center text-center lg:col-span-1">
+        <div className="w-20 h-20 rounded-brand border border-white/20 bg-white/10 mb-4 flex items-center justify-center overflow-hidden">
+          {admin.image_url ? (
+            <img
+              src={admin.image_url}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <Icon
+              icon="solar:user-circle-bold-duotone"
+              className="text-white text-5xl"
+            />
+          )}
         </div>
+        <h4 className="text-xl font-bold text-white mb-1 tracking-tight">
+          {admin.name}
+        </h4>
+        <p className="text-white/70 text-sm mb-4">@{admin.username}</p>
+        <p className="text-white/70 text-sm truncate max-w-[220px]">
+          {admin.email}
+        </p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-brand shadow-[0_1px_3px_rgba(15,23,42,0.06),0_16px_32px_-24px_rgba(15,23,42,0.25)] p-8 lg:col-span-2 relative overflow-hidden flex flex-col justify-between">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#e0f7ff] to-transparent opacity-40 rounded-bl-full pointer-events-none" />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
+      <div className="bg-surface-card border border-slate-200 rounded-brand shadow-sm p-8 lg:col-span-2 flex flex-col justify-between">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {/* Plan Info */}
           <div className="space-y-6">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">
+                <p className="text-sm text-slate-500 mb-1">
                   Current Plan
                 </p>
                 <div className="flex items-center gap-3">
-                  <p className="text-2xl font-extrabold text-slate-800 tracking-tight">
+                  <p className="text-2xl font-bold text-slate-900 tracking-tight">
                     {brand.package_name}
                   </p>
-                  <div
-                    className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold tracking-wider uppercase border ${
-                      brand.status.toLowerCase() === "active"
-                        ? "bg-emerald-50 text-emerald-600 border-emerald-200"
-                        : "bg-rose-50 text-rose-600 border-rose-200"
-                    }`}
-                  >
+                  <Badge tone={brand.status.toLowerCase() === "active" ? "success" : "danger"}>
                     {brand.status}
-                  </div>
+                  </Badge>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-brand bg-[#f0fafe] flex items-center justify-center text-snaptap-blue">
+              <div className="w-10 h-10 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center text-snaptap-blue-dark">
                 <Icon icon={categoryIcon} width={22} />
               </div>
               <div>
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+                <p className="text-sm text-slate-500">
                   Industry
                 </p>
-                <p className="font-semibold text-slate-700">
+                <p className="font-semibold text-slate-900">
                   {brand.category || "N/A"}
                 </p>
               </div>
@@ -107,14 +83,10 @@ export function BrandProfileCard({
           {/* Billing Info */}
           <div className="space-y-6 sm:border-l sm:border-slate-200/60 sm:pl-8">
             <div>
-              <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">
+              <p className="text-sm text-slate-500 mb-1">
                 Billing Cycle
               </p>
-              <p className="font-semibold text-slate-700 flex items-center gap-2">
-                <Icon
-                  icon="solar:calendar-date-bold-duotone"
-                  className="text-snaptap-blue text-lg"
-                />
+              <p className="font-semibold text-slate-900">
                 {dayjs()
                   .month(brand.month - 1)
                   .format("MMMM")}{" "}
@@ -124,55 +96,60 @@ export function BrandProfileCard({
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">
+                <p className="text-sm text-slate-500 mb-1">
                   Due Date
                 </p>
-                <p className="font-semibold text-slate-700">
+                <p className="font-semibold text-slate-900">
                   {brand.due_date
                     ? dayjs(brand.due_date).format("MMM D, YYYY")
                     : "N/A"}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">
+                <p className="text-sm text-slate-500 mb-1">
                   Status
                 </p>
-                <span
-                  className={`inline-flex px-3 py-1 rounded-brand text-xs font-bold uppercase tracking-wider ${
+                <Badge
+                  tone={
                     brand.is_estimate
-                      ? "bg-amber-50 text-amber-600 border border-amber-100"
+                      ? "warning"
                       : brand.date_paid
-                      ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                      : "bg-rose-50 text-rose-600 border border-rose-100"
-                  }`}
+                        ? "success"
+                        : "danger"
+                  }
                 >
                   {brand.is_estimate ? "Active (Estimate)" : brand.date_paid ? "Paid" : "Unpaid"}
-                </span>
+                </Badge>
               </div>
             </div>
           </div>
         </div>
 
         {/* Total Billing Footer */}
-        <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-end justify-between relative z-10">
+        <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-end justify-between">
           <div>
-            <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-1">
+            <p className="text-sm text-slate-500 mb-1">
               Current Balance
             </p>
-            <p className="text-3xl font-black text-snaptap-blue tracking-tight">
-              <span className="text-lg font-bold text-slate-400 mr-1">USD</span>
+            <p className="text-3xl font-bold text-slate-900 tracking-tight">
+              <span className="text-base font-semibold text-slate-400 mr-1">USD</span>
               {formatCurrency(brand.totalBilling).replace("$", "")}
             </p>
           </div>
 
           <button
             onClick={() => router.push("/app/subscription-page")}
-            className="flex items-center gap-2 text-sm font-bold text-snaptap-blue hover:text-snaptap-blue-dark transition-colors rounded-brand hover:bg-snaptap-blue/5 px-4 py-2"
+            className="group flex items-center gap-1.5 text-sm font-semibold text-snaptap-blue-dark hover:text-snaptap-blue-deep transition-colors rounded-brand px-3 py-2"
           >
-            Manage Billing <Icon icon="solar:arrow-right-line-duotone" />
+            Manage Billing
+            <Icon
+              icon="solar:alt-arrow-right-linear"
+              width={16}
+              className="group-hover:translate-x-0.5 transition-transform"
+            />
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

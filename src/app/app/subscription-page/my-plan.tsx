@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Card, Progress, Tag } from "antd";
+import { Progress } from "antd";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
 import api from "@/app/utils/api";
 import { ENDPOINTS } from "@/app/utils/endpoints";
 import { formatCurrency } from "@/app/utils/currency";
-import { BRAND } from "@/app/utils/tokens";
+import { BRAND, SURFACE } from "@/app/utils/tokens";
+import { Badge, Button, Card } from "@/app/app/components/ui";
 
 interface BillingEstimate {
   is_estimate?: boolean;
@@ -84,93 +85,128 @@ export default function MyPlan({ onNavigate }: MyPlanProps) {
         <p className="text-slate-500">Overview of your active plan and usage metrics.</p>
       </div>
 
+      {/* Amber is kept here on purpose — it's a semantic billing warning, not
+          decoration. */}
       {banner && (
         <div className="bg-amber-50 border border-amber-200 rounded-brand p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-          <Icon icon="mdi:alert-circle-outline" width={24} className="text-amber-500 shrink-0" />
+          <Icon
+            icon="mdi:alert-circle-outline"
+            width={22}
+            className="text-amber-600 shrink-0"
+          />
           <div className="flex-1">
-            <p className="font-bold text-amber-800">{banner.title}</p>
-            <p className="text-sm text-amber-700">{banner.body}</p>
+            <p className="font-semibold text-amber-900">{banner.title}</p>
+            <p className="text-sm text-amber-800 mt-0.5">{banner.body}</p>
           </div>
-          <button
+          <Button
+            size="sm"
             onClick={() => onNavigate?.("billing-history")}
-            className="shrink-0 px-4 py-2.5 rounded-brand bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm transition-colors"
+            className="shrink-0 bg-amber-600 hover:bg-amber-700 shadow-none"
           >
             Manage Payment
-          </button>
+          </Button>
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Main Plan Card */}
-        <Card className="md:col-span-2 rounded-brand border-slate-100 shadow-sm overflow-hidden p-0 [&_.ant-card-body]:p-0">
-          <div className="bg-snaptap-blue-dark p-5 sm:p-8 text-white relative overflow-hidden">
-            <Icon icon="mdi:rocket-launch" className="absolute -right-8 -bottom-8 opacity-10" width={200} />
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start relative z-10 gap-4">
+        {/* Current plan */}
+        <Card variant="elevated" padding="none" className="md:col-span-2 overflow-hidden">
+          <div className="bg-snaptap-blue-dark p-6 sm:p-8 text-white">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
               <div>
-                <Tag className="bg-white/20 border-none text-white font-bold rounded-brand px-4 mb-4">Active Plan</Tag>
-                <h2 className="text-2xl sm:text-4xl font-black">{Brand.package_name || "Enterprise"}</h2>
+                <span className="inline-flex items-center rounded-brand bg-white/15 px-2.5 py-0.5 text-xs font-semibold mb-3">
+                  Active plan
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold">
+                  {Brand.package_name || "Enterprise"}
+                </h2>
               </div>
               <div className="sm:text-right">
-                <p className="text-white/70 text-sm font-semibold uppercase tracking-wider">
-                  {currentEst?.is_estimate ? "Current Month Estimate" : "Current Monthly Billing"}
+                <p className="text-sm text-white/70">
+                  {currentEst?.is_estimate
+                    ? "This month (estimate)"
+                    : "Current monthly billing"}
                 </p>
-                <p className="text-2xl sm:text-3xl font-bold">{formatCurrency(currentEst?.total_amount ?? Brand.totalBilling ?? 0)}</p>
+                <p className="text-2xl sm:text-3xl font-bold mt-0.5">
+                  {formatCurrency(
+                    currentEst?.total_amount ?? Brand.totalBilling ?? 0,
+                  )}
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="p-5 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 bg-white">
+          <dl className="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Status</p>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-brand bg-green-500 animate-pulse" />
-                <span className="font-bold text-slate-700 capitalize">{Brand.status || "Active"}</span>
-              </div>
+              <dt className="text-sm text-slate-500 mb-1.5">Status</dt>
+              <dd>
+                <Badge
+                  tone={
+                    (Brand.status || "active").toLowerCase() === "active"
+                      ? "success"
+                      : "neutral"
+                  }
+                >
+                  {Brand.status || "Active"}
+                </Badge>
+              </dd>
             </div>
             <div>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">
-                {currentEst?.is_estimate ? "Ongoing Cycle" : "Next Billing Date"}
-              </p>
-              <span className="font-bold text-slate-700">
+              <dt className="text-sm text-slate-500 mb-1.5">
+                {currentEst?.is_estimate ? "Ongoing cycle" : "Next billing date"}
+              </dt>
+              <dd className="font-semibold text-slate-900">
                 {currentEst?.is_estimate
                   ? dayjs().format("MMMM YYYY")
                   : Brand.due_date
-                  ? dayjs(Brand.due_date).format("MMM D, YYYY")
-                  : "Auto-renew disabled"}
-              </span>
+                    ? dayjs(Brand.due_date).format("MMM D, YYYY")
+                    : "Auto-renew disabled"}
+              </dd>
             </div>
-          </div>
+          </dl>
         </Card>
 
-        {/* Usage Stats Card */}
+        {/* Usage */}
         <div className="space-y-6">
-          <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-bold text-slate-800">Scan Usage</span>
-              <span className="text-xs font-black text-snaptap-blue-dark">{Brand.total_scans - Brand.scans_remaining} / {Brand.total_scans}</span>
+          <Card variant="elevated">
+            <div className="flex items-baseline justify-between mb-3">
+              <span className="font-semibold text-slate-900">Scan usage</span>
+              <span className="text-sm font-semibold text-slate-900 tabular-nums">
+                {Brand.total_scans - Brand.scans_remaining}
+                <span className="text-slate-400"> / {Brand.total_scans}</span>
+              </span>
             </div>
             <Progress
               percent={scanProgress}
               showInfo={false}
               strokeColor={BRAND.blueDark}
-              trailColor="#e2e8f0"
-              strokeWidth={10}
-              className="mb-2"
+              trailColor={SURFACE.line}
+              strokeWidth={8}
+              className="mb-1"
             />
-            <p className="text-[11px] text-slate-500 text-right font-medium">Resetting in {dayjs(Brand.due_date).diff(dayjs(), 'day')} days</p>
-          </div>
+            {Brand.due_date && (
+              <p className="text-sm text-slate-400">
+                Resets in {dayjs(Brand.due_date).diff(dayjs(), "day")} days
+              </p>
+            )}
+          </Card>
 
-          <div className="bg-slate-50 rounded-brand p-6 border border-slate-100">
+          <Card variant="elevated">
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-brand bg-cyan-100 flex items-center justify-center text-cyan-600">
-                <Icon icon="mdi:package-variant-closed" width={22} />
+              <div className="w-10 h-10 shrink-0 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center text-snaptap-blue-dark">
+                <Icon icon="mdi:package-variant-closed" width={20} />
               </div>
               <div>
-                <p className="text-xs text-slate-400 font-bold uppercase tracking-tight">Active Inventory</p>
-                <p className="text-xl font-black text-slate-800">{Brand.active_products} Items</p>
+                <p className="text-sm text-slate-500">Active inventory</p>
+                <p className="text-xl font-bold text-slate-900">
+                  {Brand.active_products}{" "}
+                  <span className="text-base font-medium text-slate-400">
+                    {Brand.active_products === 1 ? "item" : "items"}
+                  </span>
+                </p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

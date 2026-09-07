@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AdminProvider } from "./hooks/useAdminContext";
 import { MotionProvider } from "./hooks/MotionProvider";
+import { ToastProvider } from "./hooks/ToastProvider";
 import { AntdProvider } from "./app/components/AntdProvider";
 import { SITE_URL, absoluteUrl } from "./utils/site";
 // import "@google/model-viewer";
@@ -63,7 +64,9 @@ export default function RootLayout({
       <html lang="en">
         <body className="antialiased">
           <AntdProvider>
-            <MotionProvider>{children}</MotionProvider>
+            <MotionProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </MotionProvider>
           </AntdProvider>
         </body>
       </html>
