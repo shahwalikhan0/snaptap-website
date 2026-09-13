@@ -13,7 +13,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { fetchInvoices, InvoiceRecord } from "./services/paymentApi";
 import { PaymentMethodCard } from "./components/PaymentMethodCard";
-import { formatCurrency } from "@/app/utils/currency";
+import { CURRENCY_CODE, formatCurrency } from "@/app/utils/currency";
 
 interface BillingEstimate {
   month: string;
@@ -100,10 +100,15 @@ export default function BillingHistory() {
     if (record.paid_at) {
       doc.text(`Paid: ${dayjs(record.paid_at).format("MMM D, YYYY")}`, 120, 70);
     }
+    // SnapTap bills in USD worldwide. Say so on the document: formatCurrency
+    // renders a bare "$", which an international brand can reasonably read as
+    // their own local dollar. Safepay's merchant website checklist also
+    // requires the currency to be indicated clearly.
+    doc.text(`Currency: ${CURRENCY_CODE}`, 120, record.paid_at ? 76 : 70);
 
     autoTable(doc, {
       startY: 85,
-      head: [["Description", "Amount"]],
+      head: [["Description", `Amount (${CURRENCY_CODE})`]],
       body: [
         ["Base Plan Subscription", formatCurrency(record.base_amount)],
         [
@@ -151,19 +156,19 @@ export default function BillingHistory() {
       render: (views: number) => views.toLocaleString(),
     },
     {
-      title: "Base Plan",
+      title: `Base Plan (${CURRENCY_CODE})`,
       dataIndex: "base_amount",
       key: "base_amount",
       render: (amount: string) => formatCurrency(amount),
     },
     {
-      title: "Usage",
+      title: `Usage (${CURRENCY_CODE})`,
       dataIndex: "usage_amount",
       key: "usage_amount",
       render: (amount: string) => formatCurrency(amount),
     },
     {
-      title: "Total",
+      title: `Total (${CURRENCY_CODE})`,
       dataIndex: "total_amount",
       key: "total_amount",
       render: (amount: string) => (
@@ -256,7 +261,9 @@ export default function BillingHistory() {
               </p>
             </div>
             <div>
-              <p className="text-sm text-slate-500 mb-1">Estimated amount</p>
+              <p className="text-sm text-slate-500 mb-1">
+                Estimated amount ({CURRENCY_CODE})
+              </p>
               <p className="text-2xl font-bold text-snaptap-blue-dark tabular-nums">
                 {formatCurrency(currentUsage.total_amount)}
               </p>
