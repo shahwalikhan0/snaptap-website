@@ -11,6 +11,20 @@ export interface PaymentMethodInfo {
 export interface InvoiceRecord {
   id: string;
   month: string;
+  /**
+   * The billing period this invoice covers. Prepaid periods need not align
+   * with a calendar month, and two invoices can share one month — a mid-period
+   * upgrade proration alongside that period's subscription charge — so `month`
+   * alone no longer identifies an invoice.
+   */
+  period_start?: string;
+  period_end?: string;
+  /** subscription | usage | upgrade_proration | legacy_postpaid */
+  kind?: string;
+  /** Allowance applied to THIS invoice, snapshotted at the time. */
+  included_views?: number;
+  /** Views beyond the allowance — what usage_amount was actually charged on. */
+  billable_views?: number;
   base_amount: string;
   usage_amount: string;
   total_views: number;

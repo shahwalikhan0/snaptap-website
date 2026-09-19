@@ -23,6 +23,15 @@ export const ENDPOINTS = {
   BILLING_CURRENT: (brandId: number) => `/billing/brand/${brandId}/current`,
   BILLING_INVOICES: (brandId: number) => `/billing/brand/${brandId}/invoices`,
 
+  // ── Subscription (prepaid + trial) ──
+  // Every one of these acts on the CALLER's own subscription — the brand id
+  // comes from the token, never a param.
+  SUBSCRIPTION: "/subscription",
+  SUBSCRIPTION_SUBSCRIBE: "/subscription/subscribe",
+  SUBSCRIPTION_CHANGE_PLAN: "/subscription/change-plan",
+  SUBSCRIPTION_CANCEL: "/subscription/cancel",
+  SUBSCRIPTION_RESUME: "/subscription/resume",
+
   // ── Payment (Safepay) ──
   PAYMENT_SETUP_SESSION: "/payment/setup-session",
   PAYMENT_SETUP_COMPLETE: "/payment/setup-complete",

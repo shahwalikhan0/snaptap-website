@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { PlanType } from "../types/plan";
 import { PlanCard } from "./components/PlanCard";
 import { CustomPlanCard } from "./components/CustomPlanCard";
+import { changePlan } from "../subscription-page/services/subscriptionApi";
 import {
   fetchPlans,
   updatePlanDetail,
@@ -82,35 +83,36 @@ export default function PricingComponent() {
     }
 
     setLoadingPlanId(plan.id);
-    try {
-      const payload: { subscribed_package_id: number; total_scans?: number } = {
-        subscribed_package_id: plan.id,
-      };
 
-      // If Custom Plan (ID 4)
-      if (plan.id === 4) {
-        payload.total_scans = customScans;
-      }
+    // Plan changes go through /subscription/change-plan. The old path wrote
+    // subscribed_package_id straight onto brand_detail, which the server no
+    // longer accepts — a plan and the inventory it buys have to move together,
+    // and money has to change hands for an upgrade.
+    const { data, error } = await changePlan({
+      packageId: plan.id,
+      totalScans: plan.id === 4 ? customScans : undefined,
+    });
+    setLoadingPlanId(null);
 
-      const response = await updatePlanDetail(payload);
+    if (error) {
+      if (error.needsSubscribe) {
+        toast.info("Start your subscription from the subscription page first.");
+        router.push("/app/subscription-page");
+        return;
+      }
+      toast.error(error.message, { autoClose: error.overCap ? 8000 : 5000 });
+      return;
+    }
 
-      if (response.data?.data) {
-        toast.success(`Successfully subscribed to ${plan.name}`);
-        if (Brand) {
-          setBrand({ ...Brand, subscribed_package_id: plan.id });
-        }
-      } else {
-        toast.error("Failed to update plan");
-      }
-    } catch (err: unknown) {
-      console.error("Plan update error:", err);
-      if (axios.isAxiosError(err) && err.response) {
-        toast.error(err.response.data?.error || "Failed to update plan");
-      } else {
-        toast.error("Failed to update plan");
-      }
-    } finally {
-      setLoadingPlanId(null);
+    if (data?.scheduled) {
+      toast.success(data.message || `Switching to ${plan.name} at your next renewal.`);
+      if (Brand) setBrand({ ...Brand, pending_package_id: plan.id });
+      return;
+    }
+
+    toast.success(`You're on ${plan.name}.`);
+    if (Brand) {
+      setBrand({ ...Brand, subscribed_package_id: plan.id, pending_package_id: null });
     }
   };
 

@@ -16,4 +16,12 @@ export type PlanType = {
   scans: number;
   /** USD per model view. Decimal from the API, so it may arrive as a string. */
   per_view_rate?: number | string;
+  /**
+   * Views included in the base fee each calendar month; only the excess is
+   * billed at per_view_rate. Resets monthly and never carries over — unlike
+   * the product inventory, which is a standing capacity that never resets.
+   */
+  included_views?: number;
+  /** Custom plans are sized by the customer and priced by formula. */
+  is_custom?: boolean;
 };

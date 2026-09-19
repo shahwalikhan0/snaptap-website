@@ -28,6 +28,20 @@ import { AuthVisual } from "../components/auth/AuthVisual";
 
 const { Title, Text } = Typography;
 
+// Keyed by billing_status. Module level so it is not rebuilt per login.
+const GATE_MESSAGES: Record<string, string> = {
+  no_payment_method:
+    "Add a payment method so your renewal can be charged automatically.",
+  delinquent:
+    "We could not collect your last payment and your products are paused. Please update your card.",
+  past_due:
+    "Your last payment failed. We'll retry automatically, or you can update your card now.",
+  trial_expired:
+    "Your free trial has ended. Choose a plan to make your products visible to customers again.",
+  pending_activation:
+    "Your card was declined, so your subscription hasn't started. Try a different card.",
+};
+
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const isLoggingIn = useRef(false);
@@ -147,15 +161,13 @@ const LoginPage = () => {
         } else {
           const gate = await fetchBillingGateStatus(brand.id, accessToken);
           if (gate.requires_action) {
+            // `trialing` never reaches here — the server leaves requires_action
+            // false for it on purpose, because locking someone out of their own
+            // free trial is the whole point of a trial missed.
             const msg =
-              gate.reason === "no_payment_method"
-                ? "Add a payment method so your monthly invoice can be charged automatically."
-                : gate.reason === "delinquent"
-                  ? "We could not collect your last payment and your products are paused. Please update your card."
-                  : gate.reason === "past_due"
-                    ? "Your last payment failed. We'll retry automatically, or you can update your card now."
-                    : gate.message ||
-                      "Your subscription requires attention. Please update your plan or billing details.";
+              GATE_MESSAGES[gate.reason ?? ""] ||
+              gate.message ||
+              "Your subscription requires attention. Please update your plan or billing details.";
             router.replace(
               `/app/subscription-page?alert=${encodeURIComponent(msg)}`,
             );

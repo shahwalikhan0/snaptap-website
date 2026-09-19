@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Button, Slider, InputNumber, Tag, Modal, Input, Form } from "antd";
+import dayjs from "dayjs";
+import { Card, Button, Slider, InputNumber, Tag, Modal } from "antd";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { PlanType } from "../types/plan";
-import api from "@/app/utils/api";
-import { ENDPOINTS } from "@/app/utils/endpoints";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import { featuresMap } from "../pricing/constants/data";
 import { fetchPaymentMethod } from "./services/paymentApi";
+import { changePlan, cancelSubscription } from "./services/subscriptionApi";
 import { fetchCustomPlanQuote } from "../pricing/services/pricingApi";
 import { formatPrice, formatRate } from "@/app/utils/currency";
 import { BRAND } from "@/app/utils/tokens";
@@ -73,7 +73,6 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
 
   /* Cancel Plan State */
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
-  const [cancelPassword, setCancelPassword] = useState("");
   const [cancelling, setCancelling] = useState(false);
 
   const handleUpdatePlan = async (
@@ -83,81 +82,64 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
   ) => {
     if (hasCard === false) {
       toast.warn(
-        "Add a payment method first (Billing & Payments tab) so your monthly invoice can be charged automatically.",
+        "Add a payment method first (Billing & Payments tab) so the change can be charged.",
         { autoClose: 6000 },
       );
       return;
     }
     setLoadingPlanId(planId);
-    try {
-      const payload: { subscribed_package_id: number; total_scans?: number } = {
-        subscribed_package_id: planId,
-      };
-      if (planId === 4 && customLimit) {
-        payload.total_scans = customLimit;
-      }
 
-      const response = await api.put(
-        ENDPOINTS.BRAND_UPDATE_DETAIL,
-        payload
-      );
+    // Plan changes go through /subscription/change-plan, not update-detail.
+    // The server decides upgrade vs downgrade from the price and treats them
+    // asymmetrically: an upgrade is charged prorated and applies now, a
+    // downgrade is queued for the next renewal. That asymmetry is what keeps
+    // SnapTap off refunds entirely — nothing here can ever owe money back.
+    const { data, error } = await changePlan({
+      packageId: planId,
+      totalScans: planId === 4 && customLimit ? customLimit : undefined,
+    });
+    setLoadingPlanId(null);
 
-      if (response.data?.data) {
-        toast.success(`Successfully subscribed to ${planName}`);
-        if (Brand) {
-          setBrand({ ...Brand, subscribed_package_id: planId });
-        }
-      } else {
-        toast.error("Failed to update plan");
-      }
-    } catch (err: unknown) {
-      console.error("Plan update error:", err);
-      const axiosErr = err as { response?: { data?: { error?: string } } };
-      toast.error(axiosErr?.response?.data?.error || "Failed to update plan");
-    } finally {
-      setLoadingPlanId(null);
+    if (error) {
+      // Over the smaller plan's cap: refused outright rather than queued, so
+      // the brand finds out now instead of at renewal.
+      toast.error(error.message, { autoClose: error.overCap ? 8000 : 5000 });
+      return;
+    }
+
+    if (data?.scheduled) {
+      toast.success(data.message || `Switching to ${planName} at your next renewal.`);
+      if (Brand) setBrand({ ...Brand, pending_package_id: planId });
+      return;
+    }
+
+    toast.success(
+      data?.prorated_charge
+        ? `You're on ${planName}. Charged ${formatPrice(data.prorated_charge)} for the rest of this period.`
+        : `You're on ${planName}.`,
+    );
+    if (Brand) {
+      setBrand({ ...Brand, subscribed_package_id: planId, pending_package_id: null });
     }
   };
 
   const handleCancelPlan = async () => {
-    if (!cancelPassword) {
-      toast.error("Please enter your password to confirm");
+    setCancelling(true);
+    const { data, error } = await cancelSubscription();
+    setCancelling(false);
+
+    if (error) {
+      toast.error(error.message);
       return;
     }
 
-    setCancelling(true);
-    try {
-      const response = await api.put(
-        ENDPOINTS.BRAND_CANCEL_PLAN,
-        { password: cancelPassword }
-      );
-      if (response.data?.data) {
-        toast.success("Successfully unsubscribed from plan");
-        if (response.data?.warning) {
-          toast.info(response.data.warning, { autoClose: 8000 });
-        }
-        if (Brand) {
-          setBrand({
-            ...Brand,
-            subscribed_package_id: null,
-            total_scans: 0,
-            scans_remaining: 0,
-          });
-        }
-        setIsCancelModalVisible(false);
-        setCancelPassword("");
-      }
-    } catch (err: unknown) {
-      console.error("Plan cancel error:", err);
-      const axiosErr = err as { response?: { data?: { error?: string; requiresPayment?: boolean } } };
-      toast.error(axiosErr?.response?.data?.error || "Failed to unsubscribe from plan");
-      if (axiosErr?.response?.data?.requiresPayment) {
-        setIsCancelModalVisible(false);
-        setCancelPassword("");
-      }
-    } finally {
-      setCancelling(false);
-    }
+    // Cancelling is no longer destructive: prepaid means the period is already
+    // paid for, so access continues to its end and nothing is deleted. The old
+    // flow wiped every product immediately, which also erased that month's
+    // unbilled usage on the way out.
+    toast.success(data?.message || "Your subscription will not renew.");
+    if (Brand) setBrand({ ...Brand, cancel_at_period_end: true });
+    setIsCancelModalVisible(false);
   };
 
   if (!plan || !Brand) return null;
@@ -338,45 +320,52 @@ export default function ChangePlan({ plan }: { plan: PlanType[] | null }) {
       </div>
 
       <Modal
-        title={<span className="text-lg font-bold text-red-600">Cancel Subscription</span>}
+        title={<span className="text-lg font-bold text-slate-900">Cancel subscription</span>}
         open={isCancelModalVisible}
-        onCancel={() => {
-          setIsCancelModalVisible(false);
-          setCancelPassword("");
-        }}
+        onCancel={() => setIsCancelModalVisible(false)}
         footer={null}
         centered
-        
       >
+        {/* Cancelling is no longer destructive. Prepaid means this period is
+            already paid for, so access runs to its end and nothing is deleted
+            — the old copy promised permanent deletion, which would now be a
+            lie, and the password gate was guarding an action that no longer
+            destroys anything. */}
         <div className="p-2">
-          <p className="text-slate-600 mb-6 leading-relaxed">
-            Are you sure you want to cancel your subscription? <strong className="text-red-500">All your active and inactive products will be permanently deleted.</strong>
-            <br/><br/>
-            If you just want to take a break, consider <strong className="text-slate-800">deactivating your account</strong> from the Manage Profile page instead.
+          <p className="text-slate-600 mb-4 leading-relaxed">
+            Your subscription will <strong className="text-slate-900">not renew</strong>.
+            You keep full access until{" "}
+            <strong className="text-slate-900">
+              {Brand.period_end
+                ? dayjs(Brand.period_end).format("MMMM D, YYYY")
+                : "the end of your current period"}
+            </strong>{" "}
+            — you have already paid for it.
           </p>
-          <Form layout="vertical">
-            <Form.Item label={<span className="font-bold text-slate-700">Enter Password to Confirm</span>} required>
-              <Input.Password
-                size="large"
-                value={cancelPassword}
-                onChange={(e) => setCancelPassword(e.target.value)}
-                className="h-12 rounded-brand border-slate-200 focus:border-red-500 hover:border-red-500/50"
-                placeholder="Your password"
-              />
-            </Form.Item>
+          <p className="text-slate-500 text-sm mb-6 leading-relaxed">
+            Nothing is deleted today. After your period ends your products stop
+            showing to customers, and your 3D models are kept for a while in
+            case you come back. You can resume any time before then.
+          </p>
+          <div className="flex gap-3">
+            <Button
+              size="large"
+              className="flex-1 h-12 rounded-brand font-bold"
+              onClick={() => setIsCancelModalVisible(false)}
+            >
+              Keep my plan
+            </Button>
             <Button
               danger
               type="primary"
-              block
               size="large"
               loading={cancelling}
               onClick={handleCancelPlan}
-              disabled={!cancelPassword}
-              className="mt-2 h-12 rounded-brand font-bold"
+              className="flex-1 h-12 rounded-brand font-bold"
             >
-              Understand & Cancel Subscription
+              Cancel renewal
             </Button>
-          </Form>
+          </div>
         </div>
       </Modal>
     </div>

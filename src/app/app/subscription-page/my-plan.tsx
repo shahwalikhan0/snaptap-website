@@ -1,137 +1,152 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Progress } from "antd";
 import dayjs from "dayjs";
 import { useAdmin } from "@/app/hooks/useAdminContext";
 import { Icon } from "@iconify/react";
-import api from "@/app/utils/api";
-import { ENDPOINTS } from "@/app/utils/endpoints";
 import { formatCurrency } from "@/app/utils/currency";
 import { BRAND, SURFACE } from "@/app/utils/tokens";
-import { Badge, Button, Card } from "@/app/app/components/ui";
-
-interface BillingEstimate {
-  is_estimate?: boolean;
-  total_amount: number;
-  month: string;
-}
-
-interface BillingGate {
-  requires_action: boolean;
-  reason: string | null;
-  message: string | null;
-}
-
-const GATE_BANNERS: Record<string, { title: string; body: string }> = {
-  no_payment_method: {
-    title: "Add a payment method",
-    body: "Your plan is active but no card is on file, so your monthly invoice cannot be charged automatically.",
-  },
-  past_due: {
-    title: "Payment failed — we'll retry automatically",
-    body: "Your last charge didn't go through. We'll retry in a couple of days, or you can update your card now.",
-  },
-  delinquent: {
-    title: "Subscription suspended",
-    body: "We couldn't collect payment after several attempts, so your products are temporarily unavailable. Update your card to restore service.",
-  },
-};
+import { Badge, Card } from "@/app/app/components/ui";
+import { PlanType } from "../types/plan";
+import { fetchAllPlans } from "../pricing/services/pricingApi";
+import { fetchSubscription, type SubscriptionState } from "./services/subscriptionApi";
+import { fetchPaymentMethod } from "./services/paymentApi";
+import SubscriptionStatusBanner from "./components/SubscriptionStatusBanner";
+import SubscribeCheckout from "./components/SubscribeCheckout";
 
 interface MyPlanProps {
   onNavigate?: (page: string) => void;
 }
 
+/** Statuses where the brand has no paid period and needs to start one. */
+const NEEDS_SUBSCRIPTION = ["trialing", "trial_expired", "pending_activation", "trial"];
+
 export default function MyPlan({ onNavigate }: MyPlanProps) {
-  const { Brand, setBrand } = useAdmin();
-  const [currentEst, setCurrentEst] = useState<BillingEstimate | null>(null);
-  const [gate, setGate] = useState<BillingGate | null>(null);
+  const { Brand } = useAdmin();
+  const [sub, setSub] = useState<SubscriptionState | null>(null);
+  const [plans, setPlans] = useState<PlanType[]>([]);
+  const [hasCard, setHasCard] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showCheckout, setShowCheckout] = useState(false);
+
+  const load = useCallback(async () => {
+    try {
+      const [s, p, card] = await Promise.all([
+        fetchSubscription(),
+        fetchAllPlans().catch(() => [] as PlanType[]),
+        fetchPaymentMethod().catch(() => null),
+      ]);
+      setSub(s);
+      setPlans(p);
+      setHasCard(Boolean(card && card.status === "active"));
+    } catch (err: unknown) {
+      console.log("Failed to load subscription", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    if (Brand?.brand_id) {
-       api
-         .get(ENDPOINTS.BILLING_CURRENT(Brand.brand_id))
-         .then((res) => {
-             setCurrentEst(res.data);
-         })
-         .catch((err: unknown) => console.log("Failed to load current billing estimate", err));
-       api
-         .get(ENDPOINTS.BILLING_STATUS(Brand.brand_id))
-         .then((res) => setGate(res.data?.data ?? null))
-         .catch((err: unknown) => console.log("Failed to load billing status", err));
-    }
-  }, [Brand?.brand_id]);
+    void load();
+  }, [load]);
 
-  if (!Brand) {
+  if (loading) {
+    return <div className="text-slate-400 p-6">Loading your subscription…</div>;
+  }
+
+  if (!Brand || !sub) {
     return (
       <div className="bg-red-50 p-6 rounded-brand border border-red-100 flex items-center gap-4 text-red-600">
         <Icon icon="mdi:alert-circle-outline" width={24} />
-        <p className="font-semibold">Subscription data not found. Please refresh the page.</p>
+        <p className="font-semibold">
+          Subscription data not found. Please refresh the page.
+        </p>
       </div>
     );
   }
 
-  const scanProgress = Brand.total_scans > 0
-    ? Math.round(((Brand.total_scans - Brand.scans_remaining) / Brand.total_scans) * 100)
-    : 0;
+  const needsSubscription = NEEDS_SUBSCRIPTION.includes(sub.status);
+  const inventoryUsed = sub.products_used;
+  const inventoryPct =
+    sub.total_scans > 0 ? Math.round((inventoryUsed / sub.total_scans) * 100) : 0;
 
-  const banner =
-    gate?.requires_action && gate.reason ? GATE_BANNERS[gate.reason] : null;
+  // Views are a monthly budget; inventory is a standing capacity. They behave
+  // oppositely and are shown separately so nobody reads one as the other.
+  const viewPct =
+    sub.views_included > 0
+      ? Math.min(100, Math.round((sub.views_this_month / sub.views_included) * 100))
+      : 0;
+  const overAllowance = sub.views_billable > 0;
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Current Subscription</h1>
-        <p className="text-slate-500">Overview of your active plan and usage metrics.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+          Current Subscription
+        </h1>
+        <p className="text-slate-500">
+          Overview of your plan, usage, and what you&apos;ll be charged next.
+        </p>
       </div>
 
-      {/* Amber is kept here on purpose — it's a semantic billing warning, not
-          decoration. */}
-      {banner && (
-        <div className="bg-amber-50 border border-amber-200 rounded-brand p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-          <Icon
-            icon="mdi:alert-circle-outline"
-            width={22}
-            className="text-amber-600 shrink-0"
+      <SubscriptionStatusBanner
+        subscription={sub}
+        onAction={() =>
+          needsSubscription ? setShowCheckout(true) : onNavigate?.("billing-history")
+        }
+      />
+
+      {(showCheckout || (needsSubscription && sub.status !== "trialing")) &&
+        plans.length > 0 && (
+          <SubscribeCheckout
+            plans={plans}
+            subscription={sub}
+            hasCard={hasCard}
+            onSubscribed={() => {
+              setShowCheckout(false);
+              void load();
+            }}
           />
-          <div className="flex-1">
-            <p className="font-semibold text-amber-900">{banner.title}</p>
-            <p className="text-sm text-amber-800 mt-0.5">{banner.body}</p>
-          </div>
-          <Button
-            size="sm"
-            onClick={() => onNavigate?.("billing-history")}
-            className="shrink-0 bg-amber-600 hover:bg-amber-700 shadow-none"
-          >
-            Manage Payment
-          </Button>
-        </div>
-      )}
+        )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Current plan */}
+        {/* Plan + next charge */}
         <Card variant="elevated" padding="none" className="md:col-span-2 overflow-hidden">
           <div className="bg-snaptap-blue-dark p-6 sm:p-8 text-white">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
               <div>
                 <span className="inline-flex items-center rounded-brand bg-white/15 px-2.5 py-0.5 text-xs font-semibold mb-3">
-                  Active plan
+                  {sub.status === "trialing"
+                    ? "Free trial"
+                    : needsSubscription
+                      ? "No active plan"
+                      : sub.interval === "annual"
+                        ? "Annual plan"
+                        : "Monthly plan"}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-bold">
-                  {Brand.package_name || "Enterprise"}
+                  {sub.plan || Brand.package_name || "—"}
                 </h2>
               </div>
               <div className="sm:text-right">
+                {/* Under prepaid the plan fee for THIS period is already paid.
+                    Presenting it as an amount due is how the old estimate
+                    double-counted it — once when charged, again every time
+                    this screen was opened. */}
                 <p className="text-sm text-white/70">
-                  {currentEst?.is_estimate
-                    ? "This month (estimate)"
-                    : "Current monthly billing"}
+                  {needsSubscription ? "Nothing due" : "Next charge"}
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold mt-0.5">
-                  {formatCurrency(
-                    currentEst?.total_amount ?? Brand.totalBilling ?? 0,
-                  )}
+                  {needsSubscription
+                    ? "—"
+                    : formatCurrency(sub.base_amount_paid + sub.usage_accrued)}
                 </p>
+                {!needsSubscription && sub.next_charge_on && (
+                  <p className="text-xs text-white/60 mt-1">
+                    on {dayjs(sub.next_charge_on).format("MMM D, YYYY")}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -142,27 +157,57 @@ export default function MyPlan({ onNavigate }: MyPlanProps) {
               <dd>
                 <Badge
                   tone={
-                    (Brand.status || "active").toLowerCase() === "active"
+                    sub.status === "active" || sub.status === "trialing"
                       ? "success"
                       : "neutral"
                   }
                 >
-                  {Brand.status || "Active"}
+                  {sub.status === "trialing"
+                    ? "Trialing"
+                    : sub.status === "trial_expired"
+                      ? "Trial ended"
+                      : sub.status === "pending_activation"
+                        ? "Card declined"
+                        : sub.status.replace(/_/g, " ")}
                 </Badge>
               </dd>
             </div>
             <div>
               <dt className="text-sm text-slate-500 mb-1.5">
-                {currentEst?.is_estimate ? "Ongoing cycle" : "Next billing date"}
+                {sub.status === "trialing" ? "Trial ends" : "Current period"}
               </dt>
               <dd className="font-semibold text-slate-900">
-                {currentEst?.is_estimate
-                  ? dayjs().format("MMMM YYYY")
-                  : Brand.due_date
-                    ? dayjs(Brand.due_date).format("MMM D, YYYY")
-                    : "Auto-renew disabled"}
+                {sub.status === "trialing"
+                  ? sub.trial_ends_at
+                    ? dayjs(sub.trial_ends_at).format("MMM D, YYYY")
+                    : "—"
+                  : sub.period_start && sub.period_end
+                    ? `${dayjs(sub.period_start).format("MMM D")} – ${dayjs(sub.period_end).format("MMM D, YYYY")}`
+                    : "—"}
               </dd>
             </div>
+            {!needsSubscription && (
+              <div className="sm:col-span-2 text-sm text-slate-500 border-t border-slate-100 pt-4">
+                Your plan fee of{" "}
+                <span className="font-semibold text-slate-700">
+                  {formatCurrency(sub.base_amount_paid)}
+                </span>{" "}
+                for this period is already paid.{" "}
+                {overAllowance ? (
+                  <>
+                    You&apos;ve used{" "}
+                    {sub.views_billable.toLocaleString()} views beyond your
+                    allowance, adding{" "}
+                    <span className="font-semibold text-slate-700">
+                      {formatCurrency(sub.usage_accrued)}
+                    </span>{" "}
+                    to your next charge.
+                  </>
+                ) : (
+                  "You're within your included views, so nothing extra has accrued."
+                )}
+              </div>
+            )}
           </dl>
         </Card>
 
@@ -170,42 +215,51 @@ export default function MyPlan({ onNavigate }: MyPlanProps) {
         <div className="space-y-6">
           <Card variant="elevated">
             <div className="flex items-baseline justify-between mb-3">
-              <span className="font-semibold text-slate-900">Scan usage</span>
+              <span className="font-semibold text-slate-900">Views this month</span>
               <span className="text-sm font-semibold text-slate-900 tabular-nums">
-                {Brand.total_scans - Brand.scans_remaining}
-                <span className="text-slate-400"> / {Brand.total_scans}</span>
+                {sub.views_this_month.toLocaleString()}
+                <span className="text-slate-400">
+                  {" "}
+                  / {sub.views_included.toLocaleString()}
+                </span>
               </span>
             </div>
             <Progress
-              percent={scanProgress}
+              percent={viewPct}
+              showInfo={false}
+              strokeColor={overAllowance ? "#d97706" : BRAND.blueDark}
+              trailColor={SURFACE.line}
+              strokeWidth={8}
+              className="mb-1"
+            />
+            <p className="text-sm text-slate-400">
+              {overAllowance
+                ? `${sub.views_billable.toLocaleString()} over — billed on your next charge`
+                : "Resets on the 1st of each month"}
+            </p>
+          </Card>
+
+          <Card variant="elevated">
+            <div className="flex items-baseline justify-between mb-3">
+              <span className="font-semibold text-slate-900">Product slots</span>
+              <span className="text-sm font-semibold text-slate-900 tabular-nums">
+                {inventoryUsed}
+                <span className="text-slate-400"> / {sub.total_scans}</span>
+              </span>
+            </div>
+            <Progress
+              percent={inventoryPct}
               showInfo={false}
               strokeColor={BRAND.blueDark}
               trailColor={SURFACE.line}
               strokeWidth={8}
               className="mb-1"
             />
-            {Brand.due_date && (
-              <p className="text-sm text-slate-400">
-                Resets in {dayjs(Brand.due_date).diff(dayjs(), "day")} days
-              </p>
-            )}
-          </Card>
-
-          <Card variant="elevated">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 shrink-0 rounded-brand bg-snaptap-blue-dark/10 flex items-center justify-center text-snaptap-blue-dark">
-                <Icon icon="mdi:package-variant-closed" width={20} />
-              </div>
-              <div>
-                <p className="text-sm text-slate-500">Active inventory</p>
-                <p className="text-xl font-bold text-slate-900">
-                  {Brand.active_products}{" "}
-                  <span className="text-base font-medium text-slate-400">
-                    {Brand.active_products === 1 ? "item" : "items"}
-                  </span>
-                </p>
-              </div>
-            </div>
+            {/* Deliberately not "resets" — deleting a product returns its slot
+                immediately, and slots never refresh with the month. */}
+            <p className="text-sm text-slate-400">
+              Delete a product to free a slot
+            </p>
           </Card>
         </div>
       </div>

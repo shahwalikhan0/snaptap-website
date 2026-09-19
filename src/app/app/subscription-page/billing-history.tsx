@@ -142,18 +142,48 @@ export default function BillingHistory() {
 
   const columns = [
     {
-      title: "Invoice Month",
-      dataIndex: "month",
-      key: "month",
-      render: (text: string) => (
-        <span className="font-semibold">{dayjs(text).format("MMMM YYYY")}</span>
-      ),
+      title: "Period",
+      dataIndex: "period_start",
+      key: "period_start",
+      render: (_: string, record: InvoiceRecord) => {
+        // Prepaid invoices cover a period that need not line up with a
+        // calendar month, and two can share one month (a mid-period upgrade
+        // plus that period's subscription), so the month alone is ambiguous.
+        const start = record.period_start || record.month;
+        const end = record.period_end;
+        return (
+          <div>
+            <span className="font-semibold">
+              {end
+                ? `${dayjs(start).format("MMM D")} – ${dayjs(end).format("MMM D, YYYY")}`
+                : dayjs(start).format("MMMM YYYY")}
+            </span>
+            {record.kind === "upgrade_proration" && (
+              <div className="text-xs text-slate-400">Plan upgrade</div>
+            )}
+            {record.kind === "usage" && (
+              <div className="text-xs text-slate-400">Usage only</div>
+            )}
+          </div>
+        );
+      },
     },
     {
       title: "Views",
       dataIndex: "total_views",
       key: "total_views",
-      render: (views: number) => views.toLocaleString(),
+      render: (views: number, record: InvoiceRecord) => (
+        <div>
+          <span>{Number(views).toLocaleString()}</span>
+          {typeof record.included_views === "number" && record.included_views > 0 && (
+            <div className="text-xs text-slate-400">
+              {Number(record.billable_views ?? 0) > 0
+                ? `${Number(record.billable_views).toLocaleString()} billed`
+                : "within allowance"}
+            </div>
+          )}
+        </div>
+      ),
     },
     {
       title: `Base Plan (${CURRENCY_CODE})`,

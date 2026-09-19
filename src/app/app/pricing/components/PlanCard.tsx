@@ -111,8 +111,20 @@ export function PlanCard({
         >
           {isLoggedIn && Brand?.subscribed_package_id === plan.id
             ? "✓ Current Plan"
-            : "Get Started"}
+            : isLoggedIn
+              ? "Switch to this plan"
+              : "Start free trial"}
         </Button>
+
+        {/* The trial's length and the fact that no card is needed are the two
+            things that actually lower the barrier, but they do not fit on the
+            button at this card width — "Start 7-day free trial" wrapped to
+            three lines and clipped against the fixed height. */}
+        {!isLoggedIn && (
+          <p className="mt-2 text-center text-xs text-slate-400">
+            7 days free · no card required
+          </p>
+        )}
       </motion.div>
     </Col>
   );
