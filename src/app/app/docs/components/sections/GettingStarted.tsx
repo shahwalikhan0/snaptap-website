@@ -103,13 +103,13 @@ export function GettingStarted() {
 
       <SubHeading id="gs-ios">4. Set Up the iOS App</SubHeading>
       <p className="text-slate-600 text-sm leading-relaxed mb-3">
-        All product scanning is done through the SnapTap Admin app available on
+        All product scanning is done through the Go SnapTap app available on the
         App Store. The web dashboard is used for management, analytics, and
         settings only.
       </p>
       <CheckList
         items={[
-          "Download the SnapTap Admin app from the App Store",
+          "Download the Go SnapTap app from the App Store",
           "Log in with the same username and password as your web account",
           "The iOS app uses your iPhone's built-in LiDAR sensor to scan products",
           "After scanning, you upload the generated model directly from the app",

@@ -9,7 +9,7 @@ export const workflowSteps = [
     step: "02",
     icon: "mdi:cube-scan",
     title: "Scan with iPhone LiDAR",
-    desc: "Use iPhone Pro or Pro Max (iOS 18+ and starting with iPhone 12 Pro) with the SnapTap Admin app to capture your physical product. The built-in LiDAR depth sensor records precise geometry, scale, and texture — no photography studio needed.",
+    desc: "Use iPhone Pro or Pro Max (iOS 18+ and starting with iPhone 12 Pro) with the Go SnapTap app to capture your physical product. The built-in LiDAR depth sensor records precise geometry, scale, and texture — no photography studio needed.",
   },
   {
     step: "03",
@@ -55,7 +55,7 @@ export const platformCaps = [
   {
     icon: "mdi:buffer",
     title: "Inventory Dashboard",
-    desc: "Manage your entire AR product catalog from the SnapTap web dashboard and SnapTap Admin app. Toggle products active/inactive, update details, and monitor scan quotas — all from one screen.",
+    desc: "Manage your entire AR product catalog from the SnapTap web dashboard and the Go SnapTap app. Toggle products active/inactive, update details, and monitor scan quotas — all from one screen.",
   },
   {
     icon: "mdi:bell-ring-outline",
